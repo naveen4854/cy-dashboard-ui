@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import { browserHistory, Router } from 'react-router';
 import { Provider } from 'react-redux';
-import LoginPage from '../login';
-import LoginComponent from '../login/login.component';
-import LoginComponent2 from '../dashboard/dashboard.component';
+import 'bootstrap/dist/css/bootstrap.css';
+import '../../public/assets/styles/cx-main.cs'
+
 
 export default class AppComponent extends React.Component {
     constructor(props) {

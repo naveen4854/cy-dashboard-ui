@@ -3,7 +3,7 @@ import { push, replace } from 'react-router-redux'
 import { browserHistory, Router } from 'react-router'
 
 const initialState = {
-
+  userName: 'naveen'
 };
 
 export const ACTION_HANDLERS = {

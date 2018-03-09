@@ -16,7 +16,8 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => ({
-
+  user: state.user
 })
 
-export default withRouter((connect(mapStateToProps, mapDispatchToProps)(LoginComponent)))
+// export default withRouter((connect(mapStateToProps, mapDispatchToProps)(LoginComponent)))
+export default (connect(mapStateToProps, mapDispatchToProps)(LoginComponent))
