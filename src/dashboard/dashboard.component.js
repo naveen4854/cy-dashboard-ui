@@ -3,7 +3,7 @@ import { dispatch } from 'react'
 import { browserHistory, Router } from 'react-router'
 
 
-class LoginComponent2 extends React.Component {
+class DashboardComponent extends React.Component {
 	constructor(props) {
 		super(props);
 	}
@@ -16,4 +16,4 @@ class LoginComponent2 extends React.Component {
 	}
 }
 
-export default LoginComponent2;
+export default DashboardComponent;

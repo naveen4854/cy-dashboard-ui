@@ -1,0 +1,144 @@
+@charset "utf-8";
+/*
+* Header
+* -----------------------
+*/
+body {
+    padding-top: 50px;
+}
+.navbar.navbar-fixed-top a{
+    color: inherit;
+    text-decoration: none;
+}
+.navbar-bg{
+    background-color: #0077a3;
+    color: rgba(255, 255, 255, 0.75)
+}
+.nav>li>a:focus, .nav>li>a:hover {
+    text-decoration: none;
+    background-color: rgba(0, 0, 0, 0.30);
+}
+
+.navbar-nav.navbar-right > li + li > a::before {
+    content: '\007C';
+    position: absolute;
+    left: 0px;
+}
+
+/*
+* Page tool bar
+* -----------------------
+*/
+.page-toolbar {
+    background-color: #005373;
+    color: #ffffff;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+}
+.page-toolbar a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.page-toolbar.dashboard-toolbar .tool-icon {
+    font-size: 1.5em;
+    margin: 0px;
+}
+.page-toolbar.dashboard-toolbar .tool-title {
+    font-size: 0.85em;
+    font-weight: normal;
+}
+
+.page-toolbar.dashboard-toolbar .db-actions-left,
+.page-toolbar.dashboard-toolbar .db-actions-right,
+.page-toolbar.dashboard-toolbar .db-item-tools {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+}
+.page-toolbar.dashboard-toolbar .db-actions-right {
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end;
+}
+.page-toolbar.dashboard-toolbar .db-item-tools {
+    background-color: #0077a3;
+}
+
+@media screen and (max-width: 1200px) {
+    .page-toolbar.dashboard-toolbar .db-item-tools {
+        -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+                flex-grow: 1;
+        -webkit-box-ordinal-group: 2;
+            -ms-flex-order: 1;
+                order: 1;
+        width: 100%;
+    }
+}
+
+.page-toolbar .action-tool {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    /* IE and Edge Fallback: start */
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    /* IE and Edge Fallback: end */
+    -webkit-box-pack: space-evenly;
+        -ms-flex-pack: space-evenly;
+            justify-content: space-evenly;
+    padding: 0px 10px;
+    min-height: 50px;
+    margin: 0px;
+}
+
+/*
+* custom CSS
+* -----------------------
+*/
+.checkbox-inline.checkbox-lbl-left, .radio-inline.radio-lbl-left {
+    padding-left: 0px;
+    padding-right: 25px;
+}
+
+.checkbox.checkbox-lbl-left input[type=checkbox], .checkbox-inline.checkbox-lbl-left input[type=checkbox], .radio.radio-lbl-left input[type=radio], .radio-inline.radio-lbl-left input[type=radio] {
+    margin-left: 0;
+    top: 0;
+    right: 3px;
+}
+
+/*
+* Utility CSS
+* -----------------------
+*/
+[class*="bg-"][role="button"]:focus {
+    background-image: -webkit-gradient(linear, left bottom, right top, from(rgba(0, 0, 0, 0.1)), to(rgba(0, 0, 0, 0.1)));
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));
+}
+[class*="bg-"][role="button"]:active {
+    background-image: -webkit-gradient(linear, left bottom, right top, from(rgba(0, 0, 0, 0.2)), to(rgba(0, 0, 0, 0.2)));
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
+}
+.bg-skyblue {
+    background-color: #18c1ff;
+}
+.text-primary {
+    color: #0077a3;
+}

@@ -1,4 +1,5 @@
 import LoginPage from '../login';
+import DashboardPage from '../dashboard';
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
@@ -7,6 +8,11 @@ export const createRoutes = (store) => (
         {
             path: '/login',
             indexRoute: LoginPage(store),
+            childRoutes: []
+        },
+        {
+            path: '/dashboard',
+            indexRoute: DashboardPage(store),
             childRoutes: []
         },
         {
