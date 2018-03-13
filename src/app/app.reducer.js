@@ -12,7 +12,6 @@ const initialState = {
 
 export function setTabId() {
     return (dispatch, getState) => {
-        debugger
         if (!getState().user.userInitalized)
             dispatch(getState().user.initializeUserFromCache(authMan.getAuth()));
 
@@ -42,7 +41,6 @@ export function removeFromTabsList() {
     return (dispatch, getState) => {
         let tabsList = JSON.parse(localStorage.getItem(Constants.tabsList));
         let currentTabId = getState().app.currentTabId;
-        debugger
         if (tabsList) {
             let newTabs = _.filter(tabsList, (tab) => tab != currentTabId)
             localStorage.setItem('tlst', JSON.stringify(newTabs));

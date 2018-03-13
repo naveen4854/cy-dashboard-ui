@@ -2,7 +2,7 @@ import React, { PropTypes, PureComponent } from 'react';
 import _ from 'lodash';
 var ReactToastr = require("react-toastr");
 var ToastMessageFactory = React.createFactory(ReactToastr.ToastMessage.animation);
-import { ResponseStatusEnum } from '../shared/enums'
+import { ResponseStatusEnum } from '../../shared/enums'
 import { toastr } from 'react-redux-toastr'
 import ReduxToastr from 'react-redux-toastr'
 import './react-redux-toastr.min.css';
@@ -10,8 +10,10 @@ import './react-redux-toastr.min.css';
 export default class Notification extends PureComponent {
     constructor(props) {
         super(props);
-        this.state = { ...props };
         this.toastrOptions = this.toastrOptions.bind(this)
+        this.renderNotifications = this.renderNotifications.bind(this)
+        this.renderSuccess = this.renderSuccess.bind(this)
+        this.showConfirmation = this.showConfirmation.bind(this)
     }
     
     messageTypes() {

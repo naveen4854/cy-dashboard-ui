@@ -40,7 +40,7 @@ const initialState = {
 export function login(loginDetails) {
   return (dispatch, getState) => {
     dispatch(getState().spinnerStore.BeginTask());
-    authService.userLogin(loginDetails)
+    loginService.userLogin(loginDetails)
       .then((response) => {
         dispatch(getState().spinnerStore.EndTask());
         if (!response || response.status != 200)
@@ -67,6 +67,7 @@ export function login(loginDetails) {
         dispatch(getState().user.defaultRedirection());
       })
       .catch((error) => {
+        debugger
         dispatch(getState().spinnerStore.EndTask());
         dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error));
       })
@@ -110,7 +111,7 @@ export function setTokenRefreshTimeout(timeDiff) {
     let Id = setTimeout(() => {
       let refToken = user.refreshToken;
       console.log("TOKEN REFRESH STARTED", refToken)
-      authService.refreshToken(refToken, user.nic).then(res => {
+      loginService.refreshToken(refToken, user.nic).then(res => {
         localStorage.setItem(Constants.auth, JSON.stringify(res ? res.data : {}));
         dispatch({
           type: SAVE_LOGIN,
@@ -142,7 +143,7 @@ export function logout() {
   return (dispatch, getState) => {
     let user = getState().user;
 
-    authService.userLogout().then(res => {
+    loginService.userLogout().then(res => {
       authMan.clearAuth();
       localStorage.removeItem(Constants.refreshTabId)
       localStorage.removeItem(Constants.setNewRt)
@@ -158,7 +159,7 @@ export function logout() {
 export function defaultRedirection() {
   return (dispatch, getState) => {
     dispatch(getState().spinnerStore.BeginTask());
-    authService.getDefaultDashboard()
+    loginService.getDefaultDashboard()
       .then(res => {
         dispatch(getState().spinnerStore.EndTask());
         dispatch({

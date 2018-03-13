@@ -1,4 +1,4 @@
-import {ApiUrl} from "../shared/constants";
+import { ApiUrl } from "../shared/constants";
 import * as service from "../utilities/http-service";
 import * as authMan from "../authentication/auth-manager";
 import 'url-search-params-polyfill';
@@ -8,7 +8,7 @@ export function userLogin(loginDetails) {
   params.append('userName', loginDetails.userName);
   params.append('password', loginDetails.password);
   params.append('grant_type', 'password');
-  return service.axiosPost(Constants.AUTH_TOKEN, params);
+  return service.axiosPost(ApiUrl.AUTH_TOKEN, params);
 }
 export function userLogout() {
   var authDetails = authMan.getAuth();

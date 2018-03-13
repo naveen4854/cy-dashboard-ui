@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash';
-import ResponseStatusEnum from '../../lib/enums/response-status-enum'
+import { ResponseStatusEnum } from '../../shared/enums'
 
 const SHOW_NOTIFICATIONS = "SHOW_NOTIFICATIONS";
 const CLEAR_NOTIFICATIONS = "CLEAR_NOTIFICATIONS";

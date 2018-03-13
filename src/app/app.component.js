@@ -7,6 +7,8 @@ import '../public/assets/styles/cx-main.css';
 import '../public/assets/styles/cx-skin-default.css';
 import '../public/assets/styles/cx-bones.css';
 
+import NotificationContainer from '../components/notifications/notification.container';
+import SpinnerContainer from '../components/spinner/spinner.container';
 
 export default class AppComponent extends PureComponent {
     constructor(props) {
@@ -25,6 +27,8 @@ export default class AppComponent extends PureComponent {
             <Provider store={store}>
                 <div style={{ height: '100%' }}>
                     <Router history={browserHistory} children={routes} />
+                    <NotificationContainer />
+                    <SpinnerContainer />
                 </div>
             </Provider >
         )

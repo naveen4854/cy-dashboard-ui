@@ -3,13 +3,17 @@ import { browserHistory } from 'react-router';
 import LoginReducer from '../login/login.reducer';
 import LocalizationReducer from '../components/localization/localization.reducer';
 import SpinnerReducer from '../components/spinner/spinner.reducer';
+import NotificationReducer from '../components/notifications/notification.reducer';
+import { reducer as toastrReducer } from 'react-redux-toastr'
 
 export const makeRootReducer = (asyncReducers) =>
   (state, action) => {
     return combineReducers({
+      toastr: toastrReducer,
       user: LoginReducer,
       localizationStore: LocalizationReducer,
       spinnerStore: SpinnerReducer,
+      notificationStore: NotificationReducer,
       ...asyncReducers
     })(action.type == "Constants.USER_LOGOUT" ? retainOnLogOut(state) : state, action);
   }
