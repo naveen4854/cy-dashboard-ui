@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react'
 import { dispatch } from 'react'
 import { browserHistory, Router } from 'react-router'
 
+import LogoImg from 'public/images/Login_01.png'
+
 
 class LoginComponent extends PureComponent {
 	constructor(props) {
@@ -20,10 +22,9 @@ class LoginComponent extends PureComponent {
 	render() {
 		return (
 			<div className="container" style={{ marginTop: '100px' }}>
-				{this.props.user.userName}
 				<div className="row">
 					<div className="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 hidden-xs">
-						<img alt="CyDashboard" title="CyDashboard" />
+						<img src={LogoImg} alt="CyDashboard" title="CyDashboard" />
 					</div>
 				</div>
 				<form>
