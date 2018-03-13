@@ -6,11 +6,12 @@ import { withRouter } from 'react-router'
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handlePost: (loginDetails) => {
-    },
     defaultRedirection: () => {
     },
     ClearNotifications: () => {
+    },
+    login: (loginDetails) => {
+      dispatch(Reducer.login(loginDetails))
     }
   }
 }

@@ -19,13 +19,13 @@
   },
   "betterScripts": {
     "compile": {
-      "command": "node bin/compile",
+      "command": "node compile/compile",
       "env": {
         "DEBUG": "app:*"
       }
     },
     "dev": {
-      "command": "nodemon bin/server --ignore dist --ignore coverage --ignore tests --ignore src",
+      "command": "nodemon compile/server --ignore dist --ignore coverage --ignore tests --ignore src",
       "env": {
         "NODE_ENV": "development",
         "DEBUG": "app:*"
@@ -52,13 +52,13 @@
       }
     },
     "start": {
-      "command": "node bin/server",
+      "command": "node compile/server",
       "env": {
         "DEBUG": "app:*"
       }
     },
     "test": {
-      "command": "node ./node_modules/karma/bin/karma start build/karma.conf",
+      "command": "node ./node_modules/karma/compile/karma start build/karma.conf",
       "env": {
         "NODE_ENV": "test",
         "DEBUG": "app:*"
@@ -99,7 +99,9 @@
     "yargs": "^11.0.0"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "bootstrap": "4.0.0",
+    "es6-promise": "^4.2.4",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.7",

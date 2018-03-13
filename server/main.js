@@ -12,6 +12,11 @@ const paths = config.utils_paths
 // rendering, you'll want to remove this middleware.
 app.use(require('connect-history-api-fallback')())
 
+app.get("/*", function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
+});
+
 // ------------------------------------
 // Apply Webpack HMR Middleware
 // ------------------------------------
@@ -20,13 +25,13 @@ if (config.env === 'development') {
 
   debug('Enable webpack dev and HMR middleware')
   app.use(require('webpack-dev-middleware')(compiler, {
-    publicPath  : webpackConfig.output.publicPath,
-    contentBase : paths.client(),
-    hot         : true,
-    quiet       : config.compiler_quiet,
-    noInfo      : config.compiler_quiet,
-    lazy        : false,
-    stats       : config.compiler_stats
+    publicPath: webpackConfig.output.publicPath,
+    contentBase: paths.client(),
+    hot: true,
+    quiet: config.compiler_quiet,
+    noInfo: config.compiler_quiet,
+    lazy: false,
+    stats: config.compiler_stats
   }))
   app.use(require('webpack-hot-middleware')(compiler))
 
