@@ -4,7 +4,6 @@ export const PageEnums = {
     NOTIFICATIONS: 'NOTIFICATIONS',
     NEW_DASHBOARD: 'new dashboard',
     APPLICATION: 'application',
-    NOTFICATION: 'notification',
     VIEW_DASHBOARD: 'VIEW_DASHBOARD',
     PREVIEW_DASHBOARD: 'PREVIEW_DASHBOARD',
     DATA_METRICS: 'DATA_METRICS',

@@ -15,7 +15,7 @@ export default class Notification extends PureComponent {
         this.renderSuccess = this.renderSuccess.bind(this)
         this.showConfirmation = this.showConfirmation.bind(this)
     }
-    
+
     messageTypes() {
         if (!this.props.notification.persistMessages) {
             toastr.removeByType('error')
@@ -50,7 +50,7 @@ export default class Notification extends PureComponent {
             }
         }
     }
-    
+
     toastrOptions = (func, timeOut, removeOnHover, showCloseButton) => {
         return {
             timeOut,
@@ -62,7 +62,7 @@ export default class Notification extends PureComponent {
             )
         }
     }
-    
+
     componentDidUpdate() {
         this.messageTypes();
     }
@@ -106,15 +106,17 @@ export default class Notification extends PureComponent {
     renderNotifications() {
         let messages = _.filter(this.props.notification.messages, (msg) => msg);
         return (
-            <ul style={{ listStyle: "disc" }}>
-                {
-                    _.map(messages,
-                        (value, i) => (
-                            <li key={i}>{this.props.l.t(value.normalizedMessage, value.displayMessage)}</li>
+            <div key={this.props.notification.id}>
+                <ul style={{ listStyle: "disc" }}>
+                    {
+                        _.map(messages,
+                            (value, i) => (
+                                <li key={i}>{this.props.l.t(value.normalizedMessage, value.displayMessage)}</li>
+                            )
                         )
-                    )
-                }
-            </ul>
+                    }
+                </ul>
+            </div>
         )
     }
 

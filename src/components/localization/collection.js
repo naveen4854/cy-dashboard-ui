@@ -1,17 +1,4 @@
-export const PageEnums = {
-  MY_DASHBOARD: 'my dashboard',
-  WIDGET_STYLES: 'WIDGET_STYLES',
-  NOTIFICATIONS: 'NOTIFICATIONS',
-  NEW_DASHBOARD: 'new dashboard',
-  APPLICATION: 'application',
-  NOTFICATION: 'notification',
-  VIEW_DASHBOARD: 'VIEW_DASHBOARD',
-  PREVIEW_DASHBOARD: 'PREVIEW_DASHBOARD',
-  DATA_METRICS: 'DATA_METRICS',
-  THRESHOLDS: 'THRESHOLDS',
-  LOGIN: 'LOGIN'
-}
-
+import { PageEnums } from "../../shared/enums/page-enum";
 
 const collection = {
   MY_DASHBOARD: {

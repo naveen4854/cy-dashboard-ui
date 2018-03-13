@@ -24,13 +24,22 @@ export default class AppComponent extends PureComponent {
     render() {
         const { routes, store } = this.props;
         return (
-            <Provider store={store}>
-                <div style={{ height: '100%' }}>
-                    <Router history={browserHistory} children={routes} />
-                    <NotificationContainer />
-                    <SpinnerContainer />
+            <div>
+                <Provider store={store}>
+                    <div style={{ height: '100%' }}>
+                        <Router history={browserHistory} children={routes} />
+                        <NotificationContainer />
+                        <SpinnerContainer />
+                    </div>
+
+                </Provider >
+                <div dir="ltr" className="navbar-fixed-bottom">
+                    <button onClick={() => this.props.GetLocalizationData("en-us")}>en-us</button>
+                    <button onClick={() => this.props.GetLocalizationData("en-AU")}>en-AU</button>
+                    <button onClick={() => this.props.GetLocalizationData("he-IL")}>he</button>
+                    {/* <h1 style={{ backgroundColor: 'white' }}>{this.props.app.currentTabId}</h1> */}
                 </div>
-            </Provider >
+            </div>
         )
     }
 }
