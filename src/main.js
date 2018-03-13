@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AppComponent from './app/app.component';
+import AppContainer from './app/app.container';
 import registerServiceWorker from './registerServiceWorker';
 import createStore from './store/create-store';
 
@@ -9,7 +9,7 @@ export const store = createStore(initialState)
 
 let render = () => {
     const routes = require('./routes/index').default(store)
-    ReactDOM.render(<AppComponent store={store} routes={routes} />, document.getElementById('root'));
+    ReactDOM.render(<AppContainer store={store} routes={routes} />, document.getElementById('root'));
 }
 render()
 registerServiceWorker();

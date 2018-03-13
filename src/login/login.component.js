@@ -11,10 +11,10 @@ class LoginComponent extends PureComponent {
 
 	login(e) {
 		e.preventDefault();
-		this.props.login({
-			userName: this.refs.userName.value,
-			password: this.refs.password.value,
-		});
+		// this.props.login({
+		// 	userName: this.refs.userName.value,
+		// 	password: this.refs.password.value,
+		// });
 	}
 
 	render() {
