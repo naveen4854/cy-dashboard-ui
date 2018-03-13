@@ -37,9 +37,7 @@ export default function localize(Component, pageName) {
 
     render() {
       return (
-        <div className="localized">
-          <Component {...this.props} l={this.getTranslationDataForPage(this.props.localizationStore, pageName)} />
-        </div>
+        <Component {...this.props} l={this.getTranslationDataForPage(this.props.localizationStore, pageName)} />
       );
     }
   }

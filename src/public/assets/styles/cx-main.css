@@ -904,3 +904,9 @@ div[id^="__resizable"]{
 .is-inValid:focus{
   border-color: red !important
 }
+
+.boxShadow{
+  -webkit-box-shadow: -3px -2px 30px 11px rgba(0,0,0,0.21);
+-moz-box-shadow: -3px -2px 30px 11px rgba(0,0,0,0.21);
+box-shadow: -3px -2px 30px 11px rgba(0,0,0,0.21);
+}
