@@ -16,6 +16,25 @@ export default class AppComponent extends PureComponent {
     }
 
     componentWillMount() {
+        window.addEventListener("beforeunload", (event) => {
+            this.props.removeFromTabsList();
+            this.props.triggerRefreshFromOtherTab();
+        });
+
+        window.addEventListener("storage", (event) => {
+            if (event.key === Constants.setNewRt) {
+                this.props.setRefreshToken();
+
+                if (!event.newValue)
+                    this.props.logout();
+            }
+            if (event.key === Constants.cleartimeout) {
+                if (this.props.app.currentTabId != localStorage.getItem(Constants.refreshTabId))
+                    this.props.cleartimeout();
+            }
+        });
+        this.props.setTabId();
+
         let culture = "en-AU";
         //let culture = navigator.language;
         this.props.GetLocalizationData(culture);
@@ -33,7 +52,7 @@ export default class AppComponent extends PureComponent {
                     </div>
 
                 </Provider >
-                <nav className="navbar navbar-expand-lg navbar-light ">
+                <nav className="navbar navbar-expand-lg navbar-light">
                     <div dir="ltr" className="navbar-nav mr-auto fixed-bottom">
                         <ul className="navbar-nav">
                             <li className="nav-item">

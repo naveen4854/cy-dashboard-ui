@@ -67,7 +67,6 @@ export function login(loginDetails) {
         dispatch(getState().user.defaultRedirection());
       })
       .catch((error) => {
-        debugger
         dispatch(getState().spinnerStore.EndTask());
         dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error));
       })
@@ -161,6 +160,7 @@ export function defaultRedirection() {
     dispatch(getState().spinnerStore.BeginTask());
     loginService.getDefaultDashboard()
       .then(res => {
+        debugger
         dispatch(getState().spinnerStore.EndTask());
         dispatch({
           type: DEFAULT_DASHBOARD_ID,

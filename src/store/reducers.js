@@ -5,12 +5,14 @@ import LocalizationReducer from '../components/localization/localization.reducer
 import SpinnerReducer from '../components/spinner/spinner.reducer';
 import NotificationReducer from '../components/notifications/notification.reducer';
 import { reducer as toastrReducer } from 'react-redux-toastr'
+import AppReducer from '../app/app.reducer';
 
 export const makeRootReducer = (asyncReducers) =>
   (state, action) => {
     return combineReducers({
       toastr: toastrReducer,
       user: LoginReducer,
+      app: AppReducer,
       localizationStore: LocalizationReducer,
       spinnerStore: SpinnerReducer,
       notificationStore: NotificationReducer,

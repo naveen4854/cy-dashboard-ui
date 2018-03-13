@@ -8,7 +8,8 @@ export function userLogin(loginDetails) {
   params.append('userName', loginDetails.userName);
   params.append('password', loginDetails.password);
   params.append('grant_type', 'password');
-  return service.axiosPost(ApiUrl.AUTH_TOKEN, params);
+  debugger
+  return service.axiosPost(ApiUrl.AUTH_TOKEN);
 }
 export function userLogout() {
   var authDetails = authMan.getAuth();

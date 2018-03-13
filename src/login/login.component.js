@@ -11,6 +11,10 @@ class LoginComponent extends PureComponent {
 		this.login = this.login.bind(this);
 	}
 
+	componentDidMount() {
+		this.refs.userName.value = 'Administrator'
+	}
+	
 	login(e) {
 		e.preventDefault();
 		this.props.login({
