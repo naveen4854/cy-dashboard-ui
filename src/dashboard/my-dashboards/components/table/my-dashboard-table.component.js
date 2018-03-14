@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { browserHistory, Router } from 'react-router';
 var PropTypes = require('prop-types');
 import { ResponseStatusEnum, SortColumnEnum, SortOrderEnum } from '../../../../shared/enums';
 
-export default class MyDashboardTable extends React.Component {
-
+export default class MyDashboardTable extends PureComponent {
     constructor(props) {
         super(props);
     }
@@ -12,9 +11,11 @@ export default class MyDashboardTable extends React.Component {
     viewDashboard(id) {
         browserHistory.push(`/dashboard/view/${id}`);
     }
+
     editDashboard(id) {
         browserHistory.push(`/dashboard/edit/${id}`);
     }
+
     deleteDashboard(dashboardId) {
         this.props.DeleteDashboard(dashboardId);
     }
@@ -28,13 +29,12 @@ export default class MyDashboardTable extends React.Component {
             sortOrder = SortOrderEnum.Ascending;
         }
 
-        this.props.SetSortAndGetDashboardList(sortColumn, sortOrder);
+        this.props.GetSortedDashboardList(sortColumn, sortOrder);
     }
-
 
     showConfirmation(dashboard) {
         let notifyMessage = { displayMessage: this.props.l.t('Are_you_sure_you_want_to_delete_$dashboardName_dashboard', 'Are you sure you want to delete ${dashboardName} dashboard?', { 'dashboardName': dashboard.DashboardName }) };
-        const configs = {
+        const config = {
             type: ResponseStatusEnum.Confirmation,
             messages: [notifyMessage],
             func: {
@@ -42,7 +42,7 @@ export default class MyDashboardTable extends React.Component {
                 onCancel: () => { }
             }
         }
-        this.props.DeleteConfirmation(configs);
+        this.props.common.ShowNotification(config);
     }
 
     render() {

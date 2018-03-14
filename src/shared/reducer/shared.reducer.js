@@ -1,22 +1,23 @@
 import React from 'react'
 import _ from 'lodash';
+import { store } from '../../main'
 
 export function ShowNotification(messagesConfiguration) {
-    return (dispatch, getState) => {
+    return store.dispatch((dispatch, getState) => {
         dispatch(getState().notificationStore.ShowNotification(messagesConfiguration));
-    }
+    })
 }
 
 export function notify(messages, errorType, persistMessage) {
-    return (dispatch, getState) => {
+    return store.dispatch((dispatch, getState) => {
         dispatch(getState().notificationStore.notify(messages, errorType, persistMessage))
-    }
+    })
 }
 
 export function ClearNotifications() {
-    return (dispatch, getState) => {
+    return store.dispatch((dispatch, getState) => {
         dispatch(getState().notificationStore.ClearNotifications())
-    };
+    });
 }
 
 export const ACTION_HANDLERS = {

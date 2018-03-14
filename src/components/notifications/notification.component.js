@@ -110,8 +110,8 @@ export default class Notification extends PureComponent {
                 <ul style={{ listStyle: "disc" }}>
                     {
                         _.map(messages,
-                            (value, i) => (
-                                <li key={i}>{this.props.l.t(value.normalizedMessage, value.displayMessage)}</li>
+                            (msg, i) => (
+                                <li key={i}>{msg.normalizedMessage ? this.props.l.t(msg.normalizedMessage, msg.displayMessage) : msg.displayMessage}</li>
                             )
                         )
                     }

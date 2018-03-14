@@ -57,10 +57,10 @@ export const ACTION_HANDLERS = {
 }
 
 const initialState = {
-  type: ResponseStatusEnum.Error, //'error',
+  type: ResponseStatusEnum.Error,
   ShowNotification,
   ClearNotifications,
-  persistMessages: false, // persistMessages property is used to persist any previous messages if needed. If we need not persist any previous messages, we can pass false. 
+  persistMessages: false,
   messages: [],
   isRtl: false,
   notify,

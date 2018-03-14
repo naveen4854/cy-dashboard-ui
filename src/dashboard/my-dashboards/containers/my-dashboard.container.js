@@ -43,7 +43,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(Reducer.SetPageSize(pageSize))
             dispatch(Reducer.GetDashboardsList())
         },
-        SetSortAndGetDashboardList: (sortColumn, sortOrder) => {
+        GetSortedDashboardList: (sortColumn, sortOrder) => {
             dispatch(Reducer.SetSortColumnAndOrder(sortColumn, sortOrder))
             dispatch(Reducer.GetDashboardsList())
         },
