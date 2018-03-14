@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import * as authMan from "../authentication/auth-manager";
-import Constants from '../shared/constants';
+import {Constants} from '../shared/constants';
 
 const ADD_TAB_ID = "ADD_TAB_ID";
 

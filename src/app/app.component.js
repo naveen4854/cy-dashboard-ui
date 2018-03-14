@@ -1,6 +1,7 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { browserHistory, Router } from 'react-router';
 import { Provider } from 'react-redux';
+
 // import 'bootstrap/dist/css/bootstrap.css';
 import '../public/assets/vendors/bootstrap/css/bootstrap.min.css';
 import '../public/assets/styles/cx-bones.css';
@@ -9,6 +10,7 @@ import '../public/assets/styles/cx-main.css';
 
 import NotificationContainer from '../components/notifications/notification.container';
 import SpinnerContainer from '../components/spinner/spinner.container';
+import {Constants} from '../shared/constants';
 
 export default class AppComponent extends PureComponent {
     constructor(props) {

@@ -1,9 +1,7 @@
 import React from 'react';
 import { browserHistory, Router } from 'react-router';
 var PropTypes = require('prop-types');
-import SortColumnEnum from '../../../../../lib/enums/sort-column';
-import SortOrderEnum from '../../../../../lib/enums/sort-order';
-import ResponseStatusEnum from '../../../../../lib/enums/response-status-enum';
+import { ResponseStatusEnum, SortColumnEnum, SortOrderEnum } from '../../../shared/enums';
 
 export default class MyDashboardTable extends React.Component {
 

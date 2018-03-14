@@ -7,7 +7,8 @@ import { store } from '../main'
 import ResponseStatusEnum from '../shared/enums/response-status-enum';
 import { SAVE_LOGIN, UPDATE_REF_TOKEN_TIMEOUT_ID } from '../login/login.reducer';
 import * as loginService from '../login/login.service';
-import Constants from '../shared/constants';
+import {Constants} from '../shared/constants';
+import * as authMan from '../authentication/auth-manager';
 
 const envconfig = require('./static/envconfig');
 
@@ -48,7 +49,7 @@ axios.interceptors.request.use(
         if (!config.__isRetryRequest)
             config.retryCount = 0;
 
-        const authToken = "authMan.getAuthToken()";
+        const authToken = authMan.getAuthToken();
         if (authToken) {
             config.headers = Object.assign({}, config.headers, {
                 Authorization: `bearer ${authToken}`

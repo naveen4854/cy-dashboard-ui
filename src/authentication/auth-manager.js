@@ -1,4 +1,4 @@
-import Constants from '../shared/constants';
+import {Constants} from '../shared/constants';
 
 export function setAuth(auth) {
   localStorage.setItem(Constants.auth, JSON.stringify(auth ? auth : {}));

@@ -26,7 +26,6 @@ const initialState = {
 
 export function GetLocalizationData(culture) {
   return (dispatch, getState) => {
-    debugger
     if (getState().localizationStore.currentLocale == culture)
       return;
 

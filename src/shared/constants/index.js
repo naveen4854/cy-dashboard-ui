@@ -1,5 +1,4 @@
 import * as Constants from './constants';
+import ApiUrl from './api-urls';
 
-export { default as ApiUrl } from "./api-urls";
-export { default as Constants } from "./constants";
-export default Constants;
+export { Constants, ApiUrl };

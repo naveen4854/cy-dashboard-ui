@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import * as Reducer from '../reducers/my-dashboard.reducer';
 
 import MyDashboard from '../components/my-dashboard.component'
-import * as LocMan from '../../../../localization/localization.manager';
-import { PageEnums } from '../../../../localization/collection';
+import localize from '../../../components/localization/localization.hoc';
+import { PageEnums } from '../../../shared/enums/page-enum';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -44,16 +44,15 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(Reducer.UserLogoutAction());
         },
         ClearNotifications: () => {
-              dispatch(Reducer.ClearNotificationsAction())
+            dispatch(Reducer.ClearNotificationsAction())
         }
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        myDashboard: state.mydashboard,
-        l: LocMan.getTranslationDataForPage(state.localizationStore, PageEnums.MY_DASHBOARD)
+        myDashboard: state.mydashboard
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyDashboard)
+export default connect(mapStateToProps, mapDispatchToProps)(localize(MyDashboard, PageEnums.MY_DASHBOARD))
