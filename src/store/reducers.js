@@ -6,6 +6,7 @@ import SpinnerReducer from '../components/spinner/spinner.reducer';
 import NotificationReducer from '../components/notifications/notification.reducer';
 import { reducer as toastrReducer } from 'react-redux-toastr'
 import AppReducer from '../app/app.reducer';
+import SharedReducer from '../shared/reducer/shared.reducer';
 
 export const makeRootReducer = (asyncReducers) =>
   (state, action) => {
@@ -16,6 +17,7 @@ export const makeRootReducer = (asyncReducers) =>
       localizationStore: LocalizationReducer,
       spinnerStore: SpinnerReducer,
       notificationStore: NotificationReducer,
+      common: SharedReducer,
       ...asyncReducers
     })(action.type == "Constants.USER_LOGOUT" ? retainOnLogOut(state) : state, action);
   }

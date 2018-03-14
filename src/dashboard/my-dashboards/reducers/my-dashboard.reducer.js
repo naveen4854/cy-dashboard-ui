@@ -1,6 +1,7 @@
 import React from 'react';
 import { push, replace } from 'react-router-redux';
 import { browserHistory, Router } from 'react-router';
+import _ from 'lodash';
 
 import { Constants } from '../../../shared/constants';
 import { WidgetTypeEnum, ResponseStatusEnum } from '../../../shared/enums';
@@ -30,8 +31,10 @@ export function GetDashboardsList() {
       sortColumn = state.mydashboard.sortColumn,
       sortingOrder = state.mydashboard.sortOrder == 0 ? 'asc' : 'desc';
 
+    debugger
     dashboardService.getDashboardsByCategory(categoryId, myDashboards, globals, pageNumber, pageSize, sortColumn, sortingOrder).then((response) => {
       if (response.status === 200) {
+        debugger
         let _userDashboards = _.map(response.data, (d) => {
           return {
             DashboardName: d.udn,
@@ -60,6 +63,68 @@ export function GetDashboardsList() {
   }
 }
 
+export function SetGlobals(getGlobals) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: UPDATE_GLOBALS,
+      globals: getGlobals
+    });
+  }
+}
+
+export function SetMyDashboards(getMyDashboards) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: UPDATE_GLOBALS,
+      myDashboards: getMyDashboards
+    });
+  }
+}
+
+export function SetPageNumber(pageNumber) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: UPDATE_PAGENUMBER,
+      pageNumber
+    });
+  }
+}
+
+export function SetPageSize(pageSize) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: UPDATE_PAGENUMBER,
+      pageSize
+    });
+  }
+}
+
+export function SetSortColumnAndOrder(sortColumn, sortOrder) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: UPDATE_SORT,
+      sortColumn,
+      sortOrder
+    });
+  }
+}
+
+export function test() {
+  return (dispatch, getState) => {
+    dispatch({
+      type: 'same'
+    })
+  }
+}
+
+export function testU() {
+  return (dispatch, getState) => {
+    dispatch({
+      type: 'newversion'
+    })
+  }
+}
+
 const initialState = {
   categories: [],
   category: -1,
@@ -68,7 +133,7 @@ const initialState = {
   myDashboards: true,
   globals: false,
   pageNumber: 1,
-  pageSize: 10,
+  pageSize: 2,
   sortColumn: "modifiedTime",
   sortOrder: 1,
   totalDashboards: 0,
@@ -81,7 +146,6 @@ export const ACTION_HANDLERS = {
       categories: action.categories
     })
   },
-
   [GET_DASHBOARDS_LIST]: (state, action) => {
     return Object.assign({}, state, {
       userDashboards: action.userDashboards,
@@ -124,8 +188,13 @@ export const ACTION_HANDLERS = {
       sortColumn: action.sortColumn,
       sortOrder: action.sortOrder
     });
+  },
+  'same': (state, action) => {
+    return state;
+  },
+  'newversion': (state, action) => {
+    return _.cloneDeep(state);
   }
-
 }
 
 export default function MyDashboardReducer(state = initialState, action) {

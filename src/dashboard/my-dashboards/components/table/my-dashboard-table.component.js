@@ -1,12 +1,34 @@
 import React from 'react';
 import { browserHistory, Router } from 'react-router';
 var PropTypes = require('prop-types');
-import { ResponseStatusEnum, SortColumnEnum, SortOrderEnum } from '../../../shared/enums';
+import { ResponseStatusEnum, SortColumnEnum, SortOrderEnum } from '../../../../shared/enums';
 
 export default class MyDashboardTable extends React.Component {
 
     constructor(props) {
         super(props);
+    }
+
+    viewDashboard(id) {
+        browserHistory.push(`/dashboard/view/${id}`);
+    }
+    editDashboard(id) {
+        browserHistory.push(`/dashboard/edit/${id}`);
+    }
+    deleteDashboard(dashboardId) {
+        this.props.DeleteDashboard(dashboardId);
+    }
+
+    sortDashboard(sortColumn) {
+        let sortOrder = 0;
+        if (sortColumn == this.props.myDashboard.sortColumn) {
+            sortOrder = this.props.myDashboard.sortOrder == SortOrderEnum.Ascending ? SortOrderEnum.Descending : SortOrderEnum.Ascending
+        }
+        else {
+            sortOrder = SortOrderEnum.Ascending;
+        }
+
+        this.props.SetSortAndGetDashboardList(sortColumn, sortOrder);
     }
 
 
@@ -86,39 +108,8 @@ export default class MyDashboardTable extends React.Component {
                             )
                         }
                     </tbody>
-
                 </table>
             </div>
         )
     }
-
-    viewDashboard(id) {
-        browserHistory.push(`/dashboard/view/${id}`);
-    }
-    editDashboard(id) {
-        browserHistory.push(`/dashboard/edit/${id}`);
-    }
-    deleteDashboard(dashboardId) {
-        this.props.DeleteDashboard(dashboardId);
-    }
-
-    sortDashboard(sortColumn) {
-        let sortOrder = 0;
-        if (sortColumn == this.props.myDashboard.sortColumn) {
-            sortOrder = this.props.myDashboard.sortOrder == SortOrderEnum.Ascending ? SortOrderEnum.Descending : SortOrderEnum.Ascending
-        }
-        else {
-            sortOrder = SortOrderEnum.Ascending;
-        }
-
-        this.props.SetSortAndGetDashboardList(sortColumn, sortOrder);
-        // this.props.FilterDashboards(this.props.myDashboard.selectedCategory, this.props.pageNumber,
-        //     this.props.pageSize, this.props.myDashboard.allGlobals, sortColumn, sortOrder);
-    }
-
-
 }
-MyDashboardTable.contextTypes = {
-    t: PropTypes.func
-};
-

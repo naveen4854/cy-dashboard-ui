@@ -471,6 +471,7 @@ body {
 .page-toolbar a {
   text-decoration: none;
   color: inherit;
+  color: #ffffff !important;
 }
 
 .page-toolbar.dashboard-toolbar .tool-icon {
@@ -570,7 +571,7 @@ body {
   background-color: #18c1ff;
 }
 .text-primary {
-  color: #0077a3;
+  color: #0077a3 !important;
 }
 .pointer{
   cursor: pointer;

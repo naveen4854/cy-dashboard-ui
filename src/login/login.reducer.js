@@ -160,7 +160,6 @@ export function defaultRedirection() {
     dispatch(getState().spinnerStore.BeginTask());
     loginService.getDefaultDashboard()
       .then(res => {
-        debugger
         dispatch(getState().spinnerStore.EndTask());
         dispatch({
           type: DEFAULT_DASHBOARD_ID,

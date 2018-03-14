@@ -25,33 +25,47 @@ const mapDispatchToProps = (dispatch) => {
         GetUserDashboardById: (dashboardId) => {
             dispatch(Reducer.getUserDashboardByIdAction(dashboardId))
         },
-        SetMyDashboardsAndGetDashboardsList: (_getMyDashboards) => {
-            dispatch(Reducer.SetMyDashboardsAndGetDashboardsList(_getMyDashboards))
+        SetMyDashboardsAndGetDashboardsList: (getMyDashboards) => {
+            dispatch(Reducer.SetMyDashboards(getMyDashboards))
+            dispatch(Reducer.SetPageNumber(1))
+            dispatch(Reducer.GetDashboardsList())
         },
-        SetGlobalsAndGetDashboardsList: (_getGlobals) => {
-            dispatch(Reducer.SetGlobalsAndGetDashboardsList(_getGlobals))
+        SetGlobalsAndGetDashboardsList: (getGlobals) => {
+            dispatch(Reducer.SetGlobals(getGlobals))
+            dispatch(Reducer.SetPageNumber(1))
+            dispatch(Reducer.GetDashboardsList())
         },
-        SetPageNumberAndGetDashboardsList: (_pageNum) => {
-            dispatch(Reducer.SetPageNumberAndGetDashboardsList(_pageNum))
+        SetPageNumberAndGetDashboardsList: (pageNum) => {
+            dispatch(Reducer.SetPageNumber(pageNum))
+            dispatch(Reducer.GetDashboardsList())
         },
-        SetPageSizeAndGetDashboardsList: (_pageSize) => {
-            dispatch(Reducer.SetPageSizeAndGetDashboardsList(_pageSize))
+        SetPageSizeAndGetDashboardsList: (pageSize) => {
+            dispatch(Reducer.SetPageSize(pageSize))
+            dispatch(Reducer.GetDashboardsList())
         },
-        SetSortAndGetDashboardList: (_sortColumn, _sortOrder) => {
-            dispatch(Reducer.SetSortAndGetDashboardList(_sortColumn, _sortOrder))
+        SetSortAndGetDashboardList: (sortColumn, sortOrder) => {
+            dispatch(Reducer.SetSortColumnAndOrder(sortColumn, sortOrder))
+            dispatch(Reducer.GetDashboardsList())
         },
         UserLogout: () => {
             dispatch(Reducer.UserLogoutAction());
         },
         ClearNotifications: () => {
             dispatch(Reducer.ClearNotificationsAction())
+        },
+        test: () => {
+            dispatch(Reducer.test())
+        },
+        testU: () => {
+            dispatch(Reducer.testU())
         }
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        myDashboard: state.mydashboard
+        myDashboard: state.mydashboard,
+        common: state.common
     }
 }
 

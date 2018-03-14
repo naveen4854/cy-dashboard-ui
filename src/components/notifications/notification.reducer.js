@@ -56,7 +56,6 @@ export const ACTION_HANDLERS = {
   }
 }
 
-
 const initialState = {
   type: ResponseStatusEnum.Error, //'error',
   ShowNotification,

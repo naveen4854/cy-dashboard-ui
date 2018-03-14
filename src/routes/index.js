@@ -1,5 +1,4 @@
 import LoginPage from '../login';
-import DashboardPage from '../dashboard';
 import MyDashboardPage from '../dashboard/my-dashboards';
 
 /*  Note: Instead of using JSX, we recommend using react-router
@@ -13,7 +12,7 @@ export const createRoutes = (store) => (
         },
         {
             path: '/dashboard',
-            indexRoute: DashboardPage(store),
+            indexRoute: MyDashboardPage(store),
             childRoutes: [
                 {
                     path: 'mydashboards',

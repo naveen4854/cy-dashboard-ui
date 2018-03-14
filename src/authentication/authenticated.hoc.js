@@ -19,7 +19,7 @@ export default function authenticate(Component, options) {
     componentWillReceiveProps(nextProps) {
       this.userAuthentication(nextProps);
     }
-    
+
     userAuthentication(props) {
       if (!props.user.userInitalized)
         return
@@ -51,9 +51,7 @@ export default function authenticate(Component, options) {
 
     render() {
       return (
-        <div className="authenticated">
-          <Component {...this.props} />
-        </div>
+        <Component/>
       );
     }
   }
