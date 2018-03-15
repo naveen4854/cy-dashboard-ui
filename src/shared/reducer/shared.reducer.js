@@ -2,11 +2,7 @@ import React from 'react'
 import _ from 'lodash';
 import { store } from '../../main'
 
-export function ShowNotification(messagesConfiguration) {
-    return store.dispatch((dispatch, getState) => {
-        dispatch(getState().notificationStore.ShowNotification(messagesConfiguration));
-    })
-}
+
 
 export function notify(messages, errorType, persistMessage) {
     return store.dispatch((dispatch, getState) => {
@@ -20,14 +16,27 @@ export function ClearNotifications() {
     });
 }
 
+export function custom(message, buttons) {
+    return store.dispatch((dispatch, getState) => {
+        dispatch(getState().notificationStore.custom(message, buttons))
+    });
+}
+
+export function confirm(message, buttons) {
+    return store.dispatch((dispatch, getState) => {
+        dispatch(getState().notificationStore.confirm(message, buttons))
+    });
+}
+
 export const ACTION_HANDLERS = {
 
 }
 
 const initialState = {
-    ShowNotification,
     ClearNotifications,
-    notify
+    notify,
+    custom,
+    confirm
 };
 
 export default function SharedReducer(state = initialState, action) {

@@ -7,9 +7,6 @@ import { PageEnums } from '../../shared/enums/page-enum';
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    ShowNotification: (messagesConfiguration) => {
-      dispatch(Reducer.ShowNotification(messagesConfiguration))
-    }
   }
 }
 

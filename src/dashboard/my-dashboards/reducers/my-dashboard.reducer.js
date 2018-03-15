@@ -31,10 +31,8 @@ export function GetDashboardsList() {
       sortColumn = state.mydashboard.sortColumn,
       sortingOrder = state.mydashboard.sortOrder == 0 ? 'asc' : 'desc';
 
-    debugger
     dashboardService.getDashboardsByCategory(categoryId, myDashboards, globals, pageNumber, pageSize, sortColumn, sortingOrder).then((response) => {
       if (response.status === 200) {
-        debugger
         let _userDashboards = _.map(response.data, (d) => {
           return {
             DashboardName: d.udn,

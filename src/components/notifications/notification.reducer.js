@@ -17,10 +17,59 @@ export function ShowNotification(messagesConfiguration) {
 
 export function notify(messages, errorType, persistMessage) {
   return (dispatch, getState) => {
+    let msgArr = []
+    if (messages.constructor === Array)
+      msgArr.concat(messages);
+    else
+      msgArr.push(messages);
     let messagesConfig = {};
-    messagesConfig.messages = _.map(messages, (msg) => { return { displayMessage: msg.Message, normalizedMessage: msg.NormalizedMessage } });
+    messagesConfig.messages = _.map(msgArr, (msg) => { return { displayMessage: msg.Message || msg, normalizedMessage: msg.NormalizedMessage } });
     messagesConfig.type = errorType;
     messagesConfig.persistMessages = persistMessage || false;
+
+    dispatch({
+      type: SHOW_NOTIFICATIONS,
+      messagesConfiguration: messagesConfig,
+      isRtl: getState().localizationStore.isRtl
+    });
+  }
+}
+
+export function custom(message, buttons) {
+  return (dispatch, getState) => {
+    let messagesConfig = {};
+    messagesConfig.message = { displayMessage: message.Message || message, normalizedMessage: message.NormalizedMessage };
+    messagesConfig.type = ResponseStatusEnum.Custom;
+    messagesConfig.persistMessages = false;
+
+    _.each(buttons, (btn, i) => {
+      if (i == 0)
+        btn.ok = true;
+    })
+    messagesConfig.buttons = buttons || [];
+
+    dispatch({
+      type: SHOW_NOTIFICATIONS,
+      messagesConfiguration: messagesConfig,
+      isRtl: getState().localizationStore.isRtl
+    });
+  }
+}
+
+export function confirm(message, buttons) {
+  return (dispatch, getState) => {
+    let messagesConfig = {};
+    messagesConfig.message = { displayMessage: message.Message || message, normalizedMessage: message.NormalizedMessage };
+    messagesConfig.type = ResponseStatusEnum.Confirmation;
+    messagesConfig.persistMessages = false;
+    _.each(buttons, (btn, i) => {
+      if (i == 0)
+        btn.ok = true;
+      if (i == 1)
+        btn.cancel = true;
+    })
+    messagesConfig.buttons = buttons || [];
+
     dispatch({
       type: SHOW_NOTIFICATIONS,
       messagesConfiguration: messagesConfig,
@@ -39,11 +88,13 @@ export const ACTION_HANDLERS = {
   [SHOW_NOTIFICATIONS]: (state, action) => {
     return Object.assign({}, state, {
       id: Date.now() + Math.floor(Math.random() * 10000),
-      messages: action.messagesConfiguration.messages,
+      messages: action.messagesConfiguration.messages || [],
       persistMessages: action.messagesConfiguration.persistMessages,
       type: action.messagesConfiguration.type,
       func: action.messagesConfiguration.func,
-      isRtl: action.isRtl
+      isRtl: action.isRtl,
+      buttons: action.messagesConfiguration.buttons || [],
+      message: action.messagesConfiguration.message || ''
     })
   },
   [CLEAR_NOTIFICATIONS]: (state, action) => {
@@ -58,13 +109,16 @@ export const ACTION_HANDLERS = {
 
 const initialState = {
   type: ResponseStatusEnum.Error,
-  ShowNotification,
-  ClearNotifications,
   persistMessages: false,
+  buttons: [],
   messages: [],
+  message: '',
   isRtl: false,
+  id: -1,
   notify,
-  id: -1
+  ClearNotifications,
+  custom,
+  confirm
 };
 
 export default function NotificationReducer(state = initialState, action) {

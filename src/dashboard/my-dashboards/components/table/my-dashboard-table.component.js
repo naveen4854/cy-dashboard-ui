@@ -33,16 +33,18 @@ export default class MyDashboardTable extends PureComponent {
     }
 
     showConfirmation(dashboard) {
-        let notifyMessage = { displayMessage: this.props.l.t('Are_you_sure_you_want_to_delete_$dashboardName_dashboard', 'Are you sure you want to delete ${dashboardName} dashboard?', { 'dashboardName': dashboard.DashboardName }) };
-        const config = {
-            type: ResponseStatusEnum.Confirmation,
-            messages: [notifyMessage],
-            func: {
-                onOk: () => this.deleteDashboard(dashboard.DashboardId),
-                onCancel: () => { }
-            }
-        }
-        this.props.common.ShowNotification(config);
+        let notifyMessage = this.props.l.t('Are_you_sure_you_want_to_delete_$dashboardName_dashboard', 'Are you sure you want to delete ${dashboardName} dashboard?', { 'dashboardName': dashboard.DashboardName })
+        let buttons = [
+            {
+                text: 'Yes',
+                handler: () => this.deleteDashboard(dashboard.DashboardId)
+            },
+            {
+                text: 'No',
+                handler: () => { }
+            }]
+
+        this.props.common.confirm(notifyMessage, buttons);
     }
 
     render() {

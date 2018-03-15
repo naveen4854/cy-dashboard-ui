@@ -14,6 +14,21 @@ export default class Notification extends PureComponent {
         this.renderNotifications = this.renderNotifications.bind(this)
         this.renderSuccess = this.renderSuccess.bind(this)
         this.showConfirmation = this.showConfirmation.bind(this)
+        this.getMessage = this.getMessage.bind(this)
+    }
+
+    componentDidUpdate() {
+        this.messageTypes();
+    }
+
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     return ((!this.props.l && nextProps.l) || !_.isEqual(this.props.notification, nextProps.notification))
+    // }
+
+    getMessage(message) {
+        if (!message)
+            return this.props.l.t('Are_you_sure_about_that', 'Are you sure about that!')
+        return message.normalizedMessage ? this.props.l.t(message.normalizedMessage, message.displayMessage, message.params) : message.displayMessage;
     }
 
     messageTypes() {
@@ -25,29 +40,27 @@ export default class Notification extends PureComponent {
             toastr.removeByType('confirm')
         }
 
-        if (this.props.notification.type && this.props.notification.messages && this.props.notification.messages.length > 0) {
-            switch (this.props.notification.type) {
-                case ResponseStatusEnum.Success:
-                    this.addSuccess();
-                    break;
-                case ResponseStatusEnum.Error:
-                    this.addError();
-                    break;
-                case ResponseStatusEnum.Warning:
-                    this.addWarning();
-                    break;
-                case ResponseStatusEnum.Info:
-                    this.addInfo();
-                    break;
-                case ResponseStatusEnum.Confirmation:
-                    this.showConfirmation();
-                    break;
-                case ResponseStatusEnum.Custom:
-                    this.showCustom();
-                    break;
-                default:
-                    break;
-            }
+        switch (this.props.notification.type) {
+            case ResponseStatusEnum.Success:
+                this.addSuccess();
+                break;
+            case ResponseStatusEnum.Error:
+                this.addError();
+                break;
+            case ResponseStatusEnum.Warning:
+                this.addWarning();
+                break;
+            case ResponseStatusEnum.Info:
+                this.addInfo();
+                break;
+            case ResponseStatusEnum.Confirmation:
+                this.showConfirmation();
+                break;
+            case ResponseStatusEnum.Custom:
+                this.showCustom();
+                break;
+            default:
+                break;
         }
     }
 
@@ -62,14 +75,6 @@ export default class Notification extends PureComponent {
             )
         }
     }
-
-    componentDidUpdate() {
-        this.messageTypes();
-    }
-
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     return ((!this.props.l && nextProps.l) || !_.isEqual(this.props.notification, nextProps.notification))
-    // }
 
     addSuccess() {
         toastr.success('', this.toastrOptions(this.renderSuccess, 3000, true, false))
@@ -88,19 +93,26 @@ export default class Notification extends PureComponent {
     }
 
     showCustom() {
-
-        let msg = this.props.notification.messages ? this.props.notification.messages[0] : this.props.l.t('Are_you_sure_about_that', 'Are you sure about that!');
+        let okText = _.find(this.props.notification.buttons, 'ok') ? _.find(this.props.notification.buttons, 'ok').text : 'Ok'
+        let msg = this.getMessage(this.props.notification.message);
         const toastrConfirmOptions = {
-            onOk: () => this.props.notification.func.onOk(),
-            onCancel: () => this.props.notification.func.onCancel(),
-            buttons: [{
-                text: 'Save and exit',
-                className: 'do-not-apply-btn',
-                handler: () => this.props.notification.func.onSaveAndExit()
-            }]
+            disableOk: true,
+            disableCancel: true,
+            okText,
+            buttons: this.props.notification.buttons
         };
 
         toastr.confirm(msg, toastrConfirmOptions);
+    }
+
+    showConfirmation() {
+        const toastrConfirmOptions = {
+            okText: _.find(this.props.notification.buttons, 'ok') ? _.find(this.props.notification.buttons, 'ok').text : this.props.l.t('Yes', 'Yes'),
+            cancelText: _.find(this.props.notification.buttons, 'cancel') ? _.find(this.props.notification.buttons, 'cancel').text : this.props.l.t('No', 'No'),
+            buttons: this.props.notification.buttons
+        };
+        let message = this.getMessage(this.props.notification.message);
+        toastr.confirm(message, toastrConfirmOptions);
     }
 
     renderNotifications() {
@@ -129,22 +141,8 @@ export default class Notification extends PureComponent {
                     )
                 )
             }
-
         </div>
         )
-    }
-
-    showConfirmation() {
-        const toastrConfirmOptions = {
-            okText: this.props.l.t('Yes', 'Yes'),
-            cancelText: this.props.l.t('No', 'No'),
-            onOk: () => this.props.notification.func.onOk(),
-            onCancel: () => this.props.notification.func.onCancel()
-        };
-        let message = this.props.l.t('Are_you_sure_about_that', 'Are you sure about that!');
-        if (this.props.notification.messages)
-            message = this.props.l.t(this.props.notification.messages[0].normalizedMessage, this.props.notification.messages[0].displayMessage, this.props.notification.messages[0].params)
-        toastr.confirm(message, toastrConfirmOptions);
     }
 
     render() {

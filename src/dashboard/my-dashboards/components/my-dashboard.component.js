@@ -20,7 +20,7 @@ export default class MyDashboard extends PureComponent {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		debugger
+		// debugger
 	}
 
 	componentWillMount() {
