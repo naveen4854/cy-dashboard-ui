@@ -17,7 +17,6 @@ export default class MyDashboardTable extends PureComponent {
     }
 
     deleteDashboard(dashboardId) {
-        debugger
         this.props.DeleteDashboard(dashboardId);
     }
 

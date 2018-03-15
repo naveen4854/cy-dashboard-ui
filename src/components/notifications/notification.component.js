@@ -17,8 +17,9 @@ export default class Notification extends PureComponent {
         this.getMessage = this.getMessage.bind(this)
     }
 
-    componentDidUpdate() {
-        this.messageTypes();
+    componentWillReceiveProps() {
+        if (this.props.notification.id > 0)
+            this.messageTypes();
     }
 
     // shouldComponentUpdate(nextProps, nextState) {
@@ -28,7 +29,7 @@ export default class Notification extends PureComponent {
     getMessage(message) {
         if (!message)
             return this.props.l.t('Are_you_sure_about_that', 'Are you sure about that!')
-        return message.normalizedMessage ? this.props.l.t(message.normalizedMessage, message.displayMessage, message.params) : message.displayMessage;
+        return this.props.l.t(message.normalizedMessage, message.displayMessage, message.params);
     }
 
     messageTypes() {
@@ -89,7 +90,7 @@ export default class Notification extends PureComponent {
     }
 
     addInfo() {
-        toastr.error('info', this.toastrOptions(this.renderNotifications, 0, true, true))
+        toastr.info('info', this.toastrOptions(this.renderNotifications, 0, true, true))
     }
 
     showCustom() {
@@ -102,7 +103,6 @@ export default class Notification extends PureComponent {
             onOk: okBtn ? okBtn.handler : {},
             buttons: this.props.notification.buttons
         };
-        debugger
         toastr.confirm(msg, toastrConfirmOptions);
     }
 
@@ -116,7 +116,6 @@ export default class Notification extends PureComponent {
             onOk: okBtn ? okBtn.handler : {},
             onCancel: cancelBtn ? cancelBtn.handler : {}
         };
-        debugger
         toastr.confirm(message, toastrConfirmOptions);
     }
 
@@ -128,7 +127,7 @@ export default class Notification extends PureComponent {
                     {
                         _.map(messages,
                             (msg, i) => (
-                                <li key={i}>{this.props.l.t(msg.normalizedMessage, msg.displayMessage, msg.params)}</li>
+                                <li key={i}>{this.getMessage(msg)}</li>
                             )
                         )
                     }
@@ -143,7 +142,7 @@ export default class Notification extends PureComponent {
             {
                 _.map(messages,
                     (msg, i) => (
-                        <div key={i}>{this.props.l.t(msg.normalizedMessage, msg.displayMessage, msg.params)}</div>
+                        <div key={i}>{this.getMessage(msg)}</div>
                     )
                 )
             }
