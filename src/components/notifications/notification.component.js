@@ -93,25 +93,30 @@ export default class Notification extends PureComponent {
     }
 
     showCustom() {
-        let okText = _.find(this.props.notification.buttons, 'ok') ? _.find(this.props.notification.buttons, 'ok').text : 'Ok'
+        let okBtn = _.find(this.props.notification.buttons, 'ok');
         let msg = this.getMessage(this.props.notification.message);
         const toastrConfirmOptions = {
             disableOk: true,
             disableCancel: true,
-            okText,
+            okText: okBtn ? okBtn.text : this.props.l.t('Ok', 'Ok'),
+            onOk: okBtn ? okBtn.handler : {},
             buttons: this.props.notification.buttons
         };
-
+        debugger
         toastr.confirm(msg, toastrConfirmOptions);
     }
 
     showConfirmation() {
-        const toastrConfirmOptions = {
-            okText: _.find(this.props.notification.buttons, 'ok') ? _.find(this.props.notification.buttons, 'ok').text : this.props.l.t('Yes', 'Yes'),
-            cancelText: _.find(this.props.notification.buttons, 'cancel') ? _.find(this.props.notification.buttons, 'cancel').text : this.props.l.t('No', 'No'),
-            buttons: this.props.notification.buttons
-        };
+        let okBtn = _.find(this.props.notification.buttons, 'ok');
+        let cancelBtn = _.find(this.props.notification.buttons, 'cancel');
         let message = this.getMessage(this.props.notification.message);
+        const toastrConfirmOptions = {
+            okText: okBtn ? okBtn.text : this.props.l.t('Yes', 'Yes'),
+            cancelText: cancelBtn ? cancelBtn.text : this.props.l.t('No', 'No'),
+            onOk: okBtn ? okBtn.handler : {},
+            onCancel: cancelBtn ? cancelBtn.handler : {}
+        };
+        debugger
         toastr.confirm(message, toastrConfirmOptions);
     }
 
@@ -123,7 +128,7 @@ export default class Notification extends PureComponent {
                     {
                         _.map(messages,
                             (msg, i) => (
-                                <li key={i}>{msg.normalizedMessage ? this.props.l.t(msg.normalizedMessage, msg.displayMessage) : msg.displayMessage}</li>
+                                <li key={i}>{this.props.l.t(msg.normalizedMessage, msg.displayMessage, msg.params)}</li>
                             )
                         )
                     }
@@ -133,11 +138,12 @@ export default class Notification extends PureComponent {
     }
 
     renderSuccess() {
+        let messages = _.filter(this.props.notification.messages, (msg) => msg);
         return (<div>
             {
-                _.map(this.props.notification.messages,
-                    (value, i) => (
-                        <div key={i}>{this.props.l.t(value.normalizedMessage, value.displayMessage)}</div>
+                _.map(messages,
+                    (msg, i) => (
+                        <div key={i}>{this.props.l.t(msg.normalizedMessage, msg.displayMessage, msg.params)}</div>
                     )
                 )
             }

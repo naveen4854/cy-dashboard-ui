@@ -17,6 +17,7 @@ export default class MyDashboardTable extends PureComponent {
     }
 
     deleteDashboard(dashboardId) {
+        debugger
         this.props.DeleteDashboard(dashboardId);
     }
 
@@ -41,10 +42,25 @@ export default class MyDashboardTable extends PureComponent {
             },
             {
                 text: 'No',
-                handler: () => { }
+                handler: () => this.deleteDashboard(dashboard.DashboardId)
             }]
 
         this.props.common.confirm(notifyMessage, buttons);
+
+        // let buttons1 = [
+        //     {
+        //         text: 'Yes',
+        //         className: 'do-not-apply-btn',
+        //         handler: () => this.deleteDashboard(dashboard.DashboardId)
+        //     },
+        //     {
+        //         text: 'No',
+        //         className: 'do-not-apply-btn',
+        //         handler: () => this.deleteDashboard(dashboard.DashboardId)
+        //     }]
+        // this.props.common.custom(notifyMessage, buttons1);
+        // this.props.common.notify([{ displayMessage: '${a}', params: { 'a': 'bb' } }, 'aaaa'], ResponseStatusEnum.Warning);
+        // this.props.common.notify([{ Message: '${a}', params: { 'a': 'bb' } }, 'aaaa'], ResponseStatusEnum.Warning);
     }
 
     render() {

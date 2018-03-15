@@ -15,16 +15,22 @@ export function ShowNotification(messagesConfiguration) {
   }
 }
 
+/**
+ * notify to user
+ * @param {string[] | string} messages
+ * @param {ResponseStatusEnum} errorType 
+ * @param {boolean} persistMessage 
+ */
 export function notify(messages, errorType, persistMessage) {
   return (dispatch, getState) => {
     let msgArr = []
     if (messages.constructor === Array)
-      msgArr.concat(messages);
+      msgArr = msgArr.concat(messages);
     else
       msgArr.push(messages);
     let messagesConfig = {};
-    messagesConfig.messages = _.map(msgArr, (msg) => { return { displayMessage: msg.Message || msg, normalizedMessage: msg.NormalizedMessage } });
-    messagesConfig.type = errorType;
+    messagesConfig.messages = _.map(msgArr, (msg) => { return { displayMessage: msg.Message || msg.displayMessage || msg, normalizedMessage: msg.NormalizedMessage, params: msg.params } });
+    messagesConfig.type = errorType || ResponseStatusEnum.Success;
     messagesConfig.persistMessages = persistMessage || false;
 
     dispatch({
@@ -35,6 +41,11 @@ export function notify(messages, errorType, persistMessage) {
   }
 }
 
+/**
+ * 
+ * @param {string} message 
+ * @param {text:string,handler:function} buttons 
+ */
 export function custom(message, buttons) {
   return (dispatch, getState) => {
     let messagesConfig = {};
@@ -56,6 +67,11 @@ export function custom(message, buttons) {
   }
 }
 
+/**
+ * 
+ * @param {string} message 
+ * @param {text:string,handler:function} buttons 
+ */
 export function confirm(message, buttons) {
   return (dispatch, getState) => {
     let messagesConfig = {};
@@ -63,10 +79,14 @@ export function confirm(message, buttons) {
     messagesConfig.type = ResponseStatusEnum.Confirmation;
     messagesConfig.persistMessages = false;
     _.each(buttons, (btn, i) => {
-      if (i == 0)
+      if (i == 0){
         btn.ok = true;
-      if (i == 1)
+        btn.onOk = btn.handler
+      }
+      if (i == 1){
         btn.cancel = true;
+        btn.onCancel = btn.handler
+      }
     })
     messagesConfig.buttons = buttons || [];
 

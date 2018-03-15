@@ -2,8 +2,6 @@ import React from 'react'
 import _ from 'lodash';
 import { store } from '../../main'
 
-
-
 export function notify(messages, errorType, persistMessage) {
     return store.dispatch((dispatch, getState) => {
         dispatch(getState().notificationStore.notify(messages, errorType, persistMessage))
