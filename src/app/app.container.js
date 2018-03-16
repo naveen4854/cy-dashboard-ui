@@ -36,7 +36,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        app: state.app
+        app: state.app,
+        common: state.common
     }
 }
 

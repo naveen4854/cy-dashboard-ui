@@ -54,10 +54,10 @@ export default class AppComponent extends PureComponent {
                     </div>
                 </Provider >
                 <div dir="ltr" className="navbar-fixed-bottom">
-                    <button onClick={() => this.props.GetLocalizationData("en-us")}>en-us</button>
-                    <button onClick={() => this.props.GetLocalizationData("en-AU")}>en-AU</button>
-                    <button onClick={() => this.props.GetLocalizationData("he-IL")}>he</button>
-                    {/* <h1 style={{ backgroundColor: 'white' }}>{this.props.app.currentTabId}</h1> */}
+                    <button onClick={() => { this.props.common.notify('en-us'); this.props.GetLocalizationData("en-us") }}>en-us</button>
+                    <button onClick={() => { this.props.common.notify('en-AU'); this.props.GetLocalizationData("en-AU") }}>en-AU</button>
+                    <button onClick={() => { this.props.common.notify('he'); this.props.GetLocalizationData("he") }}>he</button>
+                    <h1 style={{ backgroundColor: 'white' }}>{this.props.app.currentTabId}</h1>
                 </div>
             </div>
         )

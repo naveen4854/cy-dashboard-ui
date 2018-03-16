@@ -32,10 +32,10 @@ export function GetLocalizationData(culture) {
     dispatch(getState().spinnerStore.BeginTask());
 
     let isRtl = RtlDetect.isRtlLang(culture);
-    
+
     localizationService.getLocaleData(culture).then((res) => {
       dispatch(getState().spinnerStore.EndTask());
-
+      console.log('GetLocalizationData')
       dispatch({
         type: GET_LOCALIZATION_DATA,
         data: res.data ? res.data : {},
