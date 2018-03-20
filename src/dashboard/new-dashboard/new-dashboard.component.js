@@ -2,8 +2,9 @@
 
 import React, { PureComponent } from 'react';
 
+//TODO: change to container
 import { WidgetsBar } from '../../components/widgets-bar';
-
+import DashboardContainer from '../../components/dashboard';
 
 export default class NewDashboard extends PureComponent {
 
@@ -12,20 +13,18 @@ export default class NewDashboard extends PureComponent {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('componentWillReceiveProps NewDashboard')
     }
     componentDidUpdate() {
-        console.log('componentDidUpdate NewDashboard')
     }
     render() {
         return (
             <div className='background' >
                 <div>
-                    <WidgetsBar l={this.props.l} />
+                    <WidgetsBar l={this.props.l} AddWidget={this.props.AddWidget} />
                 </div>
                 <div className="row">
                     <div className="col-md-12  col-sm-12  col-xs-12">
-                        hey!!
+                        <DashboardContainer />
                         {/* <Dashboard
                             {...this.state} l={this.props.l}
                             ToggleEditorMenu={(w) => this.props.ToggleEditorMenu(w)}

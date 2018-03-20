@@ -35,7 +35,6 @@ export function GetLocalizationData(culture) {
 
     localizationService.getLocaleData(culture).then((res) => {
       dispatch(getState().spinnerStore.EndTask());
-      console.log('GetLocalizationData')
       dispatch({
         type: GET_LOCALIZATION_DATA,
         data: res.data ? res.data : {},

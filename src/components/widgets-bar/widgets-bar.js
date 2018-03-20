@@ -9,10 +9,8 @@ export default class WidgetsBar extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-        console.log('componentWillReceiveProps WidgetsBar')
     }
     componentDidUpdate() {
-        console.log('componentDidUpdate WidgetsBar')
     }
 	render() {
 		return (
