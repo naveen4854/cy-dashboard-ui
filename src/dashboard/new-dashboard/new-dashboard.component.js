@@ -2,8 +2,10 @@
 
 import React, { PureComponent } from 'react';
 
+//TODO: change to container
 import { WidgetsBar } from '../../components/widgets-bar';
-
+import DashboardLayoutContainer from '../../components/dashboard-layout';
+import SettingsContainer from '../../components/settings/';
 
 export default class NewDashboard extends PureComponent {
 
@@ -12,32 +14,19 @@ export default class NewDashboard extends PureComponent {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('componentWillReceiveProps NewDashboard')
     }
     componentDidUpdate() {
-        console.log('componentDidUpdate NewDashboard')
     }
     render() {
         return (
             <div className='background' >
                 <div>
-                    <WidgetsBar l={this.props.l} />
+                    <WidgetsBar l={this.props.l} AddWidget={this.props.AddWidget} />
                 </div>
                 <div className="row">
                     <div className="col-md-12  col-sm-12  col-xs-12">
-                        hey!!
-                        {/* <Dashboard
-                            {...this.state} l={this.props.l}
-                            ToggleEditorMenu={(w) => this.props.ToggleEditorMenu(w)}
-                            ToggleSettingsMenu={(w) => this.props.ToggleSettingsMenu(w)}
-                            DeleteWidget={(w) => this.props.DeleteWidget(w)}
-                            PreviewActionPicture={(d, w) => this.props.PreviewActionPicture(d, w)}
-                            UpdateWidgetSize={this.props.UpdateWidgetSize}
-                            UpdateWidgetPosition={this.props.UpdateWidgetPosition}
-                            UpdateWidgetZIndex={this.props.UpdateWidgetZIndex}
-                        />
-                        <SettingsContainer {...this.props} />
-                        <EditorContainer {...this.props} title="Theme First Editor" /> */}
+                        <DashboardLayoutContainer />
+                        <SettingsContainer show={true} />
                     </div>
                 </div>
             </div>

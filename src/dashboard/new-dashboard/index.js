@@ -10,12 +10,16 @@ export default (store) => ({
       const dashboardReducer = require('../dashboard.reducer').default
       injectReducer(store, { key: 'dashboard', reducer: dashboardReducer })
 
+      const settingsReducer = require('../../components/settings/settings.reducer').default
+      injectReducer(store, { key: 'settings', reducer: settingsReducer })
+
       cb(null, authenticate(newDashboardForm))
     }, 'newdashboard')
   },
   onEnter: (nextState, replace) => {
-
-    // load smcdata
+    const dataMetricsReducer = require('../../components/data-metrics/data-metrics.reducer').default
+    injectReducer(store, { key: 'dataMetrics', reducer: dataMetricsReducer })
+    store.dispatch(store.getState().dataMetrics.LoadDataMetricsMetaData())
     // load refreshinterval
   },
 })

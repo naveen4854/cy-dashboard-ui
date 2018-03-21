@@ -16,11 +16,9 @@ export default class MyDashboard extends PureComponent {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		console.log(nextProps)
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		// debugger
 	}
 
 	componentWillMount() {

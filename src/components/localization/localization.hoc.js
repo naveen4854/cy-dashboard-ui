@@ -14,7 +14,6 @@ export default function localize(Component, pageName) {
     }
 
     componentWillReceiveProps(nextProps) {
-      console.log('componentWillReceiveProps LocalizedComponent')
     }
 
     getTranslationDataForPage(locData, pageName) {
@@ -50,7 +49,6 @@ export default function localize(Component, pageName) {
   }
 
   const mapStateToProps = (state) => {
-    console.log('mapStateToProps LocalizedComponent')
     return {
       localizationStore: state.localizationStore
     };

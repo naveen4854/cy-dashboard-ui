@@ -1,0 +1,23 @@
+.toggle-item {
+    padding: 7px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    color: #0e90c5;
+    font-weight: 600;
+    border: 1px solid #abe0f7;
+}
+.toggle-item.checked {
+    background-color: #0e90c5;
+    border-color: #04364b;
+    color: #ffffff;
+    font-weight: 600;
+    border: 2px;
+    cursor: pointer;
+}
+.toggle-switch {
+    display: inline-flex;
+    height: 30px;
+    box-shadow: inset 0px 0px 2px 2px hsla(197, 87%, 41%, 0.16);
+    border-radius: 3px;
+    margin-right: 18.7%;
+}
