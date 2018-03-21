@@ -4,7 +4,8 @@ import React, { PureComponent } from 'react';
 
 //TODO: change to container
 import { WidgetsBar } from '../../components/widgets-bar';
-import DashboardContainer from '../../components/dashboard';
+import DashboardLayoutContainer from '../../components/dashboard-layout';
+import SettingsContainer from '../../components/settings/';
 
 export default class NewDashboard extends PureComponent {
 
@@ -24,19 +25,8 @@ export default class NewDashboard extends PureComponent {
                 </div>
                 <div className="row">
                     <div className="col-md-12  col-sm-12  col-xs-12">
-                        <DashboardContainer />
-                        {/* <Dashboard
-                            {...this.state} l={this.props.l}
-                            ToggleEditorMenu={(w) => this.props.ToggleEditorMenu(w)}
-                            ToggleSettingsMenu={(w) => this.props.ToggleSettingsMenu(w)}
-                            DeleteWidget={(w) => this.props.DeleteWidget(w)}
-                            PreviewActionPicture={(d, w) => this.props.PreviewActionPicture(d, w)}
-                            UpdateWidgetSize={this.props.UpdateWidgetSize}
-                            UpdateWidgetPosition={this.props.UpdateWidgetPosition}
-                            UpdateWidgetZIndex={this.props.UpdateWidgetZIndex}
-                        />
-                        <SettingsContainer {...this.props} />
-                        <EditorContainer {...this.props} title="Theme First Editor" /> */}
+                        <DashboardLayoutContainer />
+                        <SettingsContainer show={true} />
                     </div>
                 </div>
             </div>

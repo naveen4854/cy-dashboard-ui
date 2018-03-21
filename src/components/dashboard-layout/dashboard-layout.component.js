@@ -3,8 +3,7 @@ import Rnd from 'react-rnd';
 
 import Widget from '../widgets'
 
-export default class DashboardComponent extends PureComponent {
-
+export default class DashboardLayoutComponent extends PureComponent {
 
     onResizeStop(widget, e, direction, ref, delta, position) {
         // this.props.UpdateWidgetSize(ref.offsetWidth, ref.offsetHeight, widget.id)

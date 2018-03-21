@@ -7,19 +7,6 @@ import '../styles.css'
 
 export default class WidgetComponent extends PureComponent {
 
-    renderContent() {
-        switch (this.props.widget.widgetType) {
-            case WidgetTypeEnum.Box:
-                return (
-                    <BoxWidget {...this.props.widget} IsEditing={this.props.showIcons} />
-                );
-            default:
-                return (
-                    <BoxWidget {...this.props.widget} IsEditing={this.props.showIcons} />
-                );
-        }
-    }
-
     render() {
         let classToBeApplied = 'widget';
 
@@ -57,4 +44,16 @@ export default class WidgetComponent extends PureComponent {
         )
     }
 
+    renderContent() {
+        switch (this.props.widget.widgetType) {
+            case WidgetTypeEnum.Box:
+                return (
+                    <BoxWidget {...this.props.widget} IsEditing={this.props.showIcons} />
+                );
+            default:
+                return (
+                    <BoxWidget {...this.props.widget} IsEditing={this.props.showIcons} />
+                );
+        }
+    }
 }

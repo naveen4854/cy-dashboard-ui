@@ -26,7 +26,6 @@ export default class WidgetHeader extends PureComponent {
                         !this.props.widget.isComboWidget &&
                         <i className="widget-heading-icon fa fa-trash-o" onClick={() => this.props.DeleteWidget(this.props.widget.id)} />
                     }
-
                 </div>
             </div>
         );

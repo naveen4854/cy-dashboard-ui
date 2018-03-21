@@ -1,5 +1,6 @@
 import { WidgetTypeEnum, DashboardModeEnum } from '../shared/enums'
 import { WidgetData } from '../shared/lib';
+import { TOGGLE_SETTINGS_PANEL } from '../components/settings/settings.reducer';
 
 const ADD_WIDGET = 'ADD_WIDGET'
 
@@ -10,6 +11,17 @@ export function AddWidget(widgetType) {
         widget
     }
 }
+
+export function ToggleSettingsMenu(widget) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: TOGGLE_SETTINGS_PANEL,
+            widgetId: widget.id,
+            widgetType: widget.widgetType
+        })
+    }
+}
+
 
 export const ACTION_HANDLERS = {
     [ADD_WIDGET]: (state, action) => {

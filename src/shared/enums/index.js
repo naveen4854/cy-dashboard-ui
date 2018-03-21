@@ -5,5 +5,6 @@ import SortColumnEnum from "./sort-column"
 import SortOrderEnum from "./sort-order"
 import ScrollTypeEnum from "./scroll-type-enum"
 import DashboardModeEnum from "./dashboard-mode-enum"
+import statisticCategoryEnum from './statistic-category-enum'
 
-export { ResponseStatusEnum, PageEnum, WidgetTypeEnum, SortColumnEnum, SortOrderEnum, ScrollTypeEnum, DashboardModeEnum };
+export { ResponseStatusEnum, PageEnum, WidgetTypeEnum, SortColumnEnum, SortOrderEnum, ScrollTypeEnum, DashboardModeEnum, statisticCategoryEnum };
