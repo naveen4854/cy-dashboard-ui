@@ -9,7 +9,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
-    debugger
     return {
         dashboard: state.dashboard,
     }
