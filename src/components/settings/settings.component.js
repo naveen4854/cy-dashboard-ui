@@ -6,21 +6,24 @@ import DataMetricsContainer from '../data-metrics';
 export default class SettingsComponent extends PureComponent {
     render() {
         return (
-            this.props.settings.showPanel &&
-            <div style={{ marginTop: '100px' }}>
-                <CustomDock>
-                    <Tabs id="top">
-                        <Tab eventKey="first" title={this.props.l.t('Data_Metrics', 'Data Metrics')}>
-                            <DataMetricsContainer />
+            <div>
+                {this.props.settings.showPanel &&
+                    <div style={{ marginTop: '100px' }}>
+                        <CustomDock>
+                            <Tabs id="top">
+                                <Tab eventKey="first" title={this.props.l.t('Data_Metrics', 'Data Metrics')}>
+                                    <DataMetricsContainer />
+                                </Tab>
+                                <Tab eventKey="se" title={this.props.l.t('Data_Metrics', 'Data Metrics')}>
+                                    style
                         </Tab>
-                        <Tab eventKey="se" title={this.props.l.t('Data_Metrics', 'Data Metrics')}>
-                            style
+                                <Tab eventKey="t" title={this.props.l.t('Data_Metrics', 'Data Metrics')}>
+                                    thresholds
                         </Tab>
-                        <Tab eventKey="t" title={this.props.l.t('Data_Metrics', 'Data Metrics')}>
-                            thresholds
-                        </Tab>
-                    </Tabs>
-                </CustomDock>
+                            </Tabs>
+                        </CustomDock>
+                    </div>
+                }
             </div>
         )
     }

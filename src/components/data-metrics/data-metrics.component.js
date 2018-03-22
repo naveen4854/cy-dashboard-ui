@@ -4,6 +4,10 @@ import DataMetricsSettingsContainer from '../data-metrics-settings/';
 
 export default class DataMetricsComponent extends PureComponent {
 
+    componentDidMount(){
+        // initialize widget data once.. map widget data onto datametrics
+    }
+
     render() {
         return (
             this.renderSettings()

@@ -8,7 +8,6 @@ export default class BoxWidget extends PureComponent {
         let widgetBodyStyles = utils.stylesToCss(this.props.appliedBackgroundColor, widgetBody.fontSize, widgetBody.fontFamily, widgetBody.color)
         let valueStyles = utils.stylesObjToCss(this.props.valueStyles)
         let titleStyles = utils.stylesObjToCss(this.props.titleStyles)
-        debugger
         return (
             <div className="widget-content" style={widgetBodyStyles}>
                 <div className="boxCenterAlign" style={valueStyles}>

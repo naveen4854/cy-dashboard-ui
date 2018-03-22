@@ -6,26 +6,41 @@ export default class CustomSelect extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            placeholder: props.placeholder,
-            options: props.options,
             value: props.value,
-            disabled: props.disabled
         };
+        this.onChange = this.onChange.bind(this)
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.options) {
-            this.setState({
-                placeholder: nextProps.placeholder,
-                options: nextProps.options,
-                value: nextProps.options.length === 1 ? nextProps.options[0] : nextProps.value
-            });
+            if (nextProps.options.length === 1) {
+                this.setState({
+                    value: nextProps.options[0]
+                });
+                console.log('single option for ', nextProps.options[0])
+                // this.props.onChange(nextProps.options[0])
+            } else {
+                this.setState({
+                    value: nextProps.value
+                });
+            }
         }
     }
 
+    onChange(e) {
+        this.props.onChange(e)
+    }
+
     render() {
+        if (this.props.options.length === 1) {
+            debugger
+        }
         return (
-            <Select value={this.state.value} placeholder={this.state.placeholder} options={this.state.options} disabled={this.state.options.length == 1 || this.state.disabled} onChange={(e) => this.props.onChange(e)} />
+            <Select value={this.state.value}
+                placeholder={this.props.placeholder}
+                options={this.props.options}
+                disabled={this.props.options.length == 1 || this.props.disabled}
+                onChange={this.onChange} />
         );
     }
 }

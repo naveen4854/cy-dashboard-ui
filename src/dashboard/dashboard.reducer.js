@@ -14,11 +14,7 @@ export function AddWidget(widgetType) {
 
 export function ToggleSettingsMenu(widget) {
     return (dispatch, getState) => {
-        dispatch({
-            type: TOGGLE_SETTINGS_PANEL,
-            widgetId: widget.id,
-            widgetType: widget.widgetType
-        })
+        dispatch(getState().settings.ToggleSettingsMenu(widget))
     }
 }
 
