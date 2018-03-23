@@ -7,7 +7,7 @@ const ADD_TAB_ID = "ADD_TAB_ID";
 const initialState = {
     currentTabId: 'tab',
     refreshTokenTab: -1,
-    triggerRefreshFromOtherTab
+    triggerRefreshFromOtherTab 
 };
 
 export function setTabId() {
