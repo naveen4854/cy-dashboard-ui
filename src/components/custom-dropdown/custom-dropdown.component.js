@@ -5,13 +5,22 @@ import './styles.css';
 export default class CustomSelect extends React.Component {
     constructor(props) {
         super(props);
+        this.onChange = this.onChange.bind(this)
         this.state = {
             value: props.value,
         };
-        this.onChange = this.onChange.bind(this)
+        if (props.value !== undefined && props.value !== {}) {
+            debugger
+            this.props.onChange(props.value);
+        }
     }
 
     componentWillReceiveProps(nextProps) {
+        debugger
+        // if (nextProps.value !== undefined && this.props.value !== nextProps.value) {
+        //     this.props.onChange(nextProps.value);
+        // }
+
         if (nextProps.options) {
             if (nextProps.options.length === 1) {
                 this.setState({
@@ -33,10 +42,10 @@ export default class CustomSelect extends React.Component {
 
     render() {
         if (this.props.options.length === 1) {
-            debugger
+            // debugger
         }
         return (
-            <Select value={this.state.value}
+            <Select value={this.props.value}
                 placeholder={this.props.placeholder}
                 options={this.props.options}
                 disabled={this.props.options.length == 1 || this.props.disabled}

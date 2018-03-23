@@ -1,5 +1,7 @@
 import * as dataMetricsService from './data-metrics-service';
 import { statisticCategoryEnum, WidgetTypeEnum } from '../../shared/enums';
+import { UPDATE_WIDGET } from '../../dashboard/dashboard.reducer';
+import { UPDATE_SETTINGS_WIDGET } from '../settings/settings.reducer';
 
 export const UPDATE_DATAMETRICS = "UPDATE_DATAMETRICS"
 export const SET_STATISTIC_CATEGORY = "SET_STATISTIC_CATEGORY"
@@ -32,6 +34,7 @@ export const SET_DM_ISLOADED = "SET_DM_ISLOADED"
 export const CLEAR_SELECTED_DM = "CLEAR_SELECTED_DM"
 export const UPDATE_DROP_DOWNS = "UPDATE_DROP_DOWNS"
 export const UPDATE_COMBO_DRILL_DOWN_OPTIONS = "UPDATE_COMBO_DRILL_DOWN_OPTIONS"
+export const DEFAULT_METRICS = "DEFAULT_METRICS"
 
 export function LoadDataMetricsMetaData(dashboardId) {
     return (dispatch, getState) => {
@@ -83,17 +86,25 @@ export function initializeStatisticMetadata() {
         let currentWidget = getState().settings.widget;
         let statisticCategories = getState().dataMetrics.statisticCategories;
         let datametricsMetaData = getState().dataMetrics.datametricMetadata;
+
         //If Categories and DM are already in store, filter them appropriately and update the state
         if (!statisticCategories || statisticCategories.length == 0 || !datametricsMetaData)
             return dispatch(getState().notificationStore.notify('failure to load statistic Metadata, please reload'));
 
-        let selectedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory ? currentWidget.appliedSettings.dataMetrics.statisticCategory : statisticCategoryEnum.RealTime
+        let selectedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory ?
+            currentWidget.appliedSettings.dataMetrics.statisticCategory :
+            statisticCategoryEnum.RealTime
 
         dispatch({
             type: SET_STATISTIC_CATEGORY,
             selectedStatisticCategory
         })
         dispatch(DispatchDMForWidgetType(statisticCategories, currentWidget.widgetType, datametricsMetaData, getState));
+        debugger
+        dispatch({
+            type: DEFAULT_METRICS,
+            selectedGroup: currentWidget.appliedSettings.dataMetrics.group || {}
+        })
         // if (currentWidget.appliedSettings.dataMetrics.group)
         //     dispatch(setSelectedGroupValueAction(currentWidget.appliedSettings.dataMetrics.group))
     }
@@ -244,12 +255,39 @@ export function getDisplayFormat() {
 
 export function setSelectedDisplayFormatAction(selectedDisplayFormat) {
     return (dispatch, getState) => {
-      dispatch({
-        type: UPDATE_SELECTED_DISPLAY_FORMAT,
-        selectedDisplayFormat
-      });
+        dispatch({
+            type: UPDATE_SELECTED_DISPLAY_FORMAT,
+            selectedDisplayFormat
+        });
     }
-  }
+}
+
+export function SaveMetrics(dataMetrics) {
+    return (dispatch, getState) => {
+        let currentWidget = _.cloneDeep(getState().settings.widget);
+        currentWidget.appliedSettings.dataMetrics = dataMetrics;
+        dispatch({
+            type: UPDATE_SETTINGS_WIDGET,
+            widget: currentWidget
+        })
+        dispatch({
+            type: UPDATE_WIDGET,
+            widget: currentWidget
+        });
+    }
+}
+
+export function clearSelectedDM() {
+    return (dispatch, getState) => {
+        let statisticCategories = getState().dataMetrics.statisticCategories;
+        let datametricsMetaData = getState().dataMetrics.datametricMetadata;
+        let dataMetrics = { ..._.cloneDeep(initialState), statisticCategories, datametricsMetaData }
+        dispatch({
+            type: CLEAR_SELECTED_DM,
+            dataMetrics
+        })
+    }
+}
 
 export const ACTION_HANDLERS = {
     [UPDATE_DATAMETRICS]: (state, action) => {
@@ -325,6 +363,14 @@ export const ACTION_HANDLERS = {
             // selectedDisplayFormat: action.displayFormatOptions.length > 0 ? action.displayFormatOptions[0] : {},
             displayFormatOptions: action.displayFormatOptions
         })
+    },
+    [CLEAR_SELECTED_DM]: (state, action) => {
+        return Object.assign({}, state, action.dataMetrics)
+    },
+    [DEFAULT_METRICS]: (state, action) => {
+        return Object.assign({}, state, {
+            selectedGroup: action.selectedGroup
+        })
     }
 }
 
@@ -352,7 +398,8 @@ const initialState = {
     isDefault: false,
     displayName: '',
     LoadDataMetricsMetaData,
-    initializeStatisticMetadata
+    initializeStatisticMetadata,
+    clearSelectedDM
 };
 
 export default function DataMetricsReducer(state = _.cloneDeep(initialState), action) {

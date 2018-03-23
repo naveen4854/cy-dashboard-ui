@@ -22,6 +22,9 @@ const mapDispatchToProps = (dispatch) => {
             if (selectedDisplayFormat) {
                 dispatch(DataMetricsReducer.setSelectedDisplayFormatAction(selectedDisplayFormat));
             }
+        },
+        saveMetrics: (dataMetrics) => {
+            dispatch(DataMetricsReducer.SaveMetrics(dataMetrics));
         }
     }
 }

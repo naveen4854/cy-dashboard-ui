@@ -33,10 +33,26 @@ export default class RealTimeSettingsComponent extends PureComponent {
             this.props.setSelectedDisplayFormat(displayFormat)
     }
 
+    saveDataMetrics() {
+        this.props.saveMetrics(
+            {
+                id: Date.now(),
+                desc: '',
+                group: _.cloneDeep(this.props.dataMetrics.selectedGroup),
+                item: _.cloneDeep(this.props.dataMetrics.selectedItem),
+                func: _.cloneDeep(this.props.dataMetrics.selectedFunction),
+                displayFormat: _.cloneDeep(this.props.dataMetrics.selectedDisplayFormat),
+                statisticCategory: _.cloneDeep(this.props.dataMetrics.statisticCategory),
+                drillDownOptions: _.cloneDeep(this.props.dataMetrics.drillDownOptions)
+            }
+        );
+    }
+
     render() {
         const { dataMetrics } = this.props;
         const enableSetButton = dataMetrics.statisticCategory == statisticCategoryEnum.RealTime ?
             dataMetrics.selectedDisplayFormat.id != undefined : false
+        debugger
         return (
             <div id="realcyReport">
                 <div className="row">
