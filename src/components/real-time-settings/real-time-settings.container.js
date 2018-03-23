@@ -25,6 +25,17 @@ const mapDispatchToProps = (dispatch) => {
         },
         saveMetrics: (dataMetrics) => {
             dispatch(DataMetricsReducer.SaveMetrics(dataMetrics));
+        },
+        getDrillDownMetaData: (selectedItem) => {
+            if (selectedItem) {
+                dispatch(DataMetricsReducer.getDrillDownMetaData(selectedItem));
+            }
+        },
+        updateDrillDownOptions: () => {
+            console.log('asd')
+        },
+        toggleDrillDown: () => {
+            dispatch(DataMetricsReducer.toggleDrillDown())
         }
     }
 }

@@ -35,6 +35,7 @@ export const CLEAR_SELECTED_DM = "CLEAR_SELECTED_DM"
 export const UPDATE_DROP_DOWNS = "UPDATE_DROP_DOWNS"
 export const UPDATE_COMBO_DRILL_DOWN_OPTIONS = "UPDATE_COMBO_DRILL_DOWN_OPTIONS"
 export const DEFAULT_METRICS = "DEFAULT_METRICS"
+export const TOGGLE_DRILL_DOWN = "TOGGLE_DRILL_DOWN"
 
 export function LoadDataMetricsMetaData(dashboardId) {
     return (dispatch, getState) => {
@@ -280,6 +281,45 @@ export function SaveMetrics(dataMetrics) {
     }
 }
 
+export function getDrillDownMetaData(selectedItem) {
+    return (dispatch, getState) => {
+        if (getState().dataMetrics && getState().dataMetrics.datametricMetadata) {
+            let widget = getState().settings.widget;
+            const selectedItemData = _.find(getState().dataMetrics.datametricMetadata, (metaData) => metaData.StatisticItemId === selectedItem.id);
+            dataMetricsService.getDrillDownMetaData(selectedItemData.StatisticGroupId).then(function (response) {
+                debugger
+                let _opts = _.map(_.uniqBy(response.data, 'Id'), (obj) => {
+
+                    let defaulted = getState().dataMetrics.drillDownDefaulted
+                    // all these calculations because of the difference in drill down options saved in db vs appended obj to DM
+                    let option = _.find(widget.appliedSettings.dataMetrics.drillDownOptions, (_opt) => _opt == obj.Id || _opt.value == obj.Id)
+                    let _checked = option ? true : false;
+                    if (option && option.checked != undefined)
+                        _checked = option.checked
+                    return {
+                        label: obj.Name,
+                        value: obj.Id,
+                        checked: defaulted ? false : _checked
+                        // checked:  _checked //getState().dataMetrics.isLoaded ? false :
+                    };
+                });
+                dispatch({
+                    type: UPDATE_DRILL_DOWN_METADATA,
+                    drillDownDefaulted: true,
+                    drillDownOptions: _opts,
+                    isDrillDownMultiSelect: selectedItemData.AllowMultiSelect,
+                });
+            });
+        }
+    }
+}
+
+export function toggleDrillDown() {
+    return {
+        type: TOGGLE_DRILL_DOWN
+    }
+}
+
 export function clearSelectedDM() {
     return (dispatch, getState) => {
         let statisticCategories = getState().dataMetrics.statisticCategories;
@@ -377,11 +417,25 @@ export const ACTION_HANDLERS = {
             selectedFunction: action.selectedFunction,
             selectedDisplayFormat: action.selectedDisplayFormat
         })
+    },
+    [TOGGLE_DRILL_DOWN]: (state, action) => {
+        debugger
+        return Object.assign({}, state, {
+            openDrillDown: !state.openDrillDown
+        })
+    },
+    [UPDATE_DRILL_DOWN_METADATA]: (state, action) => {
+        return Object.assign({}, state, {
+            drillDownOptions: action.drillDownOptions,
+            isDrillDownMultiSelect: action.isDrillDownMultiSelect,
+            drillDownDefaulted: action.drillDownDefaulted
+        })
     }
 }
 
 const initialState = {
     widgetType: WidgetTypeEnum.Box,
+    drillDownOptions:[],
     groupOptions: [],
     itemOptions: [],
     functionOptions: [],
@@ -403,6 +457,8 @@ const initialState = {
     datametricsMetaData: {},
     isDefault: false,
     displayName: '',
+    drillDownDefaulted: false,
+    openDrillDown: false,
     LoadDataMetricsMetaData,
     initializeStatisticMetadata,
     clearSelectedDM

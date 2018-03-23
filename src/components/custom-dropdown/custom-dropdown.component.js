@@ -15,6 +15,7 @@ export default class CustomSelect extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        // this causes double onchange..but not having this doesnt trigger default on change
         if (nextProps.value !== undefined && this.props.value !== nextProps.value) {
             this.props.onChange(nextProps.value);
         }

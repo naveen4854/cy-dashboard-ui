@@ -1,0 +1,35 @@
+.scroll-bar{
+    max-height: 200px;
+    margin-top: 10px;
+    max-width: 500px;
+}
+.radio-group-list{
+    margin-left: 40px;
+    width: inherit;
+}
+.radio-button{
+    position: relative;
+    display: -webkit-box;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: inherit;
+}
+.radio-button > label{
+    min-height: 20px;
+    padding-left: 5px;
+    margin-bottom: 0;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.radio-button > input[type="radio"] {
+    margin-top: 2px;
+}
+
+.radio-list-label{
+    padding-top: 10px;
+    padding-left: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+}

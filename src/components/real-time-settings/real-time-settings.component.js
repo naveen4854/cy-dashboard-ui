@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import CustomSelect from '../custom-dropdown';
 import { statisticCategoryEnum } from '../../shared/enums'
+import CheckBoxListGroup from '../check-box-list-group'
+import RadioButtonGroup from '../radio-button-group'
 
 export default class RealTimeSettingsComponent extends PureComponent {
     constructor(props) {
@@ -9,6 +11,7 @@ export default class RealTimeSettingsComponent extends PureComponent {
         this.onStatisticItemChange = this.onStatisticItemChange.bind(this)
         this.onStatisticFunctionChange = this.onStatisticFunctionChange.bind(this)
         this.onDisplayFormatChange = this.onDisplayFormatChange.bind(this)
+        this.toggleDrillDown = this.toggleDrillDown.bind(this)
     }
     onStatisticGroupChange(statisticGroup) {
         if (!statisticGroup.id)
@@ -18,9 +21,10 @@ export default class RealTimeSettingsComponent extends PureComponent {
     }
 
     onStatisticItemChange(statisticItem) {
+        debugger
         if (statisticItem.id) {
             this.props.setItemAndGetFunctions(statisticItem);
-            // this.props.getDrillDownMetaData(statisticItem);
+            this.props.getDrillDownMetaData(statisticItem);
         }
     }
 
@@ -49,11 +53,14 @@ export default class RealTimeSettingsComponent extends PureComponent {
         );
     }
 
+    toggleDrillDown() {
+        this.props.toggleDrillDown();
+    }
+
     render() {
         const { dataMetrics } = this.props;
         const enableSetButton = dataMetrics.statisticCategory == statisticCategoryEnum.RealTime ?
             dataMetrics.selectedDisplayFormat.id != undefined : false
-        debugger
         return (
             <div id="realcyReport">
                 <div className="row">
@@ -70,7 +77,7 @@ export default class RealTimeSettingsComponent extends PureComponent {
                     {
                         this.props.dataMetrics.statisticCategory == statisticCategoryEnum.RealTime && this.props.dataMetrics.selectedItem && this.props.dataMetrics.selectedItem.id &&
                         <div className="drill-icon">
-                            <i onClick={(e) => this.toggleDrillDown(e)} className="fa fa-filter"></i>
+                            <i onClick={this.toggleDrillDown} className="fa fa-filter"></i>
                         </div>
                     }
                 </div>
@@ -86,6 +93,24 @@ export default class RealTimeSettingsComponent extends PureComponent {
                             onChange={(e) => this.onStatisticItemChange(e)} />
                     </div>
                 </div>
+                {
+                    this.props.dataMetrics.selectedGroup && this.props.dataMetrics.selectedGroup.id && this.props.dataMetrics.openDrillDown ?
+                        <div className="row">
+                            <div className="col-xs-12 col-md-4 col-lg-4 metrics-label-sm metrics-label rtl-metrics-label-sm ">
+                                {this.props.l.t('Select_filter_s_COLON', 'Select filter(s):')}
+                            </div>
+                            <div className="col-xs-8 col-sm-6 col-md-5 col-lg-4 drilldown-layout">
+                                {
+                                    this.props.dataMetrics.drillDownOptions && this.props.dataMetrics.drillDownOptions.length > 0 ?
+                                        this.props.dataMetrics.isDrillDownMultiSelect
+                                            ? <CheckBoxListGroup checkList={this.props.dataMetrics.drillDownOptions} onChange={(e) => this.props.updateDrillDownOptions(e)} label="" />
+                                            : <RadioButtonGroup radioList={this.props.dataMetrics.drillDownOptions} onChange={(e) => this.props.updateDrillDownOptions(e)} label="" />
+                                        : <p className='padding10px'> {this.props.dataMetrics.selectedItem && this.props.dataMetrics.selectedItem.label ? this.props.l.t('No_filters_available', 'No filters available') :
+                                            this.props.l.t('Please_select_a_statistic_item', 'Please select a statistic item')}</p>
+                                }
+                            </div>
+                        </div> : null
+                }
                 <div className="row">
                     <div className="col-xs-12 col-md-4 col-lg-4 metrics-label-sm metrics-label rtl-metrics-label-sm ">
                         <label>{this.props.l.t('Statistic_FunctionCOLON', 'Statistic Function:')} </label>

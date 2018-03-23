@@ -1,0 +1,40 @@
+.scroll-bar{
+    max-height: 200px;
+    margin-top: 10px;
+    max-width: 500px;
+}
+.check-box-list{
+    margin-left: 40px;
+    width: inherit;
+}
+.check-box{
+    position: relative;
+    display: -webkit-box;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: inherit;
+}
+.check-box > label{
+    min-height: 20px;
+    padding-left: 5px;
+    margin-bottom: 0;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+label.select-all-label {
+    font-weight: bolder;
+    font-size: 12px;
+}
+
+.check-box > input[type="checkbox"] {
+    margin-top: 2px;
+}
+
+.check-list-label{
+    padding-top: 10px;
+    padding-left: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+}
