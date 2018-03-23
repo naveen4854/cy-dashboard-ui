@@ -34,7 +34,7 @@ export const ACTION_HANDLERS = {
     [UPDATE_WIDGET]: (state, action) => {
         let widgets = state.widgets.map((widget) => {
             if (widget.id !== action.widget.id) {
-                return item;
+                return widget;
             }
 
             return {

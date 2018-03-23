@@ -103,7 +103,10 @@ export function initializeStatisticMetadata() {
         debugger
         dispatch({
             type: DEFAULT_METRICS,
-            selectedGroup: currentWidget.appliedSettings.dataMetrics.group || {}
+            selectedGroup: currentWidget.appliedSettings.dataMetrics.group || {},
+            selectedItem: currentWidget.appliedSettings.dataMetrics.item || {},
+            selectedFunction: currentWidget.appliedSettings.dataMetrics.func || {},
+            selectedDisplayFormat: currentWidget.appliedSettings.dataMetrics.displayFormat || {}
         })
         // if (currentWidget.appliedSettings.dataMetrics.group)
         //     dispatch(setSelectedGroupValueAction(currentWidget.appliedSettings.dataMetrics.group))
@@ -369,7 +372,10 @@ export const ACTION_HANDLERS = {
     },
     [DEFAULT_METRICS]: (state, action) => {
         return Object.assign({}, state, {
-            selectedGroup: action.selectedGroup
+            selectedGroup: action.selectedGroup,
+            selectedItem: action.selectedItem,
+            selectedFunction: action.selectedFunction,
+            selectedDisplayFormat: action.selectedDisplayFormat
         })
     }
 }

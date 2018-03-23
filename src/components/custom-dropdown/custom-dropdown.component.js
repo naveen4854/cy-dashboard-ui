@@ -10,16 +10,14 @@ export default class CustomSelect extends React.Component {
             value: props.value,
         };
         if (props.value !== undefined && props.value !== {}) {
-            debugger
             this.props.onChange(props.value);
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        debugger
-        // if (nextProps.value !== undefined && this.props.value !== nextProps.value) {
-        //     this.props.onChange(nextProps.value);
-        // }
+        if (nextProps.value !== undefined && this.props.value !== nextProps.value) {
+            this.props.onChange(nextProps.value);
+        }
 
         if (nextProps.options) {
             if (nextProps.options.length === 1) {

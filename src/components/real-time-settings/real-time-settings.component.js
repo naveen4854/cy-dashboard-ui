@@ -8,6 +8,7 @@ export default class RealTimeSettingsComponent extends PureComponent {
         this.onStatisticGroupChange = this.onStatisticGroupChange.bind(this)
         this.onStatisticItemChange = this.onStatisticItemChange.bind(this)
         this.onStatisticFunctionChange = this.onStatisticFunctionChange.bind(this)
+        this.onDisplayFormatChange = this.onDisplayFormatChange.bind(this)
     }
     onStatisticGroupChange(statisticGroup) {
         if (!statisticGroup.id)
@@ -106,7 +107,7 @@ export default class RealTimeSettingsComponent extends PureComponent {
                             value={this.props.dataMetrics.selectedDisplayFormat}
                             placeholder='Select...'
                             options={this.props.dataMetrics.displayFormatOptions}
-                            onChange={(e) => this.onDisplayFormatChange(e)} />
+                            onChange={this.onDisplayFormatChange} />
                     </div>
                 </div>
                 <div className="row ">
