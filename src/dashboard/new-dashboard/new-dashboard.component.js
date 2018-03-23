@@ -27,7 +27,7 @@ export default class NewDashboard extends PureComponent {
                 <div className="row">
                     <div className="col-md-12  col-sm-12  col-xs-12">
                         <DashboardLayoutContainer />
-                        <SettingsContainer show={true} />
+                        <SettingsContainer />
                     </div>
                 </div>
             </div>

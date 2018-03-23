@@ -56,8 +56,10 @@ export default class DashboardLayoutComponent extends PureComponent {
                             bounds='.dashboard-layout'
                             _freeBottomBounds={true}
                         >
-                            <Widget key={widget.id} mode={this.props.dashboard.mode} widget={widget}
-                            ToggleSettingsMenu={this.props.ToggleSettingsMenu}
+                            <Widget key={widget.id}
+                                mode={this.props.dashboard.mode}
+                                widget={widget}
+                                ToggleSettingsMenu={this.props.ToggleSettingsMenu}
                             />
                         </Rnd>
                     )
