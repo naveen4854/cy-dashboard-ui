@@ -13,6 +13,7 @@ export const INITIATE_PING = "INITIATE_PING"
 export const TEST = "UPDATE_PING1TEST1"
 export const UPDATE_REF_TOKEN_TIMEOUT_ID = "UPDATE_REF_TOKEN_TIMEOUT_ID"
 export const DEFAULT_DASHBOARD_ID = "DEFAULT_DASHBOARD_ID"
+export const USER_LOGOUT = "USER_LOGOUT"
 
 const initialState = {
   userName: 'naveen',
@@ -148,7 +149,7 @@ export function logout() {
       localStorage.removeItem(Constants.setNewRt)
       clearTimeout(getState().user.tokenRefTimeOutId)
       dispatch({
-        type: Constants.USER_LOGOUT
+        type: USER_LOGOUT
       })
       browserHistory.push('/login');
     });

@@ -31,11 +31,13 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(DataMetricsReducer.getDrillDownMetaData(selectedItem));
             }
         },
-        updateDrillDownOptions: () => {
-            console.log('asd')
+        updateDrillDownOptions: (options) => {
+            if (options) {
+                dispatch(DataMetricsReducer.updateDrillDownOptionsAction(options));
+            }
         },
-        toggleDrillDown: () => {
-            dispatch(DataMetricsReducer.toggleDrillDown())
+        toggleDrillDown: (shouldOpen) => {
+            dispatch(DataMetricsReducer.toggleDrillDown(shouldOpen))
         }
     }
 }

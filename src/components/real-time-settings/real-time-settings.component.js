@@ -16,12 +16,11 @@ export default class RealTimeSettingsComponent extends PureComponent {
     onStatisticGroupChange(statisticGroup) {
         if (!statisticGroup.id)
             return;
-        // this.props.updateDrillDownOptions([]);
+        this.props.toggleDrillDown(true);
         this.props.setStatisticGroupAndGetItems(statisticGroup)
     }
 
     onStatisticItemChange(statisticItem) {
-        debugger
         if (statisticItem.id) {
             this.props.setItemAndGetFunctions(statisticItem);
             this.props.getDrillDownMetaData(statisticItem);
@@ -103,8 +102,8 @@ export default class RealTimeSettingsComponent extends PureComponent {
                                 {
                                     this.props.dataMetrics.drillDownOptions && this.props.dataMetrics.drillDownOptions.length > 0 ?
                                         this.props.dataMetrics.isDrillDownMultiSelect
-                                            ? <CheckBoxListGroup checkList={this.props.dataMetrics.drillDownOptions} onChange={(e) => this.props.updateDrillDownOptions(e)} label="" />
-                                            : <RadioButtonGroup radioList={this.props.dataMetrics.drillDownOptions} onChange={(e) => this.props.updateDrillDownOptions(e)} label="" />
+                                            ? <CheckBoxListGroup checkList={this.props.dataMetrics.drillDownOptions} onChange={this.props.updateDrillDownOptions} label="" />
+                                            : <RadioButtonGroup radioList={this.props.dataMetrics.drillDownOptions} onChange={this.props.updateDrillDownOptions} label="" />
                                         : <p className='padding10px'> {this.props.dataMetrics.selectedItem && this.props.dataMetrics.selectedItem.label ? this.props.l.t('No_filters_available', 'No filters available') :
                                             this.props.l.t('Please_select_a_statistic_item', 'Please select a statistic item')}</p>
                                 }
