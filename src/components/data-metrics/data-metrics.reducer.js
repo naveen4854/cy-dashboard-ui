@@ -1,7 +1,7 @@
 import * as dataMetricsService from './data-metrics-service';
 import { statisticCategoryEnum, WidgetTypeEnum } from '../../shared/enums';
 import { UPDATE_WIDGET } from '../../dashboard/dashboard.reducer';
-import { UPDATE_SETTINGS_WIDGET } from '../settings/settings.reducer';
+import { UPDATE_SETTINGS_WIDGET } from '../widget-configurations/widget-configurations.reducer';
 
 export const UPDATE_DATAMETRICS = "UPDATE_DATAMETRICS"
 export const SET_STATISTIC_CATEGORY = "SET_STATISTIC_CATEGORY"
@@ -84,7 +84,7 @@ export function LoadDataMetricsMetaData(dashboardId) {
 
 export function initializeStatisticMetadata() {
     return (dispatch, getState) => {
-        let currentWidget = getState().settings.widget;
+        let currentWidget = getState().configurations.widget;
         let statisticCategories = getState().dataMetrics.statisticCategories;
         let datametricsMetaData = getState().dataMetrics.datametricMetadata;
 
@@ -169,7 +169,7 @@ export function setSelectedGroupValue(selectedGroup) {
 
 export function setStatisticsItems() {
     return (dispatch, getState) => {
-        let currentWidget = getState().settings.widget;
+        let currentWidget = getState().configurations.widget;
         let selectedGroup = getState().dataMetrics.selectedGroup;
 
         let allData = getState().dataMetrics.datametricMetadata;
@@ -205,7 +205,7 @@ export function setSelectedSatisticItem(selectedItem) {
 
 export function setStatisticFunctions() {
     return (dispatch, getState) => {
-        let currentWidget = getState().settings.widget;
+        let currentWidget = getState().configurations.widget;
         let dataMetrics = getState().dataMetrics;
         let selectedItem = dataMetrics.selectedItem;
         let _funcOptions = _.uniqBy(_.map(_.filter(getState().dataMetrics.datametricMetadata,
@@ -239,7 +239,7 @@ export function setSelectedFunction(selectedFunction) {
 export function getDisplayFormat() {
     return (dispatch, getState) => {
         let selectedFunction = getState().dataMetrics.selectedFunction;
-        let currentWidget = getState().settings.widget;
+        let currentWidget = getState().configurations.widget;
         dispatch({
             type: UPDATE_DISPLAY_FORMATS,
             displayFormatOptions: _.uniqBy(_.map(_.filter(getState().dataMetrics.datametricMetadata, metric =>
@@ -268,7 +268,7 @@ export function setSelectedDisplayFormatAction(selectedDisplayFormat) {
 
 export function SaveMetrics(dataMetrics) {
     return (dispatch, getState) => {
-        let currentWidget = _.cloneDeep(getState().settings.widget);
+        let currentWidget = _.cloneDeep(getState().configurations.widget);
         currentWidget.appliedSettings.dataMetrics = dataMetrics;
         dispatch({
             type: UPDATE_SETTINGS_WIDGET,
@@ -284,7 +284,7 @@ export function SaveMetrics(dataMetrics) {
 export function getDrillDownMetaData(selectedItem) {
     return (dispatch, getState) => {
         if (getState().dataMetrics && getState().dataMetrics.datametricMetadata) {
-            let widget = getState().settings.widget;
+            let widget = getState().configurations.widget;
             const selectedItemData = _.find(getState().dataMetrics.datametricMetadata, (metaData) => metaData.StatisticItemId === selectedItem.id);
             dataMetricsService.getDrillDownMetaData(selectedItemData.StatisticGroupId).then(function (response) {
                 debugger

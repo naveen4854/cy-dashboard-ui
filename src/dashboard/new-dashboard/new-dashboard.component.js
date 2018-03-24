@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 //TODO: change to container
 import { WidgetsBar } from '../../components/widgets-bar';
 import DashboardLayoutContainer from '../../components/dashboard-layout';
-import SettingsContainer from '../../components/settings/';
+import WidgetConfigurationsContainer from '../../components/widget-configurations/';
 
 export default class NewDashboard extends PureComponent {
 
@@ -27,7 +27,7 @@ export default class NewDashboard extends PureComponent {
                 <div className="row">
                     <div className="col-md-12  col-sm-12  col-xs-12">
                         <DashboardLayoutContainer />
-                        <SettingsContainer />
+                        <WidgetConfigurationsContainer />
                     </div>
                 </div>
             </div>

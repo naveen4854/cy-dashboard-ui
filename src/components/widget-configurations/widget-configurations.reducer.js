@@ -9,7 +9,7 @@ export function ToggleSettingsMenu(widget) {
         dispatch(getState().dataMetrics.clearSelectedDM())
 
         let currentWidget = _.cloneDeep(widget);
-        let showPanel = !(getState().settings.showPanel && getState().settings.widgetId == currentWidget.id)
+        let showPanel = !(getState().configurations.showPanel && getState().configurations.widgetId == currentWidget.id)
         dispatch({
             type: TOGGLE_SETTINGS_PANEL,
             widget: currentWidget,
@@ -52,7 +52,7 @@ const initialState = {
     ToggleSettingsMenu
 };
 
-export default function SettingsReducer(state = _.cloneDeep(initialState), action) {
+export default function WidgetConfigurationsReducer(state = _.cloneDeep(initialState), action) {
     const handler = ACTION_HANDLERS[action.type];
     return handler ? handler(state, action) : state;
 }

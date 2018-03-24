@@ -1,6 +1,6 @@
 import { WidgetTypeEnum, DashboardModeEnum } from '../shared/enums'
 import { WidgetData } from '../shared/lib';
-import { TOGGLE_SETTINGS_PANEL } from '../components/settings/settings.reducer';
+import { TOGGLE_SETTINGS_PANEL } from '../components/widget-configurations/widget-configurations.reducer';
 
 const ADD_WIDGET = 'ADD_WIDGET'
 export const UPDATE_WIDGET = 'UPDATE_WIDGET'
@@ -22,7 +22,7 @@ export function UpdateWidget(widget) {
 
 export function ToggleSettingsMenu(widget) {
     return (dispatch, getState) => {
-        dispatch(getState().settings.ToggleSettingsMenu(widget))
+        dispatch(getState().configurations.ToggleSettingsMenu(widget))
     }
 }
 
