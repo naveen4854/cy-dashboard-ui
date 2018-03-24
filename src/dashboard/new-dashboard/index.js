@@ -13,6 +13,9 @@ export default (store) => ({
       const settingsReducer = require('../../components/widget-configurations/widget-configurations.reducer').default
       injectReducer(store, { key: 'configurations', reducer: settingsReducer })
 
+      const stylesReducer = require('../../components/styles/styles.reducer').default
+      injectReducer(store, { key: 'styles', reducer: stylesReducer })
+
       cb(null, authenticate(newDashboardForm))
     }, 'newdashboard')
   },
