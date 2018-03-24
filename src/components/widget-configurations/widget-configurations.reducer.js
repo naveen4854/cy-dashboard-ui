@@ -7,7 +7,7 @@ export const UPDATE_SETTINGS_WIDGET = "UPDATE_SETTINGS_WIDGET"
 export function ToggleSettingsMenu(widget) {
     return (dispatch, getState) => {
         dispatch(getState().dataMetrics.clearSelectedDM())
-
+        
         let currentWidget = _.cloneDeep(widget);
         let showPanel = !(getState().configurations.showPanel && getState().configurations.widgetId == currentWidget.id)
         dispatch({

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import { browserHistory } from 'react-router';
-import LoginReducer from '../login/login.reducer';
+import LoginReducer, { USER_LOGOUT } from '../login/login.reducer';
 import LocalizationReducer from '../components/localization/localization.reducer';
 import SpinnerReducer from '../components/spinner/spinner.reducer';
 import NotificationReducer from '../components/notifications/notification.reducer';
@@ -19,7 +19,7 @@ export const makeRootReducer = (asyncReducers) =>
       notificationStore: NotificationReducer,
       common: SharedReducer,
       ...asyncReducers
-    })(action.type == "Constants.USER_LOGOUT" ? retainOnLogOut(state) : state, action);
+    })(action.type == USER_LOGOUT ? retainOnLogOut(state) : state, action);
   }
 
 const retainOnLogOut = (state) => {

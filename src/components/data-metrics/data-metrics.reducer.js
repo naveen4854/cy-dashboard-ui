@@ -101,7 +101,6 @@ export function initializeStatisticMetadata() {
             selectedStatisticCategory
         })
         dispatch(DispatchDMForWidgetType(statisticCategories, currentWidget.widgetType, datametricsMetaData, getState));
-        debugger
         dispatch({
             type: DEFAULT_METRICS,
             selectedGroup: currentWidget.appliedSettings.dataMetrics.group || {},
@@ -287,7 +286,6 @@ export function getDrillDownMetaData(selectedItem) {
             let widget = getState().configurations.widget;
             const selectedItemData = _.find(getState().dataMetrics.datametricMetadata, (metaData) => metaData.StatisticItemId === selectedItem.id);
             dataMetricsService.getDrillDownMetaData(selectedItemData.StatisticGroupId).then(function (response) {
-                debugger
                 let _opts = _.map(_.uniqBy(response.data, 'Id'), (obj) => {
 
                     let defaulted = getState().dataMetrics.drillDownDefaulted
@@ -314,9 +312,22 @@ export function getDrillDownMetaData(selectedItem) {
     }
 }
 
-export function toggleDrillDown() {
-    return {
-        type: TOGGLE_DRILL_DOWN
+export function toggleDrillDown(shouldOpen) {
+    return (dispatch, getState) => {
+        let openDrillDown = shouldOpen || !getState().dataMetrics.openDrillDown
+        dispatch({
+            type: TOGGLE_DRILL_DOWN,
+            openDrillDown
+        })
+    }
+}
+
+export function updateDrillDownOptionsAction(options) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: UPDATE_DRILL_DOWN_OPTIONS,
+            drillDownOptions: options
+        })
     }
 }
 
@@ -419,9 +430,8 @@ export const ACTION_HANDLERS = {
         })
     },
     [TOGGLE_DRILL_DOWN]: (state, action) => {
-        debugger
         return Object.assign({}, state, {
-            openDrillDown: !state.openDrillDown
+            openDrillDown: action.openDrillDown
         })
     },
     [UPDATE_DRILL_DOWN_METADATA]: (state, action) => {
@@ -430,12 +440,17 @@ export const ACTION_HANDLERS = {
             isDrillDownMultiSelect: action.isDrillDownMultiSelect,
             drillDownDefaulted: action.drillDownDefaulted
         })
+    },
+    [UPDATE_DRILL_DOWN_OPTIONS]: (state, action) => {
+        return Object.assign({}, state, {
+            drillDownOptions: action.drillDownOptions
+        })
     }
 }
 
 const initialState = {
     widgetType: WidgetTypeEnum.Box,
-    drillDownOptions:[],
+    drillDownOptions: [],
     groupOptions: [],
     itemOptions: [],
     functionOptions: [],
