@@ -1,17 +1,18 @@
 import { WidgetTypeEnum } from "../../shared/enums";
 import _ from 'lodash';
+import { UPDATE_WIDGET } from "../../dashboard/dashboard.reducer";
 
-export const TOGGLE_SETTINGS_PANEL = "TOGGLE_SETTINGS_PANEL"
-export const UPDATE_SETTINGS_WIDGET = "UPDATE_SETTINGS_WIDGET"
+export const TOGGLE_CONFIGURATIONS_PANEL = "TOGGLE_CONFIGURATIONS_PANEL"
+export const UPDATE_CONFIGURATIONS_WIDGET = "UPDATE_CONFIGURATIONS_WIDGET"
 
 export function ToggleSettingsMenu(widget) {
     return (dispatch, getState) => {
         dispatch(getState().dataMetrics.clearSelectedDM())
-        
+
         let currentWidget = _.cloneDeep(widget);
         let showPanel = !(getState().configurations.showPanel && getState().configurations.widgetId == currentWidget.id)
         dispatch({
-            type: TOGGLE_SETTINGS_PANEL,
+            type: TOGGLE_CONFIGURATIONS_PANEL,
             widget: currentWidget,
             widgetId: currentWidget.id,
             widgetType: currentWidget.widgetType,
@@ -31,8 +32,20 @@ export function ToggleSettingsMenu(widget) {
     }
 }
 
+export function updateDashboardWidget(currentWidget) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: UPDATE_CONFIGURATIONS_WIDGET,
+            widget: currentWidget
+        })
+        dispatch({
+            type: UPDATE_WIDGET,
+            widget: currentWidget
+        });
+    }
+}
 export const ACTION_HANDLERS = {
-    [TOGGLE_SETTINGS_PANEL]: (state, action) => {
+    [TOGGLE_CONFIGURATIONS_PANEL]: (state, action) => {
         return Object.assign({}, state, {
             widget: _.cloneDeep(action.widget),
             widgetId: action.widgetId,
@@ -40,7 +53,7 @@ export const ACTION_HANDLERS = {
             showPanel: action.showPanel
         })
     },
-    [UPDATE_SETTINGS_WIDGET]: (state, action) => {
+    [UPDATE_CONFIGURATIONS_WIDGET]: (state, action) => {
         return Object.assign({}, state, {
             widget: _.cloneDeep(action.widget)
         })
@@ -51,7 +64,8 @@ const initialState = {
     widgetId: 1,
     widgetType: WidgetTypeEnum.Box,
     showPanel: false,
-    ToggleSettingsMenu
+    ToggleSettingsMenu,
+    updateDashboardWidget
 };
 
 export default function WidgetConfigurationsReducer(state = _.cloneDeep(initialState), action) {

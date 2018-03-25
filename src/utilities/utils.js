@@ -16,7 +16,7 @@ export function stylesToCss(bgColor, fontSize, fontFamily, fontColor) {
         color: Color.ToString(fontColor),
         backgroundColor: Color.ToString(bgColor),
         fontFamily: fontFamily,
-        fontSize: fontSize.toString().indexOf('px') > 0 ? fontSize : fontSize + 'px'
+        fontSize: fontSize ? fontSize.toString().indexOf('px') > 0 ? fontSize : fontSize + 'px' : '12px'
     }
 }
 
@@ -25,7 +25,7 @@ export function stylesObjToCss(stylesObj) {
         color: Color.ToString(stylesObj.color),
         backgroundColor: Color.ToString(stylesObj.backgroundColor),
         fontFamily: stylesObj.fontFamily,
-        fontSize: stylesObj.fontSize.toString().indexOf('px') > 0 ? stylesObj.fontSize : stylesObj.fontSize + 'px'
+        fontSize: stylesObj.fontSize ? stylesObj.fontSize.toString().indexOf('px') > 0 ? stylesObj.fontSize : stylesObj.fontSize + 'px' : '12px'
     }
 }
 export function SecondsTohhmmss(totalSeconds, delimiter) {
