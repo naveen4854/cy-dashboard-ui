@@ -84,14 +84,14 @@ export function LoadDataMetricsMetaData(dashboardId) {
 
 export function initializeStatisticMetadata() {
     return (dispatch, getState) => {
-        let currentWidget = getState().configurations.widget;
+        let currentWidget = _.cloneDeep(getState().configurations.widget);
         let statisticCategories = getState().dataMetrics.statisticCategories;
         let datametricsMetaData = getState().dataMetrics.datametricMetadata;
 
-        //If Categories and DM are already in store, filter them appropriately and update the state
         if (!statisticCategories || statisticCategories.length == 0 || !datametricsMetaData)
             return dispatch(getState().notificationStore.notify('failure to load statistic Metadata, please reload'));
 
+        //If Categories and DM are already in store, filter them appropriately and update the state
         let selectedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory ?
             currentWidget.appliedSettings.dataMetrics.statisticCategory :
             statisticCategoryEnum.RealTime
@@ -267,15 +267,16 @@ export function setSelectedDisplayFormatAction(selectedDisplayFormat) {
 
 export function SaveMetrics(dataMetrics) {
     return (dispatch, getState) => {
-        let currentWidget = _.cloneDeep(getState().configurations.widget);
-        currentWidget.appliedSettings.dataMetrics = dataMetrics;
+        let currentWidget = getState().configurations.widget;
+        let updatedWidget = { ...currentWidget, appliedSettings: { ...currentWidget.appliedSettings, dataMetrics: dataMetrics } }
+
         dispatch({
             type: UPDATE_SETTINGS_WIDGET,
-            widget: currentWidget
+            widget: updatedWidget
         })
         dispatch({
             type: UPDATE_WIDGET,
-            widget: currentWidget
+            widget: updatedWidget
         });
     }
 }
@@ -342,6 +343,30 @@ export function clearSelectedDM() {
         })
     }
 }
+
+export function setSelectedStatisticCategoryAction(selectedStatisticCategory) {
+    return (dispatch, getState) => {
+        // dispatch(getState().dataMetrics.setDMisLoaded(false))
+        // dispatch(getState().dataMetrics.updateDrillDownOptionsAction([]))
+        // dispatch(getState().dataMetrics.CLearQuery());
+        let currentWidget = getState().configurations.widget;
+        
+        dispatch({
+            type: SET_SELECTED_STATISTIC_CATEGORY,
+            selectedStatisticCategory,
+            groupOptions: _.uniqBy(_.map(_.filter(getState().dataMetrics.datametricMetadata, metric =>
+                metric.StatisticCategory === selectedStatisticCategory &&
+                metric.WidgetType === currentWidget.widgetType), (obj) => {
+                    return {
+                        id: obj.StatisticGroupId,
+                        label: obj.StatisticGroup,
+                        value: obj.Id
+                    }
+                }), 'id')
+        });
+    }
+}
+
 
 export const ACTION_HANDLERS = {
     [UPDATE_DATAMETRICS]: (state, action) => {
