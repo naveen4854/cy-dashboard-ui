@@ -13,7 +13,7 @@ export function initializeStyles() {
             type: INITIALIZE_STYLES,
             title: currentWidget.title,
             titleStyles,
-            widgetType
+                
         })
     }
 }

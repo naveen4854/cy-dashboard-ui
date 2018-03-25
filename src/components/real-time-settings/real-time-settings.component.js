@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import CustomSelect from '../custom-dropdown';
-import { statisticCategoryEnum } from '../../shared/enums'
+import { StatisticCategoryEnum } from '../../shared/enums'
 import CheckBoxListGroup from '../check-box-list-group'
 import RadioButtonGroup from '../radio-button-group'
 
@@ -58,7 +58,7 @@ export default class RealTimeSettingsComponent extends PureComponent {
 
     render() {
         const { dataMetrics } = this.props;
-        const enableSetButton = dataMetrics.statisticCategory == statisticCategoryEnum.RealTime ?
+        const enableSetButton = dataMetrics.statisticCategory == StatisticCategoryEnum.RealTime ?
             dataMetrics.selectedDisplayFormat.id != undefined : false
         return (
             <div id="realcyReport">
@@ -74,7 +74,7 @@ export default class RealTimeSettingsComponent extends PureComponent {
                             onChange={this.onStatisticGroupChange} />
                     </div>
                     {
-                        this.props.dataMetrics.statisticCategory == statisticCategoryEnum.RealTime && this.props.dataMetrics.selectedItem && this.props.dataMetrics.selectedItem.id &&
+                        this.props.dataMetrics.statisticCategory == StatisticCategoryEnum.RealTime && this.props.dataMetrics.selectedItem && this.props.dataMetrics.selectedItem.id &&
                         <div className="drill-icon">
                             <i onClick={this.toggleDrillDown} className="fa fa-filter"></i>
                         </div>
