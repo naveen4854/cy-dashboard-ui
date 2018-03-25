@@ -22,6 +22,7 @@ export function ToggleSettingsMenu(widget) {
             if (currentWidget.widgetType != WidgetTypeEnum.Clock) {
                 dispatch(getState().dataMetrics.initializeStatisticMetadata());
                 dispatch(getState().styles.initializeStyles())
+                dispatch(getState().threshold.initializeThresholddata())
                 // dispatch(getState().dataMetrics.initi)
             } else {
                 // dispatch(getState().clock.initializeClocksettings(currentWidget))

@@ -3,7 +3,7 @@ import CustomDock from '../custom-dock';
 import { Tab, Tabs } from 'react-bootstrap';
 import DataMetricsContainer from '../data-metrics';
 import StylesContainer from '../styles';
-
+import ThresholdTabContainer from '../thresholds';
 export default class WidgetConfigurationsComponent extends PureComponent {
     render() {
         return (
@@ -19,7 +19,7 @@ export default class WidgetConfigurationsComponent extends PureComponent {
                                 <StylesContainer />
                         </Tab>
                                 <Tab eventKey="t" title={this.props.l.t('Data_Metrics', 'Data Metrics')}>
-                                    thresholds
+                                <ThresholdTabContainer/>
                         </Tab>
                             </Tabs>
                         </CustomDock>

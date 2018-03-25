@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import StylesComponent from './styles.component';
-//import localize from '../localization/localization.hoc';
+import localize from '../localization/localization.hoc';
 import commonProps from './styles-common-props';
 
 
@@ -22,4 +22,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(StylesComponent)
+export default connect(mapStateToProps, mapDispatchToProps)(localize(StylesComponent))
