@@ -5,7 +5,7 @@ import authenticate from '../../authentication/authenticated.hoc';
 export default (store) => ({
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
-      const newDashboardForm = require('./new-dashboard.container').default
+      const newDashboardContainer = require('./new-dashboard.container').default
 
       const dashboardReducer = require('../dashboard.reducer').default
       injectReducer(store, { key: 'dashboard', reducer: dashboardReducer })
@@ -16,7 +16,10 @@ export default (store) => ({
       const stylesReducer = require('../../components/styles/styles.reducer').default
       injectReducer(store, { key: 'styles', reducer: stylesReducer })
 
-      cb(null, authenticate(newDashboardForm))
+      const thresholdReducer = require('../../components/thresholds/threshold.reducer').default
+      injectReducer(store, { key: 'threshold', reducer: thresholdReducer })
+
+      cb(null, authenticate(newDashboardContainer))
     }, 'newdashboard')
   },
   onEnter: (nextState, replace) => {

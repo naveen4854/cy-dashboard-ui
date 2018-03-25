@@ -63,7 +63,6 @@ class ColorPicker extends React.Component {
 
 
   render() {
-debugger
     const styles = reactCSS({
       'default': {
         color: {

@@ -28,3 +28,44 @@ export function stylesObjToCss(stylesObj) {
         fontSize: stylesObj.fontSize ? stylesObj.fontSize.toString().indexOf('px') > 0 ? stylesObj.fontSize : stylesObj.fontSize + 'px' : '12px'
     }
 }
+export function SecondsTohhmmss(totalSeconds, delimiter) {
+    totalSeconds = isNaN(totalSeconds) ? 0 : +totalSeconds;
+    var hours = Math.floor(totalSeconds / 3600);
+    var minutes = Math.floor((totalSeconds - (hours * 3600)) / 60);
+    var seconds = totalSeconds - (hours * 3600) - (minutes * 60);
+
+    // round seconds
+    seconds = Math.round(seconds * 100) / 100
+
+    let result = [];
+    result.push(hours < 10 ? "0" + hours : hours)
+    result.push(minutes < 10 ? "0" + minutes : minutes)
+    result.push(seconds < 10 ? "0" + seconds : seconds)
+
+    return result.join(delimiter || ':');
+}
+
+
+export function SecondsTommss(totalSeconds, delimiter) {
+    totalSeconds = isNaN(totalSeconds) ? 0 : +totalSeconds;
+    var minutes = Math.floor((totalSeconds) / 60);
+    var seconds = totalSeconds - (minutes * 60);
+
+    // round seconds
+    seconds = Math.round(seconds * 100) / 100
+
+    let result = [];
+    result.push(minutes < 10 ? "0" + minutes : minutes)
+    result.push(seconds < 10 ? "0" + seconds : seconds)
+
+    return result.join(delimiter || ':');
+}
+
+export function validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
+export function validateSmsNumer(number) {
+    return number != null && number.trim() != ""; //&& !isNaN(number);
+}
