@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 
 import ToggleSwitch from '../toggle-switch';
-import { statisticCategoryEnum } from '../../shared/enums'
+import { StatisticCategoryEnum } from '../../shared/enums'
 import RealTimeSettingsContainer from '../real-time-settings'
 
 export default class DataMetricsSettingsComponent extends PureComponent {
@@ -37,13 +37,13 @@ export default class DataMetricsSettingsComponent extends PureComponent {
 
     renderSettingsBasedOnCategory() {
         switch (this.props.dataMetrics.statisticCategory) {
-            case (statisticCategoryEnum.RealTime):
+            case (StatisticCategoryEnum.RealTime):
                 return <RealTimeSettingsContainer />;
                 break;
-            case (statisticCategoryEnum.CyReport):
+            case (StatisticCategoryEnum.CyReport):
                 return "";
                 break;
-            case (statisticCategoryEnum.Custom):
+            case (StatisticCategoryEnum.Custom):
                 return "";
                 break;
             default:

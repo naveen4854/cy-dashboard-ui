@@ -57,13 +57,12 @@ class ColorPicker extends React.Component {
 
   handleChange = (color) => {
     this.setState({ color: color.rgb })
-    //this.props.updateColor(color.rgb);
+    this.props.updateColor(color.rgb);
   };
 
 
 
   render() {
-debugger
     const styles = reactCSS({
       'default': {
         color: {
@@ -102,7 +101,7 @@ debugger
         </div>
         {this.state.displayColorPicker ? <div style={styles.popover}>
           <div style={styles.cover} onClick={this.handleClose} />
-          <SketchPicker key={this.props.id} color={this.props.input.value} onChange={this.handleChange} />
+          <SketchPicker key={this.props.id} color={this.props.value} onChange={this.handleChange} />
         </div> : null}
 
       </div>

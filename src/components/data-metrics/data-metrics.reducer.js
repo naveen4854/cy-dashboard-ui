@@ -1,7 +1,7 @@
 import * as dataMetricsService from './data-metrics-service';
-import { statisticCategoryEnum, WidgetTypeEnum } from '../../shared/enums';
+import { StatisticCategoryEnum, WidgetTypeEnum } from '../../shared/enums';
 import { UPDATE_WIDGET } from '../../dashboard/dashboard.reducer';
-import { UPDATE_SETTINGS_WIDGET } from '../widget-configurations/widget-configurations.reducer';
+import { UPDATE_CONFIGURATIONS_WIDGET } from '../widget-configurations/widget-configurations.reducer';
 
 export const UPDATE_DATAMETRICS = "UPDATE_DATAMETRICS"
 export const SET_STATISTIC_CATEGORY = "SET_STATISTIC_CATEGORY"
@@ -94,7 +94,7 @@ export function initializeStatisticMetadata() {
         //If Categories and DM are already in store, filter them appropriately and update the state
         let selectedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory ?
             currentWidget.appliedSettings.dataMetrics.statisticCategory :
-            statisticCategoryEnum.RealTime
+            StatisticCategoryEnum.RealTime
 
         dispatch({
             type: SET_STATISTIC_CATEGORY,
@@ -487,7 +487,7 @@ const initialState = {
     storeProcData: null,
     selectedWidgetforStatisticItem: '',
     displayFormatOptions: [],
-    statisticCategory: statisticCategoryEnum.RealTime,
+    statisticCategory: StatisticCategoryEnum.RealTime,
     isDirty: false,
     isLoaded: false,
     allColumnOptions: [],
