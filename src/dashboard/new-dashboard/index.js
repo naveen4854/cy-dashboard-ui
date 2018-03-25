@@ -17,7 +17,7 @@ export default (store) => ({
       injectReducer(store, { key: 'styles', reducer: stylesReducer })
 
       const thresholdReducer = require('../../components/thresholds/threshold.reducer').default
-      injectReducer(stroe, { key: 'threshold', reducer: thresholdReducer })
+      injectReducer(store, { key: 'threshold', reducer: thresholdReducer })
 
       cb(null, authenticate(newDashboardContainer))
     }, 'newdashboard')
