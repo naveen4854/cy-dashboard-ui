@@ -1,7 +1,7 @@
 import * as dataMetricsService from './data-metrics-service';
 import { statisticCategoryEnum, WidgetTypeEnum } from '../../shared/enums';
 import { UPDATE_WIDGET } from '../../dashboard/dashboard.reducer';
-import { UPDATE_SETTINGS_WIDGET } from '../widget-configurations/widget-configurations.reducer';
+import { UPDATE_CONFIGURATIONS_WIDGET } from '../widget-configurations/widget-configurations.reducer';
 
 export const UPDATE_DATAMETRICS = "UPDATE_DATAMETRICS"
 export const SET_STATISTIC_CATEGORY = "SET_STATISTIC_CATEGORY"
@@ -267,16 +267,9 @@ export function setSelectedDisplayFormatAction(selectedDisplayFormat) {
 
 export function SaveMetrics(dataMetrics) {
     return (dispatch, getState) => {
-        let currentWidget = _.cloneDeep(getState().configurations.widget);
-        currentWidget.appliedSettings.dataMetrics = dataMetrics;
-        dispatch({
-            type: UPDATE_SETTINGS_WIDGET,
-            widget: currentWidget
-        })
-        dispatch({
-            type: UPDATE_WIDGET,
-            widget: currentWidget
-        });
+        let currentWidget = getState().configurations.widget;
+        let updatedWidget = { ...currentWidget, appliedSettings: { ...currentWidget.appliedSettings, dataMetrics: dataMetrics } }
+        dispatch(getState().configurations.updateDashboardWidget(updatedWidget));
     }
 }
 

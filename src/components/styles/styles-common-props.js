@@ -8,8 +8,6 @@ const commonProps = (dispatch) => {
             alert(key + '  aabbccdd ' + abc)
         },
         updateProp: (value, key) => {
-
-            debugger
             dispatch(Reducer.updateStyleProperty(value, key));
         },
     }
