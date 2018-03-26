@@ -1,50 +1,56 @@
 import { connect } from 'react-redux'
 import localize from '../localization/localization.hoc';
-import * as DataMetricsReducer from '../data-metrics/data-metrics.reducer';
+import * as RealTimeSettingsActions from './real-time-settings.actions';
 import RealTimeSettingsComponent from './real-time-settings.component';
 
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        initiateRealTimeSettings: () => {
+
+        },
         setStatisticGroupAndGetItems: (statisticGroup) => {
-            dispatch(DataMetricsReducer.setSelectedGroupValue(statisticGroup));
-            dispatch(DataMetricsReducer.setStatisticsItems());
+            dispatch(RealTimeSettingsActions.setSelectedGroupValue(statisticGroup));
+            dispatch(RealTimeSettingsActions.setStatisticsItems());
         },
         setItemAndGetFunctions: (selectedItem) => {
-            dispatch(DataMetricsReducer.setSelectedSatisticItem(selectedItem));
-            dispatch(DataMetricsReducer.setStatisticFunctions());
+            dispatch(RealTimeSettingsActions.setSelectedSatisticItem(selectedItem));
+            dispatch(RealTimeSettingsActions.setStatisticFunctions());
         },
         setFunctionAndGetDisplayFormat: (selectedFunction) => {
-            dispatch(DataMetricsReducer.setSelectedFunction(selectedFunction));
-            dispatch(DataMetricsReducer.getDisplayFormat());
+            dispatch(RealTimeSettingsActions.setSelectedFunction(selectedFunction));
+            dispatch(RealTimeSettingsActions.getDisplayFormat());
         },
         setSelectedDisplayFormat: (selectedDisplayFormat) => {
             if (selectedDisplayFormat) {
-                dispatch(DataMetricsReducer.setSelectedDisplayFormatAction(selectedDisplayFormat));
+                dispatch(RealTimeSettingsActions.setSelectedDisplayFormatAction(selectedDisplayFormat));
             }
         },
         saveMetrics: (dataMetrics) => {
-            dispatch(DataMetricsReducer.SaveMetrics(dataMetrics));
+            dispatch(RealTimeSettingsActions.SaveMetrics(dataMetrics));
         },
         getDrillDownMetaData: (selectedItem) => {
             if (selectedItem) {
-                dispatch(DataMetricsReducer.getDrillDownMetaData(selectedItem));
+                dispatch(RealTimeSettingsActions.getDrillDownMetaData(selectedItem));
             }
         },
         updateDrillDownOptions: (options) => {
             if (options) {
-                dispatch(DataMetricsReducer.updateDrillDownOptionsAction(options));
+                dispatch(RealTimeSettingsActions.updateDrillDownOptions(options));
             }
         },
         toggleDrillDown: (shouldOpen) => {
-            dispatch(DataMetricsReducer.toggleDrillDown(shouldOpen))
+            dispatch(RealTimeSettingsActions.toggleDrillDown(shouldOpen))
+        },
+        setDrillDownDefaulted: () => {
+            dispatch(RealTimeSettingsActions.setDrillDownDefaulted(false))
         }
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        dataMetrics: state.dataMetrics
+        realTimeSettings: state.realTimeSettings
     }
 }
 

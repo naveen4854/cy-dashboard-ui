@@ -1,7 +1,7 @@
 ﻿import _ from 'lodash';
 import { WidgetTypeEnum } from '../../enums';
 
-import { BoxWidget } from '../../widgets';
+import { BoxWidget, BarWidget } from '../../widgets';
 
 /**
  * To get the widget based on widget type.
@@ -14,6 +14,8 @@ export function GetWidget(widgetType, isCombo, zIndex, isHeader = false) {
     switch (widgetType) {
         case WidgetTypeEnum.Box:
             return new BoxWidget(widgetType, isCombo, zIndex, isHeader);
+        case WidgetTypeEnum.Bar:
+            return new BarWidget(widgetType, isCombo, zIndex, isHeader);
         default:
             return new BoxWidget(widgetType, isCombo, zIndex, isHeader);
     }

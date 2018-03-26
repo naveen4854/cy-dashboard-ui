@@ -32,6 +32,7 @@ export const ACTION_HANDLERS = {
         return Object.assign({}, state);
     },
     [UPDATE_WIDGET]: (state, action) => {
+        debugger
         let widgets = state.widgets.map((widget) => {
             if (widget.id !== action.widget.id) {
                 return widget;

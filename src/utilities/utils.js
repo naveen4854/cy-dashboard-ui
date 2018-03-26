@@ -28,6 +28,25 @@ export function stylesObjToCss(stylesObj) {
         fontSize: stylesObj.fontSize ? stylesObj.fontSize.toString().indexOf('px') > 0 ? stylesObj.fontSize : stylesObj.fontSize + 'px' : '12px'
     }
 }
+
+export function stylesToCssSVG(bgColor, fontSize, fontFamily, fontColor) {
+    return {
+        color: Color.ToString(fontColor),
+        backgroundColor: Color.ToString(bgColor),
+        fontFamily: fontFamily,
+        fontSize: fontSize ? fontSize : 12
+    }
+}
+
+export function stylesObjToCssSVG(stylesObj) {
+    return {
+        color: Color.ToString(stylesObj.color),
+        backgroundColor: Color.ToString(stylesObj.backgroundColor),
+        fontFamily: stylesObj.fontFamily,
+        fontSize: stylesObj.fontSize ? stylesObj.fontSize : 12
+    }
+}
+
 export function SecondsTohhmmss(totalSeconds, delimiter) {
     totalSeconds = isNaN(totalSeconds) ? 0 : +totalSeconds;
     var hours = Math.floor(totalSeconds / 3600);

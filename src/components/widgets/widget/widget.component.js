@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react'
 import BoxWidget from '../box-widget'
+import BarChartWidget from '../bar-chart-widget'
+
 import { DashboardModeEnum, WidgetTypeEnum } from '../../../shared/enums';
 import WidgetHeader from '../../widget-header';
 
@@ -49,6 +51,10 @@ export default class WidgetComponent extends PureComponent {
             case WidgetTypeEnum.Box:
                 return (
                     <BoxWidget {...this.props.widget} IsEditing={this.props.showIcons} />
+                );
+                case WidgetTypeEnum.Bar:
+                return (
+                    <BarChartWidget {...this.props.widget} IsEditing={this.props.showIcons} />
                 );
             default:
                 return (

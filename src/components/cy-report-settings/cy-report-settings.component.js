@@ -1,39 +1,24 @@
 import React, { PureComponent } from 'react';
 import CustomSelect from '../custom-dropdown';
-import { StatisticCategoryEnum } from '../../shared/enums'
-import CheckBoxListGroup from '../check-box-list-group'
-import RadioButtonGroup from '../radio-button-group'
+import { StatisticCategoryEnum } from '../../shared/enums';
 
-export default class RealTimeSettingsComponent extends PureComponent {
+export default class CyReportSettingsComponent extends PureComponent {
     constructor(props) {
         super(props);
         this.onStatisticGroupChange = this.onStatisticGroupChange.bind(this)
         this.onStatisticItemChange = this.onStatisticItemChange.bind(this)
         this.onStatisticFunctionChange = this.onStatisticFunctionChange.bind(this)
         this.onDisplayFormatChange = this.onDisplayFormatChange.bind(this)
-        this.toggleDrillDown = this.toggleDrillDown.bind(this)
     }
-
-    componentDidMount() {
-
-    }
-
-    componentWillUnmount() {
-        // this.props.setDrillDownDefaulted();
-    }
-
     onStatisticGroupChange(statisticGroup) {
         if (!statisticGroup.id)
             return;
-        this.props.toggleDrillDown(true);
         this.props.setStatisticGroupAndGetItems(statisticGroup)
     }
 
     onStatisticItemChange(statisticItem) {
-        if (statisticItem.id) {
+        if (statisticItem.id)
             this.props.setItemAndGetFunctions(statisticItem);
-            this.props.getDrillDownMetaData(statisticItem);
-        }
     }
 
     onStatisticFunctionChange(statisticFunction) {
@@ -51,38 +36,34 @@ export default class RealTimeSettingsComponent extends PureComponent {
             {
                 id: Date.now(),
                 desc: '',
-                group: _.cloneDeep(this.props.realTimeSettings.selectedGroup),
-                item: _.cloneDeep(this.props.realTimeSettings.selectedItem),
-                func: _.cloneDeep(this.props.realTimeSettings.selectedFunction),
-                displayFormat: _.cloneDeep(this.props.realTimeSettings.selectedDisplayFormat),
-                statisticCategory: _.cloneDeep(this.props.realTimeSettings.statisticCategory),
-                drillDownOptions: _.cloneDeep(this.props.realTimeSettings.drillDownOptions)
+                group: _.cloneDeep(this.props.cyReportSettings.selectedGroup),
+                item: _.cloneDeep(this.props.cyReportSettings.selectedItem),
+                func: _.cloneDeep(this.props.cyReportSettings.selectedFunction),
+                displayFormat: _.cloneDeep(this.props.cyReportSettings.selectedDisplayFormat),
+                statisticCategory: _.cloneDeep(this.props.cyReportSettings.statisticCategory),
+                drillDownOptions: _.cloneDeep(this.props.cyReportSettings.drillDownOptions)
             }
         );
     }
 
-    toggleDrillDown() {
-        this.props.toggleDrillDown();
-    }
-
     render() {
-        const { realTimeSettings } = this.props;
-        const enableSetButton = realTimeSettings.selectedDisplayFormat.id ? true : false
+        const { cyReportSettings } = this.props;
+        const enableSetButton = cyReportSettings.selectedDisplayFormat.id ? true : false
         return (
-            <div id="realTimeSettings">
+            <div id="cyReportSettings">
                 <div className="row">
                     <div className="col-xs-12 col-md-4 col-lg-4 metrics-label-sm metrics-label rtl-metrics-label-sm ">
                         <label>{this.props.l.t('Statistic_GroupCOLON', 'Statistic Group:')} </label>
                     </div>
                     <div className="col-xs-9 col-sm-7 col-md-6 col-lg-5">
                         <CustomSelect name="field-group-options"
-                            value={this.props.realTimeSettings.selectedGroup}
+                            value={this.props.cyReportSettings.selectedGroup}
                             placeholder='Select...'
-                            options={this.props.realTimeSettings.groupOptions}
+                            options={this.props.cyReportSettings.groupOptions}
                             onChange={this.onStatisticGroupChange} />
                     </div>
                     {
-                        this.props.realTimeSettings.statisticCategory == StatisticCategoryEnum.RealTime && this.props.realTimeSettings.selectedItem && this.props.realTimeSettings.selectedItem.id &&
+                        this.props.cyReportSettings.statisticCategory == StatisticCategoryEnum.RealTime && this.props.cyReportSettings.selectedItem && this.props.cyReportSettings.selectedItem.id &&
                         <div className="drill-icon">
                             <i onClick={this.toggleDrillDown} className="fa fa-filter"></i>
                         </div>
@@ -94,39 +75,39 @@ export default class RealTimeSettingsComponent extends PureComponent {
                     </div>
                     <div className="col-xs-9 col-sm-7 col-md-6 col-lg-5">
                         <CustomSelect name="field-item-options"
-                            value={this.props.realTimeSettings.selectedItem}
+                            value={this.props.cyReportSettings.selectedItem}
                             placeholder='Select...'
-                            options={this.props.realTimeSettings.itemOptions}
+                            options={this.props.cyReportSettings.itemOptions}
                             onChange={(e) => this.onStatisticItemChange(e)} />
                     </div>
                 </div>
-                {
-                    this.props.realTimeSettings.selectedGroup && this.props.realTimeSettings.selectedGroup.id && this.props.realTimeSettings.openDrillDown ?
+                {/* {
+                    this.props.cyReportSettings.selectedGroup && this.props.cyReportSettings.selectedGroup.id && this.props.cyReportSettings.openDrillDown ?
                         <div className="row">
                             <div className="col-xs-12 col-md-4 col-lg-4 metrics-label-sm metrics-label rtl-metrics-label-sm ">
                                 {this.props.l.t('Select_filter_s_COLON', 'Select filter(s):')}
                             </div>
                             <div className="col-xs-8 col-sm-6 col-md-5 col-lg-4 drilldown-layout">
                                 {
-                                    this.props.realTimeSettings.drillDownOptions && this.props.realTimeSettings.drillDownOptions.length > 0 ?
-                                        this.props.realTimeSettings.isDrillDownMultiSelect
-                                            ? <CheckBoxListGroup checkList={this.props.realTimeSettings.drillDownOptions} onChange={this.props.updateDrillDownOptions} label="" />
-                                            : <RadioButtonGroup radioList={this.props.realTimeSettings.drillDownOptions} onChange={this.props.updateDrillDownOptions} label="" />
-                                        : <p className='padding10px'> {this.props.realTimeSettings.selectedItem && this.props.realTimeSettings.selectedItem.label ? this.props.l.t('No_filters_available', 'No filters available') :
+                                    this.props.cyReportSettings.drillDownOptions && this.props.cyReportSettings.drillDownOptions.length > 0 ?
+                                        this.props.cyReportSettings.isDrillDownMultiSelect
+                                            ? <CheckBoxListGroup checkList={this.props.cyReportSettings.drillDownOptions} onChange={this.props.updateDrillDownOptions} label="" />
+                                            : <RadioButtonGroup radioList={this.props.cyReportSettings.drillDownOptions} onChange={this.props.updateDrillDownOptions} label="" />
+                                        : <p className='padding10px'> {this.props.cyReportSettings.selectedItem && this.props.cyReportSettings.selectedItem.label ? this.props.l.t('No_filters_available', 'No filters available') :
                                             this.props.l.t('Please_select_a_statistic_item', 'Please select a statistic item')}</p>
                                 }
                             </div>
                         </div> : null
-                }
+                } */}
                 <div className="row">
                     <div className="col-xs-12 col-md-4 col-lg-4 metrics-label-sm metrics-label rtl-metrics-label-sm ">
                         <label>{this.props.l.t('Statistic_FunctionCOLON', 'Statistic Function:')} </label>
                     </div>
                     <div className="col-xs-9 col-sm-7 col-md-6 col-lg-5">
                         <CustomSelect name="field-function-options"
-                            value={this.props.realTimeSettings.selectedFunction}
+                            value={this.props.cyReportSettings.selectedFunction}
                             placeholder='Select...'
-                            options={this.props.realTimeSettings.functionOptions}
+                            options={this.props.cyReportSettings.functionOptions}
                             onChange={(e) => this.onStatisticFunctionChange(e)} />
                     </div>
                 </div>
@@ -136,9 +117,9 @@ export default class RealTimeSettingsComponent extends PureComponent {
                     </div>
                     <div className="col-xs-9 col-sm-7 col-md-6 col-lg-5">
                         <CustomSelect name="field-display-format-options"
-                            value={this.props.realTimeSettings.selectedDisplayFormat}
+                            value={this.props.cyReportSettings.selectedDisplayFormat}
                             placeholder='Select...'
-                            options={this.props.realTimeSettings.displayFormatOptions}
+                            options={this.props.cyReportSettings.displayFormatOptions}
                             onChange={this.onDisplayFormatChange} />
                     </div>
                 </div>
