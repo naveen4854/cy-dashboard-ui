@@ -34,6 +34,7 @@ export function ToggleSettingsMenu(widget) {
 
 export function updateDashboardWidget(currentWidget) {
     return (dispatch, getState) => {
+        debugger
         dispatch({
             type: UPDATE_CONFIGURATIONS_WIDGET,
             widget: currentWidget

@@ -81,6 +81,7 @@ export function initializeStatisticMetadata() {
         if (!statisticCategories || statisticCategories.length == 0 || !datametricsMetadata)
             return dispatch(getState().notificationStore.notify('failure to load statistic Metadata, please reload', ResponseStatusEnum.Error));
 
+        debugger
         //If Categories and DM are already in store, filter them appropriately and update the state
         let selectedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory || StatisticCategoryEnum.RealTime
 
@@ -168,6 +169,26 @@ export function setSelectedStatisticCategory(selectedStatisticCategory) {
     }
 }
 
+export function saveDataMetrics(settings) {
+    return (dispatch, getState) => {
+        let currentWidget = getState().configurations.widget;
+        let statisticCategory = getState().dataMetrics.statisticCategory;
+        let dataMetrics = {
+            ...settings,
+            statisticCategory
+        }
+        let updatedWidget = {
+            ...currentWidget,
+            appliedSettings: {
+                ...currentWidget.appliedSettings,
+                dataMetrics
+            }
+        }
+        debugger
+        dispatch(getState().configurations.updateDashboardWidget(updatedWidget));
+    }
+}
+
 export const ACTION_HANDLERS = {
     [UPDATE_DATA_METRICS]: (state, action) => {
         return Object.assign({}, state, {
@@ -217,10 +238,10 @@ export const ACTION_HANDLERS = {
 
 export const initialState = {
     widgetType: WidgetTypeEnum.Box,
+    statisticCategory: StatisticCategoryEnum.RealTime,
     storeProcOptions: [],
     storeProcData: null,
     selectedWidgetforStatisticItem: '',
-    statisticCategory: StatisticCategoryEnum.RealTime,
     isDirty: false,
     isLoaded: false,
     allColumnOptions: [],
@@ -231,7 +252,8 @@ export const initialState = {
     displayName: '',
     LoadDataMetricsMetaData,
     initializeStatisticMetadata,
-    clearSelectedDM
+    clearSelectedDM,
+    saveDataMetrics
 };
 
 export default function DataMetricsReducer(state = _.cloneDeep(initialState), action) {

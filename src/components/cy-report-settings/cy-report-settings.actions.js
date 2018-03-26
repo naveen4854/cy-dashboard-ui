@@ -5,11 +5,10 @@ import * as dataMetricsService from '../data-metrics/data-metrics-service';
 export function initiateCyReportSettings() {
     return (dispatch, getState) => {
         let currentWidget = _.cloneDeep(getState().configurations.widget);
-        let selectedStatisticCategory = StatisticCategoryEnum.CyReport;
-        // let selectedStatisticCategory = getState().dataMetrics.statisticCategory;
+        let selectedStatisticCategory = getState().dataMetrics.statisticCategory;
         let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
 
-        let _grpOptions = _.uniqBy(_.map(_.filter(datametricsMetadata, metric => (metric.StatisticCategory === selectedStatisticCategory &&
+        let _grpOptions = _.uniqBy(_.map(_.filter(datametricsMetadata, metric => (metric.StatisticCategory === StatisticCategoryEnum.CyReport &&
             metric.WidgetType === currentWidget.widgetType)), (obj) => {
                 return {
                     id: obj.StatisticGroupId,
@@ -22,14 +21,15 @@ export function initiateCyReportSettings() {
             type: SET_CYREPORT_STATISTIC_GROUPS,
             groupOptions: _grpOptions
         });
-        debugger
-        dispatch({
-            type: DEFAULT_CYREPORT_METRICS,
-            selectedGroup: currentWidget.appliedSettings.dataMetrics.group || {},
-            selectedItem: currentWidget.appliedSettings.dataMetrics.item || {},
-            selectedFunction: currentWidget.appliedSettings.dataMetrics.func || {},
-            selectedDisplayFormat: currentWidget.appliedSettings.dataMetrics.displayFormat || {}
-        })
+
+        if (selectedStatisticCategory == StatisticCategoryEnum.CyReport)
+            dispatch({
+                type: DEFAULT_CYREPORT_METRICS,
+                selectedGroup: currentWidget.appliedSettings.dataMetrics.group || {},
+                selectedItem: currentWidget.appliedSettings.dataMetrics.item || {},
+                selectedFunction: currentWidget.appliedSettings.dataMetrics.func || {},
+                selectedDisplayFormat: currentWidget.appliedSettings.dataMetrics.displayFormat || {}
+            })
     }
 }
 
@@ -142,8 +142,9 @@ export function setSelectedDisplayFormatAction(selectedDisplayFormat) {
 
 export function SaveMetrics(dataMetrics) {
     return (dispatch, getState) => {
-        let currentWidget = getState().configurations.widget;
-        let updatedWidget = { ...currentWidget, appliedSettings: { ...currentWidget.appliedSettings, dataMetrics: dataMetrics } }
-        dispatch(getState().configurations.updateDashboardWidget(updatedWidget));
+        // let currentWidget = getState().configurations.widget;
+        // let updatedWidget = { ...currentWidget, appliedSettings: { ...currentWidget.appliedSettings, dataMetrics: dataMetrics } }
+        // dispatch(getState().configurations.updateDashboardWidget(updatedWidget));
+        dispatch(getState().dataMetrics.saveDataMetrics(dataMetrics));
     }
 }

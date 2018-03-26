@@ -5,12 +5,11 @@ import * as dataMetricsService from '../data-metrics/data-metrics-service';
 export function initiateRealTimeSettings() {
     return (dispatch, getState) => {
         let currentWidget = _.cloneDeep(getState().configurations.widget);
-        let selectedStatisticCategory = StatisticCategoryEnum.RealTime;
-        // let selectedStatisticCategory = getState().dataMetrics.statisticCategory;
+        let selectedStatisticCategory = getState().dataMetrics.statisticCategory;
         let statisticCategories = getState().dataMetrics.statisticCategories;
         let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
 
-        let _grpOptions = _.uniqBy(_.map(_.filter(datametricsMetadata, metric => (metric.StatisticCategory === selectedStatisticCategory &&
+        let _grpOptions = _.uniqBy(_.map(_.filter(datametricsMetadata, metric => (metric.StatisticCategory === StatisticCategoryEnum.RealTime &&
             metric.WidgetType === currentWidget.widgetType)), (obj) => {
                 return {
                     id: obj.StatisticGroupId,
@@ -23,13 +22,14 @@ export function initiateRealTimeSettings() {
             type: SET_REALTIME_STATISTIC_GROUPS,
             groupOptions: _grpOptions
         });
-        dispatch({
-            type: DEFAULT_REALTIME_METRICS,
-            selectedGroup: currentWidget.appliedSettings.dataMetrics.group || {},
-            selectedItem: currentWidget.appliedSettings.dataMetrics.item || {},
-            selectedFunction: currentWidget.appliedSettings.dataMetrics.func || {},
-            selectedDisplayFormat: currentWidget.appliedSettings.dataMetrics.displayFormat || {}
-        })
+        if (selectedStatisticCategory == StatisticCategoryEnum.RealTime)
+            dispatch({
+                type: DEFAULT_REALTIME_METRICS,
+                selectedGroup: currentWidget.appliedSettings.dataMetrics.group || {},
+                selectedItem: currentWidget.appliedSettings.dataMetrics.item || {},
+                selectedFunction: currentWidget.appliedSettings.dataMetrics.func || {},
+                selectedDisplayFormat: currentWidget.appliedSettings.dataMetrics.displayFormat || {}
+            })
     }
 }
 
@@ -142,9 +142,11 @@ export function setSelectedDisplayFormatAction(selectedDisplayFormat) {
 
 export function SaveMetrics(dataMetrics) {
     return (dispatch, getState) => {
-        let currentWidget = getState().configurations.widget;
-        let updatedWidget = { ...currentWidget, appliedSettings: { ...currentWidget.appliedSettings, dataMetrics: dataMetrics } }
-        dispatch(getState().configurations.updateDashboardWidget(updatedWidget));
+        // let currentWidget = getState().configurations.widget;
+        // let updatedWidget = { ...currentWidget, appliedSettings: { ...currentWidget.appliedSettings, dataMetrics: dataMetrics } }
+        // dispatch(getState().configurations.updateDashboardWidget(updatedWidget));
+        dispatch(getState().dataMetrics.saveDataMetrics(dataMetrics));
+
     }
 }
 
@@ -168,7 +170,7 @@ export function getDrillDownMetaData(selectedItem) {
                     _checked = option ? true : false;
                     if (option && option.checked != undefined)
                         _checked = option.checked
-                        
+
                     return {
                         label: obj.Name,
                         value: obj.Id,

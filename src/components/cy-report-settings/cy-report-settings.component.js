@@ -36,12 +36,12 @@ export default class CyReportSettingsComponent extends PureComponent {
             {
                 id: Date.now(),
                 desc: '',
-                group: _.cloneDeep(this.props.realTimeSettings.selectedGroup),
-                item: _.cloneDeep(this.props.realTimeSettings.selectedItem),
-                func: _.cloneDeep(this.props.realTimeSettings.selectedFunction),
-                displayFormat: _.cloneDeep(this.props.realTimeSettings.selectedDisplayFormat),
-                statisticCategory: _.cloneDeep(this.props.realTimeSettings.statisticCategory),
-                drillDownOptions: _.cloneDeep(this.props.realTimeSettings.drillDownOptions)
+                group: _.cloneDeep(this.props.cyReportSettings.selectedGroup),
+                item: _.cloneDeep(this.props.cyReportSettings.selectedItem),
+                func: _.cloneDeep(this.props.cyReportSettings.selectedFunction),
+                displayFormat: _.cloneDeep(this.props.cyReportSettings.selectedDisplayFormat),
+                statisticCategory: _.cloneDeep(this.props.cyReportSettings.statisticCategory),
+                drillDownOptions: _.cloneDeep(this.props.cyReportSettings.drillDownOptions)
             }
         );
     }
