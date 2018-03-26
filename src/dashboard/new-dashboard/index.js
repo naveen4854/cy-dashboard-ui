@@ -19,6 +19,9 @@ export default (store) => ({
       const thresholdReducer = require('../../components/thresholds/threshold.reducer').default
       injectReducer(store, { key: 'threshold', reducer: thresholdReducer })
 
+      const realTimeSettingsReducer = require('../../components/real-time-settings/real-time-settings.reducer').default
+      injectReducer(store, { key: 'realTimeSettings', reducer: realTimeSettingsReducer })
+
       cb(null, authenticate(newDashboardContainer))
     }, 'newdashboard')
   },

@@ -13,6 +13,11 @@ export default class RealTimeSettingsComponent extends PureComponent {
         this.onDisplayFormatChange = this.onDisplayFormatChange.bind(this)
         this.toggleDrillDown = this.toggleDrillDown.bind(this)
     }
+
+    componentDidMount() {
+
+    }
+
     onStatisticGroupChange(statisticGroup) {
         if (!statisticGroup.id)
             return;
@@ -42,12 +47,12 @@ export default class RealTimeSettingsComponent extends PureComponent {
             {
                 id: Date.now(),
                 desc: '',
-                group: _.cloneDeep(this.props.dataMetrics.selectedGroup),
-                item: _.cloneDeep(this.props.dataMetrics.selectedItem),
-                func: _.cloneDeep(this.props.dataMetrics.selectedFunction),
-                displayFormat: _.cloneDeep(this.props.dataMetrics.selectedDisplayFormat),
-                statisticCategory: _.cloneDeep(this.props.dataMetrics.statisticCategory),
-                drillDownOptions: _.cloneDeep(this.props.dataMetrics.drillDownOptions)
+                group: _.cloneDeep(this.props.realTimeSettings.selectedGroup),
+                item: _.cloneDeep(this.props.realTimeSettings.selectedItem),
+                func: _.cloneDeep(this.props.realTimeSettings.selectedFunction),
+                displayFormat: _.cloneDeep(this.props.realTimeSettings.selectedDisplayFormat),
+                statisticCategory: _.cloneDeep(this.props.realTimeSettings.statisticCategory),
+                drillDownOptions: _.cloneDeep(this.props.realTimeSettings.drillDownOptions)
             }
         );
     }
@@ -57,9 +62,9 @@ export default class RealTimeSettingsComponent extends PureComponent {
     }
 
     render() {
-        const { dataMetrics } = this.props;
-        const enableSetButton = dataMetrics.statisticCategory == StatisticCategoryEnum.RealTime ?
-            dataMetrics.selectedDisplayFormat.id != undefined : false
+        const { realTimeSettings } = this.props;
+        const enableSetButton = realTimeSettings.statisticCategory == StatisticCategoryEnum.RealTime ?
+            realTimeSettings.selectedDisplayFormat.id != undefined : false
         return (
             <div id="realcyReport">
                 <div className="row">
@@ -68,13 +73,13 @@ export default class RealTimeSettingsComponent extends PureComponent {
                     </div>
                     <div className="col-xs-9 col-sm-7 col-md-6 col-lg-5">
                         <CustomSelect name="field-group-options"
-                            value={this.props.dataMetrics.selectedGroup}
+                            value={this.props.realTimeSettings.selectedGroup}
                             placeholder='Select...'
-                            options={this.props.dataMetrics.groupOptions}
+                            options={this.props.realTimeSettings.groupOptions}
                             onChange={this.onStatisticGroupChange} />
                     </div>
                     {
-                        this.props.dataMetrics.statisticCategory == StatisticCategoryEnum.RealTime && this.props.dataMetrics.selectedItem && this.props.dataMetrics.selectedItem.id &&
+                        this.props.realTimeSettings.statisticCategory == StatisticCategoryEnum.RealTime && this.props.realTimeSettings.selectedItem && this.props.realTimeSettings.selectedItem.id &&
                         <div className="drill-icon">
                             <i onClick={this.toggleDrillDown} className="fa fa-filter"></i>
                         </div>
@@ -86,25 +91,25 @@ export default class RealTimeSettingsComponent extends PureComponent {
                     </div>
                     <div className="col-xs-9 col-sm-7 col-md-6 col-lg-5">
                         <CustomSelect name="field-item-options"
-                            value={this.props.dataMetrics.selectedItem}
+                            value={this.props.realTimeSettings.selectedItem}
                             placeholder='Select...'
-                            options={this.props.dataMetrics.itemOptions}
+                            options={this.props.realTimeSettings.itemOptions}
                             onChange={(e) => this.onStatisticItemChange(e)} />
                     </div>
                 </div>
                 {
-                    this.props.dataMetrics.selectedGroup && this.props.dataMetrics.selectedGroup.id && this.props.dataMetrics.openDrillDown ?
+                    this.props.realTimeSettings.selectedGroup && this.props.realTimeSettings.selectedGroup.id && this.props.realTimeSettings.openDrillDown ?
                         <div className="row">
                             <div className="col-xs-12 col-md-4 col-lg-4 metrics-label-sm metrics-label rtl-metrics-label-sm ">
                                 {this.props.l.t('Select_filter_s_COLON', 'Select filter(s):')}
                             </div>
                             <div className="col-xs-8 col-sm-6 col-md-5 col-lg-4 drilldown-layout">
                                 {
-                                    this.props.dataMetrics.drillDownOptions && this.props.dataMetrics.drillDownOptions.length > 0 ?
-                                        this.props.dataMetrics.isDrillDownMultiSelect
-                                            ? <CheckBoxListGroup checkList={this.props.dataMetrics.drillDownOptions} onChange={this.props.updateDrillDownOptions} label="" />
-                                            : <RadioButtonGroup radioList={this.props.dataMetrics.drillDownOptions} onChange={this.props.updateDrillDownOptions} label="" />
-                                        : <p className='padding10px'> {this.props.dataMetrics.selectedItem && this.props.dataMetrics.selectedItem.label ? this.props.l.t('No_filters_available', 'No filters available') :
+                                    this.props.realTimeSettings.drillDownOptions && this.props.realTimeSettings.drillDownOptions.length > 0 ?
+                                        this.props.realTimeSettings.isDrillDownMultiSelect
+                                            ? <CheckBoxListGroup checkList={this.props.realTimeSettings.drillDownOptions} onChange={this.props.updateDrillDownOptions} label="" />
+                                            : <RadioButtonGroup radioList={this.props.realTimeSettings.drillDownOptions} onChange={this.props.updateDrillDownOptions} label="" />
+                                        : <p className='padding10px'> {this.props.realTimeSettings.selectedItem && this.props.realTimeSettings.selectedItem.label ? this.props.l.t('No_filters_available', 'No filters available') :
                                             this.props.l.t('Please_select_a_statistic_item', 'Please select a statistic item')}</p>
                                 }
                             </div>
@@ -116,9 +121,9 @@ export default class RealTimeSettingsComponent extends PureComponent {
                     </div>
                     <div className="col-xs-9 col-sm-7 col-md-6 col-lg-5">
                         <CustomSelect name="field-function-options"
-                            value={this.props.dataMetrics.selectedFunction}
+                            value={this.props.realTimeSettings.selectedFunction}
                             placeholder='Select...'
-                            options={this.props.dataMetrics.functionOptions}
+                            options={this.props.realTimeSettings.functionOptions}
                             onChange={(e) => this.onStatisticFunctionChange(e)} />
                     </div>
                 </div>
@@ -128,9 +133,9 @@ export default class RealTimeSettingsComponent extends PureComponent {
                     </div>
                     <div className="col-xs-9 col-sm-7 col-md-6 col-lg-5">
                         <CustomSelect name="field-display-format-options"
-                            value={this.props.dataMetrics.selectedDisplayFormat}
+                            value={this.props.realTimeSettings.selectedDisplayFormat}
                             placeholder='Select...'
-                            options={this.props.dataMetrics.displayFormatOptions}
+                            options={this.props.realTimeSettings.displayFormatOptions}
                             onChange={this.onDisplayFormatChange} />
                     </div>
                 </div>
