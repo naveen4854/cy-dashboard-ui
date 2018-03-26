@@ -1,3 +1,4 @@
-export const UPDATE_LEVELS = 'UPDATE_LEVELS';
+export const UPDATE_LEVEL = 'UPDATE_LEVEL';
 export const HANDLE_CLICK = 'HANDLE_CLICK';
 export const DEFAULT_THRESHOLD = 'DEFAULT_THRESHOLD';
+export const ADD_LEVELS='ADD_LEVELS'

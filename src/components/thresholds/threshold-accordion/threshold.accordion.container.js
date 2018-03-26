@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import ThresholdAccordionComponent from './threshold.accordion.component';
-import localize from '../localization/localization.hoc';
+import localize from '../../localization/localization.hoc';
 
 
 const mapDispatchToProps = (dispatch) => {

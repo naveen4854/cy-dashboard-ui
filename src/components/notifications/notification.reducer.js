@@ -74,16 +74,17 @@ export function custom(message, buttons) {
  */
 export function confirm(message, buttons) {
   return (dispatch, getState) => {
+    debugger;
     let messagesConfig = {};
     messagesConfig.message = { displayMessage: message.Message || message, normalizedMessage: message.NormalizedMessage };
     messagesConfig.type = ResponseStatusEnum.Confirmation;
     messagesConfig.persistMessages = false;
     _.each(buttons, (btn, i) => {
-      if (i == 0){
+      if (i == 0) {
         btn.ok = true;
         btn.onOk = btn.handler
       }
-      if (i == 1){
+      if (i == 1) {
         btn.cancel = true;
         btn.onCancel = btn.handler
       }

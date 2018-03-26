@@ -18,7 +18,7 @@ export default class WidgetConfigurationsComponent extends PureComponent {
                                 <Tab eventKey="se" title={this.props.l.t('Styles', 'Styles')}>
                                 <StylesContainer />
                         </Tab>
-                                <Tab eventKey="t" title={this.props.l.t('Data_Metrics', 'Data Metrics')}>
+                                <Tab eventKey="t" title={this.props.l.t('Thresholds', 'Thresholds')}>
                                 <ThresholdTabContainer/>
                         </Tab>
                             </Tabs>

@@ -1,7 +1,7 @@
 "use srtict"
 import React, { Component, PureComponent } from 'react';
 import _ from 'lodash';
-// import ThresholdAccordionContainer from './threshold-accordion/';
+import ThresholdAccordionContainer from './threshold-accordion';
 import * as Color from '../../shared/lib/color-conversion';
 import WidgetType from '../../shared/enums/widget-type.enum';
 import CustomSelect from '../custom-dropdown';
@@ -13,55 +13,19 @@ export default class ThresholdTab extends PureComponent {
     constructor(props) {
         super(props);
         this.validateEmailIds = this.validateEmailIds.bind(this);
-        this.getDisplayFormat = this.getDisplayFormat.bind(this);
         this.validateThresholds = this.validateThresholds.bind(this);
         this.addSelectedLevels = this.addSelectedLevels.bind(this);
-
-        let column = this.getBasedColumn(props)
-        // this.state = {
-        //     levels: props.widget.appliedSettings ? _.cloneDeep(props.widget.appliedSettings.thresholds) : [],
-        //     column,
-        //     widgetId: props.widget.id,
-        //     displayFormat: this.getDisplayFormat(this.props.widget, column)
-        // }
+        this.addLevels = this.addLevels.bind(this);
 
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.props.widgetId != nextProps.widget.id) {
-            let column = this.getBasedColumn(nextProps);
-            this.setState({
-                displayFormat: this.getDisplayFormat(nextProps.widget, column)
-            })
-            this.setState({
-                levels: nextProps.widget.appliedSettings ? _.cloneDeep(nextProps.widget.appliedSettings.thresholds) : [],
-                column,
-                widgetId: nextProps.widget.id,
-            })
-        }
-    }
-
-    /**
-     * 
-     * @param {*} props 
-     */
-    getBasedColumn(props) {
-        let column = props.basedColumn ? props.basedColumn : props.statisticsCategoryId == StatisticCategoryEnum.Custom ?
-            { label: props.column, value: props.id, type: props.dataType } : undefined
-        let selectedColOpt = _.find(props.columnOptions, opt => opt.label == column.label);
-        if (column) {
-            column.displayFormatId = selectedColOpt ? selectedColOpt.displayFormatId : DisplayFormatEnum.Text;
-            column.timeFormatId = selectedColOpt ? selectedColOpt.timeFormatId : undefined;
-        }
-        return column;
-    }
 
     /**
      * To add the selected levels to threshold list and to update the based on column.
      */
     addSelectedLevels() {
         let errors = [];
-        let _displayFormat = this.getDisplayFormat(this.props.widget, this.state.column);
+        let _displayFormat = this.getDisplayFormat(this.state.column);
         if (!_displayFormat)
             errors.push({ displayMessage: this.props.l.t('Display_format_is_not_set_in_Data_MetricsPERIOD', 'Display format is not set in Data Metrics.') });
 
@@ -115,7 +79,6 @@ export default class ThresholdTab extends PureComponent {
     }
 
     validateEmailIds() {
-        debugger;
         let invalidLevels = _.filter(this.state.levels, (level) => _.filter(level.emailTo, (email) => !utils.validateEmail(email.Value)).length > 0);
         return _.map(invalidLevels, (lvl) => { return { displayMessage: `Level ${lvl.level}:${this.props.l.t('Email_is_empty_or_not_in_correct_format', 'Email is empty or not in correct format')}` } });
     }
@@ -128,11 +91,11 @@ export default class ThresholdTab extends PureComponent {
      * @param {*} widget 
      * @param {*} basedColumn //required for custom combo
      */
-    getDisplayFormat(widget, basedColumn) {
+    getDisplayFormat(basedColumn) {
         // For combo cell widgets
-        if (widget.isComboWidget) {
+        if (this.props.threshold.isComboWidget) {
             // Combo Custom
-            if (widget.column && widget.column != "") {
+            if (this.props.threshold.column && this.props.threshold.column != "") {
                 if (_.find(Constants.NumericTypes, (type) => type == basedColumn.type)) {
                     if (basedColumn.displayFormatId == DisplayFormatEnum.Duration) {
                         let _format = _.find(Constants.customCombotimeFormat, format => format.id == basedColumn.timeFormatId);
@@ -150,7 +113,7 @@ export default class ThresholdTab extends PureComponent {
                 if (basedColumn.type == 'string')
                     return DisplayFormatEnum.Text;
 
-                return widget.displayFormatId;
+                return this.props.threshold.displayFormatId;
             }
 
             // Combo real time headers
@@ -216,19 +179,6 @@ export default class ThresholdTab extends PureComponent {
         return errors
     }
 
-    /**
-     * To get the column index based on widget from matrix
-     * @param {*} matrix 
-     * @param {*} widgetId 
-     */
-    getColumnIndex(matrix, widgetId) {
-        for (var columnIndex = 0; columnIndex < matrix.length; columnIndex++) {
-            var widget = matrix[columnIndex];
-            if (widget.id === widgetId) {
-                return columnIndex;
-            }
-        }
-    }
 
 
 
@@ -236,32 +186,25 @@ export default class ThresholdTab extends PureComponent {
      * To add the levels
      */
     addLevels() {
-        var arrayCount = this.state.levels.length || 0;
-        var levels = _.cloneDeep(this.state.levels) || [];
-
-        _.map(levels, (level) => level.expanded = false);
-
-        let copiedLevel = _.find(levels, (level) => level.isCopied);
-
-        levels.push({
+        var arrayCount = this.props.threshold.levels.length || 0;
+        let copiedLevel = _.find(this.props.threshold.levels, (level) => level.isCopied);
+        var item = {
             id: Date.now(),
             level: arrayCount + 1,
-            levelValue: this.getDefaultThresholdValue(this.state.displayFormat),
+            levelValue: this.getDefaultThresholdValue(this.props.threshold.displayFormat),
             color: Color.getRandomColor(),
             soundFile: {},
             isContinuous: false,
             emailTo: [{ Value: '', Key: 1 }],
             smsTo: [{ Value: '', Key: 1 }],
             emailSubject: this.props.l.t('AlertCOLON_Threshold_Level_has_been_reachedPERIOD', 'Alert: Threshold Level has been reached.'),
-            column: this.state.column,
+            column: this.props.threshold.column,
             expanded: true,
             isPasteEnabled: copiedLevel ? true : false,
             isCopied: false,
-        });
-
-        this.setState({
-            levels
-        })
+        };
+        
+        this.props.addLevels(item);
     }
 
     /**
@@ -293,42 +236,16 @@ export default class ThresholdTab extends PureComponent {
 
 
 
-    pasteThresholdValues(id) {
-        let selectedLevelId = this.state.selectedLevelId;
-        let copiedLevel = _.find(this.state.levels, (level) => level.isCopied);
-
-
-        let updatedLevels = _.map(this.state.levels, (level) => {
-            if (level.id == id) {
-                level.emailTo = _.clone(copiedLevel.emailTo);
-                level.smsTo = _.clone(copiedLevel.smsTo);
-            }
-            level.isCopied = false;
-            level.isPasteEnabled = false;
-            return level;
-
-        });
-        this.setState({
-            levels: updatedLevels
-        })
-    }
-
-    handleTestClick(id) {
-        let level = _.find(this.state.levels, (level) => level.id === id);
-        this.props.testThreshold(level, this.props.widgetId);
-    }
-
     /**
      * To set the selected column for the column option drop down
      * @param {*} e 
      */
     onColumnChange(e) {
-        let displayFormat = this.getDisplayFormat(this.props.widget, e);
+        let displayFormat = this.getDisplayFormat(e);
         let levels = _.map(this.state.levels, (lvl) => {
             lvl.levelValue = this.getDefaultThresholdValue(displayFormat, lvl.levelValue)
             return lvl
         })
-        console.log(this.getDisplayFormat(this.props.widget, e), 'onColumncomponentWillReceiveProps')
 
         this.setState({
             column: e,
@@ -342,7 +259,7 @@ export default class ThresholdTab extends PureComponent {
             <div id='tabContentArea' className='margin20'>
                 <div className='row'>
                     <div className='col-xs-6' >
-                        <button type="button" className="btn btn-primary rtl-pull-left pull-left " onClick={this.addLevels.bind(this)} >
+                        <button type="button" className="btn btn-primary rtl-pull-left pull-left " onClick={this.addLevels} >
                             <i className="fa fa-plus"> </i>
                             &nbsp;{this.props.l.t('New_Threshold', 'New Threshold')}
                         </button>
@@ -369,10 +286,7 @@ export default class ThresholdTab extends PureComponent {
                     </div>
                 }
 
-                {/* <ThresholdAccordion
-                    l={this.props.l}
-                    displayFormat={this.state.displayFormat}
-                /> */}
+                <ThresholdAccordionContainer />
             </div>
         )
     }
