@@ -1,5 +1,5 @@
 import { initiateRealTimeSettings } from './real-time-settings.actions'
-import {clearRealTimeSettings} from './real-time-settings.actions'
+import { clearRealTimeSettings } from './real-time-settings.actions'
 
 export const DEFAULT_REALTIME_METRICS = "DEFAULT_REALTIME_METRICS"
 export const UPDATE_REALTIME_METRICS = "UPDATE_REALTIME_METRICS"
@@ -15,6 +15,7 @@ export const TOGGLE_DRILL_DOWN = "TOGGLE_DRILL_DOWN"
 export const UPDATE_DRILL_DOWN_OPTIONS = "UPDATE_DRILL_DOWN_OPTIONS"
 export const SET_REALTIME_STATISTIC_GROUPS = "SET_REALTIME_STATISTIC_GROUPS"
 export const CLEAR_SELECTED_REALTIME_SETTINGS = "CLEAR_SELECTED_REALTIME_SETTINGS"
+export const SET_DRILL_DOWN_DEFAULTED = "SET_DRILL_DOWN_DEFAULTED"
 
 export const ACTION_HANDLERS = {
     [SET_REALTIME_STATISTIC_GROUPS]: (state, action) => {
@@ -98,6 +99,9 @@ export const ACTION_HANDLERS = {
     },
     [CLEAR_SELECTED_REALTIME_SETTINGS]: (state, action) => {
         return Object.assign({}, state, action.realTimeSettings)
+    },
+    [SET_DRILL_DOWN_DEFAULTED]: (state, action) => {
+        return Object.assign({}, state, { drillDownDefaulted: action.drillDownDefaulted })
     }
 }
 

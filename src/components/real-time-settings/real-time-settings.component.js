@@ -18,6 +18,10 @@ export default class RealTimeSettingsComponent extends PureComponent {
 
     }
 
+    componentWillUnmount() {
+        // this.props.setDrillDownDefaulted();
+    }
+
     onStatisticGroupChange(statisticGroup) {
         if (!statisticGroup.id)
             return;

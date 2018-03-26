@@ -41,6 +41,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         toggleDrillDown: (shouldOpen) => {
             dispatch(RealTimeSettingsActions.toggleDrillDown(shouldOpen))
+        },
+        setDrillDownDefaulted: () => {
+            dispatch(RealTimeSettingsActions.setDrillDownDefaulted(false))
         }
     }
 }

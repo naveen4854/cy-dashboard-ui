@@ -85,7 +85,7 @@ export function initializeStatisticMetadata() {
         let selectedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory || StatisticCategoryEnum.RealTime
 
         dispatch({
-            type: SET_STATISTIC_CATEGORY,
+            type: SET_SELECTED_STATISTIC_CATEGORY,
             selectedStatisticCategory
         })
 
@@ -145,26 +145,27 @@ export function clearSelectedDM() {
     }
 }
 
-export function setSelectedStatisticCategoryAction(selectedStatisticCategory) {
+export function setSelectedStatisticCategory(selectedStatisticCategory) {
     return (dispatch, getState) => {
+        debugger
+        dispatch({
+            type: SET_SELECTED_STATISTIC_CATEGORY,
+            selectedStatisticCategory
+        });
         // dispatch(getState().dataMetrics.setDMisLoaded(false))
         // dispatch(getState().dataMetrics.updateDrillDownOptionsAction([]))
         // dispatch(getState().dataMetrics.CLearQuery());
-        let currentWidget = getState().configurations.widget;
+        // let currentWidget = getState().configurations.widget;
+        // groupOptions: _.uniqBy(_.map(_.filter(getState().dataMetrics.datametricsMetadata, metric =>
+        //     metric.StatisticCategory === selectedStatisticCategory &&
+        //     metric.WidgetType === currentWidget.widgetType), (obj) => {
+        //         return {
+        //             id: obj.StatisticGroupId,
+        //             label: obj.StatisticGroup,
+        //             value: obj.Id
+        //         }
+        //     }), 'id')
 
-        dispatch({
-            type: SET_SELECTED_STATISTIC_CATEGORY,
-            selectedStatisticCategory,
-            groupOptions: _.uniqBy(_.map(_.filter(getState().dataMetrics.datametricsMetadata, metric =>
-                metric.StatisticCategory === selectedStatisticCategory &&
-                metric.WidgetType === currentWidget.widgetType), (obj) => {
-                    return {
-                        id: obj.StatisticGroupId,
-                        label: obj.StatisticGroup,
-                        value: obj.Id
-                    }
-                }), 'id')
-        });
     }
 }
 
@@ -176,7 +177,7 @@ export const ACTION_HANDLERS = {
             datametricsMetadata: action.datametricsMetadata
         })
     },
-    [SET_STATISTIC_CATEGORY]: (state, action) => {
+    [SET_SELECTED_STATISTIC_CATEGORY]: (state, action) => {
         return Object.assign({}, state, {
             statisticCategory: action.selectedStatisticCategory,
         })

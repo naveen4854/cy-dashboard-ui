@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react'
 import ToggleSwitch from '../toggle-switch';
 import { StatisticCategoryEnum } from '../../shared/enums'
 import RealTimeSettingsContainer from '../real-time-settings'
+import CyReportSettingsContainer from '../cy-report-settings/cy-report-settings.container';
 
 export default class DataMetricsSettingsComponent extends PureComponent {
 
@@ -25,7 +26,7 @@ export default class DataMetricsSettingsComponent extends PureComponent {
                         <ToggleSwitch
                             nodes={this.props.dataMetrics.statisticCategoryOptions}
                             checkedNode={this.props.dataMetrics.statisticCategory}
-                            onChange={(e) => { }} />
+                            onChange={(e) => {this.props.setSelectedStatisticCategory(e) }} />
                     </div>
                 </div>
                 {
@@ -41,7 +42,7 @@ export default class DataMetricsSettingsComponent extends PureComponent {
                 return <RealTimeSettingsContainer />;
                 break;
             case (StatisticCategoryEnum.CyReport):
-                return "";
+                return <CyReportSettingsContainer />;
                 break;
             case (StatisticCategoryEnum.Custom):
                 return "";

@@ -1,4 +1,4 @@
-import { DEFAULT_REALTIME_METRICS, UPDATE_REALTIME_SELECTED_GROUP, UPDATE_REALTIME_METRICS, UPDATE_REALTIME_ITEMS, SET_REALTIME_ITEM, UPDATE_REALTIME_FUNCTIONS, UPDATE_REALTIME_SELECTED_FUNCTION, UPDATE_REALTIME_DISPLAY_FORMATS, UPDATE_REALTIME_SELECTED_DISPLAY_FORMAT, UPDATE_DRILL_DOWN_METADATA, SET_REALTIME_STATISTIC_GROUPS, TOGGLE_DRILL_DOWN, UPDATE_DRILL_DOWN_OPTIONS, realTimeSettingsinitialState, CLEAR_SELECTED_REALTIME_SETTINGS } from "./real-time-settings.reducer";
+import { DEFAULT_REALTIME_METRICS, UPDATE_REALTIME_SELECTED_GROUP, UPDATE_REALTIME_METRICS, UPDATE_REALTIME_ITEMS, SET_REALTIME_ITEM, UPDATE_REALTIME_FUNCTIONS, UPDATE_REALTIME_SELECTED_FUNCTION, UPDATE_REALTIME_DISPLAY_FORMATS, UPDATE_REALTIME_SELECTED_DISPLAY_FORMAT, UPDATE_DRILL_DOWN_METADATA, SET_REALTIME_STATISTIC_GROUPS, TOGGLE_DRILL_DOWN, UPDATE_DRILL_DOWN_OPTIONS, realTimeSettingsinitialState, CLEAR_SELECTED_REALTIME_SETTINGS, SET_DRILL_DOWN_DEFAULTED } from "./real-time-settings.reducer";
 import { WidgetTypeEnum } from "../../shared/enums";
 import * as dataMetricsService from '../data-metrics/data-metrics-service';
 
@@ -152,20 +152,27 @@ export function getDrillDownMetaData(selectedItem) {
         if (getState().dataMetrics && getState().dataMetrics.datametricsMetadata) {
             let widget = getState().configurations.widget;
             const selectedItemData = _.find(getState().dataMetrics.datametricsMetadata, (metaData) => metaData.StatisticItemId === selectedItem.id);
+            let defaulted = getState().realTimeSettings.drillDownDefaulted
             dataMetricsService.getDrillDownMetaData(selectedItemData.StatisticGroupId).then(function (response) {
                 let _opts = _.map(_.uniqBy(response.data, 'Id'), (obj) => {
-
-                    let defaulted = getState().realTimeSettings.drillDownDefaulted
-                    debugger
+                    let option, _checked;
                     // all these calculations because of the difference in drill down options saved in db vs appended obj to DM
-                    let option = _.find(widget.appliedSettings.dataMetrics.drillDownOptions, (_opt) => _opt == obj.Id || _opt.value == obj.Id)
-                    let _checked = option ? true : false;
+                    // if already defaulted.. trying to persist changes wrt to selections made even on toggling categories
+                    // else trying to fetch from widget drill downs
+                    if (defaulted)
+                        option = _.find(getState().realTimeSettings.drillDownOptions, (_opt) => _opt == obj.Id || _opt.value == obj.Id)
+                    else
+                        option = _.find(widget.appliedSettings.dataMetrics.drillDownOptions, (_opt) => _opt == obj.Id || _opt.value == obj.Id)
+
+                    _checked = option ? true : false;
                     if (option && option.checked != undefined)
                         _checked = option.checked
+                        
                     return {
                         label: obj.Name,
                         value: obj.Id,
-                        checked: defaulted ? false : _checked
+                        checked: _checked
+                        // checked: defaulted ? false : _checked
                     };
                 });
                 dispatch({
@@ -205,5 +212,12 @@ export function clearRealTimeSettings() {
             type: CLEAR_SELECTED_REALTIME_SETTINGS,
             realTimeSettings
         })
+    }
+}
+
+export function setDrillDownDefaulted(value) {
+    return {
+        type: SET_DRILL_DOWN_DEFAULTED,
+        drillDownDefaulted: value
     }
 }

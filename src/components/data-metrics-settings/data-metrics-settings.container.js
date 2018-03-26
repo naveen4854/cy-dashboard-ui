@@ -8,6 +8,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         initializeStatisticMetadata: () => {
             dispatch(DataMetricsReducer.initializeStatisticMetadata());
+        },
+        setSelectedStatisticCategory: (selectedStatisticCategory) => {
+            dispatch(DataMetricsReducer.setSelectedStatisticCategory(selectedStatisticCategory));
         }
     }
 }
