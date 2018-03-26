@@ -19,7 +19,7 @@ export default class WidgetConfigurationsComponent extends PureComponent {
                                     <StylesContainer />
                                 </Tab>
                                 <Tab eventKey="t" title={this.props.l.t('Data_Metrics', 'Data Metrics')}>
-                                    {/* <ThresholdTabContainer/> */}
+                                    <ThresholdTabContainer/>
                                 </Tab>
                             </Tabs>
                         </CustomDock>
