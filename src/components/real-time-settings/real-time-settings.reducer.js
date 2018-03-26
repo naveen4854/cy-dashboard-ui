@@ -1,4 +1,5 @@
 import { initiateRealTimeSettings } from './real-time-settings.actions'
+import {clearRealTimeSettings} from './real-time-settings.actions'
 
 export const DEFAULT_REALTIME_METRICS = "DEFAULT_REALTIME_METRICS"
 export const UPDATE_REALTIME_METRICS = "UPDATE_REALTIME_METRICS"
@@ -12,22 +13,21 @@ export const UPDATE_REALTIME_SELECTED_DISPLAY_FORMAT = "UPDATE_REALTIME_SELECTED
 export const UPDATE_DRILL_DOWN_METADATA = "UPDATE_DRILL_DOWN_METADATA"
 export const TOGGLE_DRILL_DOWN = "TOGGLE_DRILL_DOWN"
 export const UPDATE_DRILL_DOWN_OPTIONS = "UPDATE_DRILL_DOWN_OPTIONS"
+export const SET_REALTIME_STATISTIC_GROUPS = "SET_REALTIME_STATISTIC_GROUPS"
+export const CLEAR_SELECTED_REALTIME_SETTINGS = "CLEAR_SELECTED_REALTIME_SETTINGS"
 
 export const ACTION_HANDLERS = {
+    [SET_REALTIME_STATISTIC_GROUPS]: (state, action) => {
+        return Object.assign({}, state, {
+            groupOptions: action.groupOptions
+        })
+    },
     [DEFAULT_REALTIME_METRICS]: (state, action) => {
         return Object.assign({}, state, {
             selectedGroup: action.selectedGroup,
             selectedItem: action.selectedItem,
             selectedFunction: action.selectedFunction,
             selectedDisplayFormat: action.selectedDisplayFormat
-        })
-    },
-    [UPDATE_REALTIME_METRICS]: (state, action) => {
-        return Object.assign({}, state, {
-            statisticCategories: action.statisticCategories,
-            statisticCategoryOptions: action.statisticCategoryOptions,
-            datametricMetadata: action.datametricsMetaData,
-            groupOptions: action.groupOptions
         })
     },
     [UPDATE_REALTIME_SELECTED_GROUP]: (state, action) => {
@@ -60,7 +60,6 @@ export const ACTION_HANDLERS = {
     },
     [UPDATE_REALTIME_FUNCTIONS]: (state, action) => {
         return Object.assign({}, state, {
-            // selectedFunction: action.functionOptions.length > 0 ? action.functionOptions[0] : {},
             functionOptions: action.functionOptions
         })
     },
@@ -72,7 +71,6 @@ export const ACTION_HANDLERS = {
     },
     [UPDATE_REALTIME_DISPLAY_FORMATS]: (state, action) => {
         return Object.assign({}, state, {
-            // selectedDisplayFormat: action.displayFormatOptions.length > 0 ? action.displayFormatOptions[0] : {},
             displayFormatOptions: action.displayFormatOptions
         })
     },
@@ -97,14 +95,31 @@ export const ACTION_HANDLERS = {
         return Object.assign({}, state, {
             drillDownOptions: action.drillDownOptions
         })
+    },
+    [CLEAR_SELECTED_REALTIME_SETTINGS]: (state, action) => {
+        return Object.assign({}, state, action.realTimeSettings)
     }
 }
 
-const initialState = {
-    initiateRealTimeSettings
+export const realTimeSettingsinitialState = {
+    selectedGroup: {},
+    selectedItem: {},
+    selectedFunction: {},
+    selectedDisplayFormat: {},
+    statisticCategories: [],
+    statisticCategoryOptions: [],
+    groupOptions: [],
+    itemOptions: [],
+    drillDownOptions: [],
+    functionOptions: [],
+    displayFormatOptions: [],
+    drillDownDefaulted: false,
+    openDrillDown: false,
+    initiateRealTimeSettings,
+    clearRealTimeSettings
 };
 
-export default function RealTimeSettingsReducer(state = _.cloneDeep(initialState), action) {
+export default function RealTimeSettingsReducer(state = _.cloneDeep(realTimeSettingsinitialState), action) {
     const handler = ACTION_HANDLERS[action.type];
     return handler ? handler(state, action) : state;
 }

@@ -3,7 +3,7 @@ import { StatisticCategoryEnum, WidgetTypeEnum, ResponseStatusEnum } from '../..
 import { UPDATE_WIDGET } from '../../dashboard/dashboard.reducer';
 import { UPDATE_CONFIGURATIONS_WIDGET } from '../widget-configurations/widget-configurations.reducer';
 
-export const UPDATE_DATAMETRICS = "UPDATE_DATAMETRICS"
+export const UPDATE_DATA_METRICS = "UPDATE_DATA_METRICS"
 export const SET_STATISTIC_CATEGORY = "SET_STATISTIC_CATEGORY"
 export const UPDATE_SELECTED_GROUP = "UPDATE_SELECTED_GROUP"
 export const UPDATE_SELECTED_ITEM = "UPDATE_SELECTED_ITEM"
@@ -31,8 +31,8 @@ export const DEFAULT_METRICS = "DEFAULT_METRICS"
 export function LoadDataMetricsMetaData(dashboardId) {
     return (dispatch, getState) => {
         let statisticCategories = getState().dataMetrics.statisticCategories;
-        let datametricsMetaData = getState().dataMetrics.datametricMetadata;
-        if (statisticCategories && statisticCategories.length != 0 && datametricsMetaData) {
+        let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
+        if (statisticCategories && statisticCategories.length != 0 && datametricsMetadata) {
             return
         }
 
@@ -49,20 +49,19 @@ export function LoadDataMetricsMetaData(dashboardId) {
                 dataMetricsService.getStatisticGroups().then(function (response) {
                     dispatch(getState().spinnerStore.EndTask());
                     if (response.status === 200) {
-                        datametricsMetaData = _.map(response.data, (obj) => {
+                        datametricsMetadata = _.map(response.data, (obj) => {
                             return DataMetricsMetadataMapper(obj);
                         });
 
-                        if (!datametricsMetaData)
+                        if (!datametricsMetadata)
                             return;
 
                         // Dispatching basic data for DM - categories and groups
                         dispatch({
-                            type: UPDATE_DATAMETRICS,
+                            type: UPDATE_DATA_METRICS,
                             statisticCategories,
                             statisticCategoryOptions: [],
-                            datametricsMetaData,
-                            groupOptions: [],
+                            datametricsMetadata
                         });
                     }
                 });
@@ -77,9 +76,9 @@ export function initializeStatisticMetadata() {
     return (dispatch, getState) => {
         let currentWidget = _.cloneDeep(getState().configurations.widget);
         let statisticCategories = getState().dataMetrics.statisticCategories;
-        let datametricsMetaData = getState().dataMetrics.datametricMetadata;
+        let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
 
-        if (!statisticCategories || statisticCategories.length == 0 || !datametricsMetaData)
+        if (!statisticCategories || statisticCategories.length == 0 || !datametricsMetadata)
             return dispatch(getState().notificationStore.notify('failure to load statistic Metadata, please reload', ResponseStatusEnum.Error));
 
         //If Categories and DM are already in store, filter them appropriately and update the state
@@ -89,6 +88,20 @@ export function initializeStatisticMetadata() {
             type: SET_STATISTIC_CATEGORY,
             selectedStatisticCategory
         })
+
+        let _categories = _.map(_.filter(statisticCategories, x => x.WidgetType === currentWidget.widgetType), (obj) => {
+            return {
+                label: obj.StatisticCategoryName,
+                value: obj.StatisticCategory
+            };
+        });
+
+        dispatch({
+            type: UPDATE_DATA_METRICS,
+            statisticCategories,
+            statisticCategoryOptions: _categories,
+            datametricsMetadata
+        });
 
         dispatch(getState().realTimeSettings.initiateRealTimeSettings());
         // dispatch(getState().customSettings.initiateRealTimeSettings());
@@ -121,12 +134,14 @@ function DataMetricsMetadataMapper(obj) {
 export function clearSelectedDM() {
     return (dispatch, getState) => {
         let statisticCategories = getState().dataMetrics.statisticCategories;
-        let datametricsMetaData = getState().dataMetrics.datametricMetadata;
-        let dataMetrics = { ..._.cloneDeep(initialState), statisticCategories, datametricsMetaData }
+        let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
+        let dataMetrics = { ..._.cloneDeep(initialState), statisticCategories, datametricsMetadata }
         dispatch({
             type: CLEAR_SELECTED_DM,
             dataMetrics
         })
+
+        dispatch(getState().realTimeSettings.clearRealTimeSettings())
     }
 }
 
@@ -140,7 +155,7 @@ export function setSelectedStatisticCategoryAction(selectedStatisticCategory) {
         dispatch({
             type: SET_SELECTED_STATISTIC_CATEGORY,
             selectedStatisticCategory,
-            groupOptions: _.uniqBy(_.map(_.filter(getState().dataMetrics.datametricMetadata, metric =>
+            groupOptions: _.uniqBy(_.map(_.filter(getState().dataMetrics.datametricsMetadata, metric =>
                 metric.StatisticCategory === selectedStatisticCategory &&
                 metric.WidgetType === currentWidget.widgetType), (obj) => {
                     return {
@@ -153,8 +168,14 @@ export function setSelectedStatisticCategoryAction(selectedStatisticCategory) {
     }
 }
 
-
 export const ACTION_HANDLERS = {
+    [UPDATE_DATA_METRICS]: (state, action) => {
+        return Object.assign({}, state, {
+            statisticCategories: action.statisticCategories,
+            statisticCategoryOptions: action.statisticCategoryOptions,
+            datametricsMetadata: action.datametricsMetadata
+        })
+    },
     [SET_STATISTIC_CATEGORY]: (state, action) => {
         return Object.assign({}, state, {
             statisticCategory: action.selectedStatisticCategory,
@@ -194,32 +215,20 @@ export const ACTION_HANDLERS = {
     }
 }
 
-const initialState = {
+export const initialState = {
     widgetType: WidgetTypeEnum.Box,
-    drillDownOptions: [],
-    groupOptions: [],
-    itemOptions: [],
-    functionOptions: [],
     storeProcOptions: [],
-    selectedGroup: {},
-    selectedItem: {},
-    selectedFunction: {},
-    selectedDisplayFormat: {},
     storeProcData: null,
     selectedWidgetforStatisticItem: '',
-    displayFormatOptions: [],
     statisticCategory: StatisticCategoryEnum.RealTime,
     isDirty: false,
     isLoaded: false,
     allColumnOptions: [],
     columnOptions: [],
     comboSelectedStatisticItems: [],
-    statisticCategories: [],
-    datametricsMetaData: {},
+    datametricsMetadata: {},
     isDefault: false,
     displayName: '',
-    drillDownDefaulted: false,
-    openDrillDown: false,
     LoadDataMetricsMetaData,
     initializeStatisticMetadata,
     clearSelectedDM

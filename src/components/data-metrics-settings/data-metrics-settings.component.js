@@ -25,7 +25,7 @@ export default class DataMetricsSettingsComponent extends PureComponent {
                         <ToggleSwitch
                             nodes={this.props.dataMetrics.statisticCategoryOptions}
                             checkedNode={this.props.dataMetrics.statisticCategory}
-                            onChange={(e) => this.props.setSelectedStatisticCategory(e, this.props.dataMetrics.widget.widgetType, this.props.dataMetrics.widget.id)} />
+                            onChange={(e) => { }} />
                     </div>
                 </div>
                 {

@@ -13,7 +13,6 @@ export const ACTION_HANDLERS = {
         })
     },
     [ThresholdConstants.DEFAULT_THRESHOLD]: (state, action) => {
-        debugger;
         return Object.assign({}, state, {
             basedColumn: action.basedColumn,
             column: action.column,

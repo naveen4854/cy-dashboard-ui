@@ -115,7 +115,6 @@ export default class ThresholdTab extends PureComponent {
     }
 
     validateEmailIds() {
-        debugger;
         let invalidLevels = _.filter(this.state.levels, (level) => _.filter(level.emailTo, (email) => !utils.validateEmail(email.Value)).length > 0);
         return _.map(invalidLevels, (lvl) => { return { displayMessage: `Level ${lvl.level}:${this.props.l.t('Email_is_empty_or_not_in_correct_format', 'Email is empty or not in correct format')}` } });
     }

@@ -63,8 +63,7 @@ export default class RealTimeSettingsComponent extends PureComponent {
 
     render() {
         const { realTimeSettings } = this.props;
-        const enableSetButton = realTimeSettings.statisticCategory == StatisticCategoryEnum.RealTime ?
-            realTimeSettings.selectedDisplayFormat.id != undefined : false
+        const enableSetButton = realTimeSettings.selectedDisplayFormat.id ? true : false
         return (
             <div id="realcyReport">
                 <div className="row">
