@@ -1,11 +1,12 @@
 import { DEFAULT_REALTIME_METRICS, UPDATE_REALTIME_SELECTED_GROUP, UPDATE_REALTIME_METRICS, UPDATE_REALTIME_ITEMS, SET_REALTIME_ITEM, UPDATE_REALTIME_FUNCTIONS, UPDATE_REALTIME_SELECTED_FUNCTION, UPDATE_REALTIME_DISPLAY_FORMATS, UPDATE_REALTIME_SELECTED_DISPLAY_FORMAT, UPDATE_DRILL_DOWN_METADATA, SET_REALTIME_STATISTIC_GROUPS, TOGGLE_DRILL_DOWN, UPDATE_DRILL_DOWN_OPTIONS, realTimeSettingsinitialState, CLEAR_SELECTED_REALTIME_SETTINGS, SET_DRILL_DOWN_DEFAULTED } from "./real-time-settings.reducer";
-import { WidgetTypeEnum } from "../../shared/enums";
+import { WidgetTypeEnum, StatisticCategoryEnum } from "../../shared/enums";
 import * as dataMetricsService from '../data-metrics/data-metrics-service';
 
 export function initiateRealTimeSettings() {
     return (dispatch, getState) => {
         let currentWidget = _.cloneDeep(getState().configurations.widget);
-        let selectedStatisticCategory = getState().dataMetrics.statisticCategory;
+        let selectedStatisticCategory = StatisticCategoryEnum.RealTime;
+        // let selectedStatisticCategory = getState().dataMetrics.statisticCategory;
         let statisticCategories = getState().dataMetrics.statisticCategories;
         let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
 

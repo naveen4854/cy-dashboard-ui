@@ -106,17 +106,15 @@ export const ACTION_HANDLERS = {
 }
 
 export const realTimeSettingsinitialState = {
-    selectedGroup: {},
-    selectedItem: {},
-    selectedFunction: {},
-    selectedDisplayFormat: {},
-    statisticCategories: [],
-    statisticCategoryOptions: [],
     groupOptions: [],
     itemOptions: [],
     drillDownOptions: [],
     functionOptions: [],
     displayFormatOptions: [],
+    selectedGroup: {},
+    selectedItem: {},
+    selectedFunction: {},
+    selectedDisplayFormat: {},
     drillDownDefaulted: false,
     openDrillDown: false,
     initiateRealTimeSettings,

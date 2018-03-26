@@ -69,7 +69,7 @@ export default class RealTimeSettingsComponent extends PureComponent {
         const { realTimeSettings } = this.props;
         const enableSetButton = realTimeSettings.selectedDisplayFormat.id ? true : false
         return (
-            <div id="realcyReport">
+            <div id="realTimeSettings">
                 <div className="row">
                     <div className="col-xs-12 col-md-4 col-lg-4 metrics-label-sm metrics-label rtl-metrics-label-sm ">
                         <label>{this.props.l.t('Statistic_GroupCOLON', 'Statistic Group:')} </label>

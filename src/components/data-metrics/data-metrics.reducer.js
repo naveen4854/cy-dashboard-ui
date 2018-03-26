@@ -104,7 +104,7 @@ export function initializeStatisticMetadata() {
         });
 
         dispatch(getState().realTimeSettings.initiateRealTimeSettings());
-        // dispatch(getState().customSettings.initiateRealTimeSettings());
+        dispatch(getState().cyReportSettings.initiateCyReportSettings());
         // dispatch(getState().cyReportSettings.initiateRealTimeSettings());
 
         // if (currentWidget.appliedSettings.dataMetrics.group)
@@ -147,7 +147,6 @@ export function clearSelectedDM() {
 
 export function setSelectedStatisticCategory(selectedStatisticCategory) {
     return (dispatch, getState) => {
-        debugger
         dispatch({
             type: SET_SELECTED_STATISTIC_CATEGORY,
             selectedStatisticCategory

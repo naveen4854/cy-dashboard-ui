@@ -22,6 +22,9 @@ export default (store) => ({
       const realTimeSettingsReducer = require('../../components/real-time-settings/real-time-settings.reducer').default
       injectReducer(store, { key: 'realTimeSettings', reducer: realTimeSettingsReducer })
 
+      const cyReportSettingsReducer = require('../../components/cy-report-settings/cy-report-settings.reducer').default
+      injectReducer(store, { key: 'cyReportSettings', reducer: cyReportSettingsReducer })
+      
       cb(null, authenticate(newDashboardContainer))
     }, 'newdashboard')
   },
