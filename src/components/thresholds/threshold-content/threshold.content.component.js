@@ -16,11 +16,19 @@ import moment from 'moment'
 export default class ThresholdTabContent extends PureComponent {
     constructor(props) {
         super(props);
-        debugger;
         this.soundFile = null;
         this.testThreshold = this.testThreshold.bind(this);
         this.validateEmailIds = this.validateEmailIds.bind(this);
         this.validateSMS = this.validateSMS.bind(this);
+        this.removeLeveConfiramtion = this.removeLeveConfiramtion.bind(this, this.props.id);
+        this.setIsCopiedForLevel = this.setIsCopiedForLevel.bind(this, this.props.id);
+        this.pasteThresholdValues = this.pasteThresholdValues.bind(this, this.props.id);
+        this.updateLevel = this.updateLevel.bind(this);
+        this.getSelectedColor = this.getSelectedColor.bind(this);
+        this.addEmailTextbox = this.addEmailTextbox.bind(this);
+        this.addSMSTextbox = this.addSMSTextbox.bind(this);
+        this.deleteSMSTextbox = this.deleteSMSTextbox.bind(this);
+        this.deleteEmailTextbox = this.deleteEmailTextbox.bind(this);
 
     }
 
@@ -33,13 +41,6 @@ export default class ThresholdTabContent extends PureComponent {
         this.props.updateLevel(this.props.id, "color", color);
     }
 
-    /**
-     * To update the levels based on key and value using ref
-     * @param {*} key 
-     */
-    updateLevel(key) {
-        this.props.updateLevel(this.props.id, key, this.refs[key].value);
-    }
 
     /**
      * To update the levels based on key
@@ -47,6 +48,7 @@ export default class ThresholdTabContent extends PureComponent {
      * * @param {*} key 
      */
     updateLevel(value, key) {
+        debugger;
         this.props.updateLevel(this.props.id, key, value);
     }
 
@@ -172,6 +174,7 @@ export default class ThresholdTabContent extends PureComponent {
     * @param {*} key 
     */
     updateSMSTextBox(Key, ref) {
+        debugger;
         let sms = this.props.smsTo;
         let obj = 0;
         for (obj = 0; obj < sms.length; obj++) {
@@ -213,7 +216,7 @@ export default class ThresholdTabContent extends PureComponent {
                 value={this.props.levelValue}
                 wKey='levelValue'
                 enableInput={true}
-                updatePropOnChange={this.updateLevel.bind(this)}
+                updatePropOnChange={this.updateLevel}
             />
         )
     }
@@ -221,23 +224,23 @@ export default class ThresholdTabContent extends PureComponent {
     handleClick = () => {
         this.props.handleClick(this.props.id);
     }
-    removeLevel() {
-        this.props.removeLevel(this.props.id);
+    removeLevel(id) {
+        this.props.removeLevel(id);
     }
-    removeLeveConfiramtion = (e) => {
+    removeLeveConfiramtion(id, e) {
+        // let notifyMessage = this.props.l.t('Are_you_sure_you_want_to_delete_Level__threshold?', 'Are you sure you want to delete Level ${levelNumber} threshold?', { 'levelNumber': this.props.level })
+        // let buttons = [
+        //     {
+        //         text: 'Yes',
+        //         handler: () => this.removeLevel(id)
+        //     },
+        //     {
+        //         text: 'No',
+        //         handler: () => { }
+        //     }]
 
-        let notifyMessage = this.props.l.t('Are_you_sure_you_want_to_delete_Level__threshold?', 'Are you sure you want to delete Level ${levelNumber} threshold?', { 'levelNumber': this.props.level })
-        let buttons = [
-            {
-                text: 'Yes',
-                handler: () => this.removeLevel()
-            },
-            {
-                text: 'No',
-                handler: () => { }
-            }]
-
-        this.props.common.confirm(notifyMessage, buttons);
+        this.removeLevel(id);
+        //        this.props.common.confirm(notifyMessage, buttons);
         e.stopPropagation();
     }
     render() {
@@ -265,13 +268,13 @@ export default class ThresholdTabContent extends PureComponent {
                             <div className="row">
                                 <div className="col-xs-4 col-sm-3 hidden-lg pull-right rtl-pull-right">
                                     <span title="Copy" className="fontSize20 paddingRight10 rtl-paddingRight10">
-                                        <i className="fa fa-copy pointer" aria-hidden="true" onClick={this.setIsCopiedForLevel.bind(this, this.props.id)}></i>
+                                        <i className="fa fa-copy pointer" aria-hidden="true" onClick={this.setIsCopiedForLevel}></i>
                                     </span>
                                     <span title="Paste" className="fontSize20">
                                         <i className={this.props.isPasteEnabled ? "fa fa-paste pointer" : "fa fa-paste  text-disabled"}
 
                                             disabled={!this.props.isPasteEnabled} aria-hidden="true"
-                                            onClick={this.props.isPasteEnabled ? this.pasteThresholdValues.bind(this, this.props.id) : null}>
+                                            onClick={this.props.isPasteEnabled ? this.pasteThresholdValues : null}>
                                         </i>
                                     </span>
                                 </div>
@@ -293,17 +296,17 @@ export default class ThresholdTabContent extends PureComponent {
                                             <span className="pull-right rtl-pull-right"> {this.props.l.t('Color_COLON', 'Color:')}  </span>
                                         </div>
                                         <div className="col-xs-7 col-lg-5">
-                                            <ColorPicker id="1" className="form-control" key="1" value={this.props.color} updateColor={this.getSelectedColor.bind(this)} />
+                                            <ColorPicker id="1" className="form-control" key="1" value={this.props.color} updateColor={this.getSelectedColor} />
                                         </div>
                                         <div className="col-lg-4 hidden-md hidden-sm hidden-xs pull-right text-right">
                                             <span title="Copy" className="fontSize20 paddingRight10">
-                                                <i className="fa fa-copy pointer" aria-hidden="true" onClick={this.setIsCopiedForLevel.bind(this, this.props.id)}></i>
+                                                <i className="fa fa-copy pointer" aria-hidden="true" onClick={this.setIsCopiedForLevel}></i>
                                             </span>
                                             <span title="Paste" className="fontSize20 paddingRight5">
                                                 <i className={this.props.isPasteEnabled ? "fa fa-paste pointer" : "fa fa-paste  text-disabled"}
 
                                                     disabled={!this.props.isPasteEnabled} aria-hidden="true"
-                                                    onClick={this.props.isPasteEnabled ? this.pasteThresholdValues.bind(this, this.props.id) : null}>
+                                                    onClick={this.props.isPasteEnabled ? this.pasteThresholdValues : null}>
                                                 </i>
                                             </span>
                                         </div>
@@ -318,7 +321,7 @@ export default class ThresholdTabContent extends PureComponent {
                                             <span className="pull-right rtl-pull-right"> {this.props.l.t('Email_subject_COLON', 'Email subject:')} </span>
                                         </div>
                                         <div className="col-xs-7 col-lg-9">
-                                            <input type='text' value={this.props.emailSubject} ref="emailSubject" className="form-control" onChange={this.updateLevel.bind(this, 'emailSubject')} />
+                                            <input type='text' value={this.props.emailSubject} ref="emailSubject" className="form-control" onChange={this.updateLevel} />
                                         </div>
                                     </div>
                                 </div>
@@ -339,14 +342,14 @@ export default class ThresholdTabContent extends PureComponent {
                                                                     <input type='email' className="form-control" value={email ? email.Value : ''} ref={`EValue${email.Key}`} onChange={this.updateEmailTextBox.bind(this, email.Key, `EValue${email.Key}`)} />
                                                                 </div>
                                                                 <span className="fontSize20">
-                                                                    <i title="Delete Email" className='fa fa-times-circle pointer' onClick={this.deleteEmailTextbox.bind(this, email.Key)}></i>
+                                                                    <i title="Delete Email" className='fa fa-times-circle pointer' onClick={this.deleteEmailTextbox}></i>
                                                                 </span>
                                                             </div>
                                                         </div>
                                                     ))
                                                 }
                                                 <div className="col-xs-1 fontSize20 ">
-                                                    <i title="Add Email" className="fa fa-plus-circle pointer" onClick={this.addEmailTextbox.bind(this, this.props.id)}> </i>
+                                                    <i title="Add Email" className="fa fa-plus-circle pointer" onClick={this.addEmailTextbox}> </i>
                                                 </div>
                                             </div>
                                         </div>
@@ -367,14 +370,14 @@ export default class ThresholdTabContent extends PureComponent {
                                                                     <input type='text' className="form-control" value={sms ? sms.Value : ''} ref={`SValue${sms.Key}`} onChange={this.updateSMSTextBox.bind(this, sms.Key, `SValue${sms.Key}`)} />
                                                                 </div>
                                                                 <span className="fontSize20">
-                                                                    <i title="Delete SMS" className='fa fa-times-circle pointer' onClick={this.deleteSMSTextbox.bind(this, sms.Key)}></i>
+                                                                    <i title="Delete SMS" className='fa fa-times-circle pointer' onClick={this.deleteSMSTextbox}></i>
                                                                 </span>
                                                             </div>
                                                         </div>
                                                     ))
                                                 }
                                                 <div className="col-xs-1 fontSize20" >
-                                                    <i title="Add SMS" className="fa fa-plus-circle pointer" onClick={this.addSMSTextbox.bind(this, this.props.id)}> </i>
+                                                    <i title="Add SMS" className="fa fa-plus-circle pointer" onClick={this.addSMSTextbox}> </i>
                                                 </div>
                                             </div>
                                         </div>

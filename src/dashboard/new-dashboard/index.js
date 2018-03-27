@@ -2,35 +2,32 @@ import { browserHistory } from 'react-router';
 import { injectReducer } from '../../store/reducers';
 import authenticate from '../../authentication/authenticated.hoc';
 
+import NewDashboardContainer from './new-dashboard.container';
+import DashboardReducer from '../dashboard.reducer';
+import SettingsReducer from '../../components/widget-configurations/widget-configurations.reducer';
+import StylesReducer from '../../components/styles/styles.reducer';
+import ThresholdReducer from '../../components/thresholds/threshold.reducer';
+import RealTimeSettingsReducer from '../../components/real-time-settings/real-time-settings.reducer';
+import CyReportSettingsReducer from '../../components/cy-report-settings/cy-report-settings.reducer';
+import CustomMetricsSettingsReducer from '../../components/custom-metrics-settings/custom-metrics-settings.reducer';
+import DataMetricsReducer from '../../components/data-metrics/data-metrics.reducer';
+
 export default (store) => ({
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
-      const newDashboardContainer = require('./new-dashboard.container').default
-
-      const dashboardReducer = require('../dashboard.reducer').default
-      injectReducer(store, { key: 'dashboard', reducer: dashboardReducer })
-
-      const settingsReducer = require('../../components/widget-configurations/widget-configurations.reducer').default
-      injectReducer(store, { key: 'configurations', reducer: settingsReducer })
-
-      const stylesReducer = require('../../components/styles/styles.reducer').default
-      injectReducer(store, { key: 'styles', reducer: stylesReducer })
-
-      const thresholdReducer = require('../../components/thresholds/threshold.reducer').default
-      injectReducer(store, { key: 'threshold', reducer: thresholdReducer })
-
-      const realTimeSettingsReducer = require('../../components/real-time-settings/real-time-settings.reducer').default
-      injectReducer(store, { key: 'realTimeSettings', reducer: realTimeSettingsReducer })
-
-      const cyReportSettingsReducer = require('../../components/cy-report-settings/cy-report-settings.reducer').default
-      injectReducer(store, { key: 'cyReportSettings', reducer: cyReportSettingsReducer })
+      injectReducer(store, { key: 'dashboard', reducer: DashboardReducer })
+      injectReducer(store, { key: 'configurations', reducer: SettingsReducer })
+      injectReducer(store, { key: 'styles', reducer: StylesReducer })
+      injectReducer(store, { key: 'threshold', reducer: ThresholdReducer })
+      injectReducer(store, { key: 'realTimeSettings', reducer: RealTimeSettingsReducer })
+      injectReducer(store, { key: 'cyReportSettings', reducer: CyReportSettingsReducer })
+      injectReducer(store, { key: 'customSettings', reducer: CustomMetricsSettingsReducer })
       
-      cb(null, authenticate(newDashboardContainer))
+      cb(null, authenticate(NewDashboardContainer))
     }, 'newdashboard')
   },
   onEnter: (nextState, replace) => {
-    const dataMetricsReducer = require('../../components/data-metrics/data-metrics.reducer').default
-    injectReducer(store, { key: 'dataMetrics', reducer: dataMetricsReducer })
+    injectReducer(store, { key: 'dataMetrics', reducer: DataMetricsReducer })
     store.dispatch(store.getState().dataMetrics.LoadDataMetricsMetaData())
     // load refreshinterval
   },
