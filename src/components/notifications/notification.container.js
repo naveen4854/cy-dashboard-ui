@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import NotificationComponent from "./notification.component";
 import * as Reducer from './notification.reducer';
 import localize from '../localization/localization.hoc';
-import { PageEnums } from '../../shared/enums/page-enum';
+import { PageEnum } from '../../shared/enums';
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -16,4 +16,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(localize(NotificationComponent, PageEnums.NOTIFICATIONS))
+export default connect(mapStateToProps, mapDispatchToProps)(localize(NotificationComponent, PageEnum.NOTIFICATIONS))

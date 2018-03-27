@@ -1,8 +1,8 @@
-import { PageEnums } from "../../shared/enums/page-enum";
+import { PageEnum } from "../../shared/enums";
 
 const collection = {
   MY_DASHBOARD: {
-    name: PageEnums.MY_DASHBOARD, strings: [
+    name: PageEnum.MY_DASHBOARD, strings: [
       "Dashboard Name",
       "Modified",
       "of",
@@ -16,7 +16,7 @@ const collection = {
     ]
   },
   NEW_DASHBOARD: {
-    name: PageEnums.NEW_DASHBOARD, strings: [
+    name: PageEnum.NEW_DASHBOARD, strings: [
       "Picture",
       "Bar",
       "Progress",
@@ -56,7 +56,7 @@ const collection = {
     ]
   },
   DATA_METRICS: {
-    name: PageEnums.DATA_METRICS, strings: [
+    name: PageEnum.DATA_METRICS, strings: [
       "Combo Settings",
       "Data Metrics",
       "Statistics:",
@@ -143,12 +143,12 @@ const collection = {
     ]
   },
   THRESHOLDS: {
-    name: PageEnums.THRESHOLDS, strings: [
+    name: PageEnum.THRESHOLDS, strings: [
 
     ]
   },
   WIDGET_STYLES: {
-    name: PageEnums.WIDGET_STYLES, strings: [
+    name: PageEnum.WIDGET_STYLES, strings: [
       "Segment Color 1:",
       "Segment Color 2:",
       "Segment Color 3:",
@@ -222,7 +222,7 @@ const collection = {
     ]
   },
   NOTIFICATIONS: {
-    name: PageEnums.NOTIFICATIONS, strings: [
+    name: PageEnum.NOTIFICATIONS, strings: [
       "Yes",
       "No",
       'Are you sure about that!',
@@ -232,7 +232,7 @@ const collection = {
     ]
   },
   LOGIN: {
-    name: PageEnums.LOGIN, strings: [
+    name: PageEnum.LOGIN, strings: [
       "CCA Sign In",
       "Username",
       "Password",

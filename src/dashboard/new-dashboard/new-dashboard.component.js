@@ -14,7 +14,6 @@ export default class NewDashboard extends PureComponent {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
     }
     componentDidUpdate() {
     }

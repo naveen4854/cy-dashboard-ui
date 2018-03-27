@@ -3,7 +3,7 @@ import * as Reducer from '../reducers/my-dashboard.reducer';
 
 import MyDashboard from '../components/my-dashboard.component'
 import localize from '../../../components/localization/localization.hoc';
-import { PageEnums } from '../../../shared/enums/page-enum';
+import { PageEnum } from '../../../shared/enums';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -69,4 +69,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(localize(MyDashboard, PageEnums.MY_DASHBOARD))
+export default connect(mapStateToProps, mapDispatchToProps)(localize(MyDashboard, PageEnum.MY_DASHBOARD))
