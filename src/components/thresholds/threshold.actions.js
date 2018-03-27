@@ -1,8 +1,8 @@
 import * as ThresholdConstants from './threshold.constants';
 import _ from 'lodash';
 import { utils } from '../../utilities';
-import { StatisticCategoryEnum } from '../../shared/enums';
-
+import { ResponseStatusEnum, StatisticCategoryEnum, DisplayFormatEnum } from '../../shared/enums';
+import { Constants } from '../../shared/constants';
 
 export function updateLevel(id, key, value) {
     return (dispatch, getState) => {
@@ -10,17 +10,25 @@ export function updateLevel(id, key, value) {
         let level = _.find(levels, (level) => level.id === id);
         level[key] = value;
         dispatch({
-            type: ThresholdConstants.UPDATE_LEVELS,
+            type: ThresholdConstants.UPDATE_LEVEL,
             levels: levels
         })
 
     }
 }
 
+
 export function handleClick(id) {
     return (dispatch, getState) => {
-        const level = _.find(getState().threshold.levels, (level) => level.id === id);
-        level.expanded = !level.expanded;
+        debugger;
+        let levels = _.map(getState().threshold.levels, (level) => {
+            if (level.id == id) {
+                return { ...level, expanded: !level.expanded };
+            }
+            else {
+                return level
+            }
+        });
         dispatch({
             type: ThresholdConstants.HANDLE_CLICK,
             levels: levels
@@ -130,7 +138,7 @@ export function setIsCopiedForLevel(id) {
 
         });
         dispatch({
-            type: ThresholdConstants.UPDATE_LEVELS,
+            type: ThresholdConstants.UPDATE_LEVEL,
             levels: updatedLevels
         })
     }
@@ -154,7 +162,7 @@ export function pasteThresholdValues(id) {
 
         });
         dispatch({
-            type: ThresholdConstants.UPDATE_LEVELS,
+            type: ThresholdConstants.UPDATE_LEVEL,
             levels: updatedLevels
         })
     }
@@ -167,26 +175,9 @@ export function pasteThresholdValues(id) {
      */
 export function removeLevel(id) {
     return (dispatch, getState) => {
-        let lvl = _.find(getState().threshold.levels, (level) => level.id == id)
-        let notifyMessage = { displayMessage: this.props.l.t('Are_you_sure_you_want_to_delete_Level__threshold?', 'Are you sure you want to delete Level ${levelNumber} threshold?', { levelNumber: lvl.level }) };
-        const configs = {
-            type: ResponseStatusEnum.Confirmation,
-            messages: [notifyMessage],
-            func: {
-                onOk: () => {
-                    const levels = _.filter(this.state.levels, (level) => level.id !== id);
-                    let newLevel = 1;
-                    _.map(levels, (oldLevel) => oldLevel.level = newLevel++);
-                    dispatch({
-                        type: ThresholdConstants.UPDATE_LEVELS,
-                        levels: updatedLevels
-                    })
-                },
-                onCancel: () => { }
-            }
-        }
-        getState().common.deleteConfirmation(configs)
-
+        let levels = getState().threshold.levels;
+        let newLevels = _.filter(levels, l => l.id != id);
+        debugger;
     }
 }
 export function initializeThresholddata() {
@@ -195,16 +186,37 @@ export function initializeThresholddata() {
         let selectedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory ?
             currentWidget.appliedSettings.dataMetrics.statisticCategory :
             StatisticCategoryEnum.RealTime
-        let comboWidget = _.find(getState().dashboard.widgets, wt => wt.id == currentWidget.comboId);
+        let widgets = getState().dashboard.widgets;
+        let comboWidget = _.find(widgets, wt => wt.id == currentWidget.comboId);
         let columnOptions = getColumns(currentWidget, comboWidget);
+        let column = getBasedColumn(currentWidget, selectedStatisticCategory, columnOptions);
+        let displayFormat = getDisplayFormat(currentWidget, widgets);
         dispatch({
             type: ThresholdConstants.DEFAULT_THRESHOLD,
             basedColumn: currentWidget.basedColumn || undefined,
-            column: currentWidget.column || undefined,
+            column: column || undefined,
             statisticsCategoryId: selectedStatisticCategory,
             widgetId: currentWidget.id,
             dataType: currentWidget.dataType || undefined,
-            columnOptions: columnOptions
+            columnOptions: columnOptions,
+            widgetType: currentWidget.widgetType,
+            isComboWidget: currentWidget.isComboWidget,
+            displayFormatId: displayFormat
+        })
+    }
+}
+
+export function addLevels(item) {
+    return (dispatch, getState) => {
+        debugger;
+        let levels = getState().threshold.levels;
+        let newLevels = _.map(levels, (level) => {
+            return { ...level, expanded: false }
+        });
+        newLevels = newLevels.concat(item);
+        dispatch({
+            type: ThresholdConstants.UPDATE_LEVEL,
+            levels: newLevels
         })
     }
 }
@@ -237,4 +249,92 @@ function getColumns(widget, comboWidget) {
         return _.filter(colOptions, col => col);
     }
     return [];
+}
+
+
+/**
+ * 
+ * @param {*} props 
+ */
+function getBasedColumn(widget, selectedStatisticCategory, columnOptions) {
+    let column = widget.basedColumn ? widget.basedColumn : selectedStatisticCategory == StatisticCategoryEnum.Custom ?
+        { label: widget.column, value: widget.id, type: widget.dataType } : undefined
+    let selectedColOpt = _.find(columnOptions, opt => opt.label == column.label);
+    if (column) {
+        column.displayFormatId = selectedColOpt ? selectedColOpt.displayFormatId : DisplayFormatEnum.Text;
+        column.timeFormatId = selectedColOpt ? selectedColOpt.timeFormatId : undefined;
+    }
+    return column;
+}
+
+
+/**
+   * Responsible to get displayformat for the current widget
+   * @param {*} widget 
+   */
+function getDisplayFormat(widget, widgets) {
+    // For combo cell widgets
+    if (widget.isComboWidget) {
+        // Combo Custom
+        if (widget.column && widget.column != "") {
+            if (_.find(Constants.NumericTypes, (type) => type == widget.basedColumn.type)) {
+                if (widget.basedColumn.displayFormatId == DisplayFormatEnum.Duration) {
+                    let _format = _.find(Constants.customCombotimeFormat, format => format.id == widget.basedColumn.timeFormatId);
+                    return _format ? _format.displayFormatId : DisplayFormatEnum.Duration;
+                }
+                return DisplayFormatEnum.Number;
+            }
+
+            if (_.find(Constants.DateTypes, (type) => type == widget.basedColumn.type))
+                return DisplayFormatEnum.Date_Time;
+
+            if (widget.basedColumn.type == 'boolean')
+                return DisplayFormatEnum.Boolean;
+
+            if (widget.basedColumn.type == 'string')
+                return DisplayFormatEnum.Text;
+
+            return widget.displayFormatId;
+        }
+
+        // Combo real time headers
+        if (widget.isHeader) {
+            let comboWidget = _.find(widgets, (w) => w.id === widget.comboId);
+            if (!comboWidget) return DisplayFormatEnum.Text;
+            let wColumnIndex = getColumnIndex(comboWidget.matrix[0], widget.id);
+
+            if (wColumnIndex && comboWidget.matrix.length > 0) {
+                var rowIndex = 1;
+                let cWidget = comboWidget.matrix[rowIndex][wColumnIndex];
+                return cWidget.settings.displayFormat;
+            }
+        } else {
+            return widget.settings.displayFormat;
+        }
+
+    }
+
+    // For non combo widgets with Custom query 
+    if (widget.appliedSettings.dataMetrics.query && widget.appliedSettings.dataMetrics.query != "") {
+        return widget.appliedSettings.dataMetrics.selectedDisplayFormat;
+    }
+
+    // For non combo widgets with real time and cyreport
+    if (widget.appliedSettings.dataMetrics.displayFormat) {
+        return widget.appliedSettings.dataMetrics.displayFormat.id;
+    }
+}
+
+/**
+   * To get the column index based on widget from matrix
+   * @param {*} matrix 
+   * @param {*} widgetId 
+   */
+function getColumnIndex(matrix, widgetId) {
+    for (var columnIndex = 0; columnIndex < matrix.length; columnIndex++) {
+        var widget = matrix[columnIndex];
+        if (widget.id === widgetId) {
+            return columnIndex;
+        }
+    }
 }

@@ -1,13 +1,20 @@
 import { connect } from 'react-redux'
 import ThresholdContentComponent from './threshold.content.component';
-import localize from '../localization/localization.hoc';
+import * as ThresholdAction from '../threshold.actions';
+import localize from '../../localization/localization.hoc';
 import ThresholdReducer from '../threshold.reducer';
 
 
 const mapDispatchToProps = (dispatch) => {
     return {
         updateLevel: (id, key, value) => {
-            dispatch(ThresholdReducer.updateLevel(id, key, value))
+            dispatch(ThresholdAction.updateLevel(id, key, value))
+        },
+        handleClick: (id) => {
+            dispatch(ThresholdAction.handleClick(id));
+        },
+        removeLevel: (id) => {
+            dispatch(ThresholdAction.removeLevel(id));
         }
     }
 }

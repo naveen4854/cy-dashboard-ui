@@ -41,7 +41,7 @@ export default class MyDashboardTable extends PureComponent {
             },
             {
                 text: 'No',
-                handler: () => this.deleteDashboard(dashboard.DashboardId)
+                handler: () => { }
             }]
 
         this.props.common.confirm(notifyMessage, buttons);

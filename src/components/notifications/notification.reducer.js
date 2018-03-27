@@ -74,6 +74,7 @@ export function custom(message, buttons) {
  */
 export function confirm(message, buttons) {
   return (dispatch, getState) => {
+    debugger;
     let messagesConfig = {};
     messagesConfig.message = { displayMessage: message.Message || message, normalizedMessage: message.NormalizedMessage };
     messagesConfig.type = ResponseStatusEnum.Confirmation;

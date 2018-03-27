@@ -1,46 +1,36 @@
 "use srtict"
-import React from 'react';
-import ColorPicker from '../color-picker';
-import "../../public/assets/styles/accordion.css"
-import ToggleSwitch from "../toggle-switch";
-import CustomSelect from '../../components/custom-dropdown';
-import CustomDatePicker from '../../components/custom-date-picker';
-import MaskedInput from '../../components/masked-input';
-
-import StatisticsCategory from '../../lib/enums/statistic-category.enum';
-import WidgetType from '../../lib/enums/widget-type.enum';
+import React, { PureComponent } from 'react';
+import ColorPicker from '../../color-picker';
+import '../../../public/assets/styles/accordion.css';
+import ToggleSwitch from "../../toggle-switch";
+import CustomSelect from '../../custom-dropdown';
+import CustomDatePicker from '../../custom-date-picker';
+import MaskedInput from '../../masked-input';
+import { ResponseStatusEnum } from '../../../shared/enums';
+import { Constants } from '../../../shared/constants'
+import { utils } from '../../../utilities'
+import DurationInput from '../../duration-input';
 import _ from "lodash";
-import displayFormatEnum from '../../lib/enums/display-format.enum';
-import ResponseStatusEnum from '../../lib/enums/response-status-enum';
 import moment from 'moment'
-import * as ConstantValues from '../../constants/constantValues'
-import * as Utils from '../../utilities/common-utils'
-import DurationInput from '../duration-input';
 
-export default class ThresholdTabContent extends React.Component {
+export default class ThresholdTabContent extends PureComponent {
     constructor(props) {
         super(props);
-        this.state = {
-            ...props
-        }
+        debugger;
         this.soundFile = null;
         this.testThreshold = this.testThreshold.bind(this);
         this.validateEmailIds = this.validateEmailIds.bind(this);
         this.validateSMS = this.validateSMS.bind(this);
+
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            ...nextProps
-        });
-    }
 
     /**
      * To update the color
      * @param {*} color 
      */
     getSelectedColor(color) {
-        this.props.updateLevel(this.state.id, "color", color);
+        this.props.updateLevel(this.props.id, "color", color);
     }
 
     /**
@@ -48,7 +38,7 @@ export default class ThresholdTabContent extends React.Component {
      * @param {*} key 
      */
     updateLevel(key) {
-        this.props.updateLevel(this.state.id, key, this.refs[key].value);
+        this.props.updateLevel(this.props.id, key, this.refs[key].value);
     }
 
     /**
@@ -57,7 +47,7 @@ export default class ThresholdTabContent extends React.Component {
      * * @param {*} key 
      */
     updateLevel(value, key) {
-        this.props.updateLevel(this.state.id, key, value);
+        this.props.updateLevel(this.props.id, key, value);
     }
 
     /**
@@ -66,12 +56,12 @@ export default class ThresholdTabContent extends React.Component {
      */
     updateDTLevel(val, key) {
         let dt = moment(new Date(+val)).format('MM/DD/YYYY hh:mm A');
-        this.props.updateLevel(this.state.id, key, dt);
+        this.props.updateLevel(this.props.id, key, dt);
     }
 
     updateDuration(val, key) {
         let seconds = Utils.convertToSeconds(val, this.props.displayFormat);
-        this.props.updateLevel(this.state.id, key, seconds);
+        this.props.updateLevel(this.props.id, key, seconds);
     }
 
     /**
@@ -80,7 +70,7 @@ export default class ThresholdTabContent extends React.Component {
      * @param {*} value 
      */
     updateToogle(key, value) {
-        this.props.updateLevel(this.state.id, key, value);
+        this.props.updateLevel(this.props.id, key, value);
     }
     /**
      * To update the sound files
@@ -88,7 +78,7 @@ export default class ThresholdTabContent extends React.Component {
      */
     updateSoundFile(key) {
         this.soundFile = this.refs[key].files[0];
-        this.props.updateLevel(this.state.id, key, this.refs[key].files[0]);
+        this.props.updateLevel(this.props.id, key, this.refs[key].files[0]);
     }
     /**
      *  This method is used to test threshold functionality
@@ -108,7 +98,7 @@ export default class ThresholdTabContent extends React.Component {
             this.props.common.notify(config)
         }
         else {
-            let level = _.find(this.props.threshold.levels, (level) => level.id === this.state.id);
+            let level = _.find(this.props.threshold.levels, (level) => level.id === this.props.id);
             this.props.TestThreshold(level, this.props.threshold.widget.id)
         }
     }
@@ -135,18 +125,18 @@ export default class ThresholdTabContent extends React.Component {
      * @param {*} id 
      */
     addEmailTextbox(id) {
-        let emails = this.state.emailTo || [];
+        let emails = this.props.emailTo || [];
         let maxKey = _.maxBy(emails, 'Key');
         let newKey = maxKey ? maxKey.Key : 0;
         emails.push({ Value: '', Key: newKey + 1 });
-        this.props.updateLevel(this.state.id, 'emailTo', emails);
+        this.props.updateLevel(this.props.id, 'emailTo', emails);
     }
     /**
     * To update the levels based on key/ text box ID
     * @param {*} key 
     */
     updateEmailTextBox(Key, ref) {
-        let emailToAdresses = this.state.emailTo;
+        let emailToAdresses = this.props.emailTo;
         let obj = 0;
         for (obj = 0; obj < emailToAdresses.length; obj++) {
             let eachEmail = emailToAdresses[obj];
@@ -154,16 +144,16 @@ export default class ThresholdTabContent extends React.Component {
                 eachEmail.Value = this.refs[ref].value;
             }
         }
-        this.props.updateLevel(this.state.id, 'emailTo', emailToAdresses);
+        this.props.updateLevel(this.props.id, 'emailTo', emailToAdresses);
     }
     /**
      * This method deletes the selected text box based on Key/text box ID
      * @param {*} key 
      */
     deleteEmailTextbox(key) {
-        const textBox = _.filter(this.state.emailTo, (emailTo) => emailTo.Key !== key);
+        const textBox = _.filter(this.props.emailTo, (emailTo) => emailTo.Key !== key);
 
-        this.props.updateLevel(this.state.id, 'emailTo', textBox);
+        this.props.updateLevel(this.props.id, 'emailTo', textBox);
     }
     /**
     * This method is used to add a text box and updates threshold level accordoin based on level ID
@@ -171,18 +161,18 @@ export default class ThresholdTabContent extends React.Component {
     */
 
     addSMSTextbox(id) {
-        let sms = this.state.smsTo || [];
+        let sms = this.props.smsTo || [];
         let maxKey = _.maxBy(sms, 'Key');
         let newKey = maxKey ? maxKey.Key : 0;
         sms.push({ Value: '', Key: newKey + 1 });
-        this.props.updateLevel(this.state.id, 'smsTo', sms);
+        this.props.updateLevel(this.props.id, 'smsTo', sms);
     }
     /**
     * To update the levels based on key.
     * @param {*} key 
     */
     updateSMSTextBox(Key, ref) {
-        let sms = this.state.smsTo;
+        let sms = this.props.smsTo;
         let obj = 0;
         for (obj = 0; obj < sms.length; obj++) {
             let eachSMS = sms[obj];
@@ -190,7 +180,7 @@ export default class ThresholdTabContent extends React.Component {
                 eachSMS.Value = this.refs[ref].value;
             }
         }
-        this.props.updateLevel(this.state.id, 'smsTo', sms);
+        this.props.updateLevel(this.props.id, 'smsTo', sms);
     }
 
     /**
@@ -198,8 +188,8 @@ export default class ThresholdTabContent extends React.Component {
      * @param {*} key 
      */
     deleteSMSTextbox(key) {
-        const textBox = _.filter(this.state.smsTo, (smsTo) => smsTo.Key !== key);
-        this.props.updateLevel(this.state.id, 'smsTo', textBox);
+        const textBox = _.filter(this.props.smsTo, (smsTo) => smsTo.Key !== key);
+        this.props.updateLevel(this.props.id, 'smsTo', textBox);
     }
     setIsCopiedForLevel(id) {
         this.props.setIsCopiedForLevel(id);
@@ -212,7 +202,7 @@ export default class ThresholdTabContent extends React.Component {
         let val = 0
         if (!isNaN(value) && value != null)
             val = +value;
-        let formatter = _.find(ConstantValues.customCombotimeFormat, f => f.displayFormatId == this.props.displayFormat)
+        let formatter = _.find(Constants.customCombotimeFormat, f => f.displayFormatId == this.props.displayFormat)
         return formatter ? formatter.convert(val) : 0;
     }
 
@@ -220,24 +210,47 @@ export default class ThresholdTabContent extends React.Component {
         return (
             <DurationInput
                 displayFormatId={this.props.displayFormat}
-                value={this.state.levelValue}
+                value={this.props.levelValue}
                 wKey='levelValue'
                 enableInput={true}
                 updatePropOnChange={this.updateLevel.bind(this)}
             />
         )
     }
+
+    handleClick = () => {
+        this.props.handleClick(this.props.id);
+    }
+    removeLevel() {
+        this.props.removeLevel(this.props.id);
+    }
+    removeLeveConfiramtion = (e) => {
+
+        let notifyMessage = this.props.l.t('Are_you_sure_you_want_to_delete_Level__threshold?', 'Are you sure you want to delete Level ${levelNumber} threshold?', { 'levelNumber': this.props.level })
+        let buttons = [
+            {
+                text: 'Yes',
+                handler: () => this.removeLevel()
+            },
+            {
+                text: 'No',
+                handler: () => { }
+            }]
+
+        this.props.common.confirm(notifyMessage, buttons);
+        e.stopPropagation();
+    }
     render() {
         return (
             <div className="accordion">
-                <div className="accordion-header" style={{ height: 32 }} onClick={this.props.handleClick.bind(this, this.state.id)}>
-                    <span className="pull-left rtl-pull-left">{" Level " + this.state.level} </span>
+                <div className="accordion-header" style={{ height: 32 }} onClick={this.handleClick}>
+                    <span className="pull-left rtl-pull-left">{" Level " + this.props.level} </span>
                     {
-                        this.state.expanded
+                        this.props.expanded
                             ? <i className='fa fa-angle-up pull-right accordion-icon'></i>
                             : <i className='fa fa-angle-down pull-right accordion-icon'></i>
                     }
-                    <i className='fa fa-trash-o pull-right accordion-icon' onClick={(e) => { this.props.removeLevel(); e.stopPropagation(); }} ></i>
+                    <i className='fa fa-trash-o pull-right accordion-icon' onClick={this.removeLeveConfiramtion} ></i>
 
                     <div className="row">
                         <div className="pull-right rtl-pull-right">
@@ -245,20 +258,20 @@ export default class ThresholdTabContent extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className={(this.state.expanded) ? "fade-out active" : "fade-in active"}>
+                <div className={(this.props.expanded) ? "fade-out active" : "fade-in active"}>
                     {
-                        (this.state.expanded) &&
+                        (this.props.expanded) &&
                         <div className="accordion-form-group">
                             <div className="row">
                                 <div className="col-xs-4 col-sm-3 hidden-lg pull-right rtl-pull-right">
                                     <span title="Copy" className="fontSize20 paddingRight10 rtl-paddingRight10">
-                                        <i className="fa fa-copy pointer" aria-hidden="true" onClick={this.setIsCopiedForLevel.bind(this, this.state.id)}></i>
+                                        <i className="fa fa-copy pointer" aria-hidden="true" onClick={this.setIsCopiedForLevel.bind(this, this.props.id)}></i>
                                     </span>
                                     <span title="Paste" className="fontSize20">
-                                        <i className={this.state.isPasteEnabled ? "fa fa-paste pointer" : "fa fa-paste  text-disabled"}
+                                        <i className={this.props.isPasteEnabled ? "fa fa-paste pointer" : "fa fa-paste  text-disabled"}
 
-                                            disabled={!this.state.isPasteEnabled} aria-hidden="true"
-                                            onClick={this.state.isPasteEnabled ? this.pasteThresholdValues.bind(this, this.state.id) : null}>
+                                            disabled={!this.props.isPasteEnabled} aria-hidden="true"
+                                            onClick={this.props.isPasteEnabled ? this.pasteThresholdValues.bind(this, this.props.id) : null}>
                                         </i>
                                     </span>
                                 </div>
@@ -280,17 +293,17 @@ export default class ThresholdTabContent extends React.Component {
                                             <span className="pull-right rtl-pull-right"> {this.props.l.t('Color_COLON', 'Color:')}  </span>
                                         </div>
                                         <div className="col-xs-7 col-lg-5">
-                                            <ColorPicker id="1" className="form-control" key="1" value={this.state.color} updateColor={this.getSelectedColor.bind(this)} />
+                                            <ColorPicker id="1" className="form-control" key="1" value={this.props.color} updateColor={this.getSelectedColor.bind(this)} />
                                         </div>
                                         <div className="col-lg-4 hidden-md hidden-sm hidden-xs pull-right text-right">
                                             <span title="Copy" className="fontSize20 paddingRight10">
-                                                <i className="fa fa-copy pointer" aria-hidden="true" onClick={this.setIsCopiedForLevel.bind(this, this.state.id)}></i>
+                                                <i className="fa fa-copy pointer" aria-hidden="true" onClick={this.setIsCopiedForLevel.bind(this, this.props.id)}></i>
                                             </span>
                                             <span title="Paste" className="fontSize20 paddingRight5">
-                                                <i className={this.state.isPasteEnabled ? "fa fa-paste pointer" : "fa fa-paste  text-disabled"}
+                                                <i className={this.props.isPasteEnabled ? "fa fa-paste pointer" : "fa fa-paste  text-disabled"}
 
-                                                    disabled={!this.state.isPasteEnabled} aria-hidden="true"
-                                                    onClick={this.state.isPasteEnabled ? this.pasteThresholdValues.bind(this, this.state.id) : null}>
+                                                    disabled={!this.props.isPasteEnabled} aria-hidden="true"
+                                                    onClick={this.props.isPasteEnabled ? this.pasteThresholdValues.bind(this, this.props.id) : null}>
                                                 </i>
                                             </span>
                                         </div>
@@ -305,7 +318,7 @@ export default class ThresholdTabContent extends React.Component {
                                             <span className="pull-right rtl-pull-right"> {this.props.l.t('Email_subject_COLON', 'Email subject:')} </span>
                                         </div>
                                         <div className="col-xs-7 col-lg-9">
-                                            <input type='text' value={this.state.emailSubject} ref="emailSubject" className="form-control" onChange={this.updateLevel.bind(this, 'emailSubject')} />
+                                            <input type='text' value={this.props.emailSubject} ref="emailSubject" className="form-control" onChange={this.updateLevel.bind(this, 'emailSubject')} />
                                         </div>
                                     </div>
                                 </div>
@@ -333,7 +346,7 @@ export default class ThresholdTabContent extends React.Component {
                                                     ))
                                                 }
                                                 <div className="col-xs-1 fontSize20 ">
-                                                    <i title="Add Email" className="fa fa-plus-circle pointer" onClick={this.addEmailTextbox.bind(this, this.state.id)}> </i>
+                                                    <i title="Add Email" className="fa fa-plus-circle pointer" onClick={this.addEmailTextbox.bind(this, this.props.id)}> </i>
                                                 </div>
                                             </div>
                                         </div>
@@ -361,7 +374,7 @@ export default class ThresholdTabContent extends React.Component {
                                                     ))
                                                 }
                                                 <div className="col-xs-1 fontSize20" >
-                                                    <i title="Add SMS" className="fa fa-plus-circle pointer" onClick={this.addSMSTextbox.bind(this, this.state.id)}> </i>
+                                                    <i title="Add SMS" className="fa fa-plus-circle pointer" onClick={this.addSMSTextbox.bind(this, this.props.id)}> </i>
                                                 </div>
                                             </div>
                                         </div>

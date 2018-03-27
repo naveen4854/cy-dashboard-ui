@@ -2,12 +2,14 @@ import * as  ThresholdConstants from "./threshold.constants";
 import { initializeThresholddata } from './threshold.actions'
 
 export const ACTION_HANDLERS = {
-    [ThresholdConstants.UPDATE_LEVELS]: (state, action) => {
+    [ThresholdConstants.UPDATE_LEVEL]: (state, action) => {
+        debugger;
         return Object.assign({}, state, {
             levels: action.levels
         })
     },
     [ThresholdConstants.HANDLE_CLICK]: (state, action) => {
+        debugger;
         return Object.assign({}, state, {
             levels: action.levels
         })
@@ -20,13 +22,16 @@ export const ACTION_HANDLERS = {
             widgetId: action.widgetId,
             dataType: action.dataType,
             columnOptions: action.columnOptions,
-
+            widgetType: action.widgetType,
+            isComboWidget: action.isComboWidget,
+            displayFormatId: action.displayFormatId
 
         })
     }
 }
 const initialState = {
-    initializeThresholddata
+    initializeThresholddata,
+    levels: []
 };
 export default function ThresholdReducer(state = _.cloneDeep(initialState), action) {
     const handler = ACTION_HANDLERS[action.type];
