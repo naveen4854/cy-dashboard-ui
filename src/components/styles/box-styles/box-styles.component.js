@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { CustomInputText } from '../../input-component'
-import { StylesGroup } from '../title-styles';
+import { StylesGroup } from '../styles-group';
 import ColorPicker from '../../color-picker/color-picker';
 import { LabelledInput, LabelledColorPicker } from '../../labelled-controls';
 

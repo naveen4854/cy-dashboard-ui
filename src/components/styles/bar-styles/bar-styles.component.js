@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { CustomInputText } from '../../input-component'
-import { StylesGroup } from '../title-styles';
+import { StylesGroup } from '../styles-group';
 import ColorPicker from '../../color-picker/color-picker';
 import { LabelledInput, LabelledColorPicker, LabelledToggle } from '../../labelled-controls';
 
@@ -11,7 +11,7 @@ export default class BarStyles extends PureComponent {
     //     this.props.updateProp(widgetBody, 'widgetBody');
     //     //  this.props.updateProp(widgetBody, 'widgetBody');
     // }
-    render() {
+    render() { 
         console.log('this.props bar', this.props)
         return (
             <div className="col-xs-12">
