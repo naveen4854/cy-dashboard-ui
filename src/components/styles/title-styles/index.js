@@ -1,3 +1,3 @@
-import TitleStyles from "./title-styles.component";
+import StylesGroup from "./title-styles.component";
 
-export { TitleStyles };
+export { StylesGroup };

@@ -50,6 +50,19 @@ export default class BarWidget extends Widget {
     showYAxis = true;
     showLegends = true;
     showLabels = true;
+    appliedBackgroundColor = {
+        r: 255, g: 255, b: 255, a: 1
+    };
+    widgetBody = {
+        backgroundColor: {
+            r: 255, g: 255, b: 255, a: 1
+        },
+        fontFamily: 'Arial',
+        fontSize: 12,
+        color: {
+            r: 0, g: 0, b: 0, a: 1
+        }
+    };
     data = [
 
     ];

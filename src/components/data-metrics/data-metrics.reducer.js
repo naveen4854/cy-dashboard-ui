@@ -81,7 +81,7 @@ export function initializeStatisticMetadata() {
         if (!statisticCategories || statisticCategories.length == 0 || !datametricsMetadata)
             return dispatch(getState().notificationStore.notify('failure to load statistic Metadata, please reload', ResponseStatusEnum.Error));
 
-        debugger
+       // debugger
         //If Categories and DM are already in store, filter them appropriately and update the state
         let selectedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory || StatisticCategoryEnum.RealTime
 
