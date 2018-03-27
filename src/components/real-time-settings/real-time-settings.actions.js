@@ -140,16 +140,6 @@ export function setSelectedDisplayFormatAction(selectedDisplayFormat) {
     }
 }
 
-export function SaveMetrics(dataMetrics) {
-    return (dispatch, getState) => {
-        // let currentWidget = getState().configurations.widget;
-        // let updatedWidget = { ...currentWidget, appliedSettings: { ...currentWidget.appliedSettings, dataMetrics: dataMetrics } }
-        // dispatch(getState().configurations.updateDashboardWidget(updatedWidget));
-        dispatch(getState().dataMetrics.saveDataMetrics(dataMetrics));
-
-    }
-}
-
 export function getDrillDownMetaData(selectedItem) {
     return (dispatch, getState) => {
         if (getState().dataMetrics && getState().dataMetrics.datametricsMetadata) {
@@ -210,6 +200,7 @@ export function updateDrillDownOptions(options) {
 
 export function clearRealTimeSettings() {
     return (dispatch, getState) => {
+        let groupOptions = getState().realTimeSettings.groupOptions;
         let realTimeSettings = { ...realTimeSettingsinitialState }
         dispatch({
             type: CLEAR_SELECTED_REALTIME_SETTINGS,
@@ -222,5 +213,12 @@ export function setDrillDownDefaulted(value) {
     return {
         type: SET_DRILL_DOWN_DEFAULTED,
         drillDownDefaulted: value
+    }
+}
+
+export function SaveRealTimeMetrics(dataMetrics) {
+    return (dispatch, getState) => {
+        dispatch(getState().dataMetrics.saveDataMetrics(dataMetrics));
+        dispatch(getState().cyReportSettings.clearCyReportSettings());
     }
 }

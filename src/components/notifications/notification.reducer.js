@@ -79,11 +79,11 @@ export function confirm(message, buttons) {
     messagesConfig.type = ResponseStatusEnum.Confirmation;
     messagesConfig.persistMessages = false;
     _.each(buttons, (btn, i) => {
-      if (i == 0){
+      if (i == 0) {
         btn.ok = true;
         btn.onOk = btn.handler
       }
-      if (i == 1){
+      if (i == 1) {
         btn.cancel = true;
         btn.onCancel = btn.handler
       }
@@ -143,5 +143,5 @@ const initialState = {
 
 export default function NotificationReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];
-  return handler ? handler(state, action) : state;
+  return handler ? handler(state, action) : state
 }

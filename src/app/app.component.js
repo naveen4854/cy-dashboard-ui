@@ -1,6 +1,7 @@
 import React, { PropTypes, PureComponent } from 'react';
 import { browserHistory, Router } from 'react-router';
 import { Provider } from 'react-redux';
+import ReduxToastr from 'react-redux-toastr'
 
 // import 'bootstrap/dist/css/bootstrap.css';
 import '../public/assets/vendors/bootstrap/css/bootstrap.min.css';
@@ -51,6 +52,11 @@ export default class AppComponent extends PureComponent {
                         <Router history={browserHistory} children={routes} />
                         <NotificationContainer />
                         <SpinnerContainer />
+                        <ReduxToastr
+                            transitionIn="fadeIn"
+                            transitionOut="fadeOut"
+                            preventDuplicates
+                        />
                     </div>
                 </Provider >
                 <div dir="ltr" className="navbar-fixed-bottom">
