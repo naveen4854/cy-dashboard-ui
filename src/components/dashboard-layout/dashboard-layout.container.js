@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import DashboardLayoutComponent from './dashboard-layout.component';
-import { PageEnums } from '../../shared/enums/page-enum';
+import { PageEnum } from '../../shared/enums';
 import localize from "../localization/localization.hoc";
 import * as DashboardReducer from '../../dashboard/dashboard.reducer';
 
@@ -19,4 +19,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(localize(DashboardLayoutComponent, PageEnums.NEW_DASHBOARD))
+export default connect(mapStateToProps, mapDispatchToProps)(localize(DashboardLayoutComponent, PageEnum.NEW_DASHBOARD))

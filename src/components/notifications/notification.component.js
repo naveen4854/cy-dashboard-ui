@@ -17,9 +17,15 @@ export default class Notification extends PureComponent {
         this.getMessage = this.getMessage.bind(this)
     }
 
-    componentWillReceiveProps() {
-        if (this.props.notification.id > 0)
-            this.messageTypes();
+    // componentWillReceiveProps(nextProps) {
+    //     // if (nextProps.notification.id > 0) {
+    //     // debugger
+    //     //     this.messageTypes();
+    //     // }
+    // }
+
+    componentDidUpdate() {
+        this.messageTypes();
     }
 
     // shouldComponentUpdate(nextProps, nextState) {
@@ -33,6 +39,8 @@ export default class Notification extends PureComponent {
     }
 
     messageTypes() {
+        if (this.props.notification.id < 0)
+            return
         if (!this.props.notification.persistMessages) {
             toastr.removeByType('error')
             toastr.removeByType('info')
@@ -152,11 +160,7 @@ export default class Notification extends PureComponent {
 
     render() {
         return (
-            <ReduxToastr
-                transitionIn="fadeIn"
-                transitionOut="fadeOut"
-                preventDuplicates
-            />
+            <h1 style={{ display: 'none' }} />
         )
     }
 

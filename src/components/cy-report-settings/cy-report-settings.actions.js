@@ -1,4 +1,4 @@
-import { SET_CYREPORT_STATISTIC_GROUPS, UPDATE_CYREPORT_SELECTED_GROUP, UPDATE_CYREPORT_ITEMS, SET_CYREPORT_ITEM, UPDATE_CYREPORT_FUNCTIONS, UPDATE_CYREPORT_SELECTED_DISPLAY_FORMAT, UPDATE_CYREPORT_SELECTED_FUNCTION, DEFAULT_CYREPORT_METRICS, UPDATE_CYREPORT_DISPLAY_FORMATS } from "./cy-report-settings.reducer";
+import { SET_CYREPORT_STATISTIC_GROUPS, UPDATE_CYREPORT_SELECTED_GROUP, UPDATE_CYREPORT_ITEMS, SET_CYREPORT_ITEM, UPDATE_CYREPORT_FUNCTIONS, UPDATE_CYREPORT_SELECTED_DISPLAY_FORMAT, UPDATE_CYREPORT_SELECTED_FUNCTION, DEFAULT_CYREPORT_METRICS, UPDATE_CYREPORT_DISPLAY_FORMATS, cyReportInitialState, CLEAR_SELECTED_CYREPORT_SETTINGS } from "./cy-report-settings.reducer";
 import { StatisticCategoryEnum, WidgetTypeEnum } from "../../shared/enums";
 import * as dataMetricsService from '../data-metrics/data-metrics-service';
 
@@ -140,11 +140,20 @@ export function setSelectedDisplayFormatAction(selectedDisplayFormat) {
     }
 }
 
-export function SaveMetrics(dataMetrics) {
+export function SaveCyReportMetrics(dataMetrics) {
     return (dispatch, getState) => {
-        // let currentWidget = getState().configurations.widget;
-        // let updatedWidget = { ...currentWidget, appliedSettings: { ...currentWidget.appliedSettings, dataMetrics: dataMetrics } }
-        // dispatch(getState().configurations.updateDashboardWidget(updatedWidget));
         dispatch(getState().dataMetrics.saveDataMetrics(dataMetrics));
+        dispatch(getState().realTimeSettings.clearRealTimeSettings());
+    }
+}
+
+export function clearCyReportSettings() {
+    return (dispatch, getState) => {
+        let groupOptions = getState().cyReportSettings.groupOptions;
+        let cyReportSettings = { ...cyReportInitialState, groupOptions }
+        dispatch({
+            type: CLEAR_SELECTED_CYREPORT_SETTINGS,
+            cyReportSettings
+        })
     }
 }

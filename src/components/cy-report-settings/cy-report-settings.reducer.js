@@ -1,4 +1,4 @@
-import {initiateCyReportSettings} from './/cy-report-settings.actions'
+import { initiateCyReportSettings, clearCyReportSettings } from './cy-report-settings.actions'
 
 export const SET_CYREPORT_STATISTIC_GROUPS = 'SET_CYREPORT_STATISTIC_GROUPS';
 export const UPDATE_CYREPORT_SELECTED_GROUP = 'UPDATE_CYREPORT_SELECTED_GROUP';
@@ -9,6 +9,7 @@ export const UPDATE_CYREPORT_SELECTED_FUNCTION = 'UPDATE_CYREPORT_SELECTED_FUNCT
 export const UPDATE_CYREPORT_DISPLAY_FORMATS = 'UPDATE_CYREPORT_DISPLAY_FORMATS';
 export const UPDATE_CYREPORT_SELECTED_DISPLAY_FORMAT = 'UPDATE_CYREPORT_SELECTED_DISPLAY_FORMAT';
 export const DEFAULT_CYREPORT_METRICS = 'DEFAULT_CYREPORT_METRICS';
+export const CLEAR_SELECTED_CYREPORT_SETTINGS = 'CLEAR_SELECTED_CYREPORT_SETTINGS';
 
 export const ACTION_HANDLERS = {
     [SET_CYREPORT_STATISTIC_GROUPS]: (state, action) => {
@@ -72,10 +73,13 @@ export const ACTION_HANDLERS = {
         return Object.assign({}, state, {
             selectedDisplayFormat: action.selectedDisplayFormat,
         })
+    },
+    [CLEAR_SELECTED_CYREPORT_SETTINGS]: (state, action) => {
+        return Object.assign({}, state, action.cyReportSettings)
     }
 }
 
-const initialState = {
+export const cyReportInitialState = {
     groupOptions: [],
     itemOptions: [],
     functionOptions: [],
@@ -84,10 +88,11 @@ const initialState = {
     selectedItem: {},
     selectedFunction: {},
     selectedDisplayFormat: {},
-    initiateCyReportSettings
+    initiateCyReportSettings,
+    clearCyReportSettings
 };
 
-export default function CyReportSettingsReducer(state = _.cloneDeep(initialState), action) {
+export default function CyReportSettingsReducer(state = _.cloneDeep(cyReportInitialState), action) {
     const handler = ACTION_HANDLERS[action.type];
     return handler ? handler(state, action) : state;
 }
