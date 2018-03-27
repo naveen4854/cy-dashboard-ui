@@ -20,7 +20,6 @@ export function updateLevel(id, key, value) {
 
 export function handleClick(id) {
     return (dispatch, getState) => {
-        debugger;
         let levels = _.map(getState().threshold.levels, (level) => {
             if (level.id == id) {
                 return { ...level, expanded: !level.expanded };
@@ -176,8 +175,14 @@ export function pasteThresholdValues(id) {
 export function removeLevel(id) {
     return (dispatch, getState) => {
         let levels = getState().threshold.levels;
-        let newLevels = _.filter(levels, l => l.id != id);
-        debugger;
+      _.remove(levels, lv => lv.id == id);
+        let updatedLevels = _.map(levels, (level, i) => {
+            return { ...level, level: i + 1 }
+        });
+        dispatch({
+            type: ThresholdConstants.UPDATE_LEVEL,
+            levels: updatedLevels
+        })
     }
 }
 export function initializeThresholddata() {
@@ -208,7 +213,6 @@ export function initializeThresholddata() {
 
 export function addLevels(item) {
     return (dispatch, getState) => {
-        debugger;
         let levels = getState().threshold.levels;
         let newLevels = _.map(levels, (level) => {
             return { ...level, expanded: false }

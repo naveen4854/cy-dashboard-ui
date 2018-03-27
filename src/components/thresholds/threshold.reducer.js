@@ -3,13 +3,11 @@ import { initializeThresholddata } from './threshold.actions'
 
 export const ACTION_HANDLERS = {
     [ThresholdConstants.UPDATE_LEVEL]: (state, action) => {
-        debugger;
         return Object.assign({}, state, {
             levels: action.levels
         })
     },
     [ThresholdConstants.HANDLE_CLICK]: (state, action) => {
-        debugger;
         return Object.assign({}, state, {
             levels: action.levels
         })
