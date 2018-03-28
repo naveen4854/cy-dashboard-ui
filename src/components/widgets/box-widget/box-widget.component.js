@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { utils } from '../../../utilities';
 
-export default class BoxWidget extends PureComponent {
+export default class BoxWidgetComponent extends PureComponent {
 
     render() {
         let widgetBody = this.props.widgetBody;

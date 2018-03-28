@@ -88,3 +88,7 @@ export function validateEmail(email) {
 export function validateSmsNumer(number) {
     return number != null && number.trim() != ""; //&& !isNaN(number);
 }
+
+export function rgba(r, b, g, a) {
+    return { r, b, g, a }
+}
