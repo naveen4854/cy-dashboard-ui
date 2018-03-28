@@ -220,5 +220,6 @@ export function SaveRealTimeMetrics(dataMetrics) {
     return (dispatch, getState) => {
         dispatch(getState().dataMetrics.saveDataMetrics(dataMetrics));
         dispatch(getState().cyReportSettings.clearCyReportSettings());
+        dispatch(getState().customSettings.clearCustomSettings());
     }
 }

@@ -1,5 +1,5 @@
 import { StatisticCategoryEnum, ResponseStatusEnum, DisplayFormatEnum } from "../../shared/enums";
-import { DEFAULT_CUSTOM_METRICS, UPDATE_CUSTOM_METRICS_SP_DATA, SET_SELECTED_STORED_PROC, SET_CUSTOM_QUERY, UPDATE_PARAMS } from "./custom-metrics-settings.reducer";
+import { DEFAULT_CUSTOM_METRICS, UPDATE_CUSTOM_METRICS_SP_DATA, SET_SELECTED_STORED_PROC, SET_CUSTOM_QUERY, UPDATE_PARAMS, CLEAR_SELECTED_CUSTOM_SETTINGS, customSettingsInitialState } from "./custom-metrics-settings.reducer";
 import * as dataMetricsService from '../data-metrics/data-metrics-service';
 import { Constants } from "../../shared/constants";
 
@@ -117,16 +117,26 @@ export function saveCustomMetrics(settings) {
                         else if (Constants.DateTypes.indexOf(columnDataTypeName) != -1) {
                             displayFormat = { id: DisplayFormatEnum.Date_Time }; // Since we display date as is, we are treating here it to be of Text display format.
                         }
-                        debugger
                         dispatch(getState().dataMetrics.saveDataMetrics({ ...settings, displayFormat }));
-                        // dispatch(getState().realTimeSettings.clearRealTimeSettings());
-                        // dispatch(getState().realTimeSettings.clearRealTimeSettings());
+                        dispatch(getState().realTimeSettings.clearRealTimeSettings());
+                        dispatch(getState().cyReportSettings.clearCyReportSettings());
                     }
                 })
             }
         }).catch((error) => {
             dispatch(getState().spinnerStore.EndTask());
             dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error));
+        })
+    }
+}
+
+export function clearCustomSettings() {
+    return (dispatch, getState) => {
+        let storeProcOptions = getState().customSettings.storeProcOptions;
+        let customSettings = { ...customSettingsInitialState, storeProcOptions }
+        dispatch({
+            type: CLEAR_SELECTED_CUSTOM_SETTINGS,
+            customSettings
         })
     }
 }
