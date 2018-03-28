@@ -37,7 +37,6 @@ export const ACTION_HANDLERS = {
             selectedItem: {},
             selectedFunction: {},
             selectedDisplayFormat: {},
-            selectedWidgetforStatisticItem: {},
             functionOptions: [],
             displayFormatOptions: [],
         })
@@ -48,10 +47,8 @@ export const ACTION_HANDLERS = {
             selectedItem: {},
             selectedFunction: {},
             selectedDisplayFormat: {},
-            selectedWidgetforStatisticItem: {},
             functionOptions: [],
-            displayFormatOptions: [],
-            applicableWidgets: []
+            displayFormatOptions: []
         })
     },
     [SET_REALTIME_ITEM]: (state, action) => {
@@ -61,7 +58,10 @@ export const ACTION_HANDLERS = {
     },
     [UPDATE_REALTIME_FUNCTIONS]: (state, action) => {
         return Object.assign({}, state, {
-            functionOptions: action.functionOptions
+            functionOptions: action.functionOptions,
+            selectedFunction: {},
+            selectedDisplayFormat: {},
+            displayFormatOptions: [],
         })
     },
     [UPDATE_REALTIME_SELECTED_FUNCTION]: (state, action) => {
