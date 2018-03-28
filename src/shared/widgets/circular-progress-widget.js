@@ -12,7 +12,6 @@ export default class CircularProgressWidget extends Widget {
     max = 100;
     displayValue = '0';
     showMaxValueOnWidget = false;
-
     titleStyles = {
         color: {
             r: 0, g: 0, b: 0, a: 1
