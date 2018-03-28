@@ -9,8 +9,8 @@ export default class LabelledColorPicker extends PureComponent {
         return (
             <LabelledControl label={this.props.label}>
                 <ColorPicker
-                    id="1"
-                    key="1"
+                    id={this.props.id}
+                    key={this.props.key}
                     value={this.props.value}
                     updateColor={this.props.updateColor}
                     defaultColor="red"

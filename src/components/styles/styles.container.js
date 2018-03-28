@@ -26,8 +26,10 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
+    debugger
     return {
         styles: state.styles,
+        displayFormat: state.configurations.widget.appliedSettings.dataMetrics
 
     }
 }
