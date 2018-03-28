@@ -7,7 +7,7 @@ export function initiateCyReportSettings() {
         let currentWidget = _.cloneDeep(getState().configurations.widget);
         let selectedStatisticCategory = getState().dataMetrics.statisticCategory;
         let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
-        
+
         let groupOptions = getState().cyReportSettings.groupOptions;
         if (!groupOptions || groupOptions.length == 0) {
             let _grpOptions = _.uniqBy(_.map(_.filter(datametricsMetadata, metric => (metric.StatisticCategory === StatisticCategoryEnum.CyReport &&
@@ -24,8 +24,9 @@ export function initiateCyReportSettings() {
                 groupOptions: _grpOptions
             });
         }
-
-        if (selectedStatisticCategory == StatisticCategoryEnum.CyReport)
+        
+        let appliedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory
+        if (appliedStatisticCategory == StatisticCategoryEnum.CyReport)
             dispatch({
                 type: DEFAULT_CYREPORT_METRICS,
                 selectedGroup: currentWidget.appliedSettings.dataMetrics.group || {},

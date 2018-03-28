@@ -24,7 +24,8 @@ export function initiateRealTimeSettings() {
             });
         }
 
-        if (selectedStatisticCategory == StatisticCategoryEnum.RealTime)
+        let appliedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory
+        if (appliedStatisticCategory == StatisticCategoryEnum.RealTime)
             dispatch({
                 type: DEFAULT_REALTIME_METRICS,
                 selectedGroup: currentWidget.appliedSettings.dataMetrics.group || {},
@@ -158,7 +159,6 @@ export function getDrillDownMetaData(selectedItem) {
                         option = _.find(getState().realTimeSettings.drillDownOptions, (_opt) => _opt == obj.Id || _opt.value == obj.Id)
                     else
                         option = _.find(widget.appliedSettings.dataMetrics.drillDownOptions, (_opt) => _opt == obj.Id || _opt.value == obj.Id)
-
                     _checked = option ? true : false;
                     if (option && option.checked != undefined)
                         _checked = option.checked

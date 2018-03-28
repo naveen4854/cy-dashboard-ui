@@ -151,6 +151,22 @@ export function setSelectedStatisticCategory(selectedStatisticCategory) {
             type: SET_SELECTED_STATISTIC_CATEGORY,
             selectedStatisticCategory
         });
+        // following existing application functionality where we clear unsaved metrics on category toggle
+        if (selectedStatisticCategory == StatisticCategoryEnum.RealTime) {
+            dispatch(getState().cyReportSettings.clearCyReportSettings());
+            dispatch(getState().customSettings.clearCustomSettings());
+            dispatch(getState().realTimeSettings.initiateRealTimeSettings());
+        }
+        if (selectedStatisticCategory == StatisticCategoryEnum.Custom) {
+            dispatch(getState().realTimeSettings.clearRealTimeSettings());
+            dispatch(getState().cyReportSettings.clearCyReportSettings());
+            dispatch(getState().customSettings.initiateCustomMetricsSettings());
+        }
+        if (selectedStatisticCategory == StatisticCategoryEnum.CyReport) {
+            dispatch(getState().realTimeSettings.clearRealTimeSettings());
+            dispatch(getState().customSettings.clearCustomSettings());
+            dispatch(getState().cyReportSettings.initiateCyReportSettings());
+        }
         // dispatch(getState().dataMetrics.setDMisLoaded(false))
         // dispatch(getState().dataMetrics.updateDrillDownOptionsAction([]))
         // dispatch(getState().dataMetrics.CLearQuery());

@@ -39,6 +39,7 @@ export const ACTION_HANDLERS = {
             selectedDisplayFormat: {},
             functionOptions: [],
             displayFormatOptions: [],
+            drillDownOptions: []
         })
     },
     [UPDATE_REALTIME_ITEMS]: (state, action) => {
@@ -54,6 +55,7 @@ export const ACTION_HANDLERS = {
     [SET_REALTIME_ITEM]: (state, action) => {
         return Object.assign({}, state, {
             selectedItem: action.selectedItem,
+             drillDownOptions: []
         })
     },
     [UPDATE_REALTIME_FUNCTIONS]: (state, action) => {
@@ -67,7 +69,7 @@ export const ACTION_HANDLERS = {
     [UPDATE_REALTIME_SELECTED_FUNCTION]: (state, action) => {
         return Object.assign({}, state, {
             selectedFunction: action.selectedFunction,
-            selectedDisplayFormat: {},
+            selectedDisplayFormat: {}
         })
     },
     [UPDATE_REALTIME_DISPLAY_FORMATS]: (state, action) => {

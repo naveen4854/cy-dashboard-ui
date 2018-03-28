@@ -8,12 +8,13 @@ export function initiateCustomMetricsSettings() {
         let currentWidget = _.cloneDeep(getState().configurations.widget);
         let selectedStatisticCategory = getState().dataMetrics.statisticCategory;
 
-        let storeProcOptions = getState().realTimeSettings.storeProcOptions;
-        let storeProcsData = getState().realTimeSettings.storeProcsData;
+        let storeProcOptions = getState().customSettings.storeProcOptions;
+        let storeProcsData = getState().customSettings.storeProcsData;
         if (!storeProcsData || !storeProcOptions || storeProcsData.length == 0 || storeProcOptions.length == 0)
             dispatch(getState().customSettings.getStoredProcedures());
 
-        if (selectedStatisticCategory == StatisticCategoryEnum.Custom)
+        let appliedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory
+        if (appliedStatisticCategory == StatisticCategoryEnum.Custom)
             dispatch({
                 type: DEFAULT_CUSTOM_METRICS,
                 selectedGroup: currentWidget.appliedSettings.dataMetrics.selectedGroup || {},
@@ -141,6 +142,7 @@ export function clearCustomSettings() {
         let storeProcOptions = getState().customSettings.storeProcOptions;
         let storeProcsData = getState().customSettings.storeProcsData;
         let customSettings = { ...customSettingsInitialState, storeProcOptions, storeProcsData }
+        debugger
         dispatch({
             type: CLEAR_SELECTED_CUSTOM_SETTINGS,
             customSettings
