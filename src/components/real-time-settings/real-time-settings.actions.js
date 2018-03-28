@@ -6,22 +6,25 @@ export function initiateRealTimeSettings() {
     return (dispatch, getState) => {
         let currentWidget = _.cloneDeep(getState().configurations.widget);
         let selectedStatisticCategory = getState().dataMetrics.statisticCategory;
-        let statisticCategories = getState().dataMetrics.statisticCategories;
         let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
+        
+        let groupOptions = getState().realTimeSettings.groupOptions;
+        if (!groupOptions) {
+            let _grpOptions = _.uniqBy(_.map(_.filter(datametricsMetadata, metric => (metric.StatisticCategory === StatisticCategoryEnum.RealTime &&
+                metric.WidgetType === currentWidget.widgetType)), (obj) => {
+                    return {
+                        id: obj.StatisticGroupId,
+                        label: obj.StatisticGroup,
+                        value: obj.Id
+                    };
+                }), 'id');
 
-        let _grpOptions = _.uniqBy(_.map(_.filter(datametricsMetadata, metric => (metric.StatisticCategory === StatisticCategoryEnum.RealTime &&
-            metric.WidgetType === currentWidget.widgetType)), (obj) => {
-                return {
-                    id: obj.StatisticGroupId,
-                    label: obj.StatisticGroup,
-                    value: obj.Id
-                };
-            }), 'id');
+            dispatch({
+                type: SET_REALTIME_STATISTIC_GROUPS,
+                groupOptions: _grpOptions
+            });
+        }
 
-        dispatch({
-            type: SET_REALTIME_STATISTIC_GROUPS,
-            groupOptions: _grpOptions
-        });
         if (selectedStatisticCategory == StatisticCategoryEnum.RealTime)
             dispatch({
                 type: DEFAULT_REALTIME_METRICS,
@@ -201,7 +204,7 @@ export function updateDrillDownOptions(options) {
 export function clearRealTimeSettings() {
     return (dispatch, getState) => {
         let groupOptions = getState().realTimeSettings.groupOptions;
-        let realTimeSettings = { ...realTimeSettingsinitialState }
+        let realTimeSettings = { ...realTimeSettingsinitialState, groupOptions }
         dispatch({
             type: CLEAR_SELECTED_REALTIME_SETTINGS,
             realTimeSettings

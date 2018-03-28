@@ -170,7 +170,6 @@ export function setSelectedStatisticCategory(selectedStatisticCategory) {
 
 export function saveDataMetrics(settings) {
     return (dispatch, getState) => {
-        debugger
         let currentWidget = getState().configurations.widget;
         let statisticCategory = getState().dataMetrics.statisticCategory;
         let dataMetrics = {
