@@ -5,6 +5,7 @@ import WidgetHeader from '../../widget-header';
 import BoxWidgetComponent from '../box-widget'
 import BarChartWidgetComponent from '../bar-chart-widget'
 import PieChartWidgetComponent from '../pie-chart-widget';
+import CircularProgressComponent from '../circular-progress';
 
 import '../styles.css'
 
@@ -60,6 +61,10 @@ export default class WidgetComponent extends PureComponent {
             case WidgetTypeEnum.Pie:
                 return (
                     <PieChartWidgetComponent {...this.props.widget} IsEditing={this.props.showIcons} />
+                );
+            case WidgetTypeEnum.CircularProgress:
+                return (
+                    <CircularProgressComponent {...this.props.widget} IsEditing={this.props.showIcons} />
                 );
             default:
                 return (

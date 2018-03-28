@@ -11,6 +11,9 @@ export default class PieChartWidgetComponent extends PureComponent {
     constructor(props) {
         super(props);
         this.clearAndRenderPie = this.clearAndRenderPie.bind(this)
+        this.getContent = this.getContent.bind(this)
+        this.getLegends = this.getLegends.bind(this)
+        this.clearAndRenderPie = this.clearAndRenderPie.bind(this)
     }
 
     componentDidMount() {
@@ -21,7 +24,9 @@ export default class PieChartWidgetComponent extends PureComponent {
         this.clearAndRenderPie();
     }
 
-    getContent(data) {
+    //TODO: move this into props somehow
+    getContent() {
+        let data = this.props.data
         if (!data || data.length == 0) {
             return [{
                 color: "#0c6197",
@@ -39,9 +44,10 @@ export default class PieChartWidgetComponent extends PureComponent {
         })
     }
 
-    getLegends(content, props) {
-        let displayFormatId = props.appliedSettings.dataMetrics.displayFormat ?
-            props.appliedSettings.dataMetrics.displayFormat.id : DisplayFormatEnum.Number;
+    getLegends() {
+        let content = this.getContent()
+        let displayFormatId = this.props.appliedSettings.dataMetrics.displayFormat ?
+            this.props.appliedSettings.dataMetrics.displayFormat.id : DisplayFormatEnum.Number;
 
         let formatter = this.getFormatter(displayFormatId);
 
@@ -99,7 +105,7 @@ export default class PieChartWidgetComponent extends PureComponent {
             },
             data: {
                 //sortOrder: "value-desc",
-                content: this.props.content
+                content: this.getContent()
             },
             labels: {
                 outer: {
@@ -164,20 +170,13 @@ export default class PieChartWidgetComponent extends PureComponent {
                 },
             }
         });
-
-        // this.setState({
-        //     pieObj: pie
-        // })
-
-        // return pie;
     }
 
     render() {
         let widgetBody = this.props.widgetBody;
         let widgetBodyStyles = utils.stylesToCss(this.props.appliedBackgroundColor, widgetBody.fontSize, widgetBody.fontFamily, widgetBody.color)
 
-        let content = this.getContent(this.props.data);
-        let legends = this.getLegends(content, this.props);
+        let legends = this.getLegends();
         debugger
         return (
             <div className="widget-content">

@@ -20,6 +20,12 @@ const Widgets = [
         text: 'Pie',
         normalizedText: 'Pie',
         icon: 'fa fa-pie-chart',
+    },
+    {
+        widgetType: WidgetTypeEnum.CircularProgress,
+        text: 'Progress',
+        normalizedText: 'Progress',
+        icon: 'fa fa-circle-o-notch',
     }
 ]
 

@@ -1,7 +1,7 @@
 import { Widget } from "./widget";
 import { WidgetTypeEnum } from "../enums";
 
-export class CircularProgressWidget extends Widget {
+export default class CircularProgressWidget extends Widget {
     constructor(zIndex, isCombo, isHeader) {
         super(zIndex, isCombo, isHeader)
     }

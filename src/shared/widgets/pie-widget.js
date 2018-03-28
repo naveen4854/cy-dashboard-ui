@@ -2,7 +2,7 @@ import { Widget } from "./widget";
 import { WidgetTypeEnum } from "../enums";
 import { rgba } from '../../utilities'
 
-export class PieWidget extends Widget {
+export default class PieWidget extends Widget {
     constructor(zIndex) {
         //CircularProgressWidget not avaiable for combo hence iscombo, isheader set to undefined
         super(zIndex)
