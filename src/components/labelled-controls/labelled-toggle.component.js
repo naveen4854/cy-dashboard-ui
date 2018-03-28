@@ -5,7 +5,6 @@ import ToggleSwitch from '../toggle-switch';
 export default class LabelledToggle extends PureComponent {
 
     render() {
-        debugger
         return (
             <LabelledControl label={this.props.label}>
                 <ToggleSwitch

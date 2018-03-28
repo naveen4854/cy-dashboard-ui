@@ -5,7 +5,6 @@ export const UPDATE_STYLE_PROP = "UPDATE_STYLE_PROP"
 
 export function initializeStyles() {
     return (dispatch, getState) => {
-        debugger
         let currentWidget = getState().configurations.widget;
 
 
@@ -67,7 +66,6 @@ export function updateWidgetStyles() {
 }
 
 export function updateStyleProperty(key, value) {
-    debugger
     return (dispatch, getState) => {
         dispatch({
             type: UPDATE_STYLE_PROP,

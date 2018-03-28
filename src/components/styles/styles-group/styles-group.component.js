@@ -11,7 +11,6 @@ import { LabelledInput, LabelledColorPicker, LabelledCustomSelect } from '../../
 export default class StylesGroup extends PureComponent {
 
     onFontSizeChange = (e, key) => {
-        debugger
         let fonts = { ...this.props.fontStyles, fontSize: e.target.value }; //just e not e.target.value because CustomInputText returns e.target.value  
         this.props.onUpdateFontStyles(fonts);
     }

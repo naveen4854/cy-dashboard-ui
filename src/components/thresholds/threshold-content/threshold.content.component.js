@@ -48,7 +48,6 @@ export default class ThresholdTabContent extends PureComponent {
      * * @param {*} key 
      */
     updateLevel(value, key) {
-        debugger;
         this.props.updateLevel(this.props.id, key, value);
     }
 
@@ -174,7 +173,6 @@ export default class ThresholdTabContent extends PureComponent {
     * @param {*} key 
     */
     updateSMSTextBox(Key, ref) {
-        debugger;
         let sms = this.props.smsTo;
         let obj = 0;
         for (obj = 0; obj < sms.length; obj++) {
