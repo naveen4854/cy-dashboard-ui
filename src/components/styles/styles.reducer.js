@@ -7,6 +7,8 @@ export function initializeStyles() {
     return (dispatch, getState) => {
         debugger
         let currentWidget = getState().configurations.widget;
+
+
         let title = currentWidget.title;
         let widgetType = currentWidget.widgetType;
         let titleStyles = currentWidget.titleStyles;
@@ -15,6 +17,11 @@ export function initializeStyles() {
         let refreshInterval = currentWidget.refreshInterval;
         let barStyles = currentWidget.barStyles; // only for Bar chart
         let useSelectedBarColor = currentWidget.useSelectedBarColor;// only for Bar chart
+        let yAxisStyles = currentWidget.yAxisStyles;// only for Bar chart
+        let xAxisStyles = currentWidget.xAxisStyles;// only for Bar chart
+        
+        let enableMin = currentWidget.enableMin;// only for Bar chart
+        
         //titleStyles.color = '#FF0000';
         dispatch({
             type: INITIALIZE_STYLES,
@@ -25,6 +32,9 @@ export function initializeStyles() {
             barStyles,
             refreshInterval,
             useSelectedBarColor,
+            yAxisStyles,
+            xAxisStyles,
+            enableMin,
             widgetType
         })
     }
@@ -33,7 +43,7 @@ export function initializeStyles() {
 
 export function updateWidgetStyles() {
     return (dispatch, getState) => {
-        debugger
+  
         let currentWidget = getState().configurations.widget;
 
         let styles = getState().styles;
@@ -45,6 +55,10 @@ export function updateWidgetStyles() {
             widgetBody: styles.widgetBody,
             barStyles: styles.barStyles,
             refreshInterval: styles.refreshInterval,
+            useSelectedBarColor: styles.useSelectedBarColor,
+            yAxisStyles: styles.yAxisStyles,
+            xAxisStyles: styles.xAxisStyles, 
+            enableMin: styles.enableMin,
             appliedBackgroundColor: styles.widgetBody.backgroundColor
         }
 
@@ -73,6 +87,9 @@ export const ACTION_HANDLERS = {
             widgetBody: action.widgetBody,
             barStyles: action.barStyles,
             useSelectedBarColor: action.useSelectedBarColor,
+            yAxisStyles: action.yAxisStyles,
+            xAxisStyles: action.xAxisStyles,
+            enableMin: action.enableMin,
             refreshInterval: action.refreshInterval
         })
     },

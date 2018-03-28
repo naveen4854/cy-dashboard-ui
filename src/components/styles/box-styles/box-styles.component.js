@@ -13,8 +13,6 @@ export default class BoxStyles extends PureComponent {
         this.updateValueFontStyles = this.updateValueFontStyles.bind(this);
         this.updateBackgroundColor = this.updateBackgroundColor.bind(this);
         this.updateRefreshInterval = this.updateRefreshInterval.bind(this);
-        
-        
     }
 
     updateTitle(e){
@@ -27,7 +25,9 @@ export default class BoxStyles extends PureComponent {
         this.props.updateProp('valueStyles', e);
     }
     updateBackgroundColor(e){
-        this.props.updateProp('backgroundColor', e);
+        let widgetBody = {};
+        widgetBody.backgroundColor = e;
+        this.props.updateProp('widgetBody', widgetBody);
     }
     updateRefreshInterval(e){
         this.props.updateProp('refreshInterval', e.target.value);
@@ -69,14 +69,14 @@ export default class BoxStyles extends PureComponent {
                         key="1"
                         value={this.props.styles.widgetBody.backgroundColor}
                         // className="form-control"
-                        updateColor={this.props.updateBackgroundColor}
+                        updateColor={this.updateBackgroundColor}
                     />
 
                     <LabelledInput
                         label={this.props.l.t('Refresh_interval__in_sec_COLON', 'Refresh interval (in sec):')}
                         value={this.props.styles.refreshInterval}
                         className="form-control"
-                        onCustomInputChange={this.props.updateProp}
+                        onCustomInputChange={this.updateRefreshInterval}
                     />
 
                 </div>
