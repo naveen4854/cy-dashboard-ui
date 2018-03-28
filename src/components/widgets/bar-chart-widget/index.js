@@ -1,3 +1,3 @@
-import BarChartWidget from './bar-chart-widget.component';
+import BarChartWidgetComponent from './bar-chart-widget.component';
 
-export default BarChartWidget;
+export default BarChartWidgetComponent;

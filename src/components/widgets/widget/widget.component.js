@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react'
-import BoxWidget from '../box-widget'
-import BarChartWidget from '../bar-chart-widget'
 
 import { DashboardModeEnum, WidgetTypeEnum } from '../../../shared/enums';
 import WidgetHeader from '../../widget-header';
+import BoxWidgetComponent from '../box-widget'
+import BarChartWidgetComponent from '../bar-chart-widget'
+import PieChartWidgetComponent from '../pie-chart-widget';
 
 import '../styles.css'
 
@@ -47,18 +48,23 @@ export default class WidgetComponent extends PureComponent {
     }
 
     renderContent() {
+        debugger
         switch (this.props.widget.widgetType) {
             case WidgetTypeEnum.Box:
                 return (
-                    <BoxWidget {...this.props.widget} IsEditing={this.props.showIcons} />
+                    <BoxWidgetComponent {...this.props.widget} IsEditing={this.props.showIcons} />
                 );
-                case WidgetTypeEnum.Bar:
+            case WidgetTypeEnum.Bar:
                 return (
-                    <BarChartWidget {...this.props.widget} IsEditing={this.props.showIcons} />
+                    <BarChartWidgetComponent {...this.props.widget} IsEditing={this.props.showIcons} />
+                );
+            case WidgetTypeEnum.Pie:
+                return (
+                    <PieChartWidgetComponent {...this.props.widget} IsEditing={this.props.showIcons} />
                 );
             default:
                 return (
-                    <BoxWidget {...this.props.widget} IsEditing={this.props.showIcons} />
+                    <BoxWidgetComponent {...this.props.widget} IsEditing={this.props.showIcons} />
                 );
         }
     }

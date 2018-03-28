@@ -7,9 +7,9 @@ export function initiateRealTimeSettings() {
         let currentWidget = _.cloneDeep(getState().configurations.widget);
         let selectedStatisticCategory = getState().dataMetrics.statisticCategory;
         let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
-        
+
         let groupOptions = getState().realTimeSettings.groupOptions;
-        if (!groupOptions) {
+        if (!groupOptions || groupOptions.length == 0) {
             let _grpOptions = _.uniqBy(_.map(_.filter(datametricsMetadata, metric => (metric.StatisticCategory === StatisticCategoryEnum.RealTime &&
                 metric.WidgetType === currentWidget.widgetType)), (obj) => {
                     return {

@@ -10,7 +10,7 @@ export function initiateCustomMetricsSettings() {
 
         let storeProcOptions = getState().realTimeSettings.storeProcOptions;
         let storeProcsData = getState().realTimeSettings.storeProcsData;
-        if (!storeProcsData || !storeProcOptions)
+        if (!storeProcsData || !storeProcOptions || storeProcsData.length == 0 || storeProcOptions.length == 0)
             dispatch(getState().customSettings.getStoredProcedures());
 
         if (selectedStatisticCategory == StatisticCategoryEnum.Custom)

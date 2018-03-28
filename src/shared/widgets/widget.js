@@ -1,3 +1,4 @@
+import { rgba } from '../../utilities'
 export class Widget {
     constructor(zIndex, isCombo, isHeader) {
         this.zIndex = zIndex || 1;
@@ -35,21 +36,9 @@ export class Widget {
     }
 
     // styles
-    appliedBackgroundColor = this.isHeader ? {
-        r: 255, g: 255, b: 255, a: 1
-    } :
-        {
-            r: 0, g: 192, b: 239, a: 1
-
-        };
+    appliedBackgroundColor = this.isHeader ? rgba(255, 255, 255, 1) : rgba(0, 192, 239, 1);
     widgetBody = {
-        backgroundColor: this.isHeader ? {
-            r: 255, g: 255, b: 255, a: 1
-        } :
-            {
-                r: 0, g: 192, b: 239, a: 1
-
-            },
+        backgroundColor: this.isHeader ? rgba(255, 255, 255, 1) : rgba(0, 192, 239, 1),
         fontFamily: 'Arial',
         fontSize: 12,
         color: {
@@ -67,14 +56,7 @@ export class Widget {
         fontSize: 12
     };
     titleStyles = {
-        color: this.isHeader ? {
-            r: 0, g: 0, b: 0, a: 1
-
-        } :
-            {
-                r: 255, g: 255, b: 255, a: 1
-
-            },
+        color: this.isHeader ? rgba(0, 0, 0, 1) : rgba(255, 255, 255, 1),
         fontFamily: 'Arial',
         fontSize: 12
     };

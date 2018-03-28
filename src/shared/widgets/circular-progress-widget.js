@@ -2,9 +2,8 @@ import { Widget } from "./widget";
 import { WidgetTypeEnum } from "../enums";
 
 export class CircularProgressWidget extends Widget {
-    constructor(zIndex) {
-        //CircularProgressWidget not avaiable for combo hence iscombo, isheader set to undefined
-        super(zIndex)
+    constructor(zIndex, isCombo, isHeader) {
+        super(zIndex, isCombo, isHeader)
     }
     widgetType = WidgetTypeEnum.CircularProgress;
     width = 300;

@@ -9,7 +9,7 @@ export function initiateCyReportSettings() {
         let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
         
         let groupOptions = getState().cyReportSettings.groupOptions;
-        if (!groupOptions) {
+        if (!groupOptions || groupOptions.length == 0) {
             let _grpOptions = _.uniqBy(_.map(_.filter(datametricsMetadata, metric => (metric.StatisticCategory === StatisticCategoryEnum.CyReport &&
                 metric.WidgetType === currentWidget.widgetType)), (obj) => {
                     return {
