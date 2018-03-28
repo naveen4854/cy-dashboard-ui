@@ -10,11 +10,17 @@ const mapDispatchToProps = (dispatch) => {
         updateWidgetStyles: () => {
             dispatch(Reducer.updateWidgetStyles());
         },
-        updateProp: (value, key) => {
-            dispatch(Reducer.updateStyleProperty(value, key));
+        updateProp: ( key, value) => {
+            dispatch(Reducer.updateStyleProperty( key, value));
         },
-        updateFontStyles: (fontStyles, key) => {
-            dispatch(Reducer.updateStyleProperty(fontStyles, key));
+        updateFontStyles: (key, fontStyles) => {
+            dispatch(Reducer.updateStyleProperty(key, fontStyles));
+        },
+        updateBackgroundColor: (e) => {
+            let widgetBody = {};
+            widgetBody.backgroundColor = e;
+            dispatch(Reducer.updateStyleProperty('widgetBody', widgetBody));
+           // this.props.updateProp(widgetBody, 'widgetBody');
         }
     }
 }
