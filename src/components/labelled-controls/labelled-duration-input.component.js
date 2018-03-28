@@ -10,11 +10,11 @@ export default class LabelledDurationInput extends PureComponent {
         return (
             <LabelledControl label={this.props.label}>
                 <DurationInput
-                    displayFormatId={displayFormatId}
-                    value={this.state.widget.min}
-                    wKey='min'
-                    enableInput={this.state.widget.enableMin}
-                    updatePropOnChange={this.updateProp}
+                    displayFormatId={this.props.displayFormatId}
+                    value={this.props.value}
+                    wKey={this.props.wKey}
+                    enableInput={this.props.enableInput}
+                    updatePropOnChange={this.props.updatePropOnChange}
                 />
             </LabelledControl >
         )

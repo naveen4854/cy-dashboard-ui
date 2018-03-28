@@ -1,4 +1,5 @@
 import { Color } from "../shared/lib";
+import { DisplayFormatEnum } from "../shared/enums";
 
 export function getButton(text, className, handler) {
     return { text }
@@ -91,4 +92,18 @@ export function validateSmsNumer(number) {
 
 export function rgba(r, b, g, a) {
     return { r, b, g, a }
+}
+
+export function convertToSeconds(value, displayFormatId) {
+    if (displayFormatId == DisplayFormatEnum.HH_MM_SS) {
+        let parts = value.split(':');
+        if (parts.length != 3)
+            return 0;
+        return +parts[0] * 60 * 60 + +parts[1] * 60 + +parts[2]
+    } else {
+        let parts = value.split(':');
+        if (parts.length != 2)
+            return 0;
+        return +parts[0] * 60 + +parts[1]
+    }
 }

@@ -18,8 +18,14 @@ export function initializeStyles() {
         let useSelectedBarColor = currentWidget.useSelectedBarColor;// only for Bar chart
         let yAxisStyles = currentWidget.yAxisStyles;// only for Bar chart
         let xAxisStyles = currentWidget.xAxisStyles;// only for Bar chart
-        
         let enableMin = currentWidget.enableMin;// only for Bar chart
+        let min = currentWidget.min; 
+        let enableMax = currentWidget.enableMax;// only for Bar chart
+        let max = currentWidget.max; 
+        let enableBarLines = currentWidget.enableBarLines;
+        let showLegends = currentWidget.showLegends;
+        let showLabels = currentWidget.showLabels;
+
         
         //titleStyles.color = '#FF0000';
         dispatch({
@@ -29,11 +35,17 @@ export function initializeStyles() {
             valueStyles,
             widgetBody,
             barStyles,
-            refreshInterval,
             useSelectedBarColor,
             yAxisStyles,
             xAxisStyles,
             enableMin,
+            min,
+            enableMax,
+            max,
+            enableBarLines,
+            showLegends,
+            showLabels,
+            refreshInterval,
             widgetType
         })
     }
@@ -53,11 +65,17 @@ export function updateWidgetStyles() {
             valueStyles: styles.valueStyles,
             widgetBody: styles.widgetBody,
             barStyles: styles.barStyles,
-            refreshInterval: styles.refreshInterval,
             useSelectedBarColor: styles.useSelectedBarColor,
             yAxisStyles: styles.yAxisStyles,
             xAxisStyles: styles.xAxisStyles, 
             enableMin: styles.enableMin,
+            min: styles.min,
+            enableMax: styles.enableMax,
+            max: styles.max,
+            enableBarLines: styles.enableBarLines,
+            showLegends: styles.showLegends,
+            showLabels: styles.showLabels,
+            refreshInterval: styles.refreshInterval,
             appliedBackgroundColor: styles.widgetBody.backgroundColor
         }
 
@@ -88,6 +106,12 @@ export const ACTION_HANDLERS = {
             yAxisStyles: action.yAxisStyles,
             xAxisStyles: action.xAxisStyles,
             enableMin: action.enableMin,
+            min: action.min,
+            enableMax: action.enableMin,
+            max: action.max,
+            enableBarLines: action.enableBarLines,
+            showLegends: action.showLegends,
+            showLabels: action.showLabels,
             refreshInterval: action.refreshInterval
         })
     },

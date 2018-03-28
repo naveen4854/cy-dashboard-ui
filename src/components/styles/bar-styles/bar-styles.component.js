@@ -18,6 +18,15 @@ export default class BarStyles extends PureComponent {
         this.updateYAxisStyles = this.updateYAxisStyles.bind(this);
         this.updateXAxisStyles = this.updateXAxisStyles.bind(this);
         this.updateEnableMin = this.updateEnableMin.bind(this);
+        this.updateMinValue = this.updateMinValue.bind(this);
+        this.updateEnableMax = this.updateEnableMax.bind(this);
+        this.updateMaxValue = this.updateMaxValue.bind(this);
+        this.updateEnableBarLines = this.updateEnableBarLines.bind(this);
+        this.updateShowLegends = this.updateShowLegends.bind(this);
+        this.updateRefreshInterval = this.updateRefreshInterval.bind(this);
+        this.updateShowLabels = this.updateShowLabels.bind(this);
+
+         
     }
 
 
@@ -46,17 +55,37 @@ export default class BarStyles extends PureComponent {
         this.props.updateProp('barStyles', widgetBody);
     }
     updateYAxisStyles(e) {
-        // let widgetBody = { ...this.props.styles.yAxisStyles, backgroundColor: e };
         this.props.updateProp('yAxisStyles', e);
     }
 
     updateXAxisStyles(e) {
-        //let widgetBody = { ...this.props.styles.yAxisStyles, backgroundColor: e };
         this.props.updateProp('xAxisStyles', e);
     }
     updateEnableMin(e) {
-        //let widgetBody = { ...this.props.styles.yAxisStyles, backgroundColor: e };
         this.props.updateProp('enableMin', e);
+    }
+
+    updateMinValue(e) {
+        this.props.updateProp('min', e);
+    }
+    updateEnableMax(e) {
+        this.props.updateProp('enableMax', e);
+    }
+
+    updateMaxValue(e) {
+        this.props.updateProp('max', e);
+    }
+    updateEnableBarLines(e) {
+        this.props.updateProp('enableBarLines', e);
+    }
+    updateShowLegends(e) {
+        this.props.updateProp('showLegends', e);
+    }
+    updateShowLabels(e) {
+        this.props.updateProp('showLabels', e);
+    }
+    updateRefreshInterval(e){
+        this.props.updateProp('refreshInterval', e.target.value);
     }
 
     render() {
@@ -120,15 +149,31 @@ export default class BarStyles extends PureComponent {
                     />
 
 
-                    {/* <LabelledDurationInput
+                    <LabelledDurationInput
                         label={this.props.l.t('MinCOLON', 'Min:')}
-                        displayFormatId={displayFormatId}
+                        displayFormatId={this.props.displayFormatId}
                         value={this.props.styles.min}
                         wKey='min'
                         enableInput={this.props.styles.enableMin}
-                        updatePropOnChange={this.updateProp}
-                    /> */}
+                        updatePropOnChange={this.updateMinValue}
+                    />
 
+                    <LabelledToggle
+                        label={this.props.l.t('Enable_max_valueCOLON', 'Enable max value:')}
+                        //updateKey='useSelectedBarColor'
+                        nodes={[{ label: "Yes", value: true }, { label: "No", value: false }]}
+                        checkedNode={this.props.styles.enableMax}
+                        onToggleChange={this.updateEnableMax}
+                    />
+
+                    <LabelledDurationInput
+                        label={this.props.l.t('MaxCOLON', 'Max:')}
+                        displayFormatId={this.props.displayFormatId}
+                        value={this.props.styles.max}
+                        wKey='max'
+                        enableInput={this.props.styles.enableMax}
+                        updatePropOnChange={this.updateMaxValue}
+                    />
 
 
 
@@ -162,6 +207,35 @@ export default class BarStyles extends PureComponent {
                         updateColor={this.updateBarColor}
                     />
 
+                    <LabelledToggle
+                        label={this.props.l.t('Enable_bar_linesCOLON', 'Enable bar lines:')}
+                        //updateKey='useSelectedBarColor'
+                        nodes={[{ label: "Yes", value: true }, { label: "No", value: false }]}
+                        checkedNode={this.props.styles.enableBarLines}
+                        onToggleChange={this.updateEnableBarLines}
+                    />
+
+                    <LabelledToggle
+                        label={this.props.l.t('Show_legendCOLON', 'Show legend:')}
+                        //updateKey='useSelectedBarColor'
+                        nodes={[{ label: "Yes", value: true }, { label: "No", value: false }]}
+                        checkedNode={this.props.styles.showLegends}
+                        onToggleChange={this.updateShowLegends}
+                    />
+
+                    <LabelledToggle
+                        label={this.props.l.t('Show_labelsCOLON', 'Show labels:')}
+                        //updateKey='useSelectedBarColor'
+                        nodes={[{ label: "Yes", value: true }, { label: "No", value: false }]}
+                        checkedNode={this.props.styles.showLabels}
+                        onToggleChange={this.updateShowLabels}
+                    />
+                    <LabelledInput
+                        label={this.props.l.t('Refresh_interval__in_sec_COLON', 'Refresh interval (in sec):')}
+                        value={this.props.styles.refreshInterval}
+                        className="form-control"
+                        onCustomInputChange={this.updateRefreshInterval}
+                    />
 
                 </div>
             </div>
