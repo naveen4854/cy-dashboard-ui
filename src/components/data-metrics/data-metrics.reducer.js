@@ -105,7 +105,7 @@ export function initializeStatisticMetadata() {
 
         dispatch(getState().realTimeSettings.initiateRealTimeSettings());
         dispatch(getState().cyReportSettings.initiateCyReportSettings());
-        // dispatch(getState().cyReportSettings.initiateRealTimeSettings());
+        dispatch(getState().customSettings.initiateCustomMetricsSettings());
 
         // if (currentWidget.appliedSettings.dataMetrics.group)
         //     dispatch(setSelectedGroupValueAction(currentWidget.appliedSettings.dataMetrics.group))
@@ -170,6 +170,7 @@ export function setSelectedStatisticCategory(selectedStatisticCategory) {
 
 export function saveDataMetrics(settings) {
     return (dispatch, getState) => {
+        debugger
         let currentWidget = getState().configurations.widget;
         let statisticCategory = getState().dataMetrics.statisticCategory;
         let dataMetrics = {

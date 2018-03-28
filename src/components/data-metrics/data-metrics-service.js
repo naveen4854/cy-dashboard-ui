@@ -1,6 +1,6 @@
 
 import { ApiUrl } from "../../shared/constants";
-import { axiosGet } from "../../utilities/http-service";
+import { axiosGet, axiosPost } from "../../utilities/http-service";
 
 export function getStatisticGroups() {
     return axiosGet(
@@ -48,4 +48,8 @@ export function getDisplayformats(statisticsCategoryId) {
     )
 }
  
-
+export function validateQuery(query) {
+    return axiosPost(
+        ApiUrl.VALIDATE_QUERY, `=${query}`
+    )
+}
