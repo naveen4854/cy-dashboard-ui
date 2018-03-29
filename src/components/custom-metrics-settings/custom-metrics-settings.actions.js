@@ -142,7 +142,6 @@ export function clearCustomSettings() {
         let storeProcOptions = getState().customSettings.storeProcOptions;
         let storeProcsData = getState().customSettings.storeProcsData;
         let customSettings = { ...customSettingsInitialState, storeProcOptions, storeProcsData }
-        debugger
         dispatch({
             type: CLEAR_SELECTED_CUSTOM_SETTINGS,
             customSettings

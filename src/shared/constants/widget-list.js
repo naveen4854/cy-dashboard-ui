@@ -7,7 +7,8 @@ const Widgets = [
         widgetType: WidgetTypeEnum.Box,
         text: 'Box',
         normalizedText: 'Box',
-        icon: 'fa fa-square-o',
+        icon: 'fa fa-square-o'
+        // getWidget: () => { }
     },
     {
         widgetType: WidgetTypeEnum.Bar,
@@ -32,6 +33,12 @@ const Widgets = [
         text: 'Speedo',
         normalizedText: 'Speedo',
         icon: 'fa fa-dashboard',
+    },
+    {
+        widgetType: WidgetTypeEnum.Progress,
+        text: 'Step',
+        normalizedText: 'Step',
+        icon: 'fa fa-line-chart',
     }
 ]
 

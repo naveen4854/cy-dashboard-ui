@@ -33,7 +33,6 @@ export default class SpeedoWidgetComponent extends PureComponent {
         const value = pcent < 0 ? 0 : pcent > 1 ? 1 : pcent;
 
         const colors = _.map(this.props.segmentColors, segColor => Color.ToString(segColor));
-        debugger
         let interpolateColor = interpolate(_.cloneDeep(colors))
         const arrowColor = interpolateColor(value);
 

@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react'
+import ReactDom from 'react-dom';
 import { utils } from '../../../utilities';
 import PropTypes from 'prop-types';
  
 import _ from 'lodash';
-import ReactDom from 'react-dom';
 const interpolate = require('../../../../lib/color-interpolate');
 import '../styles.css';
 import * as Color from '../../../shared/lib/color-conversion';
@@ -11,7 +11,7 @@ import ProgressBar from './progress-bar.component';
 import * as Utils from '../../../../utilities/common-utils'
 import { DisplayFormatEnum } from '../../../shared/enums';
 
-export default class ProgressBarWidgetComponent extends PureComponent {
+export default class ProgressBarComponent extends PureComponent {
  
         constructor(props) {
             super(props);
