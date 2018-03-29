@@ -1,8 +1,9 @@
 import * as ThresholdConstants from './threshold.constants';
 import _ from 'lodash';
 import { utils } from '../../utilities';
-import { ResponseStatusEnum, StatisticCategoryEnum, DisplayFormatEnum } from '../../shared/enums';
+import { ResponseStatusEnum, StatisticCategoryEnum, DisplayFormatEnum, WidgetTypeEnum } from '../../shared/enums';
 import { Constants } from '../../shared/constants';
+import * as ThresholdService from './threshold-service';
 
 export function updateLevel(id, key, value) {
     return (dispatch, getState) => {
@@ -41,7 +42,8 @@ export function handleClick(id) {
  */
 export function TestThreshold(threshold, widgetId) {
     return (dispatch, getState) => {
-        let widgets = getState().newdashboard.widgets;
+        debugger;
+        let widgets = getState().dashboard.widgets;
         dispatch(getState().spinnerStore.BeginTask());
         dispatch(getState().notificationStore.ClearNotifications());
         let widget = _.find(widgets, (widget) => widget.id === widgetId);
@@ -72,38 +74,46 @@ export function TestThreshold(threshold, widgetId) {
         };
         let inputThreshold = {
             ti: mappedThreshold,
-            tiwt: widget.widgetType == WidgetType.Combo ? "Combo Widget" : widget.title, // As of now since combo is not having title, we are just sending title as combo widget.
-            tidn: getState().newdashboard.name
+            tiwt: widget.widgetType == WidgetTypeEnum.Combo ? "Combo Widget" : widget.title, // As of now since combo is not having title, we are just sending title as combo widget.
+            tidn: 'Test' //we should pass dashboard name.                 getState().newdashboard.name
         }
-
-        dashboardService.testThreshold(inputThreshold).then((response) => {
+        ThresholdService.testThreshold(inputThreshold).then((response) => {
             dispatch(getState().spinnerStore.EndTask());
 
             var successMessage = _.map(response.data.Messages, (r) => {
                 return {
-                    ResponseType: r.ResponseType,
-                    Message: getState().newdashboard.l.t(r.NormalizedMessage, r.Message)
-                }
-            })
-            dispatch(getState().notificationStore.ShowNotification({
-                type: ResponseStatusEnum.Success,
-                messages: dashboardUtils.returnMessages(successMessage, ResponseStatusEnum.Success)
-            }));
 
-            var errorMessage = _.map(response.data.Messages, (r) => {
-                return {
-                    ResponseType: r.ResponseType,
-                    Message: getState().newdashboard.l.t(r.NormalizedMessage, r.Message)
+                    displayMessage: r.Message,
+                    normalizedMessage: r.NormalizedMessage
                 }
             })
 
-            let errorResponse = {
-                type: ResponseStatusEnum.Error,
-                persistMessages: true,
-                messages: dashboardUtils.returnMessages(errorMessage, ResponseStatusEnum.Error)
-            };
+            /**need implement notification functionality*/
+            // var successMessage = _.map(response.data.Messages, (r) => {
+            //     return {
+            //         ResponseType: r.ResponseType,
+            //         Message: getState().newdashboard.l.t(r.NormalizedMessage, r.Message)
+            //     }
+            // })
+            // dispatch(getState().notificationStore.ShowNotification({
+            //     type: ResponseStatusEnum.Success,
+            //     messages: dashboardUtils.returnMessages(successMessage, ResponseStatusEnum.Success)
+            // }));
 
-            dispatch(getState().notificationStore.ShowNotification(errorResponse));
+            // var errorMessage = _.map(response.data.Messages, (r) => {
+            //     return {
+            //         ResponseType: r.ResponseType,
+            //         Message: getState().newdashboard.l.t(r.NormalizedMessage, r.Message)
+            //     }
+            // })
+
+            // let errorResponse = {
+            //     type: ResponseStatusEnum.Error,
+            //     persistMessages: true,
+            //     messages: dashboardUtils.returnMessages(errorMessage, ResponseStatusEnum.Error)
+            // };
+
+            // dispatch(getState().notificationStore.ShowNotification(errorResponse));
         }).catch((err) => {
             let errorResponse = {
                 type: ResponseStatusEnum.Error,
@@ -123,16 +133,12 @@ export function TestThreshold(threshold, widgetId) {
 export function setIsCopiedForLevel(id) {
 
     return (dispatch, getState) => {
-        let updatedLevels = _.map(getState().levels, (level) => {
+        let updatedLevels = _.map(getState().threshold.levels, (level) => {
             if (level.id === id) {
-                level.isCopied = true;
-                level.isPasteEnabled = false;
-                return level;
+                return { ...level, isCopied: true, isPasteEnabled: false };
             }
             else {
-                level.isCopied = false;
-                level.isPasteEnabled = true;
-                return level;
+                return { ...level, isCopied: false, isPasteEnabled: true };
             }
 
         });
@@ -146,18 +152,15 @@ export function setIsCopiedForLevel(id) {
 
 export function pasteThresholdValues(id) {
     return (dispatch, getState) => {
-        let selectedLevelId = this.state.selectedLevelId;
         let copiedLevel = _.find(getState().threshold.levels, (level) => level.isCopied);
-
-
         let updatedLevels = _.map(getState().threshold.levels, (level) => {
             if (level.id == id) {
-                level.emailTo = _.clone(copiedLevel.emailTo);
-                level.smsTo = _.clone(copiedLevel.smsTo);
+                level.emailTo = _.cloneDeep(copiedLevel.emailTo);
+                level.smsTo = _.cloneDeep(copiedLevel.smsTo);
             }
             level.isCopied = false;
             level.isPasteEnabled = false;
-            return level;
+            return level ;
 
         });
         dispatch({
@@ -175,7 +178,7 @@ export function pasteThresholdValues(id) {
 export function removeLevel(id) {
     return (dispatch, getState) => {
         let levels = getState().threshold.levels;
-      _.remove(levels, lv => lv.id == id);
+        _.remove(levels, lv => lv.id == id);
         let updatedLevels = _.map(levels, (level, i) => {
             return { ...level, level: i + 1 }
         });

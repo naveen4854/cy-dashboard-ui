@@ -15,6 +15,15 @@ const mapDispatchToProps = (dispatch) => {
         },
         removeLevel: (id) => {
             dispatch(ThresholdAction.removeLevel(id));
+        },
+        TestThreshold: (level, widgetId) => {
+            dispatch(ThresholdAction.TestThreshold(level, widgetId));
+        },
+        setIsCopiedForLevel: (id) => {
+            dispatch(ThresholdAction.setIsCopiedForLevel(id));
+        },
+        pasteThresholdValues: (id) => {
+            dispatch(ThresholdAction.pasteThresholdValues(id));
         }
     }
 }
