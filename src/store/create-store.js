@@ -20,7 +20,7 @@ export default (initialState = {}) => {
     initialState,
     compose(
       applyMiddleware(...middleware),
-       ...enhancers
+      // ...enhancers
     )
   )
   store.asyncReducers = {}

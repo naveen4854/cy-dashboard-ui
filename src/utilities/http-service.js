@@ -145,9 +145,10 @@ function handleUnAuthWithRetry(error) {
             return axios(error.config);
         })
             .catch((err) => {
+                debugger
+                dispatch(getState().user.logout())
                 dispatch(getState().notificationStore.ClearNotifications());
                 dispatch(getState().notificationStore.notify(err.response.data.Messages, ResponseStatusEnum.Error, true));
-                dispatch(getState().user.logout())
             });
     })
 }

@@ -26,6 +26,12 @@ const Widgets = [
         text: 'Progress',
         normalizedText: 'Progress',
         icon: 'fa fa-circle-o-notch',
+    },
+    {
+        widgetType: WidgetTypeEnum.Speedo,
+        text: 'Speedo',
+        normalizedText: 'Speedo',
+        icon: 'fa fa-dashboard',
     }
 ]
 
