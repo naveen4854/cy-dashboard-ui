@@ -14,6 +14,18 @@ const Widgets = [
         text: 'Bar',
         normalizedText: 'Bar',
         icon: 'fa fa-bar-chart',
+    },
+    {
+        widgetType: WidgetTypeEnum.Pie,
+        text: 'Pie',
+        normalizedText: 'Pie',
+        icon: 'fa fa-pie-chart',
+    },
+    {
+        widgetType: WidgetTypeEnum.CircularProgress,
+        text: 'Progress',
+        normalizedText: 'Progress',
+        icon: 'fa fa-circle-o-notch',
     }
 ]
 

@@ -81,12 +81,9 @@ export default class RealTimeSettingsComponent extends PureComponent {
                             options={this.props.realTimeSettings.groupOptions}
                             onChange={this.onStatisticGroupChange} />
                     </div>
-                    {
-                        this.props.realTimeSettings.statisticCategory == StatisticCategoryEnum.RealTime && this.props.realTimeSettings.selectedItem && this.props.realTimeSettings.selectedItem.id &&
-                        <div className="drill-icon">
-                            <i onClick={this.toggleDrillDown} className="fa fa-filter"></i>
-                        </div>
-                    }
+                    <div className="drill-icon">
+                        <i onClick={this.toggleDrillDown} className="fa fa-filter"></i>
+                    </div>
                 </div>
                 <div className="row">
                     <div className="col-xs-12 col-md-4 col-lg-4 metrics-label-sm metrics-label rtl-metrics-label-sm ">

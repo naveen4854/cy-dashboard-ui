@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import CustomDock from '../custom-dock';
 import { Tab, Tabs } from 'react-bootstrap';
 import DataMetricsContainer from '../data-metrics';
-import StylesContainer from '../styles';
+import StylesContainer from '../style-components';
 import ThresholdTabContainer from '../thresholds';
 export default class WidgetConfigurationsComponent extends PureComponent {
     render() {

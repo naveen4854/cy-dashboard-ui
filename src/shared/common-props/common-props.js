@@ -12,7 +12,6 @@ const commonProps = (dispatch) => {
             dispatch(NotificationReducer.custom(message, buttons))
         },
         confirm: (message, buttons) => {
-            debugger
             dispatch(NotificationReducer.confirm(message, buttons))
         }
     }

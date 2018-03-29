@@ -6,23 +6,26 @@ export function initiateRealTimeSettings() {
     return (dispatch, getState) => {
         let currentWidget = _.cloneDeep(getState().configurations.widget);
         let selectedStatisticCategory = getState().dataMetrics.statisticCategory;
-        let statisticCategories = getState().dataMetrics.statisticCategories;
         let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
+        let groupOptions = getState().realTimeSettings.groupOptions;
+        if (!groupOptions || groupOptions.length == 0) {
+            let _grpOptions = _.uniqBy(_.map(_.filter(datametricsMetadata, metric => (metric.StatisticCategory === StatisticCategoryEnum.RealTime &&
+                metric.WidgetType === currentWidget.widgetType)), (obj) => {
+                    return {
+                        id: obj.StatisticGroupId,
+                        label: obj.StatisticGroup,
+                        value: obj.Id
+                    };
+                }), 'id');
 
-        let _grpOptions = _.uniqBy(_.map(_.filter(datametricsMetadata, metric => (metric.StatisticCategory === StatisticCategoryEnum.RealTime &&
-            metric.WidgetType === currentWidget.widgetType)), (obj) => {
-                return {
-                    id: obj.StatisticGroupId,
-                    label: obj.StatisticGroup,
-                    value: obj.Id
-                };
-            }), 'id');
+            dispatch({
+                type: SET_REALTIME_STATISTIC_GROUPS,
+                groupOptions: _grpOptions
+            });
+        }
 
-        dispatch({
-            type: SET_REALTIME_STATISTIC_GROUPS,
-            groupOptions: _grpOptions
-        });
-        if (selectedStatisticCategory == StatisticCategoryEnum.RealTime)
+        let appliedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory
+        if (appliedStatisticCategory == StatisticCategoryEnum.RealTime)
             dispatch({
                 type: DEFAULT_REALTIME_METRICS,
                 selectedGroup: currentWidget.appliedSettings.dataMetrics.group || {},
@@ -156,7 +159,6 @@ export function getDrillDownMetaData(selectedItem) {
                         option = _.find(getState().realTimeSettings.drillDownOptions, (_opt) => _opt == obj.Id || _opt.value == obj.Id)
                     else
                         option = _.find(widget.appliedSettings.dataMetrics.drillDownOptions, (_opt) => _opt == obj.Id || _opt.value == obj.Id)
-
                     _checked = option ? true : false;
                     if (option && option.checked != undefined)
                         _checked = option.checked
@@ -201,7 +203,7 @@ export function updateDrillDownOptions(options) {
 export function clearRealTimeSettings() {
     return (dispatch, getState) => {
         let groupOptions = getState().realTimeSettings.groupOptions;
-        let realTimeSettings = { ...realTimeSettingsinitialState }
+        let realTimeSettings = { ...realTimeSettingsinitialState, groupOptions }
         dispatch({
             type: CLEAR_SELECTED_REALTIME_SETTINGS,
             realTimeSettings
@@ -220,5 +222,6 @@ export function SaveRealTimeMetrics(dataMetrics) {
     return (dispatch, getState) => {
         dispatch(getState().dataMetrics.saveDataMetrics(dataMetrics));
         dispatch(getState().cyReportSettings.clearCyReportSettings());
+        dispatch(getState().customSettings.clearCustomSettings());
     }
 }

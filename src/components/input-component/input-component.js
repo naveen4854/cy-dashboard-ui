@@ -8,7 +8,7 @@ export default class CustomInputText extends PureComponent {
         type="text"
         className="form-control"
         value={this.props.value}
-        onChange={(e) => this.props.onCustomInputChange(e.target.value, this.props.updateKey)}
+        onChange={this.props.onCustomInputChange}
       />
     )
   }

@@ -8,21 +8,25 @@ export function initiateCyReportSettings() {
         let selectedStatisticCategory = getState().dataMetrics.statisticCategory;
         let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
 
-        let _grpOptions = _.uniqBy(_.map(_.filter(datametricsMetadata, metric => (metric.StatisticCategory === StatisticCategoryEnum.CyReport &&
-            metric.WidgetType === currentWidget.widgetType)), (obj) => {
-                return {
-                    id: obj.StatisticGroupId,
-                    label: obj.StatisticGroup,
-                    value: obj.Id
-                };
-            }), 'id');
+        let groupOptions = getState().cyReportSettings.groupOptions;
+        if (!groupOptions || groupOptions.length == 0) {
+            let _grpOptions = _.uniqBy(_.map(_.filter(datametricsMetadata, metric => (metric.StatisticCategory === StatisticCategoryEnum.CyReport &&
+                metric.WidgetType === currentWidget.widgetType)), (obj) => {
+                    return {
+                        id: obj.StatisticGroupId,
+                        label: obj.StatisticGroup,
+                        value: obj.Id
+                    };
+                }), 'id');
 
-        dispatch({
-            type: SET_CYREPORT_STATISTIC_GROUPS,
-            groupOptions: _grpOptions
-        });
-
-        if (selectedStatisticCategory == StatisticCategoryEnum.CyReport)
+            dispatch({
+                type: SET_CYREPORT_STATISTIC_GROUPS,
+                groupOptions: _grpOptions
+            });
+        }
+        
+        let appliedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory
+        if (appliedStatisticCategory == StatisticCategoryEnum.CyReport)
             dispatch({
                 type: DEFAULT_CYREPORT_METRICS,
                 selectedGroup: currentWidget.appliedSettings.dataMetrics.group || {},
@@ -144,6 +148,7 @@ export function SaveCyReportMetrics(dataMetrics) {
     return (dispatch, getState) => {
         dispatch(getState().dataMetrics.saveDataMetrics(dataMetrics));
         dispatch(getState().realTimeSettings.clearRealTimeSettings());
+        dispatch(getState().customSettings.clearCustomSettings());
     }
 }
 

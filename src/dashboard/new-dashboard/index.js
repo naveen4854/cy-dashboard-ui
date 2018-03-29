@@ -5,7 +5,7 @@ import authenticate from '../../authentication/authenticated.hoc';
 import NewDashboardContainer from './new-dashboard.container';
 import DashboardReducer from '../dashboard.reducer';
 import SettingsReducer from '../../components/widget-configurations/widget-configurations.reducer';
-import StylesReducer from '../../components/styles/styles.reducer';
+import StylesReducer from '../../components/style-components/styles.reducer';
 import ThresholdReducer from '../../components/thresholds/threshold.reducer';
 import RealTimeSettingsReducer from '../../components/real-time-settings/real-time-settings.reducer';
 import CyReportSettingsReducer from '../../components/cy-report-settings/cy-report-settings.reducer';

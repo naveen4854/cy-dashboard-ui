@@ -4,6 +4,7 @@ import ToggleSwitch from '../toggle-switch';
 import { StatisticCategoryEnum } from '../../shared/enums'
 import RealTimeSettingsContainer from '../real-time-settings'
 import CyReportSettingsContainer from '../cy-report-settings/cy-report-settings.container';
+import CustomMetricsSettingsContainer from '../custom-metrics-settings';
 
 export default class DataMetricsSettingsComponent extends PureComponent {
 
@@ -45,7 +46,7 @@ export default class DataMetricsSettingsComponent extends PureComponent {
                 return <CyReportSettingsContainer />;
                 break;
             case (StatisticCategoryEnum.Custom):
-                return "";
+                return <CustomMetricsSettingsContainer />;
                 break;
             default:
                 return <h1>Statistic category not set</h1>

@@ -1,11 +1,12 @@
 import React from 'react'
 
-import { utils} from '../../utilities'
+import { utils } from '../../utilities'
 import MaskedInput from '../masked-input';
 import ToggleSwitch from '../toggle-switch';
 import CustomDatePicker from '../custom-date-picker';
 import moment from 'moment';
 import { DisplayFormatEnum } from '../../shared/enums';
+import { Constants } from '../../shared/constants';
 
 class DurationInput extends React.Component {
 
@@ -17,6 +18,14 @@ class DurationInput extends React.Component {
   updateDTLevel(val, key) {
     let dt = moment(new Date(+val)).format('MM/DD/YYYY hh:mm A');
     this.props.updatePropOnChange(dt, key);
+  }
+
+  generateDurationFormat(value, displayFormatId) {
+    let val = 0
+    if (!isNaN(value) && value != null)
+      val = +value;
+    let formatter = _.find(Constants.customCombotimeFormat, f => f.displayFormatId == displayFormatId)
+    return formatter ? formatter.convert(val) : 0;
   }
 
   render() {
@@ -31,7 +40,7 @@ class DurationInput extends React.Component {
         return (
           <MaskedInput
             disabled={!enableInput}
-            value={utils.generateDurationFormat(value, displayFormatId)}
+            value={this.generateDurationFormat(value, displayFormatId)}
             onChange={(val) => this.updateDuration(val, wKey, displayFormatId)}
             regex="^(\d+):([0-5]?\d):([0-5]?\d)$" />
         );
@@ -39,7 +48,7 @@ class DurationInput extends React.Component {
         return (
           <MaskedInput
             disabled={!enableInput}
-            value={utils.generateDurationFormat(value, displayFormatId)}
+            value={this.generateDurationFormat(value, displayFormatId)}
             onChange={(val) => this.updateDuration(val, wKey, displayFormatId)}
             regex="^(\d+):([0-5]?\d)$" />
         );
