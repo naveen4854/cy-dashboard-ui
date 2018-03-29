@@ -52,6 +52,8 @@ export default class BoxStyles extends PureComponent {
                         fontFamilyLabel={this.props.l.t('Title_fontCOLON', 'Title font:')}
                         fontSizeLabel={this.props.l.t('Title_font_sizeCOLON', 'Title font size:')}
                         onUpdateFontStyles={this.updateTitleFontStyles}
+                        id="1"
+                        key="1"
                     />
 
                     <StylesGroup
@@ -61,6 +63,8 @@ export default class BoxStyles extends PureComponent {
                         fontFamilyLabel={this.props.l.t('Value_fontCOLON', 'Value font:')}
                         fontSizeLabel={this.props.l.t('Value_font_sizeCOLON', 'Value font size:')}
                         onUpdateFontStyles={this.updateValueFontStyles}
+                        id="2"
+                        key="2"
                     />
 
                     <LabelledColorPicker

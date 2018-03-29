@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { WidgetTypeEnum } from '../../shared/enums';
 import BoxStyles from './box-styles';
 import BarStyles from './bar-styles'
+import PieStyles from './pie-styles';
 // import DataMetricsSettingsContainer from '../data-metrics-settings/';
 
 class StylesComponent extends PureComponent {
@@ -51,8 +52,7 @@ class StylesComponent extends PureComponent {
                 );
             case WidgetTypeEnum.Pie:
                 return (
-                    // <PieStyles {...this.state} l={this.props.l} UpdateWidgetStyles={(widget) => this.UpdateWidgetStyles(widget)} />
-                    <div>{this.props.l.t('Sytles_not_present_for_this_widget', 'Sytles not present for this widget')}</div>
+                    <PieStyles  {...this.props} />
                 );
             case WidgetTypeEnum.Bar:
                 return (

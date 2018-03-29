@@ -109,6 +109,8 @@ export default class BarStyles extends PureComponent {
                         fontFamilyLabel={this.props.l.t('Title_fontCOLON', 'Title font:')}
                         fontSizeLabel={this.props.l.t('Title_font_sizeCOLON', 'Title font size:')}
                         onUpdateFontStyles={this.updateTitleFontStyles}
+                        id="1"
+                        key="1"
                     //updateKey='titleStyles'
                     />
 
@@ -119,6 +121,8 @@ export default class BarStyles extends PureComponent {
                         fontFamilyLabel={this.props.l.t('Value_fontCOLON', 'Value font:')}
                         fontSizeLabel={this.props.l.t('Value_font_sizeCOLON', 'Value font size:')}
                         onUpdateFontStyles={this.updateBarStyles}
+                        id="2"
+                        key="2"
                     //updateKey='barStyles'
                     />
                     <StylesGroup
@@ -128,6 +132,8 @@ export default class BarStyles extends PureComponent {
                         fontFamilyLabel={this.props.l.t("Y-Axis font style:", "Y-Axis font style:")}
                         fontSizeLabel={this.props.l.t("Y-Axis font size:", "Y-Axis font size:")}
                         onUpdateFontStyles={this.updateYAxisStyles}
+                        id="3"
+                        key="3"
                     //updateKey='barStyles'
                     />
 
@@ -138,6 +144,8 @@ export default class BarStyles extends PureComponent {
                         fontFamilyLabel={this.props.l.t("X-Axis font style:", "X-Axis font style:")}
                         fontSizeLabel={this.props.l.t("X-Axis font size:", " X-Axis font size:")}
                         onUpdateFontStyles={this.updateXAxisStyles}
+                        id="4"
+                        key="4"
                     //updateKey='barStyles'
                     />
                     <LabelledToggle
