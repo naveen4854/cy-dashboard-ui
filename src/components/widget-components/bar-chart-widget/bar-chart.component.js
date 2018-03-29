@@ -314,7 +314,7 @@ export default class BarChart extends React.Component {
                     {
                         this.props.showLegends ? <div className="col-xs-4 rtl-pull-left" style={{ height: '100%' }}>
                             <div id="legend">
-                                <text>Legend:</text>
+                                <label>Legend:</label>
                                 <Scrollbars style={{ width: '90%', height: '90%' }}>
                                     <div style={{ border: "3px solid #eee", fontSize: widgetBodyStyles.fontSize, fontFamily: widgetBodyStyles.fontFamily }}>
                                         {
