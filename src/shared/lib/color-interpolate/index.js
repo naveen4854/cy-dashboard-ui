@@ -8,9 +8,7 @@ const hsl = require('color-space/hsl');
 const lerp = require('lerp');
 const clamp = require('mumath/clamp');
 
-module.exports = interpolate;
-
-function interpolate (palette) {
+export default function interpolate (palette) {
 	palette = palette.map(c => {
 		c = parse(c);
 		if (c.space != 'rgb') {
