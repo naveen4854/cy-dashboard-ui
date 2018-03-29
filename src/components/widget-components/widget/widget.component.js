@@ -9,6 +9,7 @@ import CircularProgressComponent from '../circular-progress';
 
 import '../styles.css'
 import SpeedoWidgetComponent from '../speedo-widget';
+import ProgressBarWidgetComponent from '../progress-bar-widget';
 
 export default class WidgetComponent extends PureComponent {
 
@@ -70,6 +71,10 @@ export default class WidgetComponent extends PureComponent {
             case WidgetTypeEnum.Speedo:
                 return (
                     <SpeedoWidgetComponent {...this.props.widget} IsEditing={this.props.showIcons} />
+                );
+            case WidgetTypeEnum.Progress:
+                return (
+                    <ProgressBarWidgetComponent {...this.props.widget} IsEditing={this.props.showIcons} />
                 );
             default:
                 return (
