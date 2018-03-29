@@ -65,7 +65,7 @@ export default class CustomMetricsSettingsComponent extends PureComponent {
             <div id="customStatistics">
                 <div className="row">
                     <div className="col-xs-12 col-md-4 col-lg-4 metrics-label-sm metrics-label rtl-metrics-label-sm ">
-                        <text>{this.props.l.t('Stored_ProcedureCOLON', 'Stored Procedure:')}</text>
+                        <label>{this.props.l.t('Stored_ProcedureCOLON', 'Stored Procedure:')}</label>
                     </div>
                     <div className="col-xs-9 col-sm-7 col-md-6 col-lg-5">
                         <CustomSelect

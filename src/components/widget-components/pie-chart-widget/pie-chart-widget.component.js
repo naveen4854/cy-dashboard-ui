@@ -1,27 +1,17 @@
 import React, { PureComponent } from 'react'
-import ReactDOM from 'react-dom';
 import Scrollbars from 'react-scrollbar';
 import { utils } from '../../../utilities';
 import { segments } from '../../../shared/constants/constants';
 import { DisplayFormatEnum } from '../../../shared/enums';
-import d3Pie from 'd3Pie';
+import PiechartComponent from './pie-chart'
+import * as color from '../../../shared/lib/color-conversion';
 
 export default class PieChartWidgetComponent extends PureComponent {
 
     constructor(props) {
         super(props);
-        this.clearAndRenderPie = this.clearAndRenderPie.bind(this)
         this.getContent = this.getContent.bind(this)
         this.getLegends = this.getLegends.bind(this)
-        this.clearAndRenderPie = this.clearAndRenderPie.bind(this)
-    }
-
-    componentDidMount() {
-        this.clearAndRenderPie();
-    }
-
-    componentDidUpdate() {
-        this.clearAndRenderPie();
     }
 
     //TODO: move this into props somehow
@@ -44,8 +34,7 @@ export default class PieChartWidgetComponent extends PureComponent {
         })
     }
 
-    getLegends() {
-        let content = this.getContent()
+    getLegends(content) {
         let displayFormatId = this.props.appliedSettings.dataMetrics.displayFormat ?
             this.props.appliedSettings.dataMetrics.displayFormat.id : DisplayFormatEnum.Number;
 
@@ -78,118 +67,34 @@ export default class PieChartWidgetComponent extends PureComponent {
         }
     }
 
-    clearAndRenderPie() {
-        const el = ReactDOM.findDOMNode(this).firstChild.firstChild;
-        while (el.hasChildNodes()) {
-            el.removeChild(el.firstChild);
-        }
-        var chart = this.renderPie();
-    }
-
-    renderPie() {
-        let pie = new d3Pie(`${this.props.id}`, {
-            header: {
-                title: {
-                    text: this.props.title,
-                    color: this.props.titleStyles.color,
-                    fontSize: this.props.titleStyles.fontSize,
-                    font: this.props.titleStyles.fontFamily,
-                    location: "middle-middle"
-                },
-            },
-            size: {
-                canvasHeight: this.props.height,
-                canvasWidth: this.props.width,
-                pieOuterRadius: "90%",
-                // "pieInnerRadius": "55%",
-            },
-            data: {
-                //sortOrder: "value-desc",
-                content: this.getContent()
-            },
-            labels: {
-                outer: {
-                    "format": this.props.showLabels ? "label" : "none",
-                    pieDistance: 11
-                },
-                inner: {
-                    hideWhenLessThanPercentage: 1
-                },
-                mainLabel: {
-                    color: this.props.widgetBody.color,
-                    fontSize: this.props.widgetBody.fontSize,
-                    font: this.props.widgetBody.fontFamily
-                },
-                percentage: {
-                    color: "#ffffff",//todo with color invertion
-                    decimalPlaces: 2,
-                    fontSize: this.props.widgetBody.fontSize,
-                    font: this.props.widgetBody.fontFamily
-                },
-                value: {
-                    color: this.props.widgetBody.color,
-                    fontSize: this.props.widgetBody.fontSize,
-                    font: this.props.widgetBody.fontFamily
-                },
-                lines: {
-                    enabled: true
-                },
-                truncation: {
-                    enabled: true
-                }
-            },
-            tooltips: {
-                enabled: true,
-                type: "placeholder",
-                string: "{label}: {value}, {percentage}%",
-                styles: {
-                    color: "#ffffff",
-                    fontSize: this.props.widgetBody.fontSize,
-                    font: this.props.widgetBody.fontFamily
-                }
-            },
-            effects: {
-                load: {
-                    effect: "none"
-                },
-                pullOutSegmentOnClick: {
-                    effect: "linear",
-                    speed: 400,
-                    size: 8
-                },
-                highlightSegmentOnMouseover: true,
-                highlightLuminosity: -0.4
-            },
-            misc: {
-                gradient: {
-                    enabled: false,
-                    percentage: 75
-                },
-                colors: {
-                    // background: this.props.widgetBody.backgroundColor
-                },
-            }
-        });
+    legendClick() {
     }
 
     render() {
-        let widgetBody = this.props.widgetBody;
-        let widgetBodyStyles = utils.stylesToCss(this.props.appliedBackgroundColor, widgetBody.fontSize, widgetBody.fontFamily, widgetBody.color)
+        let content = this.getContent()
+        let legends = this.getLegends(content);
 
-        let legends = this.getLegends();
-        debugger
+        let widgetBodyStyles = utils.stylesObjToCssSVG(this.props.widgetBody)
+        let titleStyles = utils.stylesObjToCssSVG(this.props.titleStyles)
+        let bgColor = color.ToString(this.props.widgetBody.backgroundColor)
+        
         return (
             <div className="widget-content">
-                <div dir="ltr" className="row" style={{ height: '100%', background: widgetBody.backgroundColor }}>
-                    <div id={`${this.props.id}`} className={this.props.showLegends ? "col-xs-8 rtl-pull-right" : "col-xs-12 rtl-pull-left"}></div>
-                    {/* {
+                <div dir="ltr" className="row" style={{ height: '100%', backgroundColor: bgColor }}>
+                    <PiechartComponent
+                        {...this.props}
+                        content={content}
+                        legends={legends}
+                        widgetBodyStyles={widgetBodyStyles}
+                        titleStyles={titleStyles} />
+                    {
                         this.props.showLegends ? <div className="col-xs-4 rtl-pull-left" style={{ height: '100%' }}>
                             <div id="legend">
-                                <text>Legend:</text>
+                                <label>Legend:</label>
                                 <Scrollbars style={{ width: '90%', height: '90%' }}>
-                                    <div style={{ border: "3px solid #eee", fontSize: this.props.widgetBody.fontSize, fontFamily: this.props.widgetBody.fontFamily }}>
+                                    <div style={{ border: "3px solid #eee", fontSize: widgetBodyStyles.fontSize, fontFamily: widgetBodyStyles.fontFamily }}>
                                         {
-                                            _.map(this.props.legends, (legend, i) =>
+                                            _.map(legends, (legend, i) =>
                                                 <div key={i} className="legend-item row" onClick={this.legendClick.bind(this, i)} style={{ "color": legend.color }}>
                                                     <div className="col-xs-2 rtl-pull-right" style={{ padding: '10px 0 6px 8%' }}>
                                                         <div style={{ "background": legend.color, height: '10px', width: '20px' }}></div>
@@ -205,7 +110,7 @@ export default class PieChartWidgetComponent extends PureComponent {
                                 </Scrollbars>
                             </div>
                         </div> : null
-                    } */}
+                    }
                 </div>
             </div>
         )

@@ -25,7 +25,7 @@ export default class ThresholdTab extends PureComponent {
      */
     addSelectedLevels() {
         let errors = [];
-        let _displayFormat = this.getDisplayFormat(this.state.column);
+        let _displayFormat = this.getDisplayFormat(this.props.threshold.column);
         if (!_displayFormat)
             errors.push({ displayMessage: this.props.l.t('Display_format_is_not_set_in_Data_MetricsPERIOD', 'Display format is not set in Data Metrics.') });
 
@@ -232,9 +232,6 @@ export default class ThresholdTab extends PureComponent {
                 return '';
         }
     }
-
-
-
 
     /**
      * To set the selected column for the column option drop down

@@ -27,9 +27,6 @@ export default class ThresholdTabContent extends PureComponent {
         this.getSelectedColor = this.getSelectedColor.bind(this);
         this.addEmailTextbox = this.addEmailTextbox.bind(this);
         this.addSMSTextbox = this.addSMSTextbox.bind(this);
-        this.deleteSMSTextbox = this.deleteSMSTextbox.bind(this);
-        this.deleteEmailTextbox = this.deleteEmailTextbox.bind(this);
-
     }
 
 
@@ -51,36 +48,8 @@ export default class ThresholdTabContent extends PureComponent {
         this.props.updateLevel(this.props.id, key, value);
     }
 
-    /**
-     * To update the levels based on key
-     * @param {*} val 
-     */
-    updateDTLevel(val, key) {
-        let dt = moment(new Date(+val)).format('MM/DD/YYYY hh:mm A');
-        this.props.updateLevel(this.props.id, key, dt);
-    }
 
-    updateDuration(val, key) {
-        let seconds = Utils.convertToSeconds(val, this.props.displayFormat);
-        this.props.updateLevel(this.props.id, key, seconds);
-    }
 
-    /**
-     * To update the toggle buttons status
-     * @param {*} key 
-     * @param {*} value 
-     */
-    updateToogle(key, value) {
-        this.props.updateLevel(this.props.id, key, value);
-    }
-    /**
-     * To update the sound files
-     * @param {*} key 
-     */
-    updateSoundFile(key) {
-        this.soundFile = this.refs[key].files[0];
-        this.props.updateLevel(this.props.id, key, this.refs[key].files[0]);
-    }
     /**
      *  This method is used to test threshold functionality
      */
@@ -89,18 +58,15 @@ export default class ThresholdTabContent extends PureComponent {
         errors = errors.concat(this.validateEmailIds(this.props.emailTo));
         errors = errors.concat(this.validateSMS(this.props.smsTo))
 
-        this.props.common.clearNotifications()
+        this.props.common.ClearNotifications()
         e.stopPropagation();
         if (errors.length != 0) {
-            let config = {
-                type: ResponseStatusEnum.Error,
-                messages: errors
-            }
-            this.props.common.notify(config)
+
+            this.props.common.notify(errors, ResponseStatusEnum.Error, true);
         }
         else {
             let level = _.find(this.props.threshold.levels, (level) => level.id === this.props.id);
-            this.props.TestThreshold(level, this.props.threshold.widget.id)
+            this.props.TestThreshold(level, this.props.threshold.widgetId)
         }
     }
 
@@ -109,14 +75,14 @@ export default class ThresholdTabContent extends PureComponent {
         return _.filter(_.map(emailIds, (email, index) => {
             if (!email.Value || email.Value == '')
                 return { displayMessage: this.props.l.t('Email_$emailIndex_cannot_be_empty', 'Email ${emailIndex} cannot be empty', { emailIndex: index + 1 }) }
-            if (!Utils.validateEmail(email.Value))
+            if (!utils.validateEmail(email.Value))
                 return { displayMessage: this.props.l.t('Email_$emailIndex_is_not_in_correct_format', 'Email ${emailIndex} is not in correct format', { emailIndex: index + 1 }) }
         }), (err) => err)
     }
 
     validateSMS(smsNumbers) {
         return _.filter(_.map(smsNumbers, (sms, index) => {
-            if (!Utils.validateSmsNumer(sms.Value))
+            if (!utils.validateSmsNumer(sms.Value))
                 return { displayMessage: this.props.l.t('SMS_$smsIndex_cannot_be_empty', 'SMS ${smsIndex} cannot be empty', { smsIndex: index + 1 }) }
         }), (err) => err);
     }
@@ -153,15 +119,10 @@ export default class ThresholdTabContent extends PureComponent {
      */
     deleteEmailTextbox(key) {
         const textBox = _.filter(this.props.emailTo, (emailTo) => emailTo.Key !== key);
-
         this.props.updateLevel(this.props.id, 'emailTo', textBox);
     }
-    /**
-    * This method is used to add a text box and updates threshold level accordoin based on level ID
-    * @param {*} id 
-    */
 
-    addSMSTextbox(id) {
+    addSMSTextbox() {
         let sms = this.props.smsTo || [];
         let maxKey = _.maxBy(sms, 'Key');
         let newKey = maxKey ? maxKey.Key : 0;
@@ -226,19 +187,19 @@ export default class ThresholdTabContent extends PureComponent {
         this.props.removeLevel(id);
     }
     removeLeveConfiramtion(id, e) {
-        // let notifyMessage = this.props.l.t('Are_you_sure_you_want_to_delete_Level__threshold?', 'Are you sure you want to delete Level ${levelNumber} threshold?', { 'levelNumber': this.props.level })
-        // let buttons = [
-        //     {
-        //         text: 'Yes',
-        //         handler: () => this.removeLevel(id)
-        //     },
-        //     {
-        //         text: 'No',
-        //         handler: () => { }
-        //     }]
+        let notifyMessage = this.props.l.t('Are_you_sure_you_want_to_delete_Level__threshold?', 'Are you sure you want to delete Level ${levelNumber} threshold?', { 'levelNumber': this.props.level })
+        let buttons = [
+            {
+                text: 'Yes',
+                handler: () => this.removeLevel(id)
+            },
+            {
+                text: 'No',
+                handler: () => { }
+            }]
 
-        this.removeLevel(id);
-        //        this.props.common.confirm(notifyMessage, buttons);
+        //  this.removeLevel(id);
+        this.props.common.confirm(notifyMessage, buttons);
         e.stopPropagation();
     }
     render() {
@@ -340,7 +301,7 @@ export default class ThresholdTabContent extends PureComponent {
                                                                     <input type='email' className="form-control" value={email ? email.Value : ''} ref={`EValue${email.Key}`} onChange={this.updateEmailTextBox.bind(this, email.Key, `EValue${email.Key}`)} />
                                                                 </div>
                                                                 <span className="fontSize20">
-                                                                    <i title="Delete Email" className='fa fa-times-circle pointer' onClick={this.deleteEmailTextbox}></i>
+                                                                    <i title="Delete Email" className='fa fa-times-circle pointer' onClick={this.deleteEmailTextbox.bind(this, email.Key)}></i>
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -368,7 +329,7 @@ export default class ThresholdTabContent extends PureComponent {
                                                                     <input type='text' className="form-control" value={sms ? sms.Value : ''} ref={`SValue${sms.Key}`} onChange={this.updateSMSTextBox.bind(this, sms.Key, `SValue${sms.Key}`)} />
                                                                 </div>
                                                                 <span className="fontSize20">
-                                                                    <i title="Delete SMS" className='fa fa-times-circle pointer' onClick={this.deleteSMSTextbox}></i>
+                                                                    <i title="Delete SMS" className='fa fa-times-circle pointer' onClick={this.deleteSMSTextbox.bind(this, sms.Key)}></i>
                                                                 </span>
                                                             </div>
                                                         </div>

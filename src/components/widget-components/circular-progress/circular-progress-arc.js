@@ -7,10 +7,8 @@ var d3 = require('d3');
 class CircularArc extends React.Component {
     constructor(props) {
         super(props);
-        const { titleStyles, valueStyles, widgetBody, appliedSettings } = _.cloneDeep(props);
 
-        widgetBody.arcColor = Color.ToString(widgetBody.arcColor);
-        widgetBody.arcLength = widgetBody.arcLength;
+        const { titleStyles, valueStyles, widgetBody, appliedSettings } = _.cloneDeep(props);
         widgetBody.backgroundColor = Color.ToString(props.appliedBackgroundColor);
         valueStyles.color = Color.ToString(valueStyles.color);
         valueStyles.fontSize = `${valueStyles.fontSize}`;
@@ -20,11 +18,11 @@ class CircularArc extends React.Component {
             min: this.props.min,
             width: this.props.width,
             height: this.props.height,
-            borderWidth: this.props.widgetBody.arcLength,
+            arcWidth: this.props.arcWidth,
             value: this.props.value,
             label: this.props.displayValue,
             title: this.props.title,
-            arcColor: this.props.widgetBody.arcColor,
+            arcColor: Color.ToString(props.arcColor),
             showMaxValueOnWidget: this.props.showMaxValueOnWidget,
             titleStyles,
             valueStyles,
@@ -34,11 +32,9 @@ class CircularArc extends React.Component {
     }
     componentWillReceiveProps(nextProps) {
         const { titleStyles, valueStyles, widgetBody, appliedSettings } = _.cloneDeep(nextProps);
-        widgetBody.arcColor = Color.ToString(widgetBody.arcColor);
         widgetBody.backgroundColor = Color.ToString(nextProps.appliedBackgroundColor);
         valueStyles.color = Color.ToString(valueStyles.color);
         valueStyles.fontSize = `${valueStyles.fontSize}`;
-        widgetBody.arcLength = widgetBody.arcLength;
         this.setState({
             value: nextProps.value,
             displayValue: nextProps.displayValue,
@@ -46,6 +42,8 @@ class CircularArc extends React.Component {
             titleStyles,
             valueStyles,
             widgetBody,
+            arcColor: Color.ToString(nextProps.arcColor),
+            arcWidth: nextProps.arcWidth,
             width: nextProps.width || this.state.width,
             height: nextProps.height || this.state.height,
             min: nextProps.min,
@@ -91,7 +89,7 @@ class CircularArc extends React.Component {
         var arc = d3.svg.arc()
             .startAngle(0)
             .innerRadius(radius)
-            .outerRadius(radius - this.state.widgetBody.arcLength);
+            .outerRadius(radius - this.state.arcWidth);
 
         var parent = d3.select(`#circular-widget-${this.props.id}`);
 
@@ -120,9 +118,9 @@ class CircularArc extends React.Component {
 
         var foreground = meter.append('path')
             .attr('class', 'foreground')
-            .attr('fill', this.state.widgetBody.arcColor)
+            .attr('fill', this.state.arcColor)
             .attr('fill-opacity', 1)
-            .attr('stroke', this.state.widgetBody.arcColor)
+            .attr('stroke', this.state.arcColor)
             .attr('stroke-opacity', 1)
         var numberText = meter.append('text');
 
