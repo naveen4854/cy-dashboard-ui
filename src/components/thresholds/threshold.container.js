@@ -8,6 +8,9 @@ const mapDispatchToProps = (dispatch) => {
 
         addLevels: (item) => {
             dispatch(ThresholdActions.addLevels(item))
+        },
+        addSelectedLevels: () => {
+                dispatch(ThresholdActions.addSelectedLevels());
         }
     }
 }

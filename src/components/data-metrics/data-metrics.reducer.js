@@ -200,6 +200,7 @@ export function saveDataMetrics(settings) {
             }
         }
         dispatch(getState().configurations.updateDashboardWidget(updatedWidget));
+        dispatch(getState().threshold.updateDisplayFormat(settings.displayFormat.id));
     }
 }
 
