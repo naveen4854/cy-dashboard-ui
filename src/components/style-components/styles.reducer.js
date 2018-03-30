@@ -19,9 +19,9 @@ export function initializeStyles() {
         let yAxisStyles = currentWidget.yAxisStyles;// only for Bar chart
         let xAxisStyles = currentWidget.xAxisStyles;// only for Bar chart
         let enableMin = currentWidget.enableMin;// only for Bar chart
-        let min = currentWidget.min; 
+        let min = currentWidget.min;
         let enableMax = currentWidget.enableMax;// only for Bar chart
-        let max = currentWidget.max; 
+        let max = currentWidget.max;
         let enableBarLines = currentWidget.enableBarLines;
         let showLegends = currentWidget.showLegends;
         let showLabels = currentWidget.showLabels;
@@ -40,6 +40,8 @@ export function initializeStyles() {
         let DateStyles = currentWidget.DateStyles;
         let TimeStyles = currentWidget.TimeStyles;
         let TimezoneStyles = currentWidget.TimezoneStyles;
+        let scrollSpeed = currentWidget.scrollSpeed;
+        let scrollType = currentWidget.scrollType;
 
         //titleStyles.color = '#FF0000';
         dispatch({
@@ -72,6 +74,8 @@ export function initializeStyles() {
             DateStyles,
             TimeStyles,
             TimezoneStyles,
+            scrollSpeed,
+            scrollType,
             refreshInterval,
             widgetType
         })
@@ -81,7 +85,7 @@ export function initializeStyles() {
 
 export function updateWidgetStyles() {
     return (dispatch, getState) => {
-  
+
         let currentWidget = getState().configurations.widget;
 
         let styles = getState().styles;
@@ -94,7 +98,7 @@ export function updateWidgetStyles() {
             barStyles: styles.barStyles,
             useSelectedBarColor: styles.useSelectedBarColor,
             yAxisStyles: styles.yAxisStyles,
-            xAxisStyles: styles.xAxisStyles, 
+            xAxisStyles: styles.xAxisStyles,
             enableMin: styles.enableMin,
             min: styles.min,
             enableMax: styles.enableMax,
@@ -115,6 +119,8 @@ export function updateWidgetStyles() {
             DateStyles: styles.DateStyles,
             TimeStyles: styles.TimeStyles,
             TimezoneStyles: styles.TimezoneStyles,
+            scrollSpeed: styles.scrollSpeed,
+            scrollType: styles.scrollType,
             refreshInterval: styles.refreshInterval,
             appliedBackgroundColor: styles.widgetBody.backgroundColor
         }
@@ -165,6 +171,8 @@ export const ACTION_HANDLERS = {
             DateStyles: action.DateStyles,
             TimeStyles: action.TimeStyles,
             TimezoneStyles: action.TimezoneStyles,
+            scrollSpeed: action.scrollSpeed,
+            scrollType: action.scrollType,
             refreshInterval: action.refreshInterval
         })
     },

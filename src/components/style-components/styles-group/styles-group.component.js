@@ -36,8 +36,8 @@ export default class StylesGroup extends PureComponent {
                  <LabelledColorPicker
                         label={this.props.colorLabel}
                         // updateKey='backgroundColor'
-                        id={this.props.id}
-                        key={this.props.key}
+                        ColorId={this.props.ColorId}
+                        ColorKey={this.props.ColorKey}
                         value={this.props.fontStyles.color}
                         // className="form-control"
                         updateColor={(e) => this.onColorChange(e)}

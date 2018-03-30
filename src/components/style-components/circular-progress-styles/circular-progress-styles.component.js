@@ -89,8 +89,8 @@ export default class CircularProgressStyles extends PureComponent {
                     <LabelledColorPicker
                         label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
                         //updateKey='backgroundColor'
-                        id="444"
-                        key="111"
+                        ColorId="444"
+                        ColorKey="111"
                         value={this.props.styles.widgetBody.backgroundColor}
                         // className="form-control"
                         updateColor={this.updateBackgroundColor}
@@ -140,8 +140,8 @@ export default class CircularProgressStyles extends PureComponent {
                     <LabelledColorPicker
                         label={this.props.l.t('Arc_colorCOLON', 'Arc color:')} 
                         //updateKey='backgroundColor'
-                        id="arcColor"
-                        key="arcColor"
+                        ColorId="arcColor"
+                        ColorKey="arcColor"
                         value={this.props.styles.arcColor}
                         // className="form-control"
                         updateColor={this.updateArcColor}

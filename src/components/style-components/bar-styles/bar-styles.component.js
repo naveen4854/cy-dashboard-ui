@@ -184,8 +184,8 @@ export default class BarStyles extends PureComponent {
                     <LabelledColorPicker
                         label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
                         //updateKey='backgroundColor'
-                        id="111"
-                        key="111"
+                        ColorId="111"
+                        ColorKey="111"
                         value={this.props.styles.widgetBody.backgroundColor}
                         // className="form-control"
                         updateColor={this.updateBackgroundColor}
@@ -203,8 +203,8 @@ export default class BarStyles extends PureComponent {
                     <LabelledColorPicker
                         label={this.props.l.t("Bar color:", "Bar color:")}
                         //updateKey='backgroundColor'
-                        id="222"
-                        key="222"
+                        ColorId="222"
+                        ColorKey="222"
                         //disabled={!this.state.widget.useSelectedBarColor}
                         value={this.props.styles.barStyles.backgroundColor}
                         // className="form-control"

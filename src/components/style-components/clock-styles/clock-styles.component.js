@@ -37,22 +37,21 @@ export default class ClockStyles extends PureComponent {
     }
 
     render() {
-        console.log('props box styles ', this.props)
         return (
             <div className="col-xs-12">
                 <div className="form-group">
                     <LabelledColorPicker
                         label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
-                        id="ClockbackgroundColor"
-                        key="ClockbackgroundColor"
+                        ColorId="ClockbackgroundColor"
+                        ColorKey="ClockbackgroundColor"
                         value={this.props.styles.widgetBody.ClockbackgroundColor}
                         // className="form-control"
                         updateColor={this.updateClockbackgroundColor}
                     />
                     <LabelledColorPicker
                         label={this.props.l.t('Outer_Background_ColorCOLON', 'Outer Background Color:')}
-                        id="ClockOuterbackgroundColor"
-                        key="ClockOuterbackgroundColor"
+                        ColorId="ClockOuterbackgroundColor"
+                        ColorKey="ClockOuterbackgroundColor"
                         value={this.props.styles.widgetBody.ClockOuterbackgroundColor}
                         // className="form-control"
                         updateColor={this.updateClockOuterbackgroundColor}
@@ -69,8 +68,8 @@ export default class ClockStyles extends PureComponent {
                         fontFamilyLabel={this.props.l.t('Time_Zone_fontCOLON', 'Time Zone font:')} 
                         fontSizeLabel={this.props.l.t('Time_Zone_Font_SizeCOLON', 'Time Zone Font Size:')}
                         onUpdateFontStyles={this.updateTimezoneStyles}
-                        id="TimezoneStyles"
-                        key="TimezoneStyles"
+                        ColorId="TimezoneStyles"
+                        ColorKey="TimezoneStyles"
                     />
                     <LabelledInput
                         label={this.props.l.t('Refresh_interval__in_sec_COLON', 'Refresh interval (in sec):')}

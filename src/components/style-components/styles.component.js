@@ -7,6 +7,7 @@ import SpeedoStyles from './speedo-styles';
 import ProgressBarStyles from './progress-bar-styles';
 import CircularProgressStyles from './circular-progress-styles';
 import ClockStyles from './clock-styles';
+import TextStyles from './text-styles';
 
 // import DataMetricsSettingsContainer from '../data-metrics-settings/';
 
@@ -46,8 +47,7 @@ class StylesComponent extends PureComponent {
                 );
             case WidgetTypeEnum.Text:
                 return (
-                    // <TextStyles {...this.state} l={this.props.l} UpdateWidgetStyles={(widget) => this.UpdateWidgetStyles(widget)} />
-                    <div>{this.props.l.t('Sytles_not_present_for_this_widget', 'Sytles not present for this widget')}</div>
+                    <TextStyles {...this.props} />
                 );
             case WidgetTypeEnum.Picture:
                 return (

@@ -13,6 +13,7 @@ export default class TextWidgetComponent extends PureComponent {
     }
 
     render() {
+        debugger
         let scrollType = '';
         if (this.props.scrollType) {
             switch (this.props.scrollType.value) {

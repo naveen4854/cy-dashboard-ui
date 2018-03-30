@@ -33,7 +33,6 @@ export default class BoxStyles extends PureComponent {
     }
 
     render() {
-        console.log('props box styles ', this.props)
         return (
             <div className="col-xs-12">
                 <div className="form-group">
@@ -68,8 +67,8 @@ export default class BoxStyles extends PureComponent {
 
                     <LabelledColorPicker
                         label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
-                        id="1"
-                        key="1"
+                        ColorId="1"
+                        ColorKey="1"
                         value={this.props.styles.widgetBody.backgroundColor}
                         // className="form-control"
                         updateColor={this.updateBackgroundColor}

@@ -102,7 +102,7 @@ export default class SpeedoStyles extends PureComponent {
                 <div className="form-group">
                     <LabelledInput
                         label={this.props.l.t('TitleCOLON', 'Title:')}
-                        updateKey='title'
+                        updateColorKey='title'
                         value={this.props.styles.title}
                         // className="form-control"
                         onCustomInputChange={this.updateTitle}
@@ -114,42 +114,37 @@ export default class SpeedoStyles extends PureComponent {
                         fontFamilyLabel={this.props.l.t('Title_fontCOLON', 'Title font:')}
                         fontSizeLabel={this.props.l.t('Title_font_sizeCOLON', 'Title font size:')}
                         onUpdateFontStyles={this.updateTitleFontStyles}
-                        id="2"
-                        key="2"
-                    //updateKey='titleStyles'
+                        ColorId="2"
+                        ColorKey="2"
                     />
                     <LabelledColorPicker
                         label={this.props.l.t('Segment_Color_1COLON', 'Segment Color 1:')}
-                        //updateKey='backgroundColor'
-                        id="segmentColors0"
-                        key="segmentColors0"
+                        ColorId="segmentColors0"
+                        ColorKey="segmentColors0"
                         value={this.props.styles.segmentColors[0]}
                         // className="form-control"
                         updateColor={this.updateFirstSegmentColor}
                     />
                     <LabelledColorPicker
                         label={this.props.l.t('Segment_Color_2COLON', 'Segment Color 2:')}
-                        //updateKey='backgroundColor'
-                        id="segmentColors1"
-                        key="segmentColors1"
+                        ColorId="segmentColors1"
+                        ColorKey="segmentColors1"
                         value={this.props.styles.segmentColors[1]}
                         // className="form-control"
                         updateColor={this.updateSecondSegmentColor}
                     />
                     <LabelledColorPicker
                         label={this.props.l.t('Segment_Color_3COLON', 'Segment Color 3:')}
-                        //updateKey='backgroundColor'
-                        id="segmentColors2"
-                        key="segmentColors2"
+                        ColorId="segmentColors2"
+                        ColorKey="segmentColors2"
                         value={this.props.styles.segmentColors[2]}
                         // className="form-control"
                         updateColor={this.updateThirdSegmentColor}
                     />
                     <LabelledColorPicker
                         label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
-                        //updateKey='backgroundColor'
-                        id="444"
-                        key="111"
+                        ColorId="444"
+                        ColorKey="111"
                         value={this.props.styles.widgetBody.backgroundColor}
                         // className="form-control"
                         updateColor={this.updateBackgroundColor}
@@ -163,15 +158,14 @@ export default class SpeedoStyles extends PureComponent {
                         fontFamilyLabel={this.props.l.t('Value_fontCOLON', 'Value font:')}
                         fontSizeLabel={this.props.l.t('Value_font_sizeCOLON', 'Value font size:')}
                         onUpdateFontStyles={this.updateValueStyles}
-                        id="valueStyles"
-                        key="valueStyles"
-                    //updateKey='titleStyles'
+                        ColorId="valueStyles"
+                        ColorKey="valueStyles"
                     />
 
 
                     <LabelledDurationInput
                         label={this.props.l.t('MinCOLON', 'Min:')}
-                        displayFormatId={this.props.displayFormatId}
+                        displayFormatColorId={this.props.displayFormatId}
                         value={this.props.styles.min}
                         wKey='min'
                         enableInput={true}
@@ -181,7 +175,7 @@ export default class SpeedoStyles extends PureComponent {
 
                     <LabelledDurationInput
                         label={this.props.l.t('MaxCOLON', 'Max:')}
-                        displayFormatId={this.props.displayFormatId}
+                        displayFormatColorId={this.props.displayFormatId}
                         value={this.props.styles.max}
                         wKey='max'
                         enableInput={true}
@@ -195,9 +189,8 @@ export default class SpeedoStyles extends PureComponent {
                         fontFamilyLabel={this.props.l.t('Range_fontCOLON', 'Range font:')}
                         fontSizeLabel={this.props.l.t('Range_font_sizeCOLON', 'Range font size:')}
                         onUpdateFontStyles={this.updateRangeValueStyles}
-                        id="rangeValueStyles"
-                        key="rangeValueStyles"
-                    //updateKey='titleStyles'
+                        ColorId="rangeValueStyles"
+                        ColorKey="rangeValueStyles"
                     />
 
                     <LabelledInput

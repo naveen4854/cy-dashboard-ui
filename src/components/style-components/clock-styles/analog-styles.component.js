@@ -37,14 +37,13 @@ export default class AnalogClockStyles extends PureComponent {
     }
     
     render() {
-        console.log('props box styles ', this.props)
         return (
             <div className="col-xs-12">
                 <div className="form-group">
                     <LabelledColorPicker
                         label={this.props.l.t('Clock_Border_ColorCOLON', 'Clock Border Color:')}
-                        id="clockRoundingColor"
-                        key="clockRoundingColor"
+                        ColorId="clockRoundingColor"
+                        ColorKey="clockRoundingColor"
                         value={this.props.styles.widgetBody.clockRoundingColor}
                         // className="form-control"
                         updateColor={this.updateClockRoundingColor}
@@ -52,24 +51,24 @@ export default class AnalogClockStyles extends PureComponent {
 
                     <LabelledColorPicker
                         label={this.props.l.t('Hour_Hand_ColorCOLON', 'Hour Hand Color:')}
-                        id="hourhandcolor"
-                        key="hourhandcolor"
+                        ColorId="hourhandcolor"
+                        ColorKey="hourhandcolor"
                         value={this.props.styles.hands.hourhandcolor}
                         // className="form-control"
                         updateColor={this.updateHourHandColor}
                     />
                     <LabelledColorPicker
                         label={this.props.l.t('Minute_Hand_ColorCOLON', 'Minute Hand Color:')}
-                        id="minutehandcolor"
-                        key="minutehandcolor"
+                        ColorId="minutehandcolor"
+                        ColorKey="minutehandcolor"
                         value={this.props.styles.hands.minutehandcolor}
                         // className="form-control"
                         updateColor={this.updateMinuteHandColor}
                     />
                     <LabelledColorPicker
                         label={this.props.l.t('Seconds_Hand_ColorCOLON', 'Seconds Hand Color:')}
-                        id="secondhandcolor"
-                        key="secondhandcolor"
+                        ColorId="secondhandcolor"
+                        ColorKey="secondhandcolor"
                         value={this.props.styles.hands.secondhandcolor}
                         // className="form-control"
                         updateColor={this.updateSecondsHandColor}
@@ -81,8 +80,8 @@ export default class AnalogClockStyles extends PureComponent {
                         fontFamilyLabel={this.props.l.t('Numbers_Font_StyleCOLON', 'Numbers Font Style:')}
                         fontSizeLabel={this.props.l.t('Numbers_Font_SizeCOLON', 'Numbers Font Size:')}
                         onUpdateFontStyles={this.updateNumbersStyles}
-                        id="numberStyles"
-                        key="numberStyles"
+                        ColorId="numberStyles"
+                        ColorKey="numberStyles"
                     />
                 </div>
             </div>

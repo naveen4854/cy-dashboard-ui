@@ -40,14 +40,14 @@ export default class DigitalClockStyles extends PureComponent {
                         fontFamilyLabel= {this.props.l.t('Days_Font_StyleCOLON', 'Days Font Style:')}
                         fontSizeLabel= {this.props.l.t('Days_Font_SizeCOLON', 'Days Font Size:')}
                         onUpdateFontStyles={this.updateDaysStyles}
-                        id="DaysStyles"
-                        key="DaysStyles"
+                        ColorId="DaysStyles"
+                        ColorKey="DaysStyles"
                     />
  
                      <LabelledColorPicker
                         label= {this.props.l.t('Current_Day_Font_ColorCOLON', 'Current Day Font Color:')}
-                        id="CurrentDayColor"
-                        key="CurrentDayColor"
+                        ColorId="CurrentDayColor"
+                        ColorKey="CurrentDayColor"
                         value={this.props.styles.CurrentDayColor}
                         // className="form-control"
                         updateColor={this.updateCurrentDayColor}
@@ -59,8 +59,8 @@ export default class DigitalClockStyles extends PureComponent {
                         fontFamilyLabel={this.props.l.t('Date_Font_StyleCOLON', 'Date Font Style:')}
                         fontSizeLabel={this.props.l.t('Date_Font_SizeCOLON', 'Date Font Size:')}
                         onUpdateFontStyles={this.updateDateStyles}
-                        id="DateStyles"
-                        key="DateStyles"
+                        ColorId="DateStyles"
+                        ColorKey="DateStyles"
                     />
 
                     <StylesGroup
@@ -70,14 +70,14 @@ export default class DigitalClockStyles extends PureComponent {
                         fontFamilyLabel={this.props.l.t('Time_Font_StyleCOLON', 'Time Font Style:')} 
                         fontSizeLabel={this.props.l.t('Time_Font_SizeCOLON', 'Time Font Size:')} 
                         onUpdateFontStyles={this.updateTimeStyles}
-                        id="TimeStyles"
-                        key="TimeStyles"
+                        ColorId="TimeStyles"
+                        ColorKey="TimeStyles"
                     />
 
                     <LabelledColorPicker
                         label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
-                        id="1"
-                        key="1"
+                        ColorId="1"
+                        ColorKey="1"
                         value={this.props.styles.widgetBody.backgroundColor}
                         // className="form-control"
                         updateColor={this.updateClockbackgroundColor}
