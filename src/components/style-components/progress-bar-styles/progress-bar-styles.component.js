@@ -52,10 +52,6 @@ export default class ProgressBarStyles extends PureComponent {
     updateShowLabels(e) {
         this.props.updateProp('showLabels', e);
     }
-    updateRefreshInterval(e) {
-        this.props.updateProp('refreshInterval', e.target.value);
-    }
-
     updateFirstSegmentColor(e) {
         this.props.updateProp('segmentColors', this.getUpdatedSegmentColors(e, 0));
     }
@@ -125,8 +121,8 @@ export default class ProgressBarStyles extends PureComponent {
                     <LabelledColorPicker
                         label={this.props.l.t('Segment_Color_1COLON', 'Segment Color 1:')}
                         //updateKey='backgroundColor'
-                        id="segmentColors"
-                        key="segmentColors"
+                        id="segmentColors0"
+                        key="segmentColors0"
                         value={this.props.styles.segmentColors[0]}
                         // className="form-control"
                         updateColor={this.updateFirstSegmentColor}
@@ -134,8 +130,8 @@ export default class ProgressBarStyles extends PureComponent {
                     <LabelledColorPicker
                         label={this.props.l.t('Segment_Color_2COLON', 'Segment Color 2:')}
                         //updateKey='backgroundColor'
-                        id="segmentColors"
-                        key="segmentColors"
+                        id="segmentColors1"
+                        key="segmentColors1"
                         value={this.props.styles.segmentColors[1]}
                         // className="form-control"
                         updateColor={this.updateSecondSegmentColor}
@@ -143,8 +139,8 @@ export default class ProgressBarStyles extends PureComponent {
                     <LabelledColorPicker
                         label={this.props.l.t('Segment_Color_3COLON', 'Segment Color 3:')}
                         //updateKey='backgroundColor'
-                        id="segmentColors"
-                        key="segmentColors"
+                        id="segmentColors2"
+                        key="segmentColors2"
                         value={this.props.styles.segmentColors[2]}
                         // className="form-control"
                         updateColor={this.updateThirdSegmentColor}

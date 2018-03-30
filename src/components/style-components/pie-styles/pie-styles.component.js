@@ -44,11 +44,8 @@ export default class PieStyles extends PureComponent {
     }
     updateShowLabels(e) {
         this.props.updateProp('showLabels', e);
-    }
-    updateRefreshInterval(e) {
-        this.props.updateProp('refreshInterval', e.target.value);
-    }
-
+    } 
+    
     render() {
         console.log('this.props bar', this.props)
         //let displayFormatId = this.props.widget.appliedSettings.dataMetrics.displayFormat ? this.props.widget.appliedSettings.dataMetrics.displayFormat.id : displayFormatEnum.Number;

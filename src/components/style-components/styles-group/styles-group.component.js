@@ -52,20 +52,6 @@ export default class StylesGroup extends PureComponent {
                         onChange={this.onFontFamilyChange}
                         options={Fonts}
                     />
-
-                {/* <div className="row">
-                    <div className="col-xs-12 col-sm-5 col-md-4 labelContent rtl-labelContent-xs labelContent-xs">
-                        <label className="control-label inline">{this.props.fontFamilyLabel}  </label>
-                    </div>
-                    <div className="col-xs-9 col-sm-7 col-md-4" style={{ fontFamily: this.props.fontStyles.fontFamily }}>
-                        <CustomSelect name="field-group-options"
-                            value={this.props.fontStyles.fontFamily}
-                            placeholder='Select Font'
-                            options={Fonts}
-                            onChange={this.onFontFamilyChange} />
-
-                    </div>
-                </div> */}
             </div>
         )
     }

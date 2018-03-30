@@ -23,7 +23,6 @@ export default class BarStyles extends PureComponent {
         this.updateMaxValue = this.updateMaxValue.bind(this);
         this.updateEnableBarLines = this.updateEnableBarLines.bind(this);
         this.updateShowLegends = this.updateShowLegends.bind(this);
-        this.updateRefreshInterval = this.updateRefreshInterval.bind(this);
         this.updateShowLabels = this.updateShowLabels.bind(this);
 
          
@@ -43,9 +42,6 @@ export default class BarStyles extends PureComponent {
         let widgetBody = { ...this.props.styles.widgetBody, backgroundColor: e };
         //widgetBody.backgroundColor = e;
         this.props.updateProp('widgetBody', widgetBody);
-    }
-    updateRefreshInterval(e) {
-        this.props.updateProp('refreshInterval', e.target.value);
     }
     updateUseSelectedBarColor(selectedValue) {
         this.props.updateProp('useSelectedBarColor', selectedValue);
