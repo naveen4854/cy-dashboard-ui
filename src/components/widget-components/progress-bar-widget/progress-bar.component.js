@@ -72,7 +72,6 @@ export default class ProgressBarComponent extends PureComponent {
     }
 
     renderChartBar() {
-        debugger
         const el = ReactDom.findDOMNode(this).children[1];
         while (el.hasChildNodes()) {
             el.removeChild(el.firstChild);
