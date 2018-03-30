@@ -1,5 +1,6 @@
 import { Widget } from "./widget";
 import { WidgetTypeEnum } from "../enums";
+import { rgba } from "../../utilities";
 
 export default class CircularProgressWidget extends Widget {
     constructor(zIndex, isCombo, isHeader) {
@@ -13,18 +14,15 @@ export default class CircularProgressWidget extends Widget {
     displayValue = '0';
     showMaxValueOnWidget = false;
     titleStyles = {
-        color: {
-            r: 0, g: 0, b: 0, a: 1
-        },
+        color: rgba(0, 0, 0, 1),
         fontFamily: 'Arial',
         fontSize: '12'
     };
     valueStyles = {
-        color: {
-            r: 0, g: 0, b: 0, a: 1
-        },
+        color: rgba(0, 0, 0, 1),
         fontFamily: 'Arial',
         fontSize: 12
     };
-
+    arcColor = rgba(0, 192, 239, 1);
+    arcWidth = 15
 }

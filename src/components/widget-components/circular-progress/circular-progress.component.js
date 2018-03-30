@@ -9,8 +9,7 @@ export default class CircularProgressComponent extends PureComponent {
         let valueStyles = utils.stylesObjToCss(this.props.valueStyles)
         let titleStyles = utils.stylesObjToCss(this.props.titleStyles)
         return (
-            // <CircularArc />
-            <h1>CIRCULAR</h1>
+            <CircularArc {...this.props} widgetBodyStyles={widgetBodyStyles} titleStyles={titleStyles} valueStyles={valueStyles}/>
         )
     }
 }

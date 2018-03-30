@@ -1,75 +1,24 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import ReactDom from 'react-dom';
 
 import _ from 'lodash';
+import { DisplayFormatEnum } from '../../../shared/enums';
 var d3 = require('d3');
 
-class CircularArc extends React.Component {
+class CircularArc extends PureComponent {
     constructor(props) {
         super(props);
-        const { titleStyles, valueStyles, widgetBody, appliedSettings } = _.cloneDeep(props);
-
-        widgetBody.arcColor = Color.ToString(widgetBody.arcColor);
-        widgetBody.arcLength = widgetBody.arcLength;
-        widgetBody.backgroundColor = Color.ToString(props.appliedBackgroundColor);
-        valueStyles.color = Color.ToString(valueStyles.color);
-        valueStyles.fontSize = `${valueStyles.fontSize}`;
-        this.state = {
-            displayValue: this.props.displayValue,
-            max: this.props.max,
-            min: this.props.min,
-            width: this.props.width,
-            height: this.props.height,
-            borderWidth: this.props.widgetBody.arcLength,
-            value: this.props.value,
-            label: this.props.displayValue,
-            title: this.props.title,
-            arcColor: this.props.widgetBody.arcColor,
-            showMaxValueOnWidget: this.props.showMaxValueOnWidget,
-            titleStyles,
-            valueStyles,
-            widgetBody,
-            appliedSettings
-        };
-    }
-    componentWillReceiveProps(nextProps) {
-        const { titleStyles, valueStyles, widgetBody, appliedSettings } = _.cloneDeep(nextProps);
-        widgetBody.arcColor = Color.ToString(widgetBody.arcColor);
-        widgetBody.backgroundColor = Color.ToString(nextProps.appliedBackgroundColor);
-        valueStyles.color = Color.ToString(valueStyles.color);
-        valueStyles.fontSize = `${valueStyles.fontSize}`;
-        widgetBody.arcLength = widgetBody.arcLength;
-        this.setState({
-            value: nextProps.value,
-            displayValue: nextProps.displayValue,
-            title: nextProps.title,
-            titleStyles,
-            valueStyles,
-            widgetBody,
-            width: nextProps.width || this.state.width,
-            height: nextProps.height || this.state.height,
-            min: nextProps.min,
-            max: nextProps.max,
-            showMaxValueOnWidget: nextProps.showMaxValueOnWidget,
-            appliedSettings
-
-        })
     }
 
-    shouldComponentUpdate(newProps, newState) {
-        return true;
-
-    }
     componentDidMount() {
         this.renderCircularArc();
 
     }
 
     componentDidUpdate() {
-
         this.renderCircularArc();
-
     }
+
     renderCircularArc() {
         const el = ReactDom.findDOMNode(this);
         while (el && el.hasChildNodes()) {
@@ -78,7 +27,7 @@ class CircularArc extends React.Component {
 
         var padding = 10;
 
-        const diameter = this.state.width < this.state.height ? (this.state.width) - padding : (this.state.height) - padding;
+        const diameter = this.props.width < this.props.height ? (this.props.width) - padding : (this.props.height) - padding;
 
         const titleHeight = diameter * 0.15;
 
@@ -91,19 +40,19 @@ class CircularArc extends React.Component {
         var arc = d3.svg.arc()
             .startAngle(0)
             .innerRadius(radius)
-            .outerRadius(radius - this.state.widgetBody.arcLength);
+            .outerRadius(radius - this.props.arcWidth);
 
         var parent = d3.select(`#circular-widget-${this.props.id}`);
 
         var svg = parent.append('svg')
-            .attr('width', this.state.width)
-            .attr('height', this.state.height)
-            //  .attr("transform", "translate(" + ( this.state.width / 2 )+ "," + (this.state.height * 0.66 ) + ")")
+            .attr('width', this.props.width)
+            .attr('height', this.props.height)
+            //  .attr("transform", "translate(" + ( this.props.width / 2 )+ "," + (this.props.height * 0.66 ) + ")")
             ;
 
         var g = svg.append('g')
             // .attr('transform', 'translate(' + boxSize / 2 + ',' + boxSize / 2 + ')')
-            .attr("transform", "translate(" + (this.state.width / 2) + "," + (this.state.height / 2) + ")")
+            .attr("transform", "translate(" + (this.props.width / 2) + "," + (this.props.height / 2) + ")")
 
             ;
 
@@ -120,25 +69,25 @@ class CircularArc extends React.Component {
 
         var foreground = meter.append('path')
             .attr('class', 'foreground')
-            .attr('fill', this.state.widgetBody.arcColor)
+            .attr('fill', this.props.arcColor)
             .attr('fill-opacity', 1)
-            .attr('stroke', this.state.widgetBody.arcColor)
+            .attr('stroke', this.props.arcColor)
             .attr('stroke-opacity', 1)
         var numberText = meter.append('text');
 
-        var denominatorTextSize = (this.state.valueStyles.fontSize) * 60 / 100;
+        var denominatorTextSize = (this.props.valueStyles.fontSize) * 60 / 100;
 
         var numeratorValue = numberText.append('tspan')
-            .attr('fill', this.state.valueStyles.color)
+            .attr('fill', this.props.valueStyles.color)
             .attr('text-anchor', 'middle')
             .attr('dy', '.35em')
-            .attr("style", `font-family: ${this.state.valueStyles.fontFamily}; font-size:${this.state.valueStyles.fontSize}px`);
+            .attr("style", `font-family: ${this.props.valueStyles.fontFamily}; font-size:${this.props.valueStyles.fontSize}px`);
 
         var denominatorValue = numberText.append('tspan')
-            .attr('fill', this.state.valueStyles.color)
+            .attr('fill', this.props.valueStyles.color)
             .attr('text-anchor', 'middle')
             .attr('dy', '.35em')
-            .attr("style", `font-family: ${this.state.valueStyles.fontFamily}; font-size:${denominatorTextSize}px`);
+            .attr("style", `font-family: ${this.props.valueStyles.fontFamily}; font-size:${denominatorTextSize}px`);
 
         const yPos = -(padding + radius);
         if (!this.props.isComboWidget) {
@@ -148,29 +97,29 @@ class CircularArc extends React.Component {
                 //  .attr("dy", `${0-radius}px`)
                 .attr("dy", `${yPos}px`)
 
-                .attr("style", `font-family: ${this.state.titleStyles.fontFamily}; font-size:${this.state.titleStyles.fontSize}px`)
-                .attr("fill", this.state.titleStyles.color);
+                .attr("style", `font-family: ${this.props.titleStyles.fontFamily}; font-size:${this.props.titleStyles.fontSize}px`)
+                .attr("fill", this.props.titleStyles.color);
 
-            title.text(this.state.title);
+            title.text(this.props.title);
         }
 
         this.updateProgress(arc, foreground, numeratorValue, denominatorValue, twoPi);
 
     }
     updateProgress(arc, foreground, numeratorValue, denominatorValue, twoPi) {
-        foreground.attr('d', arc.endAngle(twoPi * ((this.state.value - this.state.min) / (this.state.max - this.state.min))));
-        numeratorValue.text((this.state.displayValue));
+        foreground.attr('d', arc.endAngle(twoPi * ((this.props.value - this.props.min) / (this.props.max - this.props.min))));
+        numeratorValue.text((this.props.displayValue));
         //Denominator disabled condition check for displayformats, displayFormat.id = 2 for Percentage, displayFormat.id = 3 for Time,displayFormat.id = 4 for Text
-        if (this.state.showMaxValueOnWidget == true && this.state.appliedSettings && this.state.appliedSettings.dataMetrics
-            && this.state.appliedSettings.dataMetrics.displayFormat && (this.state.appliedSettings.dataMetrics.displayFormat.id == displayFormatEnum.Number)) {
+        if (this.props.showMaxValueOnWidget == true && this.props.appliedSettings && this.props.appliedSettings.dataMetrics
+            && this.props.appliedSettings.dataMetrics.displayFormat && (this.props.appliedSettings.dataMetrics.displayFormat.id == DisplayFormatEnum.Number)) {
 
-            denominatorValue.text(('/' + this.state.max));
+            denominatorValue.text(('/' + this.props.max));
         }
     }
 
     render() {
         return (
-            <div id={`circular-widget-${this.props.id}`} style={{ height: `${this.state.height}px`, backgroundColor: `${this.state.widgetBody.backgroundColor}` }} />
+            <div id={`circular-widget-${this.props.id}`} style={{ height: `${this.props.height}px`, backgroundColor: `${this.props.widgetBody.backgroundColor}` }} />
         );
     }
 }

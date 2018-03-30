@@ -107,3 +107,19 @@ export function convertToSeconds(value, displayFormatId) {
         return +parts[0] * 60 + +parts[1]
     }
 }
+export function getFormatter(displayFormatid) {
+    switch (displayFormatid) {
+        case DisplayFormatEnum.HH_MM_SS:
+        case DisplayFormatEnum.MM_SS:
+            let valuee = _.find(ConstantValues.customCombotimeFormat, f => f.displayFormatId == displayFormatid);
+            return valuee.convert;
+            break;
+        case DisplayFormatEnum.Number:
+        case DisplayFormatEnum.Percentage:
+            return (value) => value;
+            break;
+        default:
+            return (value) => value;
+            break;
+    }
+}
