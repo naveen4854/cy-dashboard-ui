@@ -19,7 +19,7 @@ export default class ProgressBarWidgetComponent extends PureComponent {
         let minText = formatter(this.props.min);
         let maxText = formatter(this.props.max);
 
-        let label = `${this.props.displayValue}`;
+        //let label = 50 ;//`${this.props.displayValue}`;
         let ratio = (this.props.value - this.props.min) / (this.props.max - this.props.min);
 
         const colors = _.map(this.props.segmentColors, segColor => Color.ToString(segColor));
