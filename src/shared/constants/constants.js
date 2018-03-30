@@ -26,6 +26,7 @@ export const hoursFormat = [
 		label: "12 Hours"
 	}
 ];
+
 export const timeFormat = [
 	{
 		id: 1,
@@ -38,6 +39,7 @@ export const timeFormat = [
 		label: "HH:MM"
 	}
 ];
+
 
 export const customCombotimeFormat = [
 	{
@@ -83,4 +85,5 @@ export const segments = [
     "#807ece", "#8db27c", "#be66a2", "#9ed3c6", "#00644b", "#005064", "#77979f", "#77e079", "#9c73ab", "#1f79a7"
 ];
 
+export const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 

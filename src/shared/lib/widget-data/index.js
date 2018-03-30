@@ -1,7 +1,7 @@
 ﻿import _ from 'lodash';
 import { WidgetTypeEnum } from '../../enums';
 
-import { BoxWidget, SpeedoWidget, BarWidget, CircularProgressWidget, PieWidget, ProgressWidget } from '../../widgets';
+import { BoxWidget, SpeedoWidget, BarWidget, CircularProgressWidget, PieWidget, ClockWidget, ProgressWidget } from '../../widgets';
 
 /**
  * To get the widget based on widget type.
@@ -24,6 +24,8 @@ export function GetWidget(widgetType, isCombo, zIndex, isHeader = false) {
             return new SpeedoWidget(widgetType, isCombo, zIndex, isHeader);
         case WidgetTypeEnum.Progress:
             return new ProgressWidget(widgetType, isCombo, zIndex, isHeader);
+        case WidgetTypeEnum.Clock:
+            return new ClockWidget(widgetType, isCombo, zIndex, isHeader);
         default:
             return new BoxWidget(widgetType, isCombo, zIndex, isHeader);
     }
