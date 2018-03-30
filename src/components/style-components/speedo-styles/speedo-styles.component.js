@@ -4,7 +4,7 @@ import { StylesGroup } from '../styles-group';
 import ColorPicker from '../../color-picker/color-picker';
 import { LabelledInput, LabelledColorPicker, LabelledToggle, LabelledDurationInput } from '../../labelled-controls';
 
-export default class PieStyles extends PureComponent {
+export default class SpeedoStyles extends PureComponent {
 
     constructor(props) {
         super(props);
@@ -15,8 +15,13 @@ export default class PieStyles extends PureComponent {
         this.updateShowLegends = this.updateShowLegends.bind(this);
         this.updateShowLabels = this.updateShowLabels.bind(this);
         this.updateWidgetBody = this.updateWidgetBody.bind(this);
-
+        this.updateFirstSegmentColor = this.updateFirstSegmentColor.bind(this);
+        this.updateSecondSegmentColor = this.updateSecondSegmentColor.bind(this);
+        this.updateThirdSegmentColor = this.updateThirdSegmentColor.bind(this);
+        this.updateValueStyles = this.updateValueStyles.bind(this);
         
+        
+
     }
 
 
@@ -49,6 +54,34 @@ export default class PieStyles extends PureComponent {
         this.props.updateProp('refreshInterval', e.target.value);
     }
 
+    updateFirstSegmentColor(e) {
+        this.props.updateProp('segmentColors', this.getUpdatedSegmentColors(e, 0));
+    }
+
+    updateSecondSegmentColor(e) {
+        this.props.updateProp('segmentColors', this.getUpdatedSegmentColors(e, 1));
+    }
+
+    updateThirdSegmentColor(e) {
+        this.props.updateProp('segmentColors', this.getUpdatedSegmentColors(e, 2));
+    }
+    updateValueStyles(e) {
+        this.props.updateProp('valueStyles', e);
+    }
+    getUpdatedSegmentColors(color, index){
+        let segments = this.props.styles.segmentColors;
+        let updatedSegments =  segments.map( (eachSegment, segmentIndex) => {
+             if(segmentIndex !== index) {
+                 return eachSegment;
+             }
+             return {
+                ...color
+             };    
+         });
+
+         return updatedSegments;
+    }
+
     render() {
         console.log('this.props bar', this.props)
         //let displayFormatId = this.props.widget.appliedSettings.dataMetrics.displayFormat ? this.props.widget.appliedSettings.dataMetrics.displayFormat.id : displayFormatEnum.Number;
@@ -74,27 +107,53 @@ export default class PieStyles extends PureComponent {
                         key="2"
                     //updateKey='titleStyles'
                     />
-
-
-
+                    <LabelledColorPicker
+                        label={this.props.l.t('Segment_Color_1COLON', 'Segment Color 1:')}
+                        //updateKey='backgroundColor'
+                        id="segmentColors"
+                        key="segmentColors"
+                        value={this.props.styles.segmentColors[0]}
+                        // className="form-control"
+                        updateColor={this.updateFirstSegmentColor}
+                    />
+                     <LabelledColorPicker
+                        label={this.props.l.t('Segment_Color_2COLON', 'Segment Color 2:')}
+                        //updateKey='backgroundColor'
+                        id="segmentColors"
+                        key="segmentColors"
+                        value={this.props.styles.segmentColors[1]}
+                        // className="form-control"
+                        updateColor={this.updateSecondSegmentColor}
+                    />
+                     <LabelledColorPicker
+                        label= {this.props.l.t('Segment_Color_3COLON', 'Segment Color 3:')} 
+                        //updateKey='backgroundColor'
+                        id="segmentColors"
+                        key="segmentColors"
+                        value={this.props.styles.segmentColors[2]}
+                        // className="form-control"
+                        updateColor={this.updateThirdSegmentColor}
+                    />
                     <LabelledColorPicker
                         label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
                         //updateKey='backgroundColor'
-                        id="111"
+                        id="444"
                         key="111"
                         value={this.props.styles.widgetBody.backgroundColor}
                         // className="form-control"
                         updateColor={this.updateBackgroundColor}
                     />
+
+
                     <StylesGroup
                         l={this.props.l}
-                        fontStyles={this.props.styles.widgetBody}
-                        colorLabel={this.props.l.t('Text_colorCOLON', 'Text color:')}
-                        fontFamilyLabel= {this.props.l.t('Label_font_sizeCOLON', 'Label font size:')}
-                        fontSizeLabel={this.props.l.t('Label_font_styleCOLON', 'Label font style:')}
-                        onUpdateFontStyles={this.updateWidgetBody}
-                        id="1"
-                        key="1"
+                        fontStyles={this.props.styles.valueStyles}
+                        colorLabel={this.props.l.t('Value_colorCOLON', 'Value color:')}
+                        fontFamilyLabel={this.props.l.t('Value_fontCOLON', 'Value font:')}
+                        fontSizeLabel={this.props.l.t('Value_font_sizeCOLON', 'Value font size:')}
+                        onUpdateFontStyles={this.updateValueStyles}
+                        id="valueStyles"
+                        key="valueStyles"
                     //updateKey='titleStyles'
                     />
 
