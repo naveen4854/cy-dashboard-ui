@@ -31,7 +31,16 @@ export function initializeStyles() {
         let showMaxValueOnWidget = currentWidget.showMaxValueOnWidget; // only for circular
         let arcColor = currentWidget.arcColor; // only for circular
 
-        
+        let ClockbackgroundColor = currentWidget.ClockbackgroundColor;
+        let ClockOuterbackgroundColor = currentWidget.ClockOuterbackgroundColor;
+        let hands = currentWidget.hands;
+        let numberStyles = currentWidget.numberStyles;
+        let DaysStyles = currentWidget.DaysStyles;
+        let CurrentDayColor = currentWidget.CurrentDayColor;
+        let DateStyles = currentWidget.DateStyles;
+        let TimeStyles = currentWidget.TimeStyles;
+        let TimezoneStyles = currentWidget.TimezoneStyles;
+
         //titleStyles.color = '#FF0000';
         dispatch({
             type: INITIALIZE_STYLES,
@@ -54,6 +63,15 @@ export function initializeStyles() {
             rangeValueStyles,
             showMaxValueOnWidget,
             arcColor,
+            ClockbackgroundColor,
+            ClockOuterbackgroundColor,
+            hands,
+            numberStyles,
+            DaysStyles,
+            CurrentDayColor,
+            DateStyles,
+            TimeStyles,
+            TimezoneStyles,
             refreshInterval,
             widgetType
         })
@@ -88,6 +106,15 @@ export function updateWidgetStyles() {
             rangeValueStyles: styles.rangeValueStyles,
             showMaxValueOnWidget: styles.showMaxValueOnWidget,
             arcColor: styles.arcColor,
+            ClockbackgroundColor: styles.ClockbackgroundColor,
+            ClockOuterbackgroundColor: styles.ClockOuterbackgroundColor,
+            hands: styles.hands,
+            numberStyles: styles.numberStyles,
+            DaysStyles: styles.DaysStyles,
+            CurrentDayColor: styles.CurrentDayColor,
+            DateStyles: styles.DateStyles,
+            TimeStyles: styles.TimeStyles,
+            TimezoneStyles: styles.TimezoneStyles,
             refreshInterval: styles.refreshInterval,
             appliedBackgroundColor: styles.widgetBody.backgroundColor
         }
@@ -129,6 +156,15 @@ export const ACTION_HANDLERS = {
             rangeValueStyles: action.rangeValueStyles,
             showMaxValueOnWidget: action.showMaxValueOnWidget,
             arcColor: action.arcColor,
+            ClockbackgroundColor: action.ClockbackgroundColor,
+            ClockOuterbackgroundColor: action.ClockOuterbackgroundColor,
+            hands: action.hands,
+            numberStyles: action.numberStyles,
+            DaysStyles: action.DaysStyles,
+            CurrentDayColor: action.CurrentDayColor,
+            DateStyles: action.DateStyles,
+            TimeStyles: action.TimeStyles,
+            TimezoneStyles: action.TimezoneStyles,
             refreshInterval: action.refreshInterval
         })
     },

@@ -25,8 +25,7 @@ export default class BoxStyles extends PureComponent {
         this.props.updateProp('valueStyles', e);
     }
     updateBackgroundColor(e){
-        let widgetBody = {};
-        widgetBody.backgroundColor = e;
+        let widgetBody = { ...this.props.styles.widgetBody, backgroundColor: e };
         this.props.updateProp('widgetBody', widgetBody);
     }
     updateRefreshInterval(e){

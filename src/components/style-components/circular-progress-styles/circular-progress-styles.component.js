@@ -35,7 +35,6 @@ export default class CircularProgressStyles extends PureComponent {
 
     updateBackgroundColor(e) {
         let widgetBody = { ...this.props.styles.widgetBody, backgroundColor: e };
-        //widgetBody.backgroundColor = e;
         this.props.updateProp('widgetBody', widgetBody);
     }
     updateRefreshInterval(e) {
