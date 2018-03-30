@@ -33,22 +33,22 @@ export default class SpeedoWidgetComponent extends PureComponent {
         const value = pcent < 0 ? 0 : pcent > 1 ? 1 : pcent;
 
         const colors = _.map(this.props.segmentColors, segColor => Color.ToString(segColor));
-        debugger
         let interpolateColor = interpolate(_.cloneDeep(colors))
         const arrowColor = interpolateColor(value);
 
         return (
             <div className="widget-content" style={widgetBodyStyles}>
-                <Gauge value={value * 100}
+                <Gauge
+                    value={value * 100}
                     size={minOfHeightAndwidth * 0.075}
                     radius={minOfHeightAndwidth * 0.66}
                     sections={colors}
                     arrow={{ height: minOfHeightAndwidth * 0.5, width: minOfHeightAndwidth / 50, color: arrowColor }}
                     label={this.props.label}
-                    valueStyles={this.props.valueStyles}
+                    valueStyles={valueStyles}
                     title={this.props.title}
-                    titleStyles={this.props.titleStyles}
-                    rangeValueStyles={this.props.rangeValueStyles}
+                    titleStyles={titleStyles}
+                    rangeValueStyles={rangeValueStyles}
                     width={this.props.width}
                     height={this.props.height}
                     min={this.props.min}

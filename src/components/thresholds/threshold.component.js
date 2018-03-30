@@ -25,13 +25,13 @@ export default class ThresholdTab extends PureComponent {
      */
     addSelectedLevels() {
         let errors = [];
-        let _displayFormat = this.getDisplayFormat(this.props.threshold.column);
+        let _displayFormat = this.props.threshold.displayFormatId;
         if (!_displayFormat)
             errors.push({ displayMessage: this.props.l.t('Display_format_is_not_set_in_Data_MetricsPERIOD', 'Display format is not set in Data Metrics.') });
 
         errors = errors.concat(this.validateEmailIds());
 
-        let thresholdErrors = this.validateThresholds(this.state.levels, _displayFormat)
+        let thresholdErrors = this.validateThresholds(this.props.threshold.levels, _displayFormat)
         if (thresholdErrors)
             errors = errors.concat(thresholdErrors);
 
@@ -41,49 +41,20 @@ export default class ThresholdTab extends PureComponent {
                 type: ResponseStatusEnum.Error,
                 messages: errors
             }
-            this.props.common.notify(config)
+            this.props.common.notify(errors, ResponseStatusEnum.Error)
             return
         }
 
-        // For combo cell widgets
-        if (this.props.widget.isComboWidget) {
-            if (this.props.statisticsCategoryId == StatisticCategoryEnum.RealTime) {
-                if (this.props.widget.isHeader) {
-                    let comboWidget = _.cloneDeep(_.find(this.props.newDashboard.widgets, (w) => w.id === this.props.widget.comboId));
-                    let wColumnIndex = this.getColumnIndex(comboWidget.matrix[0], this.props.widget.id);
-                    if (wColumnIndex) {
-                        for (var rowIndex = 0; rowIndex < comboWidget.matrix.length; rowIndex++) {
-                            let cWidget = comboWidget.matrix[rowIndex][wColumnIndex];
-                            cWidget.appliedSettings.thresholds = _.cloneDeep(this.state.levels);
-                        }
-                        //todo: figure out below if clause
-                        if (this.state.levels.length == 0) {
-                            this.props.addThreshold(this.state.levels, this.props.widgetId);
-                        }
-                        this.props.UpdateWidget(comboWidget);
-                    }
-                } else {
-                    this.props.addThreshold(this.state.levels, this.props.widgetId);
-                }
-            }
-            else if (this.props.statisticsCategoryId == StatisticCategoryEnum.Custom) {
-                if (this.state.column)
-                    this.props.addBaseColumn(this.state.column, this.props.widget);
-                this.props.addThreshold(this.state.levels, this.props.widgetId);
-            }
-        }
-        // Other widgets
-        else {
-            this.props.addThreshold(this.state.levels, this.props.widgetId);
-        }
+        this.props.addSelectedLevels();
+
     }
 
     validateEmailIds() {
-        let invalidLevels = _.filter(this.state.levels, (level) => _.filter(level.emailTo, (email) => !utils.validateEmail(email.Value)).length > 0);
+        let invalidLevels = _.filter(this.props.threshold.levels, (level) => _.filter(level.emailTo, (email) => !utils.validateEmail(email.Value)).length > 0);
         return _.map(invalidLevels, (lvl) => { return { displayMessage: `Level ${lvl.level}:${this.props.l.t('Email_is_empty_or_not_in_correct_format', 'Email is empty or not in correct format')}` } });
     }
     validateSmsIds() {
-        let invalidLevels = _.filter(this.state.levels, (level) => _.filter(level.smsTo, (email) => !utils.validateSmsNumer(sms.Value)).length > 0);
+        let invalidLevels = _.filter(this.props.threshold.levels, (level) => _.filter(level.smsTo, (email) => !utils.validateSmsNumer(sms.Value)).length > 0);
         return _.map(invalidLevels, (lvl) => { return { displayMessage: `Level ${lvl.level}: ${this.props.l.t('SMS_number_is_not_in_correct_format', 'SMS number is not in correct format')}` } });
     }
     /**
@@ -167,7 +138,7 @@ export default class ThresholdTab extends PureComponent {
 
         //Duration format 
         if (DisplayFormatEnum.Duration == displayFormat) {
-            let format = _.find(Constants.customCombotimeFormat, f => f.id == this.state.column.timeFormatId)
+            let format = _.find(Constants.customCombotimeFormat, f => f.id == this.props.threshold.column.timeFormatId)
             _.forEach(levels, (level) => {
                 if (isNaN(parseInt(level.levelValue)))
                     errors.push({ displayMessage: this.props.l.t('Level_$levelNumber_Entered_threshold_value_is_not_validPERIOD__Threshold_value_should_be_in_same_format_as_SINGLEQUOTEDisplay_FormatSINGLEQUOTE_PERIOD', 'Level ${levelNumber} Entered threshold value is not valid. (Threshold value should be in same format as \'Display Format\').', { levelNumber: level.level }) })
@@ -203,7 +174,7 @@ export default class ThresholdTab extends PureComponent {
             isPasteEnabled: copiedLevel ? true : false,
             isCopied: false,
         };
-        
+
         this.props.addLevels(item);
     }
 
@@ -263,7 +234,7 @@ export default class ThresholdTab extends PureComponent {
                     </div>
                     <div className='col-xs-6 pull-right rtl-pull-right text-right rtl-text-right'>
                         <button type="button" className="btn btn-primary" onClick={this.addSelectedLevels} >
-                            {this.props.l.t('Save_all_levels', 'Save all levels')}
+                            {this.props.l.t('Apply', 'Apply')}
                         </button>
                     </div>
                 </div>
