@@ -13,7 +13,6 @@ export default class PieStyles extends PureComponent {
         this.updateBackgroundColor = this.updateBackgroundColor.bind(this);
         this.updateRefreshInterval = this.updateRefreshInterval.bind(this);
         this.updateShowLegends = this.updateShowLegends.bind(this);
-        this.updateRefreshInterval = this.updateRefreshInterval.bind(this);
         this.updateShowLabels = this.updateShowLabels.bind(this);
         this.updateWidgetBody = this.updateWidgetBody.bind(this);
 

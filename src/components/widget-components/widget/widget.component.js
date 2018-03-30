@@ -8,6 +8,7 @@ import PieChartWidgetComponent from '../pie-chart-widget';
 import CircularProgressComponent from '../circular-progress';
 import SpeedoWidgetComponent from '../speedo-widget';
 import ProgressBarWidgetComponent from '../progress-bar-widget';
+import ClockWidgetComponent from '../clock-widget';
 
 import '../styles.css'
 
@@ -75,6 +76,10 @@ export default class WidgetComponent extends PureComponent {
             case WidgetTypeEnum.Progress:
                 return (
                     <ProgressBarWidgetComponent {...this.props.widget} IsEditing={this.props.showIcons} />
+                );
+            case WidgetTypeEnum.Clock:
+                return (
+                    <ClockWidgetComponent {...this.props.widget} IsEditing={this.props.showIcons} />
                 );
             default:
                 return (

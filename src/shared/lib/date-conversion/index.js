@@ -1,17 +1,10 @@
-import { Constants } from '../../constants'
 import DateType from '../../enums/date-type.enum';
 import _ from 'lodash'
-
+import { Constants } from '../../Constants';
+import moment from 'moment';
 
 const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
-/**
- * To get the long date based on locale 
- */
-export function getLongDate() {
-    let dt = new Date();
 
-    return Constants.months[dt.getMonth()] + " " + dt.getDate() + " " + dt.getFullYear();
-}
 /**
  * To get date(mm/dd/yyyy) the based on locale
  */
@@ -26,9 +19,18 @@ export function getShortDateddmmyyyy() {
     let dt = new Date();
     return dt.getDate() + "/" + dt.getMonth() + 1 + "/" + dt.getFullYear();
 }
+/**
+ * To get the Date Object based on timezone
+ * @param {*} offsetIST 
+ */
+export function timezoneDate(offsetIST) {
 
-
-
+    if (offsetIST) {
+        let offsetISTValue = offsetIST.value ? offsetIST.value : offsetIST;
+        let tempDate = moment(moment()).tz(offsetISTValue);
+        return new Date(moment(moment()).tz(offsetISTValue).format('YYYY-MM-DDTHH:mm:ss.SSS'));
+    }
+}
 
 /**
  * To get the date based on date, it will return short or long date based paramater value 
@@ -48,12 +50,40 @@ export function getDateBasedOnFormats(dt, displayDateFormat) {
 
 }
 
+export const dateFormats = [
+    {
+        id: 1,
+        value: 1,
+        label: "long(" + getLongDate() + ")",
+        type: "long"
+    },
+    {
+        id: 2,
+        value: 2,
+        label: "short(MM/dd/yyyy)",
+        type: "MMddyyyy"
+    },
+    {
+        id: 3,
+        value: 3,
+        label: "short(dd/MM/yyyy)",
+        type: "ddMMyyyy"
+    }
+];
+
+/**
+ * To get the long date based on locale 
+ */
+export function getLongDate() {
+    let dt = new Date();
+    return Constants.months[dt.getMonth()] + " " + dt.getDate() + " " + dt.getFullYear();
+}
 /**
  *To get the long date time based  on time zone 
  * @param {*} dt 
  */
 export function getLongDateWithTimezone(dt) {
-    return ConstantValues.months[dt.getMonth()] + " " + dt.getDate() + " " + dt.getFullYear();
+    return Constants.months[dt.getMonth()] + " " + dt.getDate() + " " + dt.getFullYear();
 }
 
 /**
