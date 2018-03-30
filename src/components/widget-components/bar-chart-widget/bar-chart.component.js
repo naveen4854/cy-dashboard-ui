@@ -6,10 +6,9 @@ import ReactDom from 'react-dom';
 import '../styles.css';
 import * as Color from '../../../shared/lib/color-conversion';
 import { Scrollbars } from 'react-custom-scrollbars';
-import {DisplayFormatEnum} from '../../../shared/enums';
-import {Constants as ConstantValues} from '../../../shared/constants';
+import { DisplayFormatEnum } from '../../../shared/enums';
+import { Constants, segments } from '../../../shared/constants';
 import { utils } from '../../../utilities';
-import { segments } from '../../../shared/constants/constants';
 
 var d3 = require('d3');
 
@@ -65,7 +64,7 @@ export default class BarChart extends React.Component {
         let updatedXAxisStyles = utils.stylesObjToCssSVG(this.props.xAxisStyles);
         let updatedYAxisStyles = utils.stylesObjToCssSVG(this.props.yAxisStyles);
 
-        let calculatedHeight =  this.props.height - (this.props.titleStyles.fontSize);
+        let calculatedHeight = this.props.height - (this.props.titleStyles.fontSize);
 
 
         let propsWidth = this.props.showLegends ? this.props.width * 2 / 3 : this.props.width; //Note: please match this percentage with the column class applied on chart in render
@@ -260,7 +259,7 @@ export default class BarChart extends React.Component {
         switch (displayFormatid) {
             case DisplayFormatEnum.HH_MM_SS:
             case DisplayFormatEnum.MM_SS:
-                let valuee = _.find(ConstantValues.customCombotimeFormat, f => f.displayFormatId == displayFormatid);
+                let valuee = _.find(Constants.customCombotimeFormat, f => f.displayFormatId == displayFormatid);
                 return valuee.convert;
                 break;
             case DisplayFormatEnum.Number:

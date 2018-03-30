@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
 import AnalogClockWidgetComponent from './analog-clock';
 import { utils } from '../../../utilities';
-import { Color } from "../../../shared/lib";
+import { Color, DateZone } from "../../../shared/lib";
+import DigitalClockComponent from './digital-clock';
 
 export default class ClockWidgetComponent extends PureComponent {
     render() {
@@ -22,19 +23,32 @@ export default class ClockWidgetComponent extends PureComponent {
             minutehandcolor: Color.ToString(this.props.hands.minutehandcolor),
             hourhandcolor: Color.ToString(this.props.hands.hourhandcolor)
         }
+
+        let days = DateZone.getDays()
+        let currentDay = DateZone.getDay(this.props.selectedTimeZoneItem)
+        let digitalDate = DateZone.returnDate(this.props.selectedTimeZoneItem, this.props.selectedDateFormat);
+        let currentDayColor = Color.ToString(this.props.currentDayColor)
+
         return (
             this.props.isAnalog ?
                 <AnalogClockWidgetComponent {...this.props}
                     widgetBodyStyles={widgetBodyStyles}
                     timezoneStyles={timezoneStyles}
                     numberStyles={numberStyles}
-                    daysStyles={daysStyles}
-                    dateStyles={dateStyles}
-                    timeStyles={timeStyles}
                     hands={hands}
                 />
                 :
-                <h1>DigitalWidgetComponent</h1>
+                <DigitalClockComponent {...this.props}
+                    days={days}
+                    currentDay={currentDay}
+                    widgetBodyStyles={widgetBodyStyles}
+                    timezoneStyles={timezoneStyles}
+                    daysStyles={daysStyles}
+                    dateStyles={dateStyles}
+                    timeStyles={timeStyles}
+                    digitalDate={digitalDate}
+                    currentDayColor={currentDayColor}
+                />
         )
     }
 }

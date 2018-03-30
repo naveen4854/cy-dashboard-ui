@@ -38,7 +38,7 @@ export default class ClockWidget extends Widget {
         color: rgba(0, 0, 0, 1),
         fontSize: '12'
     };
-    CurrentDayColor = rgba(240, 10, 10, 1);
+    currentDayColor = rgba(240, 10, 10, 1);
     timeStyles = {
         color: rgba(0, 0, 0, 1),
         fontSize: '25'
@@ -49,7 +49,7 @@ export default class ClockWidget extends Widget {
         secondhandcolor: rgba(165, 42, 42, 1)
     };
     selectedTimeZoneItem = moment.tz.guess();
-    isAnalog = true;
+    isAnalog = false;
     timezoneid = moment.tz.guess();
     selectedHoursFormat = _.first(Constants.hoursFormat);
     selectedTimeFormat = _.first(Constants.timeFormat);
