@@ -19,9 +19,11 @@ export default class SpeedoStyles extends PureComponent {
         this.updateSecondSegmentColor = this.updateSecondSegmentColor.bind(this);
         this.updateThirdSegmentColor = this.updateThirdSegmentColor.bind(this);
         this.updateValueStyles = this.updateValueStyles.bind(this);
-        
-        
+        this.updateMinValue = this.updateMinValue.bind(this);
+        this.updateMaxValue = this.updateMaxValue.bind(this);
+        this.updateRangeValueStyles = this.updateRangeValueStyles.bind(this);
 
+        
     }
 
 
@@ -68,18 +70,31 @@ export default class SpeedoStyles extends PureComponent {
     updateValueStyles(e) {
         this.props.updateProp('valueStyles', e);
     }
-    getUpdatedSegmentColors(color, index){
+    updateRangeValueStyles(e) {
+        this.props.updateProp('rangeValueStyles', e);
+    }
+    getUpdatedSegmentColors(color, index) {
         let segments = this.props.styles.segmentColors;
-        let updatedSegments =  segments.map( (eachSegment, segmentIndex) => {
-             if(segmentIndex !== index) {
-                 return eachSegment;
-             }
-             return {
+        let updatedSegments = segments.map((eachSegment, segmentIndex) => {
+            if (segmentIndex !== index) {
+                return eachSegment;
+            }
+            return {
                 ...color
-             };    
-         });
+            };
+        });
 
-         return updatedSegments;
+        return updatedSegments;
+    }
+
+
+    updateMinValue(e) {
+        this.props.updateProp('min', e);
+    }
+
+
+    updateMaxValue(e) {
+        this.props.updateProp('max', e);
     }
 
     render() {
@@ -116,7 +131,7 @@ export default class SpeedoStyles extends PureComponent {
                         // className="form-control"
                         updateColor={this.updateFirstSegmentColor}
                     />
-                     <LabelledColorPicker
+                    <LabelledColorPicker
                         label={this.props.l.t('Segment_Color_2COLON', 'Segment Color 2:')}
                         //updateKey='backgroundColor'
                         id="segmentColors"
@@ -125,8 +140,8 @@ export default class SpeedoStyles extends PureComponent {
                         // className="form-control"
                         updateColor={this.updateSecondSegmentColor}
                     />
-                     <LabelledColorPicker
-                        label= {this.props.l.t('Segment_Color_3COLON', 'Segment Color 3:')} 
+                    <LabelledColorPicker
+                        label={this.props.l.t('Segment_Color_3COLON', 'Segment Color 3:')}
                         //updateKey='backgroundColor'
                         id="segmentColors"
                         key="segmentColors"
@@ -157,21 +172,38 @@ export default class SpeedoStyles extends PureComponent {
                     //updateKey='titleStyles'
                     />
 
-                    <LabelledToggle
-                        label={this.props.l.t('Show_legendCOLON', 'Show legend:')}
-                        //updateKey='useSelectedBarColor'
-                        nodes={[{ label: "Yes", value: true }, { label: "No", value: false }]}
-                        checkedNode={this.props.styles.showLegends}
-                        onToggleChange={this.updateShowLegends}
+
+                    <LabelledDurationInput
+                        label={this.props.l.t('MinCOLON', 'Min:')}
+                        displayFormatId={this.props.displayFormatId}
+                        value={this.props.styles.min}
+                        wKey='min'
+                        enableInput={true}
+                        updatePropOnChange={this.updateMinValue}
                     />
 
-                    <LabelledToggle
-                        label={this.props.l.t('Show_labelsCOLON', 'Show labels:')}
-                        //updateKey='useSelectedBarColor'
-                        nodes={[{ label: "Yes", value: true }, { label: "No", value: false }]}
-                        checkedNode={this.props.styles.showLabels}
-                        onToggleChange={this.updateShowLabels}
+
+                    <LabelledDurationInput
+                        label={this.props.l.t('MaxCOLON', 'Max:')}
+                        displayFormatId={this.props.displayFormatId}
+                        value={this.props.styles.max}
+                        wKey='max'
+                        enableInput={true}
+                        updatePropOnChange={this.updateMaxValue}
                     />
+
+                    <StylesGroup
+                        l={this.props.l}
+                        fontStyles={this.props.styles.rangeValueStyles}
+                        colorLabel={this.props.l.t('Range_colorCOLON', 'Range color:')}
+                        fontFamilyLabel={this.props.l.t('Range_fontCOLON', 'Range font:')}
+                        fontSizeLabel={this.props.l.t('Range_font_sizeCOLON', 'Range font size:')}
+                        onUpdateFontStyles={this.updateRangeValueStyles}
+                        id="rangeValueStyles"
+                        key="rangeValueStyles"
+                    //updateKey='titleStyles'
+                    />
+
                     <LabelledInput
                         label={this.props.l.t('Refresh_interval__in_sec_COLON', 'Refresh interval (in sec):')}
                         value={this.props.styles.refreshInterval}

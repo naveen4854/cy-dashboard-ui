@@ -27,6 +27,7 @@ export function initializeStyles() {
         let showLabels = currentWidget.showLabels;
 
         let segmentColors = currentWidget.segmentColors;
+        let rangeValueStyles = currentWidget.rangeValueStyles;
         
         //titleStyles.color = '#FF0000';
         dispatch({
@@ -47,6 +48,7 @@ export function initializeStyles() {
             showLegends,
             showLabels,
             segmentColors,
+            rangeValueStyles,
             refreshInterval,
             widgetType
         })
@@ -78,6 +80,7 @@ export function updateWidgetStyles() {
             showLegends: styles.showLegends,
             showLabels: styles.showLabels,
             segmentColors: styles.segmentColors,
+            rangeValueStyles: styles.rangeValueStyles,
             refreshInterval: styles.refreshInterval,
             appliedBackgroundColor: styles.widgetBody.backgroundColor
         }
@@ -116,6 +119,7 @@ export const ACTION_HANDLERS = {
             showLegends: action.showLegends,
             showLabels: action.showLabels,
             segmentColors: action.segmentColors,
+            rangeValueStyles: action.rangeValueStyles,
             refreshInterval: action.refreshInterval
         })
     },

@@ -143,7 +143,7 @@ export default class ArcGauge extends PureComponent {
         // If label
         if (this.state.label) {
             let r = this.state.radius * 0.2;
-            let f = _.parseInt(this.state.valueStyles.fontSize.substring(0, this.state.valueStyles.fontSize.length - 2));
+            let f = _.parseInt(this.state.valueStyles.fontSize);
             let dy = r > f ? r : f;
             let valueLabel = meter.append("text")
                 .attr("class", "gauge-min-label")
@@ -160,7 +160,7 @@ export default class ArcGauge extends PureComponent {
             .attr("text-anchor", "middle")
             .attr("dy", "1em")
             .attr("dx", `${maxTextDx}px`)
-            .attr("style", `font-family: ${this.state.rangeValueStyles.fontFamily}; font-size:${this.state.rangeValueStyles.fontSize}px`)
+            .attr("style", `font-family: ${this.state.rangeValueStyles.fontFamily}; font-size:${this.state.rangeValueStyles.fontSize}`)
             .attr("fill", this.state.rangeValueStyles.color);
 
         maxText.text(`${this.props.maxText}`);
