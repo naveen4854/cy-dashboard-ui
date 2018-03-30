@@ -160,7 +160,7 @@ export function pasteThresholdValues(id) {
             }
             level.isCopied = false;
             level.isPasteEnabled = false;
-            return level ;
+            return level;
 
         });
         dispatch({
@@ -209,7 +209,9 @@ export function initializeThresholddata() {
             columnOptions: columnOptions,
             widgetType: currentWidget.widgetType,
             isComboWidget: currentWidget.isComboWidget,
-            displayFormatId: displayFormat
+            displayFormatId: displayFormat,
+            isHeader: currentWidget.isHeader,
+            comboId: currentWidget.comboId
         })
     }
 }
@@ -227,6 +229,81 @@ export function addLevels(item) {
         })
     }
 }
+
+export function updateDisplayFormat(displayFormatId) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: ThresholdConstants.UPDATE_DISPLAY_FORMAT,
+            displayFormatId
+        })
+    }
+}
+export function addSelectedLevels() {
+
+    return (dispatch, getState) => {
+        let threshold = getState().threshold;
+        let currentWidget = getState().configurations.widget;
+        let thresholds = {
+            ...threshold.levels,
+
+        }
+        if (threshold.isComboWidget) {
+            if (thresholdstatisticsCategoryId == StatisticCategoryEnum.RealTime) {
+                if (threshold.isHeader) {
+                    let comboWidget = _.find(getState().dashboard.widgets, (w) => w.id === threshold.comboId);
+                    let wColumnIndex = this.getColumnIndex(comboWidget.matrix[0], threshold.widgetId);
+                    if (wColumnIndex) {
+                        for (var rowIndex = 0; rowIndex < comboWidget.matrix.length; rowIndex++) {
+                            let cWidget = comboWidget.matrix[rowIndex][wColumnIndex];
+                            cWidget.appliedSettings.thresholds = _.cloneDeep(threshold.levels);
+                        }
+                        //todo: figure out below if clause
+                        if (threshold.levels.length == 0) {
+                            dispatch({
+                                type: ThresholdConstants.ADD_THRESHOLD,
+                                levels: threshold.levels,
+                                widgetId: threshold.widgetId
+                            })
+                        }
+                        this.props.UpdateWidget(comboWidget);
+                    }
+                } else {
+
+                    dispatch({
+                        type: ThresholdConstants.ADD_THRESHOLD,
+                        levels: threshold.levels,
+                        widgetId: threshold.widgetId
+                    })
+                }
+            }
+            else if (threshold.statisticsCategoryId == StatisticCategoryEnum.Custom) {
+                if (threshold.column)
+                    this.props.addBaseColumn(threshold.column, this.props.widget);
+                dispatch({
+                    type: ThresholdConstants.ADD_THRESHOLD,
+                    levels: threshold.levels,
+                    widgetId: threshold.widgetId
+                })
+            }
+        }
+        // Other widgets
+        else {
+            let updatedWidget = {
+                ...currentWidget,
+                appliedSettings: {
+                    ...currentWidget.appliedSettings,
+                    thresholds
+                }
+            }
+            dispatch(getState().configurations.updateDashboardWidget(updatedWidget));
+        }
+    }
+}
+
+
+
+
+
 
 /**
    * To get the column options for combo custom statistics
@@ -331,6 +408,8 @@ function getDisplayFormat(widget, widgets) {
         return widget.appliedSettings.dataMetrics.displayFormat.id;
     }
 }
+
+
 
 /**
    * To get the column index based on widget from matrix

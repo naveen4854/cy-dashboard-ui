@@ -1,5 +1,6 @@
 import * as  ThresholdConstants from "./threshold.constants";
-import { initializeThresholddata } from './threshold.actions'
+import { initializeThresholddata, updateDisplayFormat } from './threshold.actions'
+
 
 export const ACTION_HANDLERS = {
     [ThresholdConstants.UPDATE_LEVEL]: (state, action) => {
@@ -25,11 +26,18 @@ export const ACTION_HANDLERS = {
             displayFormatId: action.displayFormatId
 
         })
+    },
+    [ThresholdConstants.UPDATE_DISPLAY_FORMAT]: (state, action) => {
+        return Object.assign({}, state, {
+            displayFormatId: action.displayFormatId
+        })
+
     }
 }
 const initialState = {
     initializeThresholddata,
-    levels: []
+    levels: [],
+    updateDisplayFormat
 };
 export default function ThresholdReducer(state = _.cloneDeep(initialState), action) {
     const handler = ACTION_HANDLERS[action.type];
