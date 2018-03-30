@@ -3,6 +3,7 @@ import ReactDom from 'react-dom';
 
 import _ from 'lodash';
 import { DisplayFormatEnum } from '../../../shared/enums';
+import { Color } from '../../../shared/lib';
 var d3 = require('d3');
 
 class CircularArc extends PureComponent {
@@ -65,13 +66,13 @@ class CircularArc extends PureComponent {
             .attr('fill-opacity', 0.5)
 
             .attr('d', arc.endAngle(twoPi));
-
+//console.log(' ac color ',this.props.arcColor )
 
         var foreground = meter.append('path')
             .attr('class', 'foreground')
-            .attr('fill', this.props.arcColor)
+            .attr('fill', Color.ToString( this.props.arcColor),)
             .attr('fill-opacity', 1)
-            .attr('stroke', this.props.arcColor)
+            .attr('stroke',Color.ToString( this.props.arcColor),)
             .attr('stroke-opacity', 1)
         var numberText = meter.append('text');
 
@@ -118,8 +119,9 @@ class CircularArc extends PureComponent {
     }
 
     render() {
+        debugger
         return (
-            <div id={`circular-widget-${this.props.id}`} style={{ height: `${this.props.height}px`, backgroundColor: `${this.props.widgetBody.backgroundColor}` }} />
+            <div id={`circular-widget-${this.props.id}`} style={{ height: `${this.props.height}px`, backgroundColor: this.props.widgetBodyStyles.backgroundColor }} />
         );
     }
 }

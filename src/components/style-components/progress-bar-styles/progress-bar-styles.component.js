@@ -4,7 +4,7 @@ import { StylesGroup } from '../styles-group';
 import ColorPicker from '../../color-picker/color-picker';
 import { LabelledInput, LabelledColorPicker, LabelledToggle, LabelledDurationInput } from '../../labelled-controls';
 
-export default class SpeedoStyles extends PureComponent {
+export default class ProgressBarStyles extends PureComponent {
 
     constructor(props) {
         super(props);

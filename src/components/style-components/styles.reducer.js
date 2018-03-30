@@ -27,6 +27,10 @@ export function initializeStyles() {
         let showLabels = currentWidget.showLabels;
 
         let segmentColors = currentWidget.segmentColors;
+        let rangeValueStyles = currentWidget.rangeValueStyles;
+        let showMaxValueOnWidget = currentWidget.showMaxValueOnWidget; // only for circular
+        let arcColor = currentWidget.arcColor; // only for circular
+
         
         //titleStyles.color = '#FF0000';
         dispatch({
@@ -47,6 +51,9 @@ export function initializeStyles() {
             showLegends,
             showLabels,
             segmentColors,
+            rangeValueStyles,
+            showMaxValueOnWidget,
+            arcColor,
             refreshInterval,
             widgetType
         })
@@ -78,6 +85,9 @@ export function updateWidgetStyles() {
             showLegends: styles.showLegends,
             showLabels: styles.showLabels,
             segmentColors: styles.segmentColors,
+            rangeValueStyles: styles.rangeValueStyles,
+            showMaxValueOnWidget: styles.showMaxValueOnWidget,
+            arcColor: styles.arcColor,
             refreshInterval: styles.refreshInterval,
             appliedBackgroundColor: styles.widgetBody.backgroundColor
         }
@@ -116,6 +126,9 @@ export const ACTION_HANDLERS = {
             showLegends: action.showLegends,
             showLabels: action.showLabels,
             segmentColors: action.segmentColors,
+            rangeValueStyles: action.rangeValueStyles,
+            showMaxValueOnWidget: action.showMaxValueOnWidget,
+            arcColor: action.arcColor,
             refreshInterval: action.refreshInterval
         })
     },

@@ -24,5 +24,14 @@ export default class CircularProgressWidget extends Widget {
         fontSize: 12
     };
     arcColor = rgba(0, 192, 239, 1);
-    arcWidth = 15
+    arcWidth = 15;
+    appliedBackgroundColor = rgba(255, 255, 255, 1) 
+    widgetBody = {
+        backgroundColor:  rgba(255, 255, 255, 1), 
+        fontFamily: 'Arial',
+        fontSize: 12,
+        color: {
+            r: 0, g: 0, b: 0, a: 1
+        }
+    };
 }

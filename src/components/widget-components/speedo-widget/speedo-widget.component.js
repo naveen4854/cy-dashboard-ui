@@ -13,10 +13,10 @@ export default class SpeedoWidgetComponent extends PureComponent {
 
     render() {
         let widgetBody = this.props.widgetBody;
-        let widgetBodyStyles = utils.stylesToCss(this.props.appliedBackgroundColor, widgetBody.fontSize, widgetBody.fontFamily, widgetBody.color)
-        let valueStyles = utils.stylesObjToCss(this.props.valueStyles)
-        let titleStyles = utils.stylesObjToCss(this.props.titleStyles)
-        let rangeValueStyles = utils.stylesObjToCss(this.props.rangeValueStyles)
+        let widgetBodyStyles = utils.stylesToCssSVG(this.props.appliedBackgroundColor, widgetBody.fontSize, widgetBody.fontFamily, widgetBody.color)
+        let valueStyles = utils.stylesObjToCssSVG(this.props.valueStyles)
+        let titleStyles = utils.stylesObjToCssSVG(this.props.titleStyles)
+        let rangeValueStyles = utils.stylesObjToCssSVG(this.props.rangeValueStyles)
 
         let displayFormatId = this.props.appliedSettings.dataMetrics.displayFormat ? this.props.appliedSettings.dataMetrics.displayFormat.id : DisplayFormatEnum.Number;
         let formatter = utils.getFormatter(displayFormatId);
@@ -35,7 +35,7 @@ export default class SpeedoWidgetComponent extends PureComponent {
         const colors = _.map(this.props.segmentColors, segColor => Color.ToString(segColor));
         let interpolateColor = interpolate(_.cloneDeep(colors))
         const arrowColor = interpolateColor(value);
-
+        
         return (
             <div className="widget-content" style={widgetBodyStyles}>
                 <Gauge
@@ -44,7 +44,7 @@ export default class SpeedoWidgetComponent extends PureComponent {
                     radius={minOfHeightAndwidth * 0.66}
                     sections={colors}
                     arrow={{ height: minOfHeightAndwidth * 0.5, width: minOfHeightAndwidth / 50, color: arrowColor }}
-                    label={this.props.label}
+                    label={this.props.displayValue}
                     valueStyles={valueStyles}
                     title={this.props.title}
                     titleStyles={titleStyles}
