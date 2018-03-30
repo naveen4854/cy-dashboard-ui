@@ -30,7 +30,7 @@ export function initializeStyles() {
         let rangeValueStyles = currentWidget.rangeValueStyles;
         let showMaxValueOnWidget = currentWidget.showMaxValueOnWidget; // only for circular
         let arcColor = currentWidget.arcColor; // only for circular
-
+        let arcWidth = currentWidget.arcWidth;
         let ClockbackgroundColor = currentWidget.ClockbackgroundColor;
         let ClockOuterbackgroundColor = currentWidget.ClockOuterbackgroundColor;
         let hands = currentWidget.hands;
@@ -65,6 +65,7 @@ export function initializeStyles() {
             rangeValueStyles,
             showMaxValueOnWidget,
             arcColor,
+            arcWidth,
             ClockbackgroundColor,
             ClockOuterbackgroundColor,
             hands,
@@ -110,6 +111,7 @@ export function updateWidgetStyles() {
             rangeValueStyles: styles.rangeValueStyles,
             showMaxValueOnWidget: styles.showMaxValueOnWidget,
             arcColor: styles.arcColor,
+            arcWidth: styles.arcWidth,
             ClockbackgroundColor: styles.ClockbackgroundColor,
             ClockOuterbackgroundColor: styles.ClockOuterbackgroundColor,
             hands: styles.hands,
@@ -162,6 +164,7 @@ export const ACTION_HANDLERS = {
             rangeValueStyles: action.rangeValueStyles,
             showMaxValueOnWidget: action.showMaxValueOnWidget,
             arcColor: action.arcColor,
+            arcWidth: action.arcWidth,
             ClockbackgroundColor: action.ClockbackgroundColor,
             ClockOuterbackgroundColor: action.ClockOuterbackgroundColor,
             hands: action.hands,

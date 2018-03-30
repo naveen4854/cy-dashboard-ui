@@ -18,7 +18,7 @@ export default class CircularProgressStyles extends PureComponent {
         this.updateMaxValue = this.updateMaxValue.bind(this);
         this.updateShowMaxValueOnWidget = this.updateShowMaxValueOnWidget.bind(this);
         this.updateArcColor = this.updateArcColor.bind(this);
-        
+        this.updateArcWidth = this.updateArcWidth.bind(this);
     }
 
 
@@ -43,7 +43,7 @@ export default class CircularProgressStyles extends PureComponent {
     updateValueStyles(e) {
         this.props.updateProp('valueStyles', e);
     }
-    
+
     updateMinValue(e) {
         this.props.updateProp('min', e);
     }
@@ -58,6 +58,9 @@ export default class CircularProgressStyles extends PureComponent {
     }
     updateArcColor(e) {
         this.props.updateProp('arcColor', e);
+    }
+    updateArcWidth(e) {
+        this.props.updateProp('arcWidth', e.target.value);
     }
 
     render() {
@@ -136,9 +139,14 @@ export default class CircularProgressStyles extends PureComponent {
                         checkedNode={this.props.styles.showMaxValueOnWidget}
                         onToggleChange={this.updateShowMaxValueOnWidget}
                     />
-
+                    <LabelledInput
+                        label={this.props.l.t('Arc_width', 'Arc width:')}
+                        value={this.props.styles.arcWidth}
+                        className="form-control"
+                        onCustomInputChange={this.updateArcWidth}
+                    />
                     <LabelledColorPicker
-                        label={this.props.l.t('Arc_colorCOLON', 'Arc color:')} 
+                        label={this.props.l.t('Arc_colorCOLON', 'Arc color:')}
                         //updateKey='backgroundColor'
                         ColorId="arcColor"
                         ColorKey="arcColor"
@@ -153,6 +161,8 @@ export default class CircularProgressStyles extends PureComponent {
                         className="form-control"
                         onCustomInputChange={this.updateRefreshInterval}
                     />
+
+
 
                 </div>
             </div>
