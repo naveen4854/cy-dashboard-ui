@@ -26,6 +26,7 @@ export function initializeStyles() {
         let showLegends = currentWidget.showLegends;
         let showLabels = currentWidget.showLabels;
 
+        let segmentColors = currentWidget.segmentColors;
         
         //titleStyles.color = '#FF0000';
         dispatch({
@@ -45,6 +46,7 @@ export function initializeStyles() {
             enableBarLines,
             showLegends,
             showLabels,
+            segmentColors,
             refreshInterval,
             widgetType
         })
@@ -75,6 +77,7 @@ export function updateWidgetStyles() {
             enableBarLines: styles.enableBarLines,
             showLegends: styles.showLegends,
             showLabels: styles.showLabels,
+            segmentColors: styles.segmentColors,
             refreshInterval: styles.refreshInterval,
             appliedBackgroundColor: styles.widgetBody.backgroundColor
         }
@@ -112,6 +115,7 @@ export const ACTION_HANDLERS = {
             enableBarLines: action.enableBarLines,
             showLegends: action.showLegends,
             showLabels: action.showLabels,
+            segmentColors: action.segmentColors,
             refreshInterval: action.refreshInterval
         })
     },
