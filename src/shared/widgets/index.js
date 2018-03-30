@@ -5,5 +5,7 @@ import CircularProgressWidget from './circular-progress-widget'
 import SpeedoWidget from './speedo-widget'
 import ProgressWidget from './progress-widget'
 import ClockWidget from './clock-widget'
+import TextWidget from './text-widget'
+import PictureWidget from './picture-widget'
 
-export { BarWidget, BoxWidget, CircularProgressWidget, PieWidget, SpeedoWidget, ProgressWidget, ClockWidget };
+export { TextWidget, BarWidget, BoxWidget, CircularProgressWidget, PieWidget, SpeedoWidget, ProgressWidget, ClockWidget , PictureWidget};
