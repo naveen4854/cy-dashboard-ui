@@ -90,8 +90,8 @@ export function validateSmsNumer(number) {
     return number != null && number.trim() != ""; //&& !isNaN(number);
 }
 
-export function rgba(r, b, g, a) {
-    return { r, b, g, a }
+export function rgba(r, g, b, a) {
+    return { r, g, b, a }
 }
 
 export function convertToSeconds(value, displayFormatId) {

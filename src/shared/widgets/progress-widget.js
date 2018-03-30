@@ -30,5 +30,12 @@ export default class ProgressWidget extends Widget {
         fontFamily: 'Arial',
         fontSize: 12
     }
-
+    segmentColors = [
+        rgba(255, 0, 0, 1),
+        rgba(255, 232, 0),
+        rgba(0, 255, 0, 1)
+    ];
+    value = 0;
+    //defaultColor = rgba(128,128,128,0.15);
+    // ["#FF0000", "rgb(255, 232, 0)", "#00FF00"]
 }

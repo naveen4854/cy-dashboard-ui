@@ -38,16 +38,17 @@ export default class SpeedoWidgetComponent extends PureComponent {
 
         return (
             <div className="widget-content" style={widgetBodyStyles}>
-                <Gauge value={value * 100}
+                <Gauge
+                    value={value * 100}
                     size={minOfHeightAndwidth * 0.075}
                     radius={minOfHeightAndwidth * 0.66}
                     sections={colors}
                     arrow={{ height: minOfHeightAndwidth * 0.5, width: minOfHeightAndwidth / 50, color: arrowColor }}
                     label={this.props.label}
-                    valueStyles={this.props.valueStyles}
+                    valueStyles={valueStyles}
                     title={this.props.title}
-                    titleStyles={this.props.titleStyles}
-                    rangeValueStyles={this.props.rangeValueStyles}
+                    titleStyles={titleStyles}
+                    rangeValueStyles={rangeValueStyles}
                     width={this.props.width}
                     height={this.props.height}
                     min={this.props.min}
