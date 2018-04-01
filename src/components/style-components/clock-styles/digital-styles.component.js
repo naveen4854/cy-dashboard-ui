@@ -16,16 +16,16 @@ export default class DigitalClockStyles extends PureComponent {
     }
 
     updateDaysStyles(e){
-        this.props.updateProp('DaysStyles', e);
+        this.props.updateProp('daysStyles', e);
     }
     updateCurrentDayColor(e){
-        this.props.updateProp('CurrentDayColor', e);
+        this.props.updateProp('currentDayColor', e);
     }
     updateDateStyles(e){
-        this.props.updateProp('DateStyles', e);
+        this.props.updateProp('dateStyles', e);
     }
     updateTimeStyles(e){
-        this.props.updateProp('TimeStyles', e);
+        this.props.updateProp('timeStyles', e);
     }
 
     render() {
@@ -35,43 +35,43 @@ export default class DigitalClockStyles extends PureComponent {
                 
                 <StylesGroup
                         l={this.props.l}
-                        fontStyles={this.props.styles.DaysStyles}
+                        fontStyles={this.props.styles.daysStyles}
                         colorLabel= {this.props.l.t('Days_Font_ColorCOLON', 'Days Font Color:')}
                         fontFamilyLabel= {this.props.l.t('Days_Font_StyleCOLON', 'Days Font Style:')}
                         fontSizeLabel= {this.props.l.t('Days_Font_SizeCOLON', 'Days Font Size:')}
                         onUpdateFontStyles={this.updateDaysStyles}
-                        ColorId="DaysStyles"
-                        ColorKey="DaysStyles"
+                        ColorId="daysStyles"
+                        ColorKey="daysStyles"
                     />
  
                      <LabelledColorPicker
                         label= {this.props.l.t('Current_Day_Font_ColorCOLON', 'Current Day Font Color:')}
-                        ColorId="CurrentDayColor"
-                        ColorKey="CurrentDayColor"
-                        value={this.props.styles.CurrentDayColor}
+                        ColorId="currentDayColor"
+                        ColorKey="currentDayColor"
+                        value={this.props.styles.currentDayColor}
                         // className="form-control"
                         updateColor={this.updateCurrentDayColor}
                     />
                     <StylesGroup
                         l={this.props.l}
-                        fontStyles={this.props.styles.DateStyles}
+                        fontStyles={this.props.styles.dateStyles}
                         colorLabel={this.props.l.t('Date_Font_ColorCOLON', 'Date Font Color:')}
                         fontFamilyLabel={this.props.l.t('Date_Font_StyleCOLON', 'Date Font Style:')}
                         fontSizeLabel={this.props.l.t('Date_Font_SizeCOLON', 'Date Font Size:')}
                         onUpdateFontStyles={this.updateDateStyles}
-                        ColorId="DateStyles"
-                        ColorKey="DateStyles"
+                        ColorId="dateStyles"
+                        ColorKey="dateStyles"
                     />
 
                     <StylesGroup
                         l={this.props.l}
-                        fontStyles={this.props.styles.TimeStyles}
+                        fontStyles={this.props.styles.timeStyles}
                         colorLabel={this.props.l.t('Time_Font_ColorCOLON', 'Time Font Color:')}
                         fontFamilyLabel={this.props.l.t('Time_Font_StyleCOLON', 'Time Font Style:')} 
                         fontSizeLabel={this.props.l.t('Time_Font_SizeCOLON', 'Time Font Size:')} 
                         onUpdateFontStyles={this.updateTimeStyles}
-                        ColorId="TimeStyles"
-                        ColorKey="TimeStyles"
+                        ColorId="timeStyles"
+                        ColorKey="timeStyles"
                     />
 
                     <LabelledColorPicker

@@ -16,8 +16,8 @@ export default class ClockWidget extends Widget {
     width = 250; height = 250;
     title = moment.tz.guess();
     widgetBody = {
-        ClockbackgroundColor: rgba(255, 255, 255, 1),
-        ClockOuterbackgroundColor: rgba(0, 119, 162, 1),
+        clockbackgroundColor: rgba(255, 255, 255, 1),
+        clockOuterbackgroundColor: rgba(0, 119, 162, 1),
         clockRoundingColor: rgba(14, 144, 197, 1)
     };
 

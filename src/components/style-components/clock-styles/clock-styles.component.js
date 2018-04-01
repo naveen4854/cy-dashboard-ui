@@ -18,21 +18,21 @@ export default class ClockStyles extends PureComponent {
     }
 
     updateClockbackgroundColor(e) {
-        let widgetBody = { ...this.props.styles.widgetBody, ClockbackgroundColor: e };
+        let widgetBody = { ...this.props.styles.widgetBody, clockbackgroundColor: e };
         this.props.updateProp('widgetBody', widgetBody);
     }
     updateClockOuterbackgroundColor(e) {
-        let widgetBody = { ...this.props.styles.widgetBody, ClockOuterbackgroundColor: e };
+        let widgetBody = { ...this.props.styles.widgetBody, clockOuterbackgroundColor: e };
         this.props.updateProp('widgetBody', widgetBody);
     }
-    updateTimezoneStyles(e){
-        this.props.updateProp('TimezoneStyles', e);
+    updateTimezoneStyles(e) {
+        this.props.updateProp('timezoneStyles', e);
     }
     updateClockRoundingColor(e) {
         let widgetBody = { ...this.props.styles.widgetBody, clockRoundingColor: e };
         this.props.updateProp('widgetBody', widgetBody);
     }
-    updateHandColor(hands){
+    updateHandColor(hands) {
         this.props.updateProp('hands', hands);
     }
 
@@ -42,34 +42,34 @@ export default class ClockStyles extends PureComponent {
                 <div className="form-group">
                     <LabelledColorPicker
                         label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
-                        ColorId="ClockbackgroundColor"
-                        ColorKey="ClockbackgroundColor"
-                        value={this.props.styles.widgetBody.ClockbackgroundColor}
+                        ColorId="clockbackgroundColor"
+                        ColorKey="clockbackgroundColor"
+                        value={this.props.styles.widgetBody.clockbackgroundColor}
                         // className="form-control"
                         updateColor={this.updateClockbackgroundColor}
                     />
                     <LabelledColorPicker
                         label={this.props.l.t('Outer_Background_ColorCOLON', 'Outer Background Color:')}
-                        ColorId="ClockOuterbackgroundColor"
-                        ColorKey="ClockOuterbackgroundColor"
-                        value={this.props.styles.widgetBody.ClockOuterbackgroundColor}
+                        ColorId="clockOuterbackgroundColor"
+                        ColorKey="clockOuterbackgroundColor"
+                        value={this.props.styles.widgetBody.clockOuterbackgroundColor}
                         // className="form-control"
                         updateColor={this.updateClockOuterbackgroundColor}
                     />
 
                     {
-                        this.props.styles.IsAnalog ? <AnalogClockStyles /> : <DigitalClockStyles />
+                        this.props.styles.IsAnalog ? <AnalogClockStyles {...this.props} /> : <DigitalClockStyles {...this.props} />
                     }
 
                     <StylesGroup
                         l={this.props.l}
-                        fontStyles={this.props.styles.TimezoneStyles}
+                        fontStyles={this.props.styles.timezoneStyles}
                         colorLabel={this.props.l.t('Time_Zone_Font_ColorCOLON', 'Time Zone Font Color:')}
-                        fontFamilyLabel={this.props.l.t('Time_Zone_fontCOLON', 'Time Zone font:')} 
+                        fontFamilyLabel={this.props.l.t('Time_Zone_fontCOLON', 'Time Zone font:')}
                         fontSizeLabel={this.props.l.t('Time_Zone_Font_SizeCOLON', 'Time Zone Font Size:')}
                         onUpdateFontStyles={this.updateTimezoneStyles}
-                        ColorId="TimezoneStyles"
-                        ColorKey="TimezoneStyles"
+                        ColorId="timezoneStyles"
+                        ColorKey="timezoneStyles"
                     />
                     <LabelledInput
                         label={this.props.l.t('Refresh_interval__in_sec_COLON', 'Refresh interval (in sec):')}

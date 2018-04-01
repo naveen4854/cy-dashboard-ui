@@ -8,8 +8,8 @@ export default class ClockWidgetComponent extends PureComponent {
     render() {
         let widgetBody = this.props.widgetBody;
         let widgetBodyStyles = {
-            ClockbackgroundColor: Color.ToString(widgetBody.ClockbackgroundColor),
-            ClockOuterbackgroundColor: Color.ToString(widgetBody.ClockOuterbackgroundColor),
+            clockbackgroundColor: Color.ToString(widgetBody.clockbackgroundColor),
+            clockOuterbackgroundColor: Color.ToString(widgetBody.clockOuterbackgroundColor),
             clockRoundingColor: Color.ToString(widgetBody.clockRoundingColor)
         }
         let timezoneStyles = utils.stylesObjToCss(this.props.timezoneStyles)

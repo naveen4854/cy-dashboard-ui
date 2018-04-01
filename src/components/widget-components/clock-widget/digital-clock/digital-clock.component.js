@@ -43,13 +43,13 @@ export default class DigitalClockComponent extends PureComponent {
     render() {
         return (
             < div className="container-fluid text-center" style={{ height: '100%' }} >
-                <div className="row" style={{ height: '100%', backgroundColor: this.props.widgetBodyStyles.ClockOuterbackgroundColor }}>
+                <div className="row" style={{ height: '100%', backgroundColor: this.props.widgetBodyStyles.clockOuterbackgroundColor }}>
                     <div className="col-xs-12 padding-none" style={{ height: '100%' }}>
                         <div className="clock" style={{ height: '100%' }}>
                             <div id="clockTitle" style={{ fontSize: this.props.timezoneStyles.fontSize, color: this.props.timezoneStyles.color, fontFamily: this.props.timezoneStyles.fontFamily }} className="clock-title">
                                 <p>{this.props.title}</p>
                             </div>
-                            <div className="inside" style={{ backgroundColor: this.props.widgetBodyStyles.ClockbackgroundColor }}>
+                            <div className="inside" style={{ backgroundColor: this.props.widgetBodyStyles.clockbackgroundColor }}>
                                 <div className="content">
                                     {
                                         this.props.displayDays ? <p className='days' style={{ fontSize: this.props.daysStyles.fontSize }}>

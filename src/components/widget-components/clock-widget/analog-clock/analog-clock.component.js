@@ -112,7 +112,7 @@ export default class AnalogClockWidgetComponent extends PureComponent {
             .attr("r", radius)
             .attr("stroke-width", 4)
             .attr('stroke', this.props.widgetBodyStyles.clockRoundingColor)
-            .attr('fill', this.props.widgetBodyStyles.ClockbackgroundColor)
+            .attr('fill', this.props.widgetBodyStyles.clockbackgroundColor)
             ;
 
 
@@ -212,7 +212,7 @@ export default class AnalogClockWidgetComponent extends PureComponent {
 
     render() {
         return (
-            <div style={{ backgroundColor: this.props.widgetBodyStyles.ClockOuterbackgroundColor }}>
+            <div style={{ backgroundColor: this.props.widgetBodyStyles.clockOuterbackgroundColor }}>
                 <div id="clockTitle" style={{ fontSize: this.props.timezoneStyles.fontSize, color: this.props.timezoneStyles.color, padding: "5px", fontFamily: this.props.timezoneStyles.fontFamily }} className="clock-title">
                     {this.props.title}
                 </div>

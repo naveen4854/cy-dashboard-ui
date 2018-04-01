@@ -95,12 +95,12 @@ export function initializeStatisticMetadata() {
                 value: obj.StatisticCategory
             };
         });
-
+debugger
         dispatch({
             type: UPDATE_DATA_METRICS,
             statisticCategories,
             statisticCategoryOptions: _categories,
-            datametricsMetadata
+            widgetType: currentWidget.widgetType
         });
 
         dispatch(getState().realTimeSettings.initiateRealTimeSettings());

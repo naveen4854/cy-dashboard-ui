@@ -5,8 +5,7 @@ export const UPDATE_STYLE_PROP = "UPDATE_STYLE_PROP"
 
 export function initializeStyles() {
     return (dispatch, getState) => {
-        let currentWidget = getState().configurations.widget;
-
+        let currentWidget = _.cloneDeep(getState().configurations.widget);
 
         let title = currentWidget.title;
         let widgetType = currentWidget.widgetType;
@@ -31,15 +30,15 @@ export function initializeStyles() {
         let showMaxValueOnWidget = currentWidget.showMaxValueOnWidget; // only for circular
         let arcColor = currentWidget.arcColor; // only for circular
         let arcWidth = currentWidget.arcWidth;
-        let ClockbackgroundColor = currentWidget.ClockbackgroundColor;
-        let ClockOuterbackgroundColor = currentWidget.ClockOuterbackgroundColor;
+        let clockbackgroundColor = currentWidget.clockbackgroundColor;
+        let clockOuterbackgroundColor = currentWidget.clockOuterbackgroundColor;
         let hands = currentWidget.hands;
         let numberStyles = currentWidget.numberStyles;
-        let DaysStyles = currentWidget.DaysStyles;
-        let CurrentDayColor = currentWidget.CurrentDayColor;
-        let DateStyles = currentWidget.DateStyles;
-        let TimeStyles = currentWidget.TimeStyles;
-        let TimezoneStyles = currentWidget.TimezoneStyles;
+        let daysStyles = currentWidget.daysStyles;
+        let currentDayColor = currentWidget.currentDayColor;
+        let dateStyles = currentWidget.dateStyles;
+        let timeStyles = currentWidget.timeStyles;
+        let timezoneStyles = currentWidget.timezoneStyles;
         let scrollSpeed = currentWidget.scrollSpeed;
         let scrollType = currentWidget.scrollType;
 
@@ -66,15 +65,15 @@ export function initializeStyles() {
             showMaxValueOnWidget,
             arcColor,
             arcWidth,
-            ClockbackgroundColor,
-            ClockOuterbackgroundColor,
+            clockbackgroundColor,
+            clockOuterbackgroundColor,
             hands,
             numberStyles,
-            DaysStyles,
-            CurrentDayColor,
-            DateStyles,
-            TimeStyles,
-            TimezoneStyles,
+            daysStyles,
+            currentDayColor,
+            dateStyles,
+            timeStyles,
+            timezoneStyles,
             scrollSpeed,
             scrollType,
             refreshInterval,
@@ -112,15 +111,15 @@ export function updateWidgetStyles() {
             showMaxValueOnWidget: styles.showMaxValueOnWidget,
             arcColor: styles.arcColor,
             arcWidth: styles.arcWidth,
-            ClockbackgroundColor: styles.ClockbackgroundColor,
-            ClockOuterbackgroundColor: styles.ClockOuterbackgroundColor,
+            clockbackgroundColor: styles.clockbackgroundColor,
+            clockOuterbackgroundColor: styles.clockOuterbackgroundColor,
             hands: styles.hands,
             numberStyles: styles.numberStyles,
-            DaysStyles: styles.DaysStyles,
-            CurrentDayColor: styles.CurrentDayColor,
-            DateStyles: styles.DateStyles,
-            TimeStyles: styles.TimeStyles,
-            TimezoneStyles: styles.TimezoneStyles,
+            daysStyles: styles.daysStyles,
+            currentDayColor: styles.currentDayColor,
+            dateStyles: styles.dateStyles,
+            timeStyles: styles.timeStyles,
+            timezoneStyles: styles.timezoneStyles,
             scrollSpeed: styles.scrollSpeed,
             scrollType: styles.scrollType,
             refreshInterval: styles.refreshInterval,
@@ -165,15 +164,15 @@ export const ACTION_HANDLERS = {
             showMaxValueOnWidget: action.showMaxValueOnWidget,
             arcColor: action.arcColor,
             arcWidth: action.arcWidth,
-            ClockbackgroundColor: action.ClockbackgroundColor,
-            ClockOuterbackgroundColor: action.ClockOuterbackgroundColor,
+            clockbackgroundColor: action.clockbackgroundColor,
+            clockOuterbackgroundColor: action.clockOuterbackgroundColor,
             hands: action.hands,
             numberStyles: action.numberStyles,
-            DaysStyles: action.DaysStyles,
-            CurrentDayColor: action.CurrentDayColor,
-            DateStyles: action.DateStyles,
-            TimeStyles: action.TimeStyles,
-            TimezoneStyles: action.TimezoneStyles,
+            daysStyles: action.daysStyles,
+            currentDayColor: action.currentDayColor,
+            dateStyles: action.dateStyles,
+            timeStyles: action.timeStyles,
+            timezoneStyles: action.timezoneStyles,
             scrollSpeed: action.scrollSpeed,
             scrollType: action.scrollType,
             refreshInterval: action.refreshInterval
