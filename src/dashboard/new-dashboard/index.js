@@ -12,6 +12,8 @@ import CyReportSettingsReducer from '../../components/cy-report-settings/cy-repo
 import CustomMetricsSettingsReducer from '../../components/custom-metrics-settings/custom-metrics-settings.reducer';
 import DataMetricsReducer from '../../components/data-metrics/data-metrics.reducer';
 import ClockMetricsSettingsReducer from '../../components/clock-metrics-settings/clock-metrics-settings.reducer';
+import WidgetsBarReducer from '../../components/widgets-bar/widgets-bar.reducer';
+
 
 export default (store) => ({
   getComponent(nextState, cb) {
@@ -22,7 +24,8 @@ export default (store) => ({
       injectReducer(store, { key: 'threshold', reducer: ThresholdReducer })
       injectReducer(store, { key: 'realTimeSettings', reducer: RealTimeSettingsReducer })
       injectReducer(store, { key: 'cyReportSettings', reducer: CyReportSettingsReducer })
-
+      injectReducer(store, { key: 'widgetsBar', reducer: WidgetsBarReducer })
+      
       cb(null, authenticate(NewDashboardContainer))
     }, 'newdashboard')
   },

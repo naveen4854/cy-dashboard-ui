@@ -82,7 +82,6 @@ export function initializeStatisticMetadata() {
 
         let statisticCategories = getState().dataMetrics.statisticCategories;
         let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
-
         if (!statisticCategories || statisticCategories.length == 0 || !datametricsMetadata)
             return dispatch(getState().notificationStore.notify('failure to load statistic Metadata, please reload', ResponseStatusEnum.Error));
 
@@ -99,11 +98,12 @@ export function initializeStatisticMetadata() {
                 value: obj.StatisticCategory
             };
         });
-
         dispatch({
             type: UPDATE_DATA_METRICS,
             statisticCategories,
             statisticCategoryOptions: _categories,
+            widgetType: currentWidget.widgetType,
+            datametricsMetadata
         });
 
         dispatch(getState().realTimeSettings.initiateRealTimeSettings());

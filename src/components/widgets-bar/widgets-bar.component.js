@@ -1,10 +1,13 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
-import { Widgets } from '../../shared/constants';
 
 export default class WidgetsBar extends React.Component {
 	constructor(props) {
 		super(props);
+		this.handleDocks = this.handleDocks.bind(this);
+		this.updateDashboardIsDefault = this.updateDashboardIsDefault.bind(this);
+		this.updateDashboardIsGlobal = this.updateDashboardIsGlobal.bind(this);
+		this.updateDashboardName = this.updateDashboardName.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -17,9 +20,23 @@ export default class WidgetsBar extends React.Component {
 		// this.props.ResetDashboard();
 		browserHistory.push(`/dashboard/mydashboards`)
 	}
+	handleDocks(e){
+//this.props.dashboard.Id ? this.props.UpdateDashboard() : this.props.SaveDashboard()
+	}
+
+	updateDashboardIsDefault(e){
+		this.props.UpdateProperty('isDefault',e.target.checked);
+	}
+	updateDashboardIsGlobal(e){
+		this.props.UpdateProperty('isGlobal',e.target.checked);
+	}
+	updateDashboardName(e){
+		this.props.UpdateProperty('name',e.target.value);
+	}
+	
 
 	render() {
-		let orderedWidgets = _.orderBy(Widgets, 'order', 'asc');
+		let orderedWidgets = _.orderBy(this.props.widgetsBar.widgets, 'order', 'asc');
 		return (
 			<div>
 				<div className="page-toolbar dashboard-toolbar">
@@ -31,7 +48,7 @@ export default class WidgetsBar extends React.Component {
 					</a>
 					<div className="db-actions-left">
 						<a
-							onClick={() => { this.handleDocks(); this.props.dashboard.Id ? this.props.UpdateDashboard() : this.props.SaveDashboard() }}
+							onClick={() => { this.handleDocks(); this.props.SaveDashboard() }}
 							className="action-tool" role="button">
 							<i className="tool-icon fa fa-floppy-o" />
 							<span className="tool-title">{this.props.l.t('Save', 'Save')}</span>
@@ -71,23 +88,23 @@ export default class WidgetsBar extends React.Component {
 								type="text"
 								className=""
 								placeholder="Dashboard name"
-								value={''}
-								onChange={(e) => this.props.UpdateDashboardProperty("name", e.target.value)} />
+								value={this.props.widgetsBar.name}
+								onChange={this.updateDashboardName} />
 						</div>
 						<label className="action-tool">
 							<input
 								type="checkbox"
 								className="tool-icon"
-								checked={false}
-								onChange={(e) => this.props.UpdateDashboardProperty("isDefault", e.target.checked)} />
+								checked={this.props.widgetsBar.isDefault}
+								onChange={this.updateDashboardIsDefault} />
 							<span className="tool-title">{this.props.l.t('Default', 'Default')}</span>
 						</label>
 						<label className="action-tool">
 							<input
 								type="checkbox"
 								className="tool-icon"
-								checked={false}
-								onChange={(e) => this.props.UpdateDashboardProperty("isGlobal", e.target.checked)} />
+								checked={this.props.widgetsBar.isGlobal}
+								onChange={this.updateDashboardIsGlobal} />
 							<span className="tool-title">{this.props.l.t('Global', 'Global')}</span>
 						</label>
 						<a onClick={() => this.state.id ? this.showConfirmation(this.props.newDashboard) : this.showConfirmationInNewDashboard()} className="action-tool" role="button">
