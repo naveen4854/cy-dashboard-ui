@@ -3,7 +3,7 @@
 import React, { PureComponent } from 'react';
 
 //TODO: change to container
-import { WidgetsBar } from '../../components/widgets-bar';
+import { WidgetsBarContainer } from '../../components/widgets-bar';
 import DashboardLayoutContainer from '../../components/dashboard-layout';
 import WidgetConfigurationsContainer from '../../components/widget-configurations/';
 
@@ -21,7 +21,7 @@ export default class NewDashboard extends PureComponent {
         return (
             <div className='background' >
                 <div>
-                    <WidgetsBar l={this.props.l} AddWidget={this.props.AddWidget} />
+                    <WidgetsBarContainer l={this.props.l} AddWidget={this.props.AddWidget} />
                 </div>
                 <div className="row">
                     <div className="col-md-12  col-sm-12  col-xs-12">

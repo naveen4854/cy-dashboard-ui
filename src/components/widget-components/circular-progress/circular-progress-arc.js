@@ -119,7 +119,6 @@ class CircularArc extends PureComponent {
     }
 
     render() {
-        debugger
         return (
             <div id={`circular-widget-${this.props.id}`} style={{ height: `${this.props.height}px`, backgroundColor: this.props.widgetBodyStyles.backgroundColor }} />
         );

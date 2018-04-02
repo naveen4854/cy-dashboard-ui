@@ -42,7 +42,6 @@ export function handleClick(id) {
  */
 export function TestThreshold(threshold, widgetId) {
     return (dispatch, getState) => {
-        debugger;
         let widgets = getState().dashboard.widgets;
         dispatch(getState().spinnerStore.BeginTask());
         dispatch(getState().notificationStore.ClearNotifications());

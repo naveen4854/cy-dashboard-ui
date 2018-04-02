@@ -1,3 +1,3 @@
-import WidgetsBar from './widgets-bar';
+import WidgetsBarContainer from './widgets-bar.container';
 
-export { WidgetsBar };
+export { WidgetsBarContainer };
