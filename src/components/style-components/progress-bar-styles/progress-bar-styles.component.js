@@ -117,29 +117,30 @@ export default class ProgressBarStyles extends PureComponent {
                         ColorId="2"
                         ColorKey="2"
                     />
+                   
                     <LabelledColorPicker
-                        label={this.props.l.t('Segment_Color_1COLON', 'Segment Color 1:')}
+                        label={this.props.l.t('Stage1_ColorCOLON', 'Stage1 Color:')}
                         ColorId="segmentColors0"
                         ColorKey="segmentColors0"
-                        value={this.props.styles.segmentColors[0]}
+                        value={this.props.styles.segmentColors[2]}
                         // className="form-control"
-                        updateColor={this.updateFirstSegmentColor}
+                        updateColor={this.updateThirdSegmentColor}
                     />
                     <LabelledColorPicker
-                        label={this.props.l.t('Segment_Color_2COLON', 'Segment Color 2:')}
+                        label={this.props.l.t('Stage2_ColorCOLON', 'Stage2 Color:')}
                         ColorId="segmentColors1"
                         ColorKey="segmentColors1"
                         value={this.props.styles.segmentColors[1]}
                         // className="form-control"
                         updateColor={this.updateSecondSegmentColor}
                     />
-                    <LabelledColorPicker
-                        label={this.props.l.t('Segment_Color_3COLON', 'Segment Color 3:')}
+                     <LabelledColorPicker
+                        label={this.props.l.t('Stage3_ColorCOLON', 'Stage3 Color:')}
                         ColorId="segmentColors2"
                         ColorKey="segmentColors2"
-                        value={this.props.styles.segmentColors[2]}
+                        value={this.props.styles.segmentColors[0]}
                         // className="form-control"
-                        updateColor={this.updateThirdSegmentColor}
+                        updateColor={this.updateFirstSegmentColor}
                     />
                     <LabelledColorPicker
                         label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}

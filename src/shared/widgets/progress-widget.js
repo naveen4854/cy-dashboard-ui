@@ -32,7 +32,7 @@ export default class ProgressWidget extends Widget {
     }
     segmentColors = [
         rgba(255, 0, 0, 1),
-        rgba(255, 232, 0),
+        rgba(255, 232, 0, 1),
         rgba(0, 255, 0, 1)
     ];
     value = 0;
