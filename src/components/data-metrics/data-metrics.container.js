@@ -9,7 +9,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        dataMetrics : state.dataMetrics
+        dataMetrics : state.dataMetrics, 
+        widgetType : state.configurations.widgetType
     }
 }
 

@@ -48,14 +48,32 @@ export default class ClockWidget extends Widget {
         minutehandcolor: rgba(0, 128, 0, 1),
         secondhandcolor: rgba(165, 42, 42, 1)
     };
-    selectedTimeZoneItem = moment.tz.guess();
-    isAnalog = false;
-    timezoneid = moment.tz.guess();
-    selectedHoursFormat = _.first(Constants.hoursFormat);
-    selectedTimeFormat = _.first(Constants.timeFormat);
-    isd = false; // TODO: what is this
-    selectedDateFormat = _.first(DateZone.dateFormats);
-    displayDate = false;
-    displayDays = true;
-    tzoneText = ''
+
+    appliedSettings = {
+        ...this.appliedSettings,
+        dataMetrics: {
+            selectedTimeZoneItem: moment.tz.guess(),
+            title: moment.tz.guess(),
+            timezoneid: moment.tz.guess(),
+            timezoneLabel: undefined,
+            isAnalog: false,
+            tzoneText: '',
+            selectedHoursFormat: _.first(Constants.hoursFormat),
+            selectedTimeFormat: _.first(Constants.timeFormat),
+            selectedDateFormat: _.first(DateZone.dateFormats),
+            displayDate: false,
+            displayDays: true,
+        }
+    }
+
+    // selectedTimeZoneItem = moment.tz.guess();
+    // isAnalog = false;
+    // timezoneid = moment.tz.guess();
+    // selectedHoursFormat = _.first(Constants.hoursFormat);
+    // selectedTimeFormat = _.first(Constants.timeFormat);
+    // isd = false; // TODO: what is this
+    // selectedDateFormat = _.first(DateZone.dateFormats);
+    // displayDate = false;
+    // displayDays = true;
+    // tzoneText = ''
 }

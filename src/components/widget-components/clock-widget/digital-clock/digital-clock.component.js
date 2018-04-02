@@ -14,33 +14,34 @@ export default class DigitalClockComponent extends PureComponent {
     componentDidMount() {
         setTimeout(() => {
             this.loadInterval = setInterval(() => {
+                let metrics = this.props.appliedSettings.dataMetrics;
                 const
                     takeTwelve = (n, h) => n > 12 ? n - h : n,
                     addZero = n => n < 10 ? "0" + n : n;
                 let dateTime, h, m, s, t, amPm;
-                var k = this.props.selectedHoursFormat == 1 ? 0 : 12;
-                dateTime = DateZone.timezoneDate(this.props.selectedTimeZoneItem);
+                var k = metrics.selectedHoursFormat == 1 ? 0 : 12;
+                dateTime = DateZone.timezoneDate(metrics.selectedTimeZoneItem);
                 // console.log(d, 'digital',this.props.selectedTimeZoneItem.tz)
                 h = addZero(takeTwelve(dateTime.getHours(), k));
                 m = addZero(dateTime.getMinutes());
                 s = addZero(dateTime.getSeconds());
-                t = this.props.selectedTimeFormat == 1 ? `${h}:${m}:${s}` : `${h}:${m}`;
+                t = metrics.selectedTimeFormat == 1 ? `${h}:${m}:${s}` : `${h}:${m}`;
 
                 amPm = dateTime.getHours() >= 12 ? "PM" : "AM";
                 this.loadInterval && this.setState({
                     time: { h, m, s },
-                    amPm: this.props.selectedHoursFormat == 1 ? "" : amPm,
+                    amPm: metrics.selectedHoursFormat == 1 ? "" : amPm,
                 });
             }, 1000);
-        }, 1000 - DateZone.timezoneDate(this.props.selectedTimeZoneItem).getUTCMilliseconds())
+        }, 1000 - DateZone.timezoneDate(this.props.appliedSettings.dataMetrics.selectedTimeZoneItem).getUTCMilliseconds())
     }
 
     componentWillUnmount() {
         this.loadInterval && clearInterval(this.loadInterval);
     }
 
-
     render() {
+        let metrics = this.props.appliedSettings.dataMetrics;
         return (
             < div className="container-fluid text-center" style={{ height: '100%' }} >
                 <div className="row" style={{ height: '100%', backgroundColor: this.props.widgetBodyStyles.clockOuterbackgroundColor }}>
@@ -52,7 +53,7 @@ export default class DigitalClockComponent extends PureComponent {
                             <div className="inside" style={{ backgroundColor: this.props.widgetBodyStyles.clockbackgroundColor }}>
                                 <div className="content">
                                     {
-                                        this.props.displayDays ? <p className='days' style={{ fontSize: this.props.daysStyles.fontSize }}>
+                                        metrics.displayDays ? <p className='days' style={{ fontSize: this.props.daysStyles.fontSize }}>
                                             {
                                                 _.map(this.props.days, (day, i) => {
                                                     return <span key={i} style={{ color: i == this.props.currentDay ? this.props.currentDayColor : this.props.daysStyles.color }}>{day}</span>
@@ -75,7 +76,7 @@ export default class DigitalClockComponent extends PureComponent {
                                         </p> : null
                                     }
                                     {
-                                        this.props.displayDate ?
+                                        metrics.displayDate ?
                                             <p className='date' style={{ fontSize: this.props.dateStyles.fontSize, color: this.props.dateStyles.color }} >
                                                 <span id='cal'>
                                                     <i className="fa fa-calendar fa-lg"></i>

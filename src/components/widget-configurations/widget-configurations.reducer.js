@@ -20,7 +20,12 @@ export function ToggleSettingsMenu(widget) {
         })
 
         if (showPanel) {
-            dispatch(getState().dataMetrics.initializeStatisticMetadata());
+            if (currentWidget.widgetType == WidgetTypeEnum.Clock) {
+                dispatch(getState().clockSettings.initializeClocksettings());
+            }
+            else {
+                dispatch(getState().dataMetrics.initializeStatisticMetadata());
+            }
             dispatch(getState().styles.initializeStyles())
             dispatch(getState().threshold.initializeThresholddata())
             // dispatch(getState().dataMetrics.initi)

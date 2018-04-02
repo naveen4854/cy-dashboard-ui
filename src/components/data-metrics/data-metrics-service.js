@@ -53,3 +53,7 @@ export function validateQuery(query) {
         ApiUrl.VALIDATE_QUERY, `=${query}`
     )
 }
+
+export function getTimeZones() {
+    return axiosGet(ApiUrl.TIME_ZONES);
+}

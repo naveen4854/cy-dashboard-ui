@@ -27,6 +27,7 @@ export const CLEAR_SELECTED_DM = "CLEAR_SELECTED_DM"
 export const UPDATE_DROP_DOWNS = "UPDATE_DROP_DOWNS"
 export const UPDATE_COMBO_DRILL_DOWN_OPTIONS = "UPDATE_COMBO_DRILL_DOWN_OPTIONS"
 export const DEFAULT_METRICS = "DEFAULT_METRICS"
+export const UPDATE_METRICS_WIDGET_DETAILS = "UPDATE_METRICS_WIDGET_DETAILS"
 
 export function LoadDataMetricsMetaData(dashboardId) {
     return (dispatch, getState) => {
@@ -67,7 +68,7 @@ export function LoadDataMetricsMetaData(dashboardId) {
                 });
             }
         }).catch((error) => {
-            dispatch(getState().notificationStore.notify('failure to load statistic Metadata, please reload'))
+            dispatch(getState().notificationStore.notify('failure to load statistic Metadata, please reload', ResponseStatusEnum.Error))
         });
     }
 }
@@ -75,13 +76,16 @@ export function LoadDataMetricsMetaData(dashboardId) {
 export function initializeStatisticMetadata() {
     return (dispatch, getState) => {
         let currentWidget = _.cloneDeep(getState().configurations.widget);
+
+        if (currentWidget.widgetType == WidgetTypeEnum.Clock)
+            return
+
         let statisticCategories = getState().dataMetrics.statisticCategories;
         let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
 
         if (!statisticCategories || statisticCategories.length == 0 || !datametricsMetadata)
             return dispatch(getState().notificationStore.notify('failure to load statistic Metadata, please reload', ResponseStatusEnum.Error));
 
-        //If Categories and DM are already in store, filter them appropriately and update the state
         let selectedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory || StatisticCategoryEnum.RealTime
 
         dispatch({
@@ -95,20 +99,16 @@ export function initializeStatisticMetadata() {
                 value: obj.StatisticCategory
             };
         });
-debugger
+
         dispatch({
             type: UPDATE_DATA_METRICS,
             statisticCategories,
             statisticCategoryOptions: _categories,
-            widgetType: currentWidget.widgetType
         });
 
         dispatch(getState().realTimeSettings.initiateRealTimeSettings());
         dispatch(getState().cyReportSettings.initiateCyReportSettings());
         dispatch(getState().customSettings.initiateCustomMetricsSettings());
-
-        // if (currentWidget.appliedSettings.dataMetrics.group)
-        //     dispatch(setSelectedGroupValueAction(currentWidget.appliedSettings.dataMetrics.group))
     }
 }
 
@@ -210,6 +210,11 @@ export const ACTION_HANDLERS = {
             statisticCategories: action.statisticCategories,
             statisticCategoryOptions: action.statisticCategoryOptions,
             datametricsMetadata: action.datametricsMetadata
+        })
+    },
+    [UPDATE_METRICS_WIDGET_DETAILS]: (state, action) => {
+        return Object.assign({}, state, {
+            widgetType: action.widgetType
         })
     },
     [SET_SELECTED_STATISTIC_CATEGORY]: (state, action) => {

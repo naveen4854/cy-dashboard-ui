@@ -11,6 +11,7 @@ import RealTimeSettingsReducer from '../../components/real-time-settings/real-ti
 import CyReportSettingsReducer from '../../components/cy-report-settings/cy-report-settings.reducer';
 import CustomMetricsSettingsReducer from '../../components/custom-metrics-settings/custom-metrics-settings.reducer';
 import DataMetricsReducer from '../../components/data-metrics/data-metrics.reducer';
+import ClockMetricsSettingsReducer from '../../components/clock-metrics-settings/clock-metrics-settings.reducer';
 
 export default (store) => ({
   getComponent(nextState, cb) {
@@ -21,14 +22,19 @@ export default (store) => ({
       injectReducer(store, { key: 'threshold', reducer: ThresholdReducer })
       injectReducer(store, { key: 'realTimeSettings', reducer: RealTimeSettingsReducer })
       injectReducer(store, { key: 'cyReportSettings', reducer: CyReportSettingsReducer })
-      injectReducer(store, { key: 'customSettings', reducer: CustomMetricsSettingsReducer })
-      
+
       cb(null, authenticate(NewDashboardContainer))
     }, 'newdashboard')
   },
   onEnter: (nextState, replace) => {
     injectReducer(store, { key: 'dataMetrics', reducer: DataMetricsReducer })
     store.dispatch(store.getState().dataMetrics.LoadDataMetricsMetaData())
+    
+    injectReducer(store, { key: 'clockSettings', reducer: ClockMetricsSettingsReducer })
+    store.dispatch(store.getState().clockSettings.setTimeZonesList())
+    
+    injectReducer(store, { key: 'customSettings', reducer: CustomMetricsSettingsReducer })
+    store.dispatch(store.getState().customSettings.getStoredProcedures());
     // load refreshinterval
   },
 })
