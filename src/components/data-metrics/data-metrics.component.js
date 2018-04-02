@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { WidgetTypeEnum } from '../../shared/enums';
 import DataMetricsSettingsContainer from '../data-metrics-settings/';
+import ClockMetricsSettingsContainer from '../clock-metrics-settings/';
 
 export default class DataMetricsComponent extends PureComponent {
 
@@ -25,12 +26,10 @@ export default class DataMetricsComponent extends PureComponent {
                 return (<DataMetricsSettingsContainer />);
             case WidgetTypeEnum.Combo:
                 return (
-                    <div>{this.props.l.t('Some_error_occuredPERIOD', 'Some error occured.')}</div>
+                    <div>{this.props.l.t('Some_error_occuredPERIOD', 'Some error occured. Combo')}</div>
                 );
             case WidgetTypeEnum.Clock:
-                return (
-                    <div>{this.props.l.t('Some_error_occuredPERIOD', 'Some error occured.')}</div>
-                );
+                return (<ClockMetricsSettingsContainer />);
             default:
                 return (
                     <div>{this.props.l.t('Some_error_occuredPERIOD', 'Some error occured.')}</div>

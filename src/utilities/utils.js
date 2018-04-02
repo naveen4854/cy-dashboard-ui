@@ -1,5 +1,6 @@
 import { Color } from "../shared/lib";
 import { DisplayFormatEnum } from "../shared/enums";
+import {Constants} from '../shared/constants';
 
 export function getButton(text, className, handler) {
     return { text }
@@ -107,11 +108,12 @@ export function convertToSeconds(value, displayFormatId) {
         return +parts[0] * 60 + +parts[1]
     }
 }
+
 export function getFormatter(displayFormatid) {
     switch (displayFormatid) {
         case DisplayFormatEnum.HH_MM_SS:
         case DisplayFormatEnum.MM_SS:
-            let valuee = _.find(ConstantValues.customCombotimeFormat, f => f.displayFormatId == displayFormatid);
+            let valuee = _.find(Constants.customCombotimeFormat, f => f.displayFormatId == displayFormatid);
             return valuee.convert;
             break;
         case DisplayFormatEnum.Number:

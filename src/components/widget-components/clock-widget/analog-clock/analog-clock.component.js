@@ -23,7 +23,7 @@ export default class AnalogClockWidgetComponent extends PureComponent {
             this.clockInterval = setInterval(() => {
                 this.ReInitializeSvg(`myCanvas${this.props.id}`);
             }, 1000)
-        }, 1000 - DateZone.timezoneDate(this.props.selectedTimeZoneItem).getUTCMilliseconds())
+        }, 1000 - DateZone.timezoneDate(this.props.appliedSettings.dataMetrics.selectedTimeZoneItem).getUTCMilliseconds())
     }
 
     componentDidUpdate() {
@@ -170,7 +170,7 @@ export default class AnalogClockWidgetComponent extends PureComponent {
             .attr("fill", "black")
             ;
 
-        var currentDateTime = DateZone.timezoneDate(this.props.selectedTimeZoneItem);
+        var currentDateTime = DateZone.timezoneDate(this.props.appliedSettings.dataMetrics.selectedTimeZoneItem);
         seconds = currentDateTime.getSeconds();
         minutes = currentDateTime.getMinutes();
         hours = currentDateTime.getHours() % 12;
@@ -194,7 +194,7 @@ export default class AnalogClockWidgetComponent extends PureComponent {
 
         gTopGroupId = containerId + '_topGroup';
 
-        var d = DateZone.timezoneDate(this.props.selectedTimeZoneItem);
+        var d = DateZone.timezoneDate(this.props.appliedSettings.dataMetrics.selectedTimeZoneItem);
         // console.log(d, 'analog', this.props.selectedTimeZoneItem.tz)
 
         var seconds = d.getSeconds();
