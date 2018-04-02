@@ -7,4 +7,6 @@ import ScrollTypeEnum from "./scroll-type-enum"
 import DashboardModeEnum from "./dashboard-mode-enum"
 import StatisticCategoryEnum from './statistic-category-enum'
 import DisplayFormatEnum from './display-format.enum'
-export { ResponseStatusEnum, PageEnum, WidgetTypeEnum, SortColumnEnum, SortOrderEnum, ScrollTypeEnum, DashboardModeEnum, StatisticCategoryEnum, DisplayFormatEnum };
+import PictureStretchEnum from './picture-stretch-enum'
+
+export { PictureStretchEnum, ResponseStatusEnum, PageEnum, WidgetTypeEnum, SortColumnEnum, SortOrderEnum, ScrollTypeEnum, DashboardModeEnum, StatisticCategoryEnum, DisplayFormatEnum };

@@ -1,7 +1,7 @@
 ﻿import _ from 'lodash';
 import { WidgetTypeEnum } from '../../enums';
 
-import { BoxWidget, SpeedoWidget, BarWidget, CircularProgressWidget, PieWidget, ClockWidget, ProgressWidget } from '../../widgets';
+import { BoxWidget, SpeedoWidget, BarWidget, CircularProgressWidget, PieWidget, ClockWidget, ProgressWidget, TextWidget, PictureWidget } from '../../widgets';
 
 /**
  * To get the widget based on widget type.
@@ -26,6 +26,10 @@ export function GetWidget(widgetType, isCombo, zIndex, isHeader = false) {
             return new ProgressWidget(widgetType, isCombo, zIndex, isHeader);
         case WidgetTypeEnum.Clock:
             return new ClockWidget(widgetType, isCombo, zIndex, isHeader);
+        case WidgetTypeEnum.Text:
+            return new TextWidget(widgetType, isCombo, zIndex, isHeader);
+        case WidgetTypeEnum.Picture:
+            return new PictureWidget(widgetType, isCombo, zIndex, isHeader);
         default:
             return new BoxWidget(widgetType, isCombo, zIndex, isHeader);
     }

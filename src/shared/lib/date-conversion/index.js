@@ -1,8 +1,7 @@
+import _ from 'lodash';
 import DateType from '../../enums/date-type.enum';
-import _ from 'lodash'
-import { Constants } from '../../Constants';
+import {Constants}  from '../../Constants';
 import moment from 'moment';
-
 const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
 
 /**
@@ -123,3 +122,26 @@ export function timeFormat(dateTime, timeFormat, hoursFormat = 1) {
     return t + ' ' + amPm;
 }
 
+/**
+ * To get the date based on timezone, it will return short or long date based paramater value
+ * @param {*} offsetIST 
+ * @param {*} displayDateFormat 
+ */
+export function returnDate(offsetIST, displayDateFormat) {
+
+    if (offsetIST) {
+        let offsetISTValue = offsetIST.value ? offsetIST.value : offsetIST;
+        let tempDate = moment(moment()).tz(offsetISTValue);
+        let dt = new Date(moment(moment()).tz(offsetISTValue).format('YYYY-MM-DDTHH:mm:ss.SSS'))
+
+        //let dt = this.timezoneDate(offsetIST);
+        switch (displayDateFormat) {
+            case DateType.long:
+                return this.getLongDateWithTimezone(dt);
+            case DateType.MMddyyyy:
+                return dt.getMonth() + 1 + "/" + dt.getDate() + "/" + dt.getUTCFullYear();
+            default:
+                return dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getUTCFullYear()
+        }
+    }
+}

@@ -44,11 +44,8 @@ export default class PieStyles extends PureComponent {
     }
     updateShowLabels(e) {
         this.props.updateProp('showLabels', e);
-    }
-    updateRefreshInterval(e) {
-        this.props.updateProp('refreshInterval', e.target.value);
-    }
-
+    } 
+    
     render() {
         console.log('this.props bar', this.props)
         //let displayFormatId = this.props.widget.appliedSettings.dataMetrics.displayFormat ? this.props.widget.appliedSettings.dataMetrics.displayFormat.id : displayFormatEnum.Number;
@@ -58,7 +55,7 @@ export default class PieStyles extends PureComponent {
                 <div className="form-group">
                     <LabelledInput
                         label={this.props.l.t('TitleCOLON', 'Title:')}
-                        updateKey='title'
+                        updateColorKey='title'
                         value={this.props.styles.title}
                         // className="form-control"
                         onCustomInputChange={this.updateTitle}
@@ -70,18 +67,16 @@ export default class PieStyles extends PureComponent {
                         fontFamilyLabel={this.props.l.t('Title_fontCOLON', 'Title font:')}
                         fontSizeLabel={this.props.l.t('Title_font_sizeCOLON', 'Title font size:')}
                         onUpdateFontStyles={this.updateTitleFontStyles}
-                        id="2"
-                        key="2"
-                    //updateKey='titleStyles'
+                        ColorId="2"
+                        ColorKey="2"
                     />
 
 
 
                     <LabelledColorPicker
                         label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
-                        //updateKey='backgroundColor'
-                        id="111"
-                        key="111"
+                        ColorId="111"
+                        ColorKey="111"
                         value={this.props.styles.widgetBody.backgroundColor}
                         // className="form-control"
                         updateColor={this.updateBackgroundColor}
@@ -93,14 +88,12 @@ export default class PieStyles extends PureComponent {
                         fontFamilyLabel= {this.props.l.t('Label_font_sizeCOLON', 'Label font size:')}
                         fontSizeLabel={this.props.l.t('Label_font_styleCOLON', 'Label font style:')}
                         onUpdateFontStyles={this.updateWidgetBody}
-                        id="1"
-                        key="1"
-                    //updateKey='titleStyles'
+                        ColorId="1"
+                        ColorKey="1"
                     />
 
                     <LabelledToggle
                         label={this.props.l.t('Show_legendCOLON', 'Show legend:')}
-                        //updateKey='useSelectedBarColor'
                         nodes={[{ label: "Yes", value: true }, { label: "No", value: false }]}
                         checkedNode={this.props.styles.showLegends}
                         onToggleChange={this.updateShowLegends}
@@ -108,7 +101,6 @@ export default class PieStyles extends PureComponent {
 
                     <LabelledToggle
                         label={this.props.l.t('Show_labelsCOLON', 'Show labels:')}
-                        //updateKey='useSelectedBarColor'
                         nodes={[{ label: "Yes", value: true }, { label: "No", value: false }]}
                         checkedNode={this.props.styles.showLabels}
                         onToggleChange={this.updateShowLabels}

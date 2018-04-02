@@ -5,8 +5,7 @@ export const UPDATE_STYLE_PROP = "UPDATE_STYLE_PROP"
 
 export function initializeStyles() {
     return (dispatch, getState) => {
-        let currentWidget = getState().configurations.widget;
-
+        let currentWidget = _.cloneDeep(getState().configurations.widget);
 
         let title = currentWidget.title;
         let widgetType = currentWidget.widgetType;
@@ -19,16 +18,30 @@ export function initializeStyles() {
         let yAxisStyles = currentWidget.yAxisStyles;// only for Bar chart
         let xAxisStyles = currentWidget.xAxisStyles;// only for Bar chart
         let enableMin = currentWidget.enableMin;// only for Bar chart
-        let min = currentWidget.min; 
+        let min = currentWidget.min;
         let enableMax = currentWidget.enableMax;// only for Bar chart
-        let max = currentWidget.max; 
+        let max = currentWidget.max;
         let enableBarLines = currentWidget.enableBarLines;
         let showLegends = currentWidget.showLegends;
         let showLabels = currentWidget.showLabels;
 
         let segmentColors = currentWidget.segmentColors;
         let rangeValueStyles = currentWidget.rangeValueStyles;
-        
+        let showMaxValueOnWidget = currentWidget.showMaxValueOnWidget; // only for circular
+        let arcColor = currentWidget.arcColor; // only for circular
+        let arcWidth = currentWidget.arcWidth;
+        let clockbackgroundColor = currentWidget.clockbackgroundColor;
+        let clockOuterbackgroundColor = currentWidget.clockOuterbackgroundColor;
+        let hands = currentWidget.hands;
+        let numberStyles = currentWidget.numberStyles;
+        let daysStyles = currentWidget.daysStyles;
+        let currentDayColor = currentWidget.currentDayColor;
+        let dateStyles = currentWidget.dateStyles;
+        let timeStyles = currentWidget.timeStyles;
+        let timezoneStyles = currentWidget.timezoneStyles;
+        let scrollSpeed = currentWidget.scrollSpeed;
+        let scrollType = currentWidget.scrollType;
+
         //titleStyles.color = '#FF0000';
         dispatch({
             type: INITIALIZE_STYLES,
@@ -49,6 +62,20 @@ export function initializeStyles() {
             showLabels,
             segmentColors,
             rangeValueStyles,
+            showMaxValueOnWidget,
+            arcColor,
+            arcWidth,
+            clockbackgroundColor,
+            clockOuterbackgroundColor,
+            hands,
+            numberStyles,
+            daysStyles,
+            currentDayColor,
+            dateStyles,
+            timeStyles,
+            timezoneStyles,
+            scrollSpeed,
+            scrollType,
             refreshInterval,
             widgetType
         })
@@ -58,7 +85,7 @@ export function initializeStyles() {
 
 export function updateWidgetStyles() {
     return (dispatch, getState) => {
-  
+
         let currentWidget = getState().configurations.widget;
 
         let styles = getState().styles;
@@ -71,7 +98,7 @@ export function updateWidgetStyles() {
             barStyles: styles.barStyles,
             useSelectedBarColor: styles.useSelectedBarColor,
             yAxisStyles: styles.yAxisStyles,
-            xAxisStyles: styles.xAxisStyles, 
+            xAxisStyles: styles.xAxisStyles,
             enableMin: styles.enableMin,
             min: styles.min,
             enableMax: styles.enableMax,
@@ -81,6 +108,20 @@ export function updateWidgetStyles() {
             showLabels: styles.showLabels,
             segmentColors: styles.segmentColors,
             rangeValueStyles: styles.rangeValueStyles,
+            showMaxValueOnWidget: styles.showMaxValueOnWidget,
+            arcColor: styles.arcColor,
+            arcWidth: styles.arcWidth,
+            clockbackgroundColor: styles.clockbackgroundColor,
+            clockOuterbackgroundColor: styles.clockOuterbackgroundColor,
+            hands: styles.hands,
+            numberStyles: styles.numberStyles,
+            daysStyles: styles.daysStyles,
+            currentDayColor: styles.currentDayColor,
+            dateStyles: styles.dateStyles,
+            timeStyles: styles.timeStyles,
+            timezoneStyles: styles.timezoneStyles,
+            scrollSpeed: styles.scrollSpeed,
+            scrollType: styles.scrollType,
             refreshInterval: styles.refreshInterval,
             appliedBackgroundColor: styles.widgetBody.backgroundColor
         }
@@ -120,6 +161,20 @@ export const ACTION_HANDLERS = {
             showLabels: action.showLabels,
             segmentColors: action.segmentColors,
             rangeValueStyles: action.rangeValueStyles,
+            showMaxValueOnWidget: action.showMaxValueOnWidget,
+            arcColor: action.arcColor,
+            arcWidth: action.arcWidth,
+            clockbackgroundColor: action.clockbackgroundColor,
+            clockOuterbackgroundColor: action.clockOuterbackgroundColor,
+            hands: action.hands,
+            numberStyles: action.numberStyles,
+            daysStyles: action.daysStyles,
+            currentDayColor: action.currentDayColor,
+            dateStyles: action.dateStyles,
+            timeStyles: action.timeStyles,
+            timezoneStyles: action.timezoneStyles,
+            scrollSpeed: action.scrollSpeed,
+            scrollType: action.scrollType,
             refreshInterval: action.refreshInterval
         })
     },

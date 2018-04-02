@@ -4,7 +4,7 @@ import { StylesGroup } from '../styles-group';
 import ColorPicker from '../../color-picker/color-picker';
 import { LabelledInput, LabelledColorPicker, LabelledToggle, LabelledDurationInput } from '../../labelled-controls';
 
-export default class ProgressBarStyles extends PureComponent {
+export default class CircularProgressStyles extends PureComponent {
 
     constructor(props) {
         super(props);
@@ -12,18 +12,13 @@ export default class ProgressBarStyles extends PureComponent {
         this.updateTitleFontStyles = this.updateTitleFontStyles.bind(this);
         this.updateBackgroundColor = this.updateBackgroundColor.bind(this);
         this.updateRefreshInterval = this.updateRefreshInterval.bind(this);
-        this.updateShowLegends = this.updateShowLegends.bind(this);
-        this.updateShowLabels = this.updateShowLabels.bind(this);
         this.updateWidgetBody = this.updateWidgetBody.bind(this);
-        this.updateFirstSegmentColor = this.updateFirstSegmentColor.bind(this);
-        this.updateSecondSegmentColor = this.updateSecondSegmentColor.bind(this);
-        this.updateThirdSegmentColor = this.updateThirdSegmentColor.bind(this);
         this.updateValueStyles = this.updateValueStyles.bind(this);
         this.updateMinValue = this.updateMinValue.bind(this);
         this.updateMaxValue = this.updateMaxValue.bind(this);
-        this.updateRangeValueStyles = this.updateRangeValueStyles.bind(this);
-
-        
+        this.updateShowMaxValueOnWidget = this.updateShowMaxValueOnWidget.bind(this);
+        this.updateArcColor = this.updateArcColor.bind(this);
+        this.updateArcWidth = this.updateArcWidth.bind(this);
     }
 
 
@@ -40,49 +35,14 @@ export default class ProgressBarStyles extends PureComponent {
 
     updateBackgroundColor(e) {
         let widgetBody = { ...this.props.styles.widgetBody, backgroundColor: e };
-        //widgetBody.backgroundColor = e;
         this.props.updateProp('widgetBody', widgetBody);
     }
     updateRefreshInterval(e) {
         this.props.updateProp('refreshInterval', e.target.value);
     }
-    updateShowLegends(e) {
-        this.props.updateProp('showLegends', e);
-    }
-    updateShowLabels(e) {
-        this.props.updateProp('showLabels', e);
-    }
-    updateFirstSegmentColor(e) {
-        this.props.updateProp('segmentColors', this.getUpdatedSegmentColors(e, 0));
-    }
-
-    updateSecondSegmentColor(e) {
-        this.props.updateProp('segmentColors', this.getUpdatedSegmentColors(e, 1));
-    }
-
-    updateThirdSegmentColor(e) {
-        this.props.updateProp('segmentColors', this.getUpdatedSegmentColors(e, 2));
-    }
     updateValueStyles(e) {
         this.props.updateProp('valueStyles', e);
     }
-    updateRangeValueStyles(e) {
-        this.props.updateProp('rangeValueStyles', e);
-    }
-    getUpdatedSegmentColors(color, index) {
-        let segments = this.props.styles.segmentColors;
-        let updatedSegments = segments.map((eachSegment, segmentIndex) => {
-            if (segmentIndex !== index) {
-                return eachSegment;
-            }
-            return {
-                ...color
-            };
-        });
-
-        return updatedSegments;
-    }
-
 
     updateMinValue(e) {
         this.props.updateProp('min', e);
@@ -91,6 +51,16 @@ export default class ProgressBarStyles extends PureComponent {
 
     updateMaxValue(e) {
         this.props.updateProp('max', e);
+    }
+
+    updateShowMaxValueOnWidget(e) {
+        this.props.updateProp('showMaxValueOnWidget', e);
+    }
+    updateArcColor(e) {
+        this.props.updateProp('arcColor', e);
+    }
+    updateArcWidth(e) {
+        this.props.updateProp('arcWidth', e.target.value);
     }
 
     render() {
@@ -102,7 +72,7 @@ export default class ProgressBarStyles extends PureComponent {
                 <div className="form-group">
                     <LabelledInput
                         label={this.props.l.t('TitleCOLON', 'Title:')}
-                        updateColorKey='title'
+                        updateKey='title'
                         value={this.props.styles.title}
                         // className="form-control"
                         onCustomInputChange={this.updateTitle}
@@ -114,35 +84,14 @@ export default class ProgressBarStyles extends PureComponent {
                         fontFamilyLabel={this.props.l.t('Title_fontCOLON', 'Title font:')}
                         fontSizeLabel={this.props.l.t('Title_font_sizeCOLON', 'Title font size:')}
                         onUpdateFontStyles={this.updateTitleFontStyles}
-                        ColorId="2"
-                        ColorKey="2"
+                        id="2"
+                        key="2"
+                    //updateKey='titleStyles'
                     />
-                    <LabelledColorPicker
-                        label={this.props.l.t('Segment_Color_1COLON', 'Segment Color 1:')}
-                        ColorId="segmentColors0"
-                        ColorKey="segmentColors0"
-                        value={this.props.styles.segmentColors[0]}
-                        // className="form-control"
-                        updateColor={this.updateFirstSegmentColor}
-                    />
-                    <LabelledColorPicker
-                        label={this.props.l.t('Segment_Color_2COLON', 'Segment Color 2:')}
-                        ColorId="segmentColors1"
-                        ColorKey="segmentColors1"
-                        value={this.props.styles.segmentColors[1]}
-                        // className="form-control"
-                        updateColor={this.updateSecondSegmentColor}
-                    />
-                    <LabelledColorPicker
-                        label={this.props.l.t('Segment_Color_3COLON', 'Segment Color 3:')}
-                        ColorId="segmentColors2"
-                        ColorKey="segmentColors2"
-                        value={this.props.styles.segmentColors[2]}
-                        // className="form-control"
-                        updateColor={this.updateThirdSegmentColor}
-                    />
+
                     <LabelledColorPicker
                         label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
+                        //updateKey='backgroundColor'
                         ColorId="444"
                         ColorKey="111"
                         value={this.props.styles.widgetBody.backgroundColor}
@@ -158,14 +107,15 @@ export default class ProgressBarStyles extends PureComponent {
                         fontFamilyLabel={this.props.l.t('Value_fontCOLON', 'Value font:')}
                         fontSizeLabel={this.props.l.t('Value_font_sizeCOLON', 'Value font size:')}
                         onUpdateFontStyles={this.updateValueStyles}
-                        ColorId="valueStyles"
-                        ColorKey="valueStyles"
+                        id="valueStyles"
+                        key="valueStyles"
+                    //updateKey='titleStyles'
                     />
 
 
                     <LabelledDurationInput
                         label={this.props.l.t('MinCOLON', 'Min:')}
-                        displayFormatColorId={this.props.displayFormatId}
+                        displayFormatId={this.props.displayFormatId}
                         value={this.props.styles.min}
                         wKey='min'
                         enableInput={true}
@@ -175,22 +125,34 @@ export default class ProgressBarStyles extends PureComponent {
 
                     <LabelledDurationInput
                         label={this.props.l.t('MaxCOLON', 'Max:')}
-                        displayFormatColorId={this.props.displayFormatId}
+                        displayFormatId={this.props.displayFormatId}
                         value={this.props.styles.max}
                         wKey='max'
                         enableInput={true}
                         updatePropOnChange={this.updateMaxValue}
                     />
 
-                    <StylesGroup
-                        l={this.props.l}
-                        fontStyles={this.props.styles.rangeValueStyles}
-                        colorLabel={this.props.l.t('Range_colorCOLON', 'Range color:')}
-                        fontFamilyLabel={this.props.l.t('Range_fontCOLON', 'Range font:')}
-                        fontSizeLabel={this.props.l.t('Range_font_sizeCOLON', 'Range font size:')}
-                        onUpdateFontStyles={this.updateRangeValueStyles}
-                        ColorId="rangeValueStyles"
-                        ColorKey="rangeValueStyles"
+                    <LabelledToggle
+                        label={this.props.l.t('Show_Max_ValueCOLON', 'Show Max Value:')}
+                        //updateKey='useSelectedBarColor'
+                        nodes={[{ label: "Yes", value: true }, { label: "No", value: false }]}
+                        checkedNode={this.props.styles.showMaxValueOnWidget}
+                        onToggleChange={this.updateShowMaxValueOnWidget}
+                    />
+                    <LabelledInput
+                        label={this.props.l.t('Arc_width', 'Arc width:')}
+                        value={this.props.styles.arcWidth}
+                        className="form-control"
+                        onCustomInputChange={this.updateArcWidth}
+                    />
+                    <LabelledColorPicker
+                        label={this.props.l.t('Arc_colorCOLON', 'Arc color:')}
+                        //updateKey='backgroundColor'
+                        ColorId="arcColor"
+                        ColorKey="arcColor"
+                        value={this.props.styles.arcColor}
+                        // className="form-control"
+                        updateColor={this.updateArcColor}
                     />
 
                     <LabelledInput
@@ -199,6 +161,8 @@ export default class ProgressBarStyles extends PureComponent {
                         className="form-control"
                         onCustomInputChange={this.updateRefreshInterval}
                     />
+
+
 
                 </div>
             </div>

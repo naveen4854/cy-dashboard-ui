@@ -9,6 +9,8 @@ import CircularProgressComponent from '../circular-progress';
 import SpeedoWidgetComponent from '../speedo-widget';
 import ProgressBarWidgetComponent from '../progress-bar-widget';
 import ClockWidgetComponent from '../clock-widget';
+import TextWidgetComponent from '../text-widget';
+import PictureWidgetContainer from '../picture-widget/';
 
 import '../styles.css'
 
@@ -80,6 +82,14 @@ export default class WidgetComponent extends PureComponent {
             case WidgetTypeEnum.Clock:
                 return (
                     <ClockWidgetComponent {...this.props.widget} IsEditing={this.props.showIcons} />
+                );
+            case WidgetTypeEnum.Text:
+                return (
+                    <TextWidgetComponent {...this.props.widget} IsEditing={this.props.showIcons} />
+                );
+            case WidgetTypeEnum.Picture:
+                return (
+                    <PictureWidgetContainer {...this.props.widget} IsEditing={this.props.showIcons} />
                 );
             default:
                 return (

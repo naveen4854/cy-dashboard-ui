@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import Scrollbars from 'react-scrollbar';
 import { utils } from '../../../utilities';
-import { segments } from '../../../shared/constants/constants';
+import { segments } from '../../../shared/constants';
 import { DisplayFormatEnum } from '../../../shared/enums';
 import PiechartComponent from './pie-chart'
 import * as color from '../../../shared/lib/color-conversion';
