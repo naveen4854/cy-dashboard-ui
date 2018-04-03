@@ -73,23 +73,7 @@ export default class DigitalClockStyles extends PureComponent {
                         ColorId="timeStyles"
                         ColorKey="timeStyles"
                     />
-
-                    <LabelledColorPicker
-                        label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
-                        ColorId="1"
-                        ColorKey="1"
-                        value={this.props.styles.widgetBody.backgroundColor}
-                        // className="form-control"
-                        updateColor={this.updateClockbackgroundColor}
-                    />
-
-                    <LabelledInput
-                        label={this.props.l.t('Refresh_interval__in_sec_COLON', 'Refresh interval (in sec):')}
-                        value={this.props.styles.refreshInterval}
-                        className="form-control"
-                        onCustomInputChange={this.updateRefreshInterval}
-                    />
-
+  
                 </div>
             </div>
         )

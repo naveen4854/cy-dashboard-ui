@@ -71,13 +71,6 @@ export default class ClockStyles extends PureComponent {
                         ColorId="timezoneStyles"
                         ColorKey="timezoneStyles"
                     />
-                    <LabelledInput
-                        label={this.props.l.t('Refresh_interval__in_sec_COLON', 'Refresh interval (in sec):')}
-                        value={this.props.styles.refreshInterval}
-                        className="form-control"
-                        onCustomInputChange={this.updateRefreshInterval}
-                    />
-
                 </div>
             </div>
         )

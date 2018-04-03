@@ -1,4 +1,4 @@
-import { WidgetTypeEnum } from "../../shared/enums";
+import {ResponseStatusEnum, WidgetTypeEnum } from "../../shared/enums";
 import _ from 'lodash';
 import { UPDATE_WIDGET } from "../../dashboard/dashboard.reducer";
 import { DashboardUtilities } from "../../shared/lib";
@@ -45,7 +45,7 @@ export function updateDashboardWidget(currentWidget) {
             type: UPDATE_WIDGET,
             widget: currentWidget
         });
-        dispatch(getState().configurations.PreviewAction(currentWidget));
+       dispatch(getState().configurations.PreviewAction(currentWidget));
 
     }
 }

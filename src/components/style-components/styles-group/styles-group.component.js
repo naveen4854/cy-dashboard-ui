@@ -15,7 +15,7 @@ export default class StylesGroup extends PureComponent {
         this.props.onUpdateFontStyles(fonts);
     }
     onFontFamilyChange = (e, key) => {
-        let fonts = { ...this.props.fontStyles, fontFamily: e };
+        let fonts = { ...this.props.fontStyles, fontFamily: e.value ? e.value : e };
         this.props.onUpdateFontStyles(fonts);
     }
     onColorChange = (e, key) => {
