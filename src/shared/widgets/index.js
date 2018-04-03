@@ -7,5 +7,6 @@ import ProgressWidget from './progress-widget'
 import ClockWidget from './clock-widget'
 import TextWidget from './text-widget'
 import PictureWidget from './picture-widget'
+import ComboWidget from './combo-widget'
 
-export { TextWidget, BarWidget, BoxWidget, CircularProgressWidget, PieWidget, SpeedoWidget, ProgressWidget, ClockWidget , PictureWidget};
+export { TextWidget, BarWidget, BoxWidget, CircularProgressWidget, PieWidget, SpeedoWidget, ProgressWidget, ClockWidget , PictureWidget, ComboWidget};
