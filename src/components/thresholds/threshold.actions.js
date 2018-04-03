@@ -294,7 +294,7 @@ export function addSelectedLevels() {
                     thresholds
                 }
             }
-            dispatch(getState().configurations.updateDashboardWidget(updatedWidget));
+            dispatch(getState().configurations.PreviewWidget(updatedWidget));
         }
     }
 }
