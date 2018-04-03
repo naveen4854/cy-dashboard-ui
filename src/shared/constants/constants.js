@@ -1,6 +1,7 @@
 
 import displayFormatEnum from '../enums/display-format.enum';
 import {  utils } from '../../utilities'
+import {PictureStretchEnum} from '../enums';
 
 export const refreshTabId = 'rt';
 export const tabsList = 'tlst';
@@ -87,4 +88,9 @@ export const segments = [
 
 export const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 export const DefaultDashboardId = 'new';
+export const pictureOptions = [
+	{ value: PictureStretchEnum.ActualSize, label: 'Actual Size' },
+	{ value: PictureStretchEnum.Fill, label: 'Fill' }
+];
+
 

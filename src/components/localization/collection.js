@@ -215,7 +215,7 @@ const collection = {
       "Font:",
       "Font size:",
       "Picture Stretch:",
-      "Note: Max file siz is 4MB",
+      "Note: Max file size is 4MB",
       "selected",
       "Choose file to upload.",
       "Text color:",

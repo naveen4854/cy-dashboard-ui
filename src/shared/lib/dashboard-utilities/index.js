@@ -201,7 +201,7 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
     twrst: inputWidget.scrollType && inputWidget.scrollType.value,
     wsmv: inputWidget.showMaxValueOnWidget,
     wps: (inputWidget.widgetType == WidgetTypeEnum.Picture) ? inputWidget.pictureStretch.value : undefined, //Property is specific to Picture Widget
-    wpsl: (inputWidget.widgetType == WidgetTypeEnum.Picture) ? inputWidget.PictureSelected : undefined, //Property is specific to Picture Widget
+    wpsl: (inputWidget.widgetType == WidgetTypeEnum.Picture) ? inputWidget.pictureSelected : undefined, //Property is specific to Picture Widget
     mspid: inputWidget.UniqueId,
     wmx: comboMatrix,
     sll: inputWidget.showLabels,

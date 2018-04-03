@@ -8,6 +8,7 @@ import ProgressBarStyles from './progress-bar-styles';
 import CircularProgressStyles from './circular-progress-styles';
 import ClockStyles from './clock-styles';
 import TextStyles from './text-styles';
+import PictureStyles from './picture-styles';
 
 // import DataMetricsSettingsContainer from '../data-metrics-settings/';
 
@@ -51,8 +52,7 @@ class StylesComponent extends PureComponent {
                 );
             case WidgetTypeEnum.Picture:
                 return (
-                    // <PictureStyles {...this.state} l={this.props.l} UpdateWidgetStyles={(widget) => this.UpdateWidgetStyles(widget)} />
-                    <div>{this.props.l.t('Sytles_not_present_for_this_widget', 'Sytles not present for this widget')}</div>
+                    <PictureStyles {...this.props} />
                 );
             case WidgetTypeEnum.Pie:
                 return (

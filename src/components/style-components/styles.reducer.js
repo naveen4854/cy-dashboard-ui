@@ -43,6 +43,8 @@ export function initializeStyles() {
         let scrollSpeed = currentWidget.scrollSpeed;
         let scrollType = currentWidget.scrollType;
 
+        let pictureSelected = currentWidget.pictureSelected; // for picture widget.
+
         //titleStyles.color = '#FF0000';
         dispatch({
             type: INITIALIZE_STYLES,
@@ -77,6 +79,7 @@ export function initializeStyles() {
             timezoneStyles,
             scrollSpeed,
             scrollType,
+            pictureSelected,
             refreshInterval,
             widgetType
         })
@@ -124,6 +127,7 @@ export function updateWidgetStyles() {
             timezoneStyles: styles.timezoneStyles,
             scrollSpeed: styles.scrollSpeed,
             scrollType: styles.scrollType,
+            pictureSelected: styles.pictureSelected,
             refreshInterval: styles.refreshInterval,
             appliedBackgroundColor: styles.widgetBody.backgroundColor
         }
@@ -177,6 +181,7 @@ export const ACTION_HANDLERS = {
             timezoneStyles: action.timezoneStyles,
             scrollSpeed: action.scrollSpeed,
             scrollType: action.scrollType,
+            pictureSelected: action.pictureSelected,
             refreshInterval: action.refreshInterval
         })
     },
