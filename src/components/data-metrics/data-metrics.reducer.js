@@ -199,7 +199,7 @@ export function saveDataMetrics(settings) {
                 dataMetrics
             }
         }
-        dispatch(getState().configurations.updateDashboardWidget(updatedWidget));
+        dispatch(getState().configurations.PreviewWidget(updatedWidget));
         dispatch(getState().threshold.updateDisplayFormat(settings.displayFormat.id));
     }
 }

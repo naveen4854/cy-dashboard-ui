@@ -2,10 +2,11 @@ import { WidgetTypeEnum } from "../../shared/enums";
 import _ from 'lodash';
 import { UPDATE_WIDGET } from "../../dashboard/dashboard.reducer";
 import { DashboardUtilities } from "../../shared/lib";
-import * as widgetService  from './widget-configurations.service';
+import * as widgetService from './widget-configurations.service';
 
 export const TOGGLE_CONFIGURATIONS_PANEL = "TOGGLE_CONFIGURATIONS_PANEL"
 export const UPDATE_CONFIGURATIONS_WIDGET = "UPDATE_CONFIGURATIONS_WIDGET"
+export const PREVIEW_WIDGET = 'PREVIEW_WIDGET';
 
 export function ToggleSettingsMenu(widget) {
     return (dispatch, getState) => {
@@ -30,42 +31,35 @@ export function ToggleSettingsMenu(widget) {
     }
 }
 
-export function updateDashboardWidget(currentWidget) {
+export function updateDashboardWidget(widget) {
     return (dispatch, getState) => {
         dispatch({
             type: UPDATE_CONFIGURATIONS_WIDGET,
-            widget: currentWidget
+            widget: widget
         })
         dispatch({
             type: UPDATE_WIDGET,
-            widget: currentWidget
-        });
-        dispatch(getState().configurations.PreviewAction(currentWidget));
-
+            widget: widget
+        })
     }
 }
-export function PreviewAction(inputWidget) {
+export function PreviewWidget(widget) {
     return (dispatch, getState) => {
-        debugger;
         dispatch(getState().notificationStore.ClearNotifications());
-        const widgetData = DashboardUtilities.WidgetMapper(inputWidget, getState().dataMetrics.datametricsMetadata);
+        const widgetData = DashboardUtilities.WidgetMapper(widget, getState().dataMetrics.datametricsMetadata);
         widgetService.getWidgetPreviewData(widgetData).then(function (response) {
             if (response.status === 200) {
-                debugger;
-                const widget = _.find(getState().newdashboard.widgets, (widget) => widget.id == response.data.wrid);
                 // TODO: change the logic according to the data
+
                 if (widget) {
-                    dashboardUtils.widgetDataMapper(widget, response.data)
+                    DashboardUtilities.WidgetDataMapper(widget, response.data)
 
                     const { widgetBody } = widget || {};
                     if (widgetBody) {
                         widget.appliedBackgroundColor = response.data.wrth && response.data.wrth.thc ? response.data.wrth.thc : widgetBody.backgroundColor;
                     }
                 }
-                dispatch({
-                    type: PREVIEW_WIDGET,
-                    widget
-                });
+                dispatch(getState().configurations.updateDashboardWidget(widget));
             }
         }).catch((error) => {
             dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error));
@@ -85,6 +79,11 @@ export const ACTION_HANDLERS = {
         return Object.assign({}, state, {
             widget: _.cloneDeep(action.widget)
         })
+    },
+    [PREVIEW_WIDGET]: (state, action) => {
+        return Object.assign({}, state, {
+            widget: _.cloneDeep(action.widget),
+        })
     }
 }
 
@@ -94,7 +93,7 @@ const initialState = {
     showPanel: false,
     ToggleSettingsMenu,
     updateDashboardWidget,
-    PreviewAction
+    PreviewWidget
 };
 
 export default function WidgetConfigurationsReducer(state = _.cloneDeep(initialState), action) {
