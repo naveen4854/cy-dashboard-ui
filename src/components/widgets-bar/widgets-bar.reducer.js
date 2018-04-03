@@ -15,7 +15,7 @@ const initialState = {
     isGlobal: false,
     widgets: Widgets
 };
-export default function ThresholdReducer(state = _.cloneDeep(initialState), action) {
+export default function WidgetsBarReducer(state = _.cloneDeep(initialState), action) {
     const handler = ACTION_HANDLERS[action.type];
     return handler ? handler(state, action) : state;
 }
