@@ -42,11 +42,16 @@ export default class CustomSelect extends React.Component {
     }
 
     render() {
+        let selectedValue = this.props.value;
+        if(selectedValue && !selectedValue.value){
+            selectedValue =  _.find(this.props.options, {'value': this.props.value});
+        }
+
         if (this.props.options.length === 1) {
             // debugger
         }
         return (
-            <Select value={this.props.value}
+            <Select value={selectedValue}
                 placeholder={this.props.placeholder}
                 options={this.props.options}
                 disabled={this.props.options.length == 1 || this.props.disabled}

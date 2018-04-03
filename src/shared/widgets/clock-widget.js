@@ -23,6 +23,7 @@ export default class ClockWidget extends Widget {
 
     numberStyles = {
         color: rgba(0, 0, 0, 1),
+        fontFamily: 'Arial',
         fontSize: '15'
     };
     timezoneStyles = {
@@ -32,15 +33,18 @@ export default class ClockWidget extends Widget {
     };
     dateStyles = {
         color: rgba(0, 0, 0, 1),
+        fontFamily: 'Arial',
         fontSize: '15'
     };
     daysStyles = {
         color: rgba(0, 0, 0, 1),
+        fontFamily: 'Arial',
         fontSize: '12'
     };
     currentDayColor = rgba(240, 10, 10, 1);
     timeStyles = {
         color: rgba(0, 0, 0, 1),
+        fontFamily: 'Arial',
         fontSize: '25'
     };
     hands = {
@@ -56,7 +60,7 @@ export default class ClockWidget extends Widget {
             title: moment.tz.guess(),
             timezoneid: moment.tz.guess(),
             timezoneLabel: undefined,
-            isAnalog: false,
+            isAnalog: true,
             tzoneText: '',
             selectedHoursFormat: _.first(Constants.hoursFormat),
             selectedTimeFormat: _.first(Constants.timeFormat),
@@ -66,14 +70,4 @@ export default class ClockWidget extends Widget {
         }
     }
 
-    // selectedTimeZoneItem = moment.tz.guess();
-    // isAnalog = false;
-    // timezoneid = moment.tz.guess();
-    // selectedHoursFormat = _.first(Constants.hoursFormat);
-    // selectedTimeFormat = _.first(Constants.timeFormat);
-    // isd = false; // TODO: what is this
-    // selectedDateFormat = _.first(DateZone.dateFormats);
-    // displayDate = false;
-    // displayDays = true;
-    // tzoneText = ''
 }
