@@ -23,14 +23,14 @@ export default class ClockWidgetComponent extends PureComponent {
             minutehandcolor: Color.ToString(this.props.hands.minutehandcolor),
             hourhandcolor: Color.ToString(this.props.hands.hourhandcolor)
         }
-
+        let metrics = this.props.appliedSettings.dataMetrics;
         let days = DateZone.getDays()
-        let currentDay = DateZone.getDay(this.props.selectedTimeZoneItem)
-        let digitalDate = DateZone.returnDate(this.props.selectedTimeZoneItem, this.props.selectedDateFormat);
+        let currentDay = DateZone.getDay(metrics.selectedTimeZoneItem)
+        let digitalDate = DateZone.returnDate(metrics.selectedTimeZoneItem, metrics.selectedDateFormat);
         let currentDayColor = Color.ToString(this.props.currentDayColor)
 
         return (
-            this.props.isAnalog ?
+            this.props.appliedSettings.dataMetrics.isAnalog ?
                 <AnalogClockWidgetComponent {...this.props}
                     widgetBodyStyles={widgetBodyStyles}
                     timezoneStyles={timezoneStyles}

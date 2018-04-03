@@ -23,7 +23,7 @@ export default class AnalogClockWidgetComponent extends PureComponent {
             this.clockInterval = setInterval(() => {
                 this.ReInitializeSvg(`myCanvas${this.props.id}`);
             }, 1000)
-        }, 1000 - DateZone.timezoneDate(this.props.selectedTimeZoneItem).getUTCMilliseconds())
+        }, 1000 - DateZone.timezoneDate(this.props.appliedSettings.dataMetrics.selectedTimeZoneItem).getUTCMilliseconds())
     }
 
     componentDidUpdate() {
@@ -50,6 +50,8 @@ export default class AnalogClockWidgetComponent extends PureComponent {
 
     DrawNumbers(granularity, radius, cx, cy, gTopGroupId) {
         var fontsize = parseInt(this.props.numberStyles.fontSize);
+        var fontFamily = this.props.numberStyles.fontFamily;
+        
         var hourLabelRadius = radius - fontsize * 0.75;
         var hourScale = d3.scale.linear()
             .range([0, 330])
@@ -61,7 +63,7 @@ export default class AnalogClockWidgetComponent extends PureComponent {
         _.map(d3.range(0, 12), d => {
             labels.
                 append("text")
-                .attr("font-size", fontsize + 'px')
+                .attr("style", `font-family: ${fontFamily}; font-size:${fontsize}px`)
                 .attr("text-anchor", "middle")
                 .attr("fill", this.props.numberStyles.color)
                 .attr('x', cx + hourLabelRadius * Math.sin(hourScale(d) * radians))
@@ -170,7 +172,7 @@ export default class AnalogClockWidgetComponent extends PureComponent {
             .attr("fill", "black")
             ;
 
-        var currentDateTime = DateZone.timezoneDate(this.props.selectedTimeZoneItem);
+        var currentDateTime = DateZone.timezoneDate(this.props.appliedSettings.dataMetrics.selectedTimeZoneItem);
         seconds = currentDateTime.getSeconds();
         minutes = currentDateTime.getMinutes();
         hours = currentDateTime.getHours() % 12;
@@ -194,7 +196,7 @@ export default class AnalogClockWidgetComponent extends PureComponent {
 
         gTopGroupId = containerId + '_topGroup';
 
-        var d = DateZone.timezoneDate(this.props.selectedTimeZoneItem);
+        var d = DateZone.timezoneDate(this.props.appliedSettings.dataMetrics.selectedTimeZoneItem);
         // console.log(d, 'analog', this.props.selectedTimeZoneItem.tz)
 
         var seconds = d.getSeconds();

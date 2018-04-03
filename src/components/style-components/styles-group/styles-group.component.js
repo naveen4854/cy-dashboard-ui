@@ -15,7 +15,9 @@ export default class StylesGroup extends PureComponent {
         this.props.onUpdateFontStyles(fonts);
     }
     onFontFamilyChange = (e, key) => {
-        let fonts = { ...this.props.fontStyles, fontFamily: e };
+        if (!e.value)
+            return;
+        let fonts = { ...this.props.fontStyles, fontFamily: e.value };
         this.props.onUpdateFontStyles(fonts);
     }
     onColorChange = (e, key) => {
@@ -33,25 +35,25 @@ export default class StylesGroup extends PureComponent {
                     onCustomInputChange={this.onFontSizeChange}
                 />
 
-                 <LabelledColorPicker
-                        label={this.props.colorLabel}
-                        // updateKey='backgroundColor'
-                        ColorId={this.props.ColorId}
-                        ColorKey={this.props.ColorKey}
-                        value={this.props.fontStyles.color}
-                        // className="form-control"
-                        updateColor={(e) => this.onColorChange(e)}
-                    />
+                <LabelledColorPicker
+                    label={this.props.colorLabel}
+                    // updateKey='backgroundColor'
+                    ColorId={this.props.ColorId}
+                    ColorKey={this.props.ColorKey}
+                    value={this.props.fontStyles.color}
+                    // className="form-control"
+                    updateColor={(e) => this.onColorChange(e)}
+                />
 
-                    <LabelledCustomSelect
-                        label={this.props.fontFamilyLabel}
-                        // updateKey='backgroundColor'
-                        placeholder='Select Font'
-                        value={this.props.fontStyles.fontFamily}
-                        // className="form-control"
-                        onChange={this.onFontFamilyChange}
-                        options={Fonts}
-                    />
+                <LabelledCustomSelect
+                    label={this.props.fontFamilyLabel}
+                    // updateKey='backgroundColor'
+                    placeholder='Select Font'
+                    value={this.props.fontStyles.fontFamily}
+                    // className="form-control"
+                    onChange={this.onFontFamilyChange}
+                    options={Fonts}
+                />
             </div>
         )
     }

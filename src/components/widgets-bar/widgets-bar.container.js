@@ -7,10 +7,10 @@ const mapDispatchToProps = (dispatch) => {
     return {
 
         UpdateProperty: (key, value) => {
-            dispatch(WidgetsBarActions.updatePropertyAction(key, value))
+            dispatch(WidgetsBarActions.updateProperty(key, value))
         },
         SaveDashboard: () => {
-            dispatch(WidgetsBarActions.saveDashboardAction())
+            dispatch(WidgetsBarActions.saveDashboard())
         }
     }
 }

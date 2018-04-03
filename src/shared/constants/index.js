@@ -5,4 +5,4 @@ import Fonts from './font-family-options'
 import { segments } from './constants'
 import scrollType from './scroll-types'
 
-export { Constants, ApiUrl, Widgets, Fonts, scrollType };
+export { Constants, ApiUrl, Widgets, Fonts, scrollType, segments };

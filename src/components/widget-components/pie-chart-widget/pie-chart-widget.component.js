@@ -5,6 +5,7 @@ import { segments } from '../../../shared/constants';
 import { DisplayFormatEnum } from '../../../shared/enums';
 import PiechartComponent from './pie-chart'
 import * as color from '../../../shared/lib/color-conversion';
+import { Constants } from '../../../shared/constants';
 
 export default class PieChartWidgetComponent extends PureComponent {
 
@@ -54,7 +55,7 @@ export default class PieChartWidgetComponent extends PureComponent {
         switch (displayFormatid) {
             case DisplayFormatEnum.HH_MM_SS:
             case DisplayFormatEnum.MM_SS:
-                let valuee = _.find(ConstantValues.customCombotimeFormat, f => f.displayFormatId == displayFormatid);
+                let valuee = _.find(Constants.customCombotimeFormat, f => f.displayFormatId == displayFormatid);
                 return valuee.convert;
                 break;
             case DisplayFormatEnum.Number:

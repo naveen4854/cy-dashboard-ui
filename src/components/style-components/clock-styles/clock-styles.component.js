@@ -13,7 +13,6 @@ export default class ClockStyles extends PureComponent {
         this.updateClockbackgroundColor = this.updateClockbackgroundColor.bind(this);
         this.updateClockOuterbackgroundColor = this.updateClockOuterbackgroundColor.bind(this);
 
-        this.updateClockRoundingColor = this.updateClockRoundingColor.bind(this);
         this.updateTimezoneStyles = this.updateTimezoneStyles.bind(this);
     }
 
@@ -27,13 +26,6 @@ export default class ClockStyles extends PureComponent {
     }
     updateTimezoneStyles(e) {
         this.props.updateProp('timezoneStyles', e);
-    }
-    updateClockRoundingColor(e) {
-        let widgetBody = { ...this.props.styles.widgetBody, clockRoundingColor: e };
-        this.props.updateProp('widgetBody', widgetBody);
-    }
-    updateHandColor(hands) {
-        this.props.updateProp('hands', hands);
     }
 
     render() {
@@ -58,7 +50,7 @@ export default class ClockStyles extends PureComponent {
                     />
 
                     {
-                        this.props.styles.IsAnalog ? <AnalogClockStyles {...this.props} /> : <DigitalClockStyles {...this.props} />
+                        this.props.isAnalog ? <AnalogClockStyles {...this.props} /> : <DigitalClockStyles {...this.props} />
                     }
 
                     <StylesGroup
@@ -71,13 +63,6 @@ export default class ClockStyles extends PureComponent {
                         ColorId="timezoneStyles"
                         ColorKey="timezoneStyles"
                     />
-                    <LabelledInput
-                        label={this.props.l.t('Refresh_interval__in_sec_COLON', 'Refresh interval (in sec):')}
-                        value={this.props.styles.refreshInterval}
-                        className="form-control"
-                        onCustomInputChange={this.updateRefreshInterval}
-                    />
-
                 </div>
             </div>
         )

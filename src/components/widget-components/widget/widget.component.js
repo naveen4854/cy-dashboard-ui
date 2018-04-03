@@ -11,6 +11,7 @@ import ProgressBarWidgetComponent from '../progress-bar-widget';
 import ClockWidgetComponent from '../clock-widget';
 import TextWidgetComponent from '../text-widget';
 import PictureWidgetContainer from '../picture-widget/';
+import ComboWidgetComponent from '../combo-widget';
 
 import '../styles.css'
 
@@ -91,6 +92,10 @@ export default class WidgetComponent extends PureComponent {
             case WidgetTypeEnum.Picture:
                 return (
                     <PictureWidgetContainer {...this.props.widget} IsEditing={this.props.showIcons} />
+                );
+            case WidgetTypeEnum.Combo:
+                return (
+                    <ComboWidgetComponent {...this.props.widget} IsEditing={this.props.showIcons} />
                 );
             default:
                 return (

@@ -1,4 +1,4 @@
-import { WidgetTypeEnum } from "../../shared/enums";
+import {ResponseStatusEnum, WidgetTypeEnum } from "../../shared/enums";
 import _ from 'lodash';
 import { UPDATE_WIDGET } from "../../dashboard/dashboard.reducer";
 import { DashboardUtilities } from "../../shared/lib";
@@ -23,7 +23,12 @@ export function ToggleSettingsMenu(widget) {
         })
 
         if (showPanel) {
-            dispatch(getState().dataMetrics.initializeStatisticMetadata());
+            if (currentWidget.widgetType == WidgetTypeEnum.Clock) {
+                dispatch(getState().clockSettings.initializeClocksettings());
+            }
+            else {
+                dispatch(getState().dataMetrics.initializeStatisticMetadata());
+            }
             dispatch(getState().styles.initializeStyles())
             dispatch(getState().threshold.initializeThresholddata())
             // dispatch(getState().dataMetrics.initi)
@@ -39,8 +44,15 @@ export function updateDashboardWidget(widget) {
         })
         dispatch({
             type: UPDATE_WIDGET,
+<<<<<<< HEAD
             widget: widget
         })
+=======
+            widget: currentWidget
+        });
+       dispatch(getState().configurations.PreviewAction(currentWidget));
+
+>>>>>>> 153ec1720bf24d97eb926ebfce3a3b8357ee401b
     }
 }
 export function PreviewWidget(widget) {
@@ -49,6 +61,10 @@ export function PreviewWidget(widget) {
         const widgetData = DashboardUtilities.WidgetMapper(widget, getState().dataMetrics.datametricsMetadata);
         widgetService.getWidgetPreviewData(widgetData).then(function (response) {
             if (response.status === 200) {
+<<<<<<< HEAD
+=======
+                const widget = _.find(getState().newdashboard.widgets, (widget) => widget.id == response.data.wrid);
+>>>>>>> 153ec1720bf24d97eb926ebfce3a3b8357ee401b
                 // TODO: change the logic according to the data
 
                 if (widget) {

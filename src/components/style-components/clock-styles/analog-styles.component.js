@@ -15,22 +15,22 @@ export default class AnalogClockStyles extends PureComponent {
         this.updateSecondsHandColor = this.updateSecondsHandColor.bind(this);
         this.updateNumbersStyles = this.updateNumbersStyles.bind(this);
     }
-
+    
     updateClockRoundingColor(e) {
-        // let widgetBody = { ...this.props.styles.widgetBody, clockRoundingColor: e };
-        this.props.updateClockRoundingColor(e);
+        let widgetBody = { ...this.props.styles.widgetBody, clockRoundingColor: e };
+        this.props.updateProp('widgetBody', widgetBody);
     }
     updateHourHandColor(e) {
         let hands = { ...this.props.styles.hands, hourhandcolor: e };
-        this.props.updateHandColor(hands);
+        this.props.updateProp('hands', hands);
     }
     updateMinuteHandColor(e) {
         let hands = { ...this.props.styles.hands, minutehandcolor: e };
-        this.props.updateHandColor(hands);
+        this.props.updateProp('hands', hands);
     }
     updateSecondsHandColor(e) {
-        let hands = { ...this.props.styles.hands, secondsHandColor: e };
-        this.props.updateHandColor(hands);
+        let hands = { ...this.props.styles.hands, secondhandcolor: e };
+        this.props.updateProp('hands', hands);
     }
     updateNumbersStyles(e){
         this.props.updateProp('numberStyles', e);

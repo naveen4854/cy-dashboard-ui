@@ -25,14 +25,9 @@ export class Widget {
     title = this.isCombo ? '' : "<< Not Configured >>";
 
     appliedSettings = {
-        filters: [
-        ],
-        dataMetrics:
-            {
-            },
-        thresholds: [
-        ],
-        group: {}
+        filters: [],
+        dataMetrics: {},
+        thresholds: []
     }
 
     // styles
