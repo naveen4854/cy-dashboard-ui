@@ -50,6 +50,8 @@ export default class AnalogClockWidgetComponent extends PureComponent {
 
     DrawNumbers(granularity, radius, cx, cy, gTopGroupId) {
         var fontsize = parseInt(this.props.numberStyles.fontSize);
+        var fontFamily = this.props.numberStyles.fontFamily;
+        
         var hourLabelRadius = radius - fontsize * 0.75;
         var hourScale = d3.scale.linear()
             .range([0, 330])
@@ -61,7 +63,7 @@ export default class AnalogClockWidgetComponent extends PureComponent {
         _.map(d3.range(0, 12), d => {
             labels.
                 append("text")
-                .attr("font-size", fontsize + 'px')
+                .attr("style", `font-family: ${fontFamily}; font-size:${fontsize}px`)
                 .attr("text-anchor", "middle")
                 .attr("fill", this.props.numberStyles.color)
                 .attr('x', cx + hourLabelRadius * Math.sin(hourScale(d) * radians))

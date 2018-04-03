@@ -51,7 +51,7 @@ export default class DigitalClockComponent extends PureComponent {
                             <div className="inside" style={{ backgroundColor: this.props.widgetBodyStyles.clockbackgroundColor }}>
                                 <div className="content">
                                     {
-                                        metrics.displayDays ? <p className='days' style={{ fontSize: this.props.daysStyles.fontSize }}>
+                                        metrics.displayDays ? <p className='days' style={{ fontSize: this.props.daysStyles.fontSize, fontFamily: this.props.daysStyles.fontFamily }}>
                                             {
                                                 _.map(this.props.days, (day, i) => {
                                                     return <span key={i} style={{ color: i == this.props.currentDay ? this.props.currentDayColor : this.props.daysStyles.color }}>{day}</span>
@@ -60,7 +60,7 @@ export default class DigitalClockComponent extends PureComponent {
                                         </p> : null
                                     }
                                     {
-                                        this.state.time ? <p className='time' style={{ fontSize: this.props.timeStyles.fontSize, color: this.props.timeStyles.color }}>
+                                        this.state.time ? <p className='time' style={{ fontSize: this.props.timeStyles.fontSize, color: this.props.timeStyles.color, fontFamily: this.props.timeStyles.fontFamily }}>
                                             <span id='hours'>{this.state.time.h}</span>
                                             <span className="separator">:</span>
                                             <span id='min'>{this.state.time.m}</span>
@@ -75,7 +75,7 @@ export default class DigitalClockComponent extends PureComponent {
                                     }
                                     {
                                         metrics.displayDate ?
-                                            <p className='date' style={{ fontSize: this.props.dateStyles.fontSize, color: this.props.dateStyles.color }} >
+                                            <p className='date' style={{ fontSize: this.props.dateStyles.fontSize, color: this.props.dateStyles.color, fontFamily: this.props.dateStyles.fontFamily  }} >
                                                 <span id='cal'>
                                                     <i className="fa fa-calendar fa-lg"></i>
                                                 </span>

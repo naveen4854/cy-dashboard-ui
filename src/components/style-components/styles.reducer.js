@@ -1,3 +1,4 @@
+import {WidgetTypeEnum} from "../../shared/enums";
 
 export const INITIALIZE_STYLES = "INITIALIZE_STYLES"
 export const UPDATE_STYLE_PROP = "UPDATE_STYLE_PROP"
@@ -89,9 +90,10 @@ export function updateWidgetStyles() {
         let currentWidget = getState().configurations.widget;
 
         let styles = getState().styles;
+        let title = currentWidget.widgetType === WidgetTypeEnum.Clock ? currentWidget.title :  styles.title;
         let updatedWidget = {
             ...currentWidget,
-            title: styles.title,
+            title,
             titleStyles: styles.titleStyles,
             valueStyles: styles.valueStyles,
             widgetBody: styles.widgetBody,
