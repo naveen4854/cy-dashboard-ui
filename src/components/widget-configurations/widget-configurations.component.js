@@ -11,6 +11,9 @@ export default class WidgetConfigurationsComponent extends PureComponent {
                 {this.props.configurations.showPanel &&
                     <div style={{ marginTop: '100px' }}>
                         <CustomDock>
+                            <div className='dockHeader'>
+                                <span> Rendered title </span>
+                            </div>
                             <Tabs id="top">
                                 <Tab eventKey="first" title={this.props.l.t('Data_Metrics', 'Data Metrics')}>
                                     <DataMetricsContainer />
