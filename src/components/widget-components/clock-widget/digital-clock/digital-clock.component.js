@@ -21,12 +21,10 @@ export default class DigitalClockComponent extends PureComponent {
                 let dateTime, h, m, s, t, amPm;
                 var k = metrics.selectedHoursFormat == 1 ? 0 : 12;
                 dateTime = DateZone.timezoneDate(metrics.selectedTimeZoneItem);
-                // console.log(d, 'digital',this.props.selectedTimeZoneItem.tz)
                 h = addZero(takeTwelve(dateTime.getHours(), k));
                 m = addZero(dateTime.getMinutes());
                 s = addZero(dateTime.getSeconds());
-                t = metrics.selectedTimeFormat == 1 ? `${h}:${m}:${s}` : `${h}:${m}`;
-
+                //t = metrics.selectedTimeFormat == 1 ? `${h}:${m}:${s}` : `${h}:${m}`;
                 amPm = dateTime.getHours() >= 12 ? "PM" : "AM";
                 this.loadInterval && this.setState({
                     time: { h, m, s },
@@ -67,7 +65,7 @@ export default class DigitalClockComponent extends PureComponent {
                                             <span className="separator">:</span>
                                             <span id='min'>{this.state.time.m}</span>
                                             {
-                                                this.state.selectedTimeFormat == 1 ? <span>
+                                                metrics.selectedTimeFormat == 1 ? <span>
                                                     <span className="separator">:</span>
                                                     <span id='sec'>{this.state.time.s}</span>
                                                 </span> : ""

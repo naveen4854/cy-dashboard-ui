@@ -16,7 +16,7 @@ export default class DataMetricsComponent extends PureComponent {
     }
 
     renderSettings() {
-        switch (this.props.dataMetrics.widgetType) {
+        switch (this.props.widgetType) {
             case WidgetTypeEnum.Box:
             case WidgetTypeEnum.Progress:
             case WidgetTypeEnum.Speedo:

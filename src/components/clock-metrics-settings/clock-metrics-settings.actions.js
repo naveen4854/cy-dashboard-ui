@@ -144,6 +144,7 @@ export function updateWidget() {
         }
         let updatedWidget = {
             ...currentWidget,
+            title: clockSettings.tzoneText == "" ? timeZone.label : clockSettings.tzoneText,
             appliedSettings: {
                 ...currentWidget.appliedSettings,
                 dataMetrics

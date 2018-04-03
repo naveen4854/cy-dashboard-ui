@@ -51,12 +51,10 @@ export function updateDashboardWidget(currentWidget) {
 }
 export function PreviewAction(inputWidget) {
     return (dispatch, getState) => {
-        debugger;
         dispatch(getState().notificationStore.ClearNotifications());
         const widgetData = DashboardUtilities.WidgetMapper(inputWidget, getState().dataMetrics.datametricsMetadata);
         widgetService.getWidgetPreviewData(widgetData).then(function (response) {
             if (response.status === 200) {
-                debugger;
                 const widget = _.find(getState().newdashboard.widgets, (widget) => widget.id == response.data.wrid);
                 // TODO: change the logic according to the data
                 if (widget) {
