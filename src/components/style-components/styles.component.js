@@ -20,6 +20,7 @@ class StylesComponent extends PureComponent {
                 {this.renderStyles()}
                 <div className="">
                     <button
+                        disabled={this.props.styles.disableSave}
                         type="button"
                         className=" btn btn-sm btn btn-primary"
                         onClick={this.props.updateWidgetStyles}>
@@ -64,11 +65,11 @@ class StylesComponent extends PureComponent {
                 );
             case WidgetTypeEnum.Clock:
                 return (
-                     <ClockStyles  {...this.props} />
+                    <ClockStyles  {...this.props} />
                 );
             case WidgetTypeEnum.CircularProgress:
                 return (
-                     <CircularProgressStyles  {...this.props} />
+                    <CircularProgressStyles  {...this.props} />
                 );
             case WidgetTypeEnum.Combo:
                 return (

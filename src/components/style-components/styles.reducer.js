@@ -1,4 +1,4 @@
-import {WidgetTypeEnum} from "../../shared/enums";
+import { WidgetTypeEnum } from "../../shared/enums";
 
 export const INITIALIZE_STYLES = "INITIALIZE_STYLES"
 export const UPDATE_STYLE_PROP = "UPDATE_STYLE_PROP"
@@ -44,6 +44,9 @@ export function initializeStyles() {
         let scrollType = currentWidget.scrollType;
 
         let pictureSelected = currentWidget.pictureSelected; // for picture widget.
+        let picturePath = currentWidget.picturePath; // for picture widget.
+        let pictureStretch = currentWidget.pictureStretch; // for picture widget.
+
 
         //titleStyles.color = '#FF0000';
         dispatch({
@@ -80,6 +83,8 @@ export function initializeStyles() {
             scrollSpeed,
             scrollType,
             pictureSelected,
+            picturePath,
+            pictureStretch,
             refreshInterval,
             widgetType
         })
@@ -93,7 +98,7 @@ export function updateWidgetStyles() {
         let currentWidget = getState().configurations.widget;
 
         let styles = getState().styles;
-        let title = currentWidget.widgetType === WidgetTypeEnum.Clock ? currentWidget.title :  styles.title;
+        let title = currentWidget.widgetType === WidgetTypeEnum.Clock ? currentWidget.title : styles.title;
         let updatedWidget = {
             ...currentWidget,
             title,
@@ -128,6 +133,8 @@ export function updateWidgetStyles() {
             scrollSpeed: styles.scrollSpeed,
             scrollType: styles.scrollType,
             pictureSelected: styles.pictureSelected,
+            picturePath: styles.picturePath,
+            pictureStretch: styles.pictureStretch,
             refreshInterval: styles.refreshInterval,
             appliedBackgroundColor: styles.widgetBody.backgroundColor
         }
@@ -143,6 +150,47 @@ export function updateStyleProperty(key, value) {
             key,
             value
         })
+    }
+}
+
+export function onSelectingPicture(key) {
+    return (dispatch, getState) => {
+        let MAX_WIDGET_SIZE = 4000000;//4194304;
+
+        if (key[0].size >= MAX_WIDGET_SIZE) {
+            dispatch({
+                type: UPDATE_STYLE_PROP,
+                key: 'showMessage',
+                value: true
+            });
+            return dispatch({
+                type: UPDATE_STYLE_PROP,
+                key: 'disableSave',
+                value: true
+            });
+        }
+        else {
+            dispatch({
+                type: UPDATE_STYLE_PROP,
+                key: 'pictureSelected',
+                value: key[0].name
+            });
+            dispatch({
+                type: UPDATE_STYLE_PROP,
+                key: 'picturePath',
+                value: key[0].preview
+            });
+            dispatch({
+                type: UPDATE_STYLE_PROP,
+                key: 'showMessage',
+                value: false
+            });
+            return dispatch({
+                type: UPDATE_STYLE_PROP,
+                key: 'disableSave',
+                value: false
+            });
+        }
     }
 }
 
@@ -182,6 +230,8 @@ export const ACTION_HANDLERS = {
             scrollSpeed: action.scrollSpeed,
             scrollType: action.scrollType,
             pictureSelected: action.pictureSelected,
+            picturePath: action.picturePath,
+            pictureStretch: action.pictureStretch,
             refreshInterval: action.refreshInterval
         })
     },
@@ -194,7 +244,8 @@ export const ACTION_HANDLERS = {
 }
 
 const initialState = {
-    initializeStyles
+    initializeStyles,
+    showMessage: false
 };
 
 export default function StylesReducer(state = _.cloneDeep(initialState), action) {

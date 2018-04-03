@@ -22,6 +22,9 @@ const mapDispatchToProps = (dispatch) => {
             widgetBody.backgroundColor = e;
             dispatch(Reducer.updateStyleProperty('widgetBody', widgetBody));
            // this.props.updateProp(widgetBody, 'widgetBody');
+        },
+        onSelectingPicture: (e) => {
+            dispatch(Reducer.onSelectingPicture(e));
         }
     }
 }

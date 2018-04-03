@@ -13,5 +13,6 @@ export default class PrictureWidget extends Widget {
     title = 'picture';
     picturePath = DefaultImage; //Need to set default image.
     pictureStretch = { value: PictureStretchEnum.Fill, label: 'Fill' };
+    //pictureStretch = PictureStretchEnum.Fill;
     pictureSelected = "No picture"
 }
