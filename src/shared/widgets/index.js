@@ -1,4 +1,4 @@
-import BarWidget from './bar-wdget'
+import BarWidget from './bar-widget'
 import BoxWidget from './box-widget'
 import PieWidget from './pie-widget'
 import CircularProgressWidget from './circular-progress-widget'
