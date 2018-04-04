@@ -114,6 +114,7 @@
     "moment-timezone": "^0.5.14",
     "mumath": "^3.3.4",
     "prop-types": "^15.6.1",
+    "re-resizable": "^4.4.8",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
     "react-color": "^2.14.0",

@@ -3,6 +3,8 @@ import { Resizable, ResizableBox } from 'react-resizable';
 import './styles.css'
 import _ from 'lodash';
 import TestLayout2 from './test-layout2';
+import TestLayout3 from './test-l3';
+
 export default class TestLayout extends React.Component {
     state = {
         matrix: [
@@ -83,6 +85,12 @@ export default class TestLayout extends React.Component {
         return (
             <div className="scroll-enable" style={{ background: "#abe0f7" }}>
                 <div style={{ margin: 50 }}>
+                    <TestLayout3 />
+                </div>
+                <div style={{ margin: 50 }}>
+                    <TestLayout2 />
+                </div>
+                <div style={{ margin: 50 }}>
                     <table>
                         <tbody>
                             {
@@ -111,9 +119,7 @@ export default class TestLayout extends React.Component {
                         </tbody>
                     </table>
                 </div>
-                <div style={{ margin: 50 }}>
-                    <TestLayout2 />
-                </div>
+
             </div>
         );
     }
