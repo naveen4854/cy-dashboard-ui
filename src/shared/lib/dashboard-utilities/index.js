@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { WidgetTypeEnum, StatisticCategoryEnum } from '../../enums';
+import { WidgetTypeEnum, StatisticCategoryEnum, ScrollTypeEnum } from '../../enums';
 
 
 
@@ -31,14 +31,14 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
   let columns = [];
   let metrics = inputWidget.appliedSettings.dataMetrics;
   let clckSettings = WidgetTypeEnum.Clock == inputWidget.widgetType ? {
-    ia: metrics.isAnalog,
-    tid: metrics.timezoneid,
-    tl: metrics.tzoneText,
-    istfh: !metrics.isAnalog ? metrics.selectedHoursFormat : 0,
-    istd: !metrics.isAnalog ? metrics.selectedTimeFormat : 0,
-    dida: !metrics.isAnalog ? metrics.displayDate : false,
-    didy: !metrics.isAnalog ? metrics.displayDays : false,
-    isl: !metrics.isAnalog ? metrics.selectedDateFormat : 0,
+    ia: inputWidget.isAnalog,
+    tid: inputWidget.timezoneid,
+    tl: inputWidget.tzoneText,
+    istfh: !inputWidget.isAnalog ? inputWidget.selectedHoursFormat : 0,
+    istd: !inputWidget.isAnalog ? inputWidget.selectedTimeFormat : 0,
+    dida: !inputWidget.isAnalog ? inputWidget.displayDate : false,
+    didy: !inputWidget.isAnalog ? inputWidget.displayDays : false,
+    isl: !inputWidget.isAnalog ? inputWidget.selectedDateFormat : 0,
 
   } : {};
   let clckStyles = WidgetTypeEnum.Clock == inputWidget.widgetType ? {
@@ -52,8 +52,8 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
       cf: inputWidget.numberStyles.fontSize
     },
     cts: {
-      cc: inputWidget.timezoneStyles.color,
-      cf: inputWidget.timezoneStyles.fontSize
+      cc: inputWidget.TimezoneStyles.color,
+      cf: inputWidget.TimezoneStyles.fontSize
     },
     hhs: {
       ch: inputWidget.hands.hourhandcolor
@@ -65,18 +65,18 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
       ch: inputWidget.hands.secondhandcolor
     },
 
-    cdt: !metrics.isAnalog ? {
-      cc: inputWidget.dateStyles.color,
-      cf: inputWidget.dateStyles.fontSize
+    cdt: !inputWidget.isAnalog ? {
+      cc: inputWidget.DateStyles.color,
+      cf: inputWidget.DateStyles.fontSize
     } : {},
-    cdy: !metrics.isAnalog ? {
-      cc: inputWidget.daysStyles.color,
-      cf: inputWidget.daysStyles.fontSize
+    cdy: !inputWidget.isAnalog ? {
+      cc: inputWidget.DaysStyles.color,
+      cf: inputWidget.DaysStyles.fontSize
     } : {},
-    cdc: inputWidget.currentDayColor,
-    ctt: !metrics.isAnalog ? {
-      cc: inputWidget.timeStyles.color,
-      cf: inputWidget.timeStyles.fontSize
+    cdc: inputWidget.CurrentDayColor,
+    ctt: !inputWidget.isAnalog ? {
+      cc: inputWidget.TimeStyles.color,
+      cf: inputWidget.TimeStyles.fontSize
     } : {},
 
   } : {}
@@ -201,13 +201,96 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
     twrst: inputWidget.scrollType && inputWidget.scrollType.value,
     wsmv: inputWidget.showMaxValueOnWidget,
     wps: (inputWidget.widgetType == WidgetTypeEnum.Picture) ? inputWidget.pictureStretch.value : undefined, //Property is specific to Picture Widget
-    wpsl: (inputWidget.widgetType == WidgetTypeEnum.Picture) ? inputWidget.pictureSelected : undefined, //Property is specific to Picture Widget
+    wpsl: (inputWidget.widgetType == WidgetTypeEnum.Picture) ? inputWidget.PictureSelected : undefined, //Property is specific to Picture Widget
     mspid: inputWidget.UniqueId,
     wmx: comboMatrix,
     sll: inputWidget.showLabels,
     sld: inputWidget.showLegends,
     isLive: isLive,
     od: inputWidget.previousData
+  }
+}
+
+/**
+ * map data to widget based on its type
+ */
+export function WidgetDataMapper(widget, data) {
+  switch (data.wrt) {
+    case WidgetTypeEnum.Box:
+    case WidgetTypeEnum.Progress:
+    case WidgetTypeEnum.Speedo:
+    case WidgetTypeEnum.CircularProgress:
+      widget.displayValue = _.cloneDeep(data.wrdv);
+      widget.value = _.cloneDeep(data.wrv);
+      break;
+    case WidgetTypeEnum.Pie:
+    case WidgetTypeEnum.Bar:
+      widget.data = _.map(data.wrcc, (d) => {
+        return {
+          label: d.l,
+          data: d.d
+        };
+      });
+      break;
+    case WidgetTypeEnum.Picture:
+      widget.picturePath = data.pblob;
+      widget.pictureStretch = data.wps == 1 ? {
+        value: PictureStretchEnum.None,
+        label: 'None'
+      } : {
+          value: PictureStretchEnum.Fill,
+          label: 'Fill'
+        };
+      widget.title = 'picture';
+      break;
+    case WidgetTypeEnum.Text:
+      let scrollType = {
+        value: ScrollTypeEnum.None,
+        label: 'No Scroll'
+      };
+      switch (data.twrst) {
+        case ScrollTypeEnum.LeftToRight:
+          scrollType = {
+            value: ScrollTypeEnum.LeftToRight,
+            label: 'Left-Right'
+          };
+          break;
+        case ScrollTypeEnum.RightToLeft:
+          scrollType = {
+            value: ScrollTypeEnum.RightToLeft,
+            label: 'Right-Left'
+          };
+          break;
+        case ScrollTypeEnum.TopToBottom:
+          scrollType = {
+            value: ScrollTypeEnum.TopToBottom,
+            label: 'Top-Bottom'
+          };
+          break;
+        case ScrollTypeEnum.BottomToTop:
+          scrollType = {
+            value: ScrollTypeEnum.BottomToTop,
+            label: 'Bottom-Top'
+          };
+          break;
+        default:
+          scrollType = {
+            value: ScrollTypeEnum.None,
+            label: 'No Scroll'
+          };
+
+      }
+      widget.displayValue = data.wrdv;
+      widget.scrollSpeed = data.twrd;
+      widget.scrollType = scrollType;
+      break;
+    case WidgetType.Combo:
+      // comboResultMapping(widget, data);
+      break;
+
+
+      widget.previousData = data;
+    //return widget;
   }
 }
 
