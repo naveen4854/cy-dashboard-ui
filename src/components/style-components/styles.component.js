@@ -18,7 +18,6 @@ class StylesComponent extends PureComponent {
         return (
             <div>
                 {this.renderStyles()}
-                <div className="">
                     <button
                         disabled={this.props.styles.disableSave}
                         type="button"
@@ -26,7 +25,6 @@ class StylesComponent extends PureComponent {
                         onClick={this.props.updateWidgetStyles}>
                         {this.props.l.t("Save", "Save")}
                     </button>
-                </div>
             </div>
         )
     }

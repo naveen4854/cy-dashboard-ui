@@ -7,13 +7,15 @@ export default class LabelledInput extends PureComponent {
 
     render() {
         return (
-            <LabelledControl label={this.props.label}>
-                <CustomSelect //name="field-group-options"
-                    value={this.props.value}
-                    placeholder={this.props.placeholder}
-                    options={this.props.options}
-                    onChange={this.props.onChange} />
-            </LabelledControl >
+            <div className="marginTop10">
+                <LabelledControl label={this.props.label}>
+                    <CustomSelect //name="field-group-options"
+                        value={this.props.value}
+                        placeholder={this.props.placeholder}
+                        options={this.props.options}
+                        onChange={this.props.onChange} />
+                </LabelledControl >
+            </div>
         )
     }
 }

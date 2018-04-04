@@ -322,3 +322,11 @@ padding-left: 0%;
  {
      height: 34px !important;
  }
+
+ .form-group > .row{
+    margin-top:10px !important; 
+}
+
+.marginTop10{
+    margin-top:10px !important; 
+}
