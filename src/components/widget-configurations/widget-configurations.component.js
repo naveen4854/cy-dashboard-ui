@@ -6,6 +6,32 @@ import StylesContainer from '../style-components';
 import ThresholdTabContainer from '../thresholds';
 import {WidgetTypeEnum} from '../../shared/enums';
 export default class WidgetConfigurationsComponent extends PureComponent {
+    render() {
+        return (
+            <div>
+                {this.props.configurations.showPanel &&
+                    <div style={{ marginTop: '100px' }}>
+                        <CustomDock>
+                            <div className='dockHeader'>
+                                <span> {this.renderTitle()} </span>
+                            </div>
+                            <Tabs id="top">
+                                <Tab eventKey="first" title={this.props.l.t('Data_Metrics', 'Data Metrics')}>
+                                    <DataMetricsContainer />
+                                </Tab>
+                                <Tab eventKey="se" title={this.props.l.t('Styles', 'Styles')}>
+                                    <StylesContainer />
+                                </Tab>
+                                <Tab eventKey="t" title={this.props.l.t('Thresholds', 'Thresholds')}>
+                                    <ThresholdTabContainer />
+                                </Tab>
+                            </Tabs>
+                        </CustomDock>
+                    </div>
+                }
+            </div>
+        )
+    }
 
     renderTitle() {
         switch (this.props.configurations.widgetType) {
@@ -43,32 +69,5 @@ export default class WidgetConfigurationsComponent extends PureComponent {
             default:
                 return  this.props.l.t('Configurations', 'Configurations');
         }
-    }
-
-    render() {
-        return (
-            <div>
-                {this.props.configurations.showPanel &&
-                    <div style={{ marginTop: '100px' }}>
-                        <CustomDock>
-                            <div className='dockHeader'>
-                                <span> {this.renderTitle()} </span>
-                            </div>
-                            <Tabs id="top">
-                                <Tab eventKey="first" title={this.props.l.t('Data_Metrics', 'Data Metrics')}>
-                                    <DataMetricsContainer />
-                                </Tab>
-                                <Tab eventKey="se" title={this.props.l.t('Styles', 'Styles')}>
-                                    <StylesContainer />
-                                </Tab>
-                                <Tab eventKey="t" title={this.props.l.t('Thresholds', 'Thresholds')}>
-                                    <ThresholdTabContainer />
-                                </Tab>
-                            </Tabs>
-                        </CustomDock>
-                    </div>
-                }
-            </div>
-        )
     }
 }
