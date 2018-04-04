@@ -11,7 +11,18 @@ export default class CustomDock extends PureComponent {
                 isVisible={isVisible || true}
                 size={size || 0.5}
                 zIndex={zIndex || 200}
-                isVisible={true}>
+                isVisible={true}
+                dockStyle={{
+                    position: 'fixed',
+                    zIndex: 1,
+                    boxShadow: 'rgba(0, 0, 0, 0.23) -0.5px 0px 10px 1px',
+                    background: 'rgb(244, 248, 250)',
+                    left: 0,
+                    top: 45,
+                    width: '100%',
+                    height: '100%'
+                }}
+            >
                 {children}
             </Dock>
         )

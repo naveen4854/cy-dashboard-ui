@@ -5,6 +5,8 @@ import DataMetricsContainer from '../data-metrics';
 import StylesContainer from '../style-components';
 import ThresholdTabContainer from '../thresholds';
 import {WidgetTypeEnum} from '../../shared/enums';
+import '../../public/assets/styles/headerStyles.css'
+
 export default class WidgetConfigurationsComponent extends PureComponent {
     render() {
         return (
