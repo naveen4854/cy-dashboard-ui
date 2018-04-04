@@ -46,7 +46,7 @@ export class Widget {
         fontSize: 12
     };
     titleStyles = {
-        color: this.isHeader ? rgba(0, 0, 0, 1) : rgba(255, 255, 255, 1),
+        color: rgba(255, 255, 255, 1),
         fontFamily: 'Arial',
         fontSize: 12
     };
@@ -55,5 +55,6 @@ export class Widget {
         this.appliedBackgroundColor = rgba(255, 255, 255, 1);
         this.widgetBody = { ...this.widgetBody, backgroundColor: rgba(255, 255, 255, 1) }
         this.valueStyles = { ...this.valueStyles, color: rgba(0, 0, 0, 1) }
+        this.titleStyles = { ...this.titleStyles, color: rgba(0, 0, 0, 1) }
     }
 }

@@ -13,7 +13,8 @@ export default class BoxWidgetComponent extends PureComponent {
                 <div className="boxCenterAlign" style={valueStyles}>
                     <span>{this.props.displayValue}</span>
                 </div>
-                {(!this.props.isComboWidget) &&
+                {
+                    (!this.props.isComboWidget) &&
                     <div className="widget-content-footer" style={titleStyles}>
                         <span>{this.props.title}</span>
                     </div>

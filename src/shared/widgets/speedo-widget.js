@@ -17,6 +17,7 @@ export default class SpeedoWidget extends Widget {
     };
     appliedBackgroundColor = rgba(255, 255, 255, 1);
     widgetBody = {
+        ...this.widgetBody,
         backgroundColor: rgba(255, 255, 255, 1),
     };
     segmentColors = [

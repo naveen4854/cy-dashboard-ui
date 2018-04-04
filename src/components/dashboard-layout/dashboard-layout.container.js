@@ -2,14 +2,15 @@ import { connect } from 'react-redux'
 import DashboardLayoutComponent from './dashboard-layout.component';
 import { PageEnum } from '../../shared/enums';
 import localize from "../localization/localization.hoc";
-import * as DashboardReducer from '../../dashboard/dashboard.reducer';
+import * as DashboardActions from '../../dashboard/dashboard.actions';
 
 
 const mapDispatchToProps = (dispatch) => {
     return {
         ToggleSettingsMenu: (widget) => {
-            dispatch(DashboardReducer.ToggleSettingsMenu(widget))
-        }
+            dispatch(DashboardActions.ToggleSettingsMenu(widget))
+        },
+        
     }
 }
 

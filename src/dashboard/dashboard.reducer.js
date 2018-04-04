@@ -20,12 +20,6 @@ export function UpdateWidget(widget) {
     };
 }
 
-export function ToggleSettingsMenu(widget) {
-    return (dispatch, getState) => {
-        dispatch(getState().configurations.ToggleSettingsMenu(widget))
-    }
-}
-
 export const ACTION_HANDLERS = {
     [ADD_WIDGET]: (state, action) => {
         state.widgets = state.widgets.concat([action.widget])

@@ -14,3 +14,9 @@ export function PreviewActionPicture(dashboardId, widgetid) {
         });
     }
 }
+
+export function ToggleSettingsMenu(widget) {
+    return (dispatch, getState) => {
+        dispatch(getState().configurations.ToggleSettingsMenu(widget))
+    }
+}
