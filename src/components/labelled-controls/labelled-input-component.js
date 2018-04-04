@@ -33,14 +33,16 @@ export default class LabelledInput extends PureComponent {
 
   render() {
     return (
+      <div className="marginTop10">
       <LabelledControl label={this.props.label}>
         <CustomInputText
           updateKey={this.props.updateKey}
           value={this.props.value}
-          className="form-control"
+          // className="form-control"
           onCustomInputChange={this.props.onCustomInputChange}
         />
       </LabelledControl>
+    </div>
     )
   }
 }

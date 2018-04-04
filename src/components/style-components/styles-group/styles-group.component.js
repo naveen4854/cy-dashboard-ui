@@ -31,7 +31,6 @@ export default class StylesGroup extends PureComponent {
                     label={this.props.fontSizeLabel}
                     // updateKey='title'
                     value={this.props.fontStyles.fontSize}
-                    className="form-control"
                     onCustomInputChange={this.onFontSizeChange}
                 />
 
@@ -41,7 +40,6 @@ export default class StylesGroup extends PureComponent {
                     ColorId={this.props.ColorId}
                     ColorKey={this.props.ColorKey}
                     value={this.props.fontStyles.color}
-                    // className="form-control"
                     updateColor={(e) => this.onColorChange(e)}
                 />
 
@@ -50,7 +48,6 @@ export default class StylesGroup extends PureComponent {
                     // updateKey='backgroundColor'
                     placeholder='Select Font'
                     value={this.props.fontStyles.fontFamily}
-                    // className="form-control"
                     onChange={this.onFontFamilyChange}
                     options={Fonts}
                 />
