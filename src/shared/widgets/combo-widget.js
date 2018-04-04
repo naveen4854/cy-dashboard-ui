@@ -1,6 +1,7 @@
 import { Widget } from "./widget";
 import { WidgetTypeEnum } from "../enums";
 import { rgba } from "../../utilities";
+import BoxWidget from "./box-widget";
 
 export default class ComboWidget extends Widget {
     constructor(zIndex) {
@@ -17,7 +18,11 @@ export default class ComboWidget extends Widget {
         fontSize: 12,
         color: rgba(0, 0, 0, 1)
     };
-    matrix = [];
+    matrix = [
+        [new BoxWidget(1, true, true), new BoxWidget(1, true, true), new BoxWidget(1, true, true)],
+        [new BoxWidget(1, true, false), new BoxWidget(1, true, false), new BoxWidget(1, true, false)],
+        [new BoxWidget(1, true, false), new BoxWidget(1, true, false), new BoxWidget(1, true, false)],
+    ];
     appliedSettings =
         {
             ...this.appliedSettings,

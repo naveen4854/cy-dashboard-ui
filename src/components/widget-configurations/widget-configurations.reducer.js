@@ -11,6 +11,10 @@ export function ToggleSettingsMenu(widget) {
     return (dispatch, getState) => {
         dispatch(getState().dataMetrics.clearSelectedDM())
 
+        dispatch(getState().cyReportSettings.clearCyReportSettings());
+        dispatch(getState().customSettings.clearCustomSettings());
+        dispatch(getState().realTimeSettings.clearRealTimeSettings());
+        
         let currentWidget = _.cloneDeep(widget);
         let showPanel = !(getState().configurations.showPanel && getState().configurations.widgetId == currentWidget.id)
         dispatch({

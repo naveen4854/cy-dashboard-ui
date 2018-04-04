@@ -3,7 +3,9 @@ export class Widget {
     constructor(zIndex, isCombo, isHeader) {
         this.zIndex = zIndex || 1;
         this.isCombo = isCombo || false;
-        this.isHeader = isHeader || false
+        this.isHeader = isHeader || false;
+        if (isHeader)
+            this.setComboHeaderProperties()
     }
 
     id = Date.now() + Math.floor(Math.random() * 10000) + 1;
@@ -31,22 +33,15 @@ export class Widget {
     }
 
     // styles
-    appliedBackgroundColor = this.isHeader ? rgba(255, 255, 255, 1) : rgba(0, 192, 239, 1);
+    appliedBackgroundColor = rgba(0, 192, 239, 1);
     widgetBody = {
-        backgroundColor: this.isHeader ? rgba(255, 255, 255, 1) : rgba(0, 192, 239, 1),
+        backgroundColor: rgba(0, 192, 239, 1),
         fontFamily: 'Arial',
         fontSize: 12,
-        color: {
-            r: 0, g: 0, b: 0, a: 1
-        }
+        color: rgba(0, 0, 0, 1)
     };
     valueStyles = {
-        color: this.isHeader ? {
-            r: 0, g: 0, b: 0, a: 1
-        } :
-            {
-                r: 255, g: 255, b: 255, a: 1
-            },
+        color: rgba(255, 255, 255, 1),
         fontFamily: 'Arial',
         fontSize: 12
     };
@@ -55,4 +50,10 @@ export class Widget {
         fontFamily: 'Arial',
         fontSize: 12
     };
+
+    setComboHeaderProperties() {
+        this.appliedBackgroundColor = rgba(255, 255, 255, 1);
+        this.widgetBody = { ...this.widgetBody, backgroundColor: rgba(255, 255, 255, 1) }
+        this.valueStyles = { ...this.valueStyles, color: rgba(0, 0, 0, 1) }
+    }
 }
