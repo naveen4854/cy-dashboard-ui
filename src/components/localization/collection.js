@@ -139,7 +139,18 @@ const collection = {
       "Save Query",
       "Stored Procedure:",
       'Are you sure you want to delete Level ${levelNumber} threshold?',
-      'Please select Column ${columnNumber}'
+      'Please select Column ${columnNumber}',
+      'Box Configurations',
+      'Step Configurations',
+      'Speedo Configurations',
+      'Text Configurations',
+      'Picture Configurations',
+      'Pie Configurations',
+      'Bar Configurations',
+      'Clock Configurations',
+      'Circular Progress Configurations',
+      'Combo Configurations',
+      'Configurations'
     ]
   },
   THRESHOLDS: {
