@@ -31,15 +31,14 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
   let columns = [];
   let metrics = inputWidget.appliedSettings.dataMetrics;
   let clckSettings = WidgetTypeEnum.Clock == inputWidget.widgetType ? {
-    ia: inputWidget.isAnalog,
-    tid: inputWidget.timezoneid,
-    tl: inputWidget.tzoneText,
-    istfh: !inputWidget.isAnalog ? inputWidget.selectedHoursFormat : 0,
-    istd: !inputWidget.isAnalog ? inputWidget.selectedTimeFormat : 0,
-    dida: !inputWidget.isAnalog ? inputWidget.displayDate : false,
-    didy: !inputWidget.isAnalog ? inputWidget.displayDays : false,
-    isl: !inputWidget.isAnalog ? inputWidget.selectedDateFormat : 0,
-
+    ia: metrics.isAnalog,
+    tid: metrics.timezoneid,
+    tl: metrics.tzoneText,
+    istfh: !metrics.isAnalog ? metrics.selectedHoursFormat : 0,
+    istd: !metrics.isAnalog ? metrics.selectedTimeFormat : 0,
+    dida: !metrics.isAnalog ? metrics.displayDate : false,
+    didy: !metrics.isAnalog ? metrics.displayDays : false,
+    isl: !metrics.isAnalog ? metrics.selectedDateFormat : 0,
   } : {};
   let clckStyles = WidgetTypeEnum.Clock == inputWidget.widgetType ? {
     cbs: {
@@ -52,8 +51,8 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
       cf: inputWidget.numberStyles.fontSize
     },
     cts: {
-      cc: inputWidget.TimezoneStyles.color,
-      cf: inputWidget.TimezoneStyles.fontSize
+      cc: inputWidget.timezoneStyles.color,
+      cf: inputWidget.timezoneStyles.fontSize
     },
     hhs: {
       ch: inputWidget.hands.hourhandcolor
@@ -66,17 +65,17 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
     },
 
     cdt: !inputWidget.isAnalog ? {
-      cc: inputWidget.DateStyles.color,
-      cf: inputWidget.DateStyles.fontSize
+      cc: inputWidget.dateStyles.color,
+      cf: inputWidget.dateStyles.fontSize
     } : {},
     cdy: !inputWidget.isAnalog ? {
-      cc: inputWidget.DaysStyles.color,
-      cf: inputWidget.DaysStyles.fontSize
+      cc: inputWidget.daysStyles.color,
+      cf: inputWidget.daysStyles.fontSize
     } : {},
-    cdc: inputWidget.CurrentDayColor,
-    ctt: !inputWidget.isAnalog ? {
-      cc: inputWidget.TimeStyles.color,
-      cf: inputWidget.TimeStyles.fontSize
+    cdc: inputWidget.currentDayColor,
+    ctt: !metrics.isAnalog ? {
+      cc: inputWidget.timeStyles.color,
+      cf: inputWidget.timeStyles.fontSize
     } : {},
 
   } : {}
@@ -201,7 +200,7 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
     twrst: inputWidget.scrollType && inputWidget.scrollType.value,
     wsmv: inputWidget.showMaxValueOnWidget,
     wps: (inputWidget.widgetType == WidgetTypeEnum.Picture) ? inputWidget.pictureStretch.value : undefined, //Property is specific to Picture Widget
-    wpsl: (inputWidget.widgetType == WidgetTypeEnum.Picture) ? inputWidget.PictureSelected : undefined, //Property is specific to Picture Widget
+    wpsl: (inputWidget.widgetType == WidgetTypeEnum.Picture) ? inputWidget.pictureSelected : undefined, //Property is specific to Picture Widget
     mspid: inputWidget.UniqueId,
     wmx: comboMatrix,
     sll: inputWidget.showLabels,
