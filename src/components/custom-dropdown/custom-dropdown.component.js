@@ -51,7 +51,6 @@ export default class CustomSelect extends React.Component {
         if (this.props.options.length === 1) {
             // debugger
         }
-        debugger
         return (
             <Select value={selectedValue}
                 placeholder={this.props.placeholder}
