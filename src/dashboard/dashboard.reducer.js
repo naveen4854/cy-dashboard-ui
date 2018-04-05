@@ -3,8 +3,8 @@ import { WidgetData } from '../shared/lib';
 import { TOGGLE_SETTINGS_PANEL } from '../components/widget-configurations/widget-configurations.reducer';
 
 
-import { updateDashboardMode, getDashboardById, updateWidgets, updateWidget } from './dashboard.actions';
-import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, ADD_WIDGET, UPDATE_DRAGGABLE } from './dashboard.constants';
+import { updateDashboardMode, getDashboardById, updateWidgets, updateWidget, updateDashboard, updateShowIcons } from './dashboard.actions';
+import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, ADD_WIDGET, UPDATE_DRAGGABLE, UPDATE_DASHBOARD, UPDATE_SHOW_ICONS } from './dashboard.constants';
 
 
 export function AddWidget(widgetType) {
@@ -59,7 +59,16 @@ export const ACTION_HANDLERS = {
         return Object.assign({}, state, {
             disableDrag: action.draggable,
         })
-    }
+    },
+    [UPDATE_DASHBOARD]:(state, action) => {
+        return Object.assign({}, state, {...action.dashboard}); 
+    },
+    [UPDATE_SHOW_ICONS]: (state, action) => {
+        return Object.assign({}, state, {
+            showIcons: action.showIcons,
+
+        })
+    },
 }
 
 const initialState = {
@@ -70,6 +79,10 @@ const initialState = {
     updateWidgets,
     updateWidget,
     disableDrag: false,
+    updateDashboard,
+    Id: -1,
+    updateShowIcons,
+    showIcons: true,
 };
 
 export default function DashboardReducer(state = _.cloneDeep(initialState), action) {

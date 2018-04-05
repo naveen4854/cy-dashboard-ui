@@ -12,7 +12,6 @@ export default class DashboardLayoutComponent extends PureComponent {
                         <RndWidgetComponent
                             key={widget.id}
                             widget={widget}
-                            mode={this.props.dashboard.mode}
                             toggleSettingsMenu={this.props.toggleSettingsMenu}
                             onResizeStop={this.onResizeStop}
                             onResizeStart={this.onResizeStart}

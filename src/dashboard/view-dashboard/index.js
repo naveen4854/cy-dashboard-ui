@@ -26,6 +26,7 @@ export default (store) => ({
   onEnter: (nextState, replace) => {
     injectReducer(store, { key: 'dashboard', reducer: DashboardReducer })
     store.dispatch(store.getState().dashboard.updateDashboardMode(DashboardModeEnum.View))
+    store.dispatch(store.getState().dashboard.updateShowIcons(DashboardModeEnum.View))
     store.dispatch(store.getState().dashboard.getDashboardById(nextState.params.id))
   },
 })

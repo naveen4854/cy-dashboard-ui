@@ -62,7 +62,6 @@ export default class RndWidgetComponent extends PureComponent {
             // position={{ x: widget.x, y: widget.y }}
             >
                 <WidgetContainer key={widget.id}
-                    mode={mode}
                     widget={widget}
                     toggleSettingsMenu={this.props.toggleSettingsMenu}
                 />

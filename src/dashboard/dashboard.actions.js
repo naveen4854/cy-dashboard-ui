@@ -1,4 +1,4 @@
-import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, UPDATE_DRAGGABLE } from "./dashboard.constants";
+import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, UPDATE_DRAGGABLE, UPDATE_DASHBOARD, UPDATE_SHOW_ICONS } from "./dashboard.constants";
 import * as dashboardService from './dashboard-service';
 import * as dataMetricsService from '../components/data-metrics/data-metrics-service'
 import { DashboardModeEnum, WidgetTypeEnum } from "../shared/enums";
@@ -26,6 +26,12 @@ export function updateDashboardMode(mode) {
     return {
         type: UPDATE_DASHBOARD_MODE,
         mode
+    };
+}
+export function updateShowIcons(mode) {
+    return {
+        type: UPDATE_SHOW_ICONS,
+        showIcons: (mode == DashboardModeEnum.New || mode == DashboardModeEnum.Edit)
     };
 }
 
@@ -73,7 +79,7 @@ export function getDashboardById(dashboardId) {
 
                                     const dashboardData = DashboardUtilities.mapDashboardFromServer(dashboard, datametricsMetaData, true);
                                     debugger;
-                                    dispatch(getState().dashboard.updateWidgets(dashboardData.widgets));
+                                    dispatch(getState().dashboard.updateDashboard(dashboardData));
 
                                 }
                             });
@@ -177,4 +183,11 @@ export function updateDraggable(draggable) {
             draggable
         })
     }
+}
+
+export function updateDashboard(dashboard) {
+    return {
+        type: UPDATE_DASHBOARD,
+        dashboard
+    };
 }

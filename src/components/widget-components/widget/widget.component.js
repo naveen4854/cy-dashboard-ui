@@ -18,7 +18,7 @@ import '../styles.css'
 export default class WidgetComponent extends PureComponent {
 
     render() {
-        let classToBeApplied = 'widget';
+        let classToBeApplied = 'widget'; 
 
         switch (this.props.widget.widgetType) {
             case WidgetTypeEnum.Text:
@@ -45,7 +45,7 @@ export default class WidgetComponent extends PureComponent {
             <div style={{ height: this.props.widget.height, width: this.props.widget.width }}
                 className={classToBeApplied}>
                 {
-                    (this.props.mode == DashboardModeEnum.Edit || this.props.mode == DashboardModeEnum.New) &&
+                    (this.props.showIcons) &&
                     <WidgetHeader {...this.props} />
                 }
                 {
