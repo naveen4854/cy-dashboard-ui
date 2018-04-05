@@ -190,6 +190,7 @@ export function updateDashboard(dashboard) {
         type: UPDATE_DASHBOARD,
         dashboard
     };
+}
 export function updateComboMatrix(comboWidgetId, columnIndex, rowIndex, delta) {
     return (dispatch, getState) => {
         let widget = _.find(getState().dashboard.widgets, (widget) => widget.id == comboWidgetId)
