@@ -6,6 +6,7 @@ import { Constants } from '../../constants';
 import * as DateZone from '../date-conversion';
 import moment from 'moment';
 import { BoxWidget } from '../../widgets';
+import { rgba } from '../../../utilities';
 
 
 
@@ -455,380 +456,6 @@ function mapThresholds(thresholds) {
   return givenThresholds
 }
 
-export function dashboard(dashboard, dataMetricsMetadata, isEdit) {
-  debugger
-  return {
-    Id: dashboard.di,
-    name: dashboard.dn,
-    isGlobal: dashboard.dig,
-    isDefault: dashboard.didf,
-    category: dashboard.dci,
-    widgets: _.map(dashboard.dws, (widget) => {
-      switch (widget.wt) {
-        case WidgetTypeEnum.Clock:
-
-          return {
-            x: widget.wxp,
-            y: widget.wyp,
-            width: widget.width,
-            height: widget.height,
-            z: widget.zIndex,
-            id: widget.wid,
-            widgetType: widget.wt,
-            value: 0,
-            displayValue: 0,
-            appliedSettings: {
-              dataMetrics: {
-                selectedTimeZoneItem: { 'label': widget.cs.tid, 'value': widget.cs.tid },
-                title: widget.wtl,
-                timezoneid: widget.cs.tid,
-                timezoneLabel: undefined,
-                isAnalog: widget.cs.ia,
-                tzoneText: widget.cs.tl,
-                selectedHoursFormat: !widget.cs.ia ? widget.cs.istfh : 0,
-                selectedTimeFormat: !widget.cs.ia ? widget.cs.istd : 0,
-                selectedDateFormat: !widget.cs.ia ? widget.cs.isl : 0,
-                displayDate: !widget.cs.ia ? widget.cs.dida : false,
-                displayDays: !widget.cs.ia ? widget.cs.didy : false,
-              }
-            },
-            widgetBody: {
-              clockbackgroundColor: widget.css.cbs.cbb,
-              clockOuterbackgroundColor: widget.css.cbs.cobb,
-              clockRoundingColor: widget.css.cbs.cbr,
-
-            },
-            numberStyles: {
-              color: widget.css.cns.cc,
-              fontSize: widget.css.cns.cf
-
-            },
-            timezoneStyles: {
-              color: widget.css.cts.cc,
-              fontSize: widget.css.cts.cf,
-              fontFamily: widget.css.cts.cff ? widget.css.cts.cff : 'Arial'
-            },
-
-            hands: {
-              hourhandcolor: widget.css.hhs.ch,
-              minutehandcolor: widget.css.mhs.ch,
-              secondhandcolor: widget.css.shs.ch
-            },
-            timeStyles: {
-
-              color: widget.css.ctt.cc ? widget.css.ctt.cc : {
-                r: 0, g: 0, b: 0, a: 1
-              },
-              fontSize: widget.css.ctt.cf == 0 ? "11" : widget.css.ctt.cf
-
-            },
-            dateStyles: {
-              color: widget.css.cdt.cc ? widget.css.cdt.cc : { r: 0, g: 0, b: 0, a: 1 },
-              fontSize: widget.css.cdt.cf == 0 ? "11" : widget.css.cdt.cf
-            },
-            currentDayColor: widget.css.cdc ? widget.css.cdc : { r: 0, g: 0, b: 0, a: 1 },
-            daysStyles: {
-              color: widget.css.cdy ? widget.css.cdy.cc ? widget.css.cdy.cc : { r: 0, g: 0, b: 0, a: 1 } : { r: 0, g: 0, b: 0, a: 1 },
-              fontSize: widget.css.cdy ? widget.css.cdy.cf == 0 ? "11" : widget.css.cdy.cf : 11
-            },
-
-            cs: widget.cs,
-          }
-
-        case WidgetTypeEnum.CircularProgress:
-
-          return {
-            x: widget.wxp,
-            y: widget.wyp,
-            width: widget.width,
-            height: widget.height,
-            z: widget.zIndex,
-            id: widget.wid,
-            widgetType: widget.wt,
-            min: widget.wmin,
-            max: widget.wmax,
-            refreshInterval: widget.wri,
-            value: 0,
-            displayValue: 0,
-            title: widget.wtl,
-            showMaxValueOnWidget: widget.wsmv,
-            appliedBackgroundColor: widget.wb ? widget.wb.sbc : {},
-            arcColor: widget.cpac ? widget.cpac : {
-              r: 255,
-              g: 255,
-              b: 255,
-              a: 1
-            },
-            arcWidth: widget.cpaw ? widget.cpaw : 15,
-            valueStyles: widget.wvs ? {
-              color: widget.wvs.sc,
-              fontFamily: widget.wvs.sff,
-              fontSize: widget.wvs.sfs
-            } :
-              {
-                color: {
-                  r: 255,
-                  g: 255,
-                  b: 255,
-                  a: 1
-                },
-                fontFamily: 'Arial',
-                fontSize: '36'
-              },
-            titleStyles: widget.wts ? {
-              color: widget.wts.sc,
-              fontFamily: widget.wts.sff,
-              fontSize: widget.wts.sfs
-            } :
-              {
-                color: {
-                  r: 255,
-                  g: 255,
-                  b: 255,
-                  a: 1
-                },
-                fontFamily: 'Arial',
-                fontSize: '12'
-              },
-            rangeValueStyles: widget.wrs ? {
-              color: widget.wrs.sc,
-              fontFamily: widget.wrs.sff,
-              fontSize: widget.wrs.sfs
-            } :
-              {
-                color: {
-                  r: 255,
-                  g: 255,
-                  b: 255,
-                  a: 1
-                },
-                fontFamily: 'Arial',
-                fontSize: '12'
-              },
-
-            widgetBody: widget.wb ? {
-              backgroundColor: widget.wb.sbc,
-              color: widget.wb.sc,
-              fontFamily: widget.wb.sff,
-              fontSize: widget.wb.sfs
-            } :
-              {
-                backgroundColor: {
-                  r: 255,
-                  g: 255,
-                  b: 255,
-                  a: 1
-                }
-              },
-
-
-            segmentColors: widget.wsgc,
-            barStyles: widget.wbs ? {
-              backgroundColor: widget.wbs.sbc,
-              color: widget.wbs.sc,
-              fontFamily: widget.wbs.sff,
-              fontSize: widget.wbs.sfs
-            } :
-              {
-                backgroundColor: {
-                  r: 255,
-                  g: 255,
-                  b: 255,
-                  a: 1
-                }
-              },
-
-            xAxisStyles: widget.wsxs ? {
-              backgroundColor: widget.wsxs.sbc,
-              color: widget.wsxs.sc,
-              fontFamily: widget.wsxs.sff,
-              fontSize: widget.wsxs.sfs
-            } :
-              {
-                backgroundColor: {
-                  r: 255,
-                  g: 255,
-                  b: 255,
-                  a: 1
-                }
-              },
-            yAxisStyles: widget.wsys ? {
-              backgroundColor: widget.wsys.sbc,
-              color: widget.wsys.sc,
-              fontFamily: widget.wsys.sff,
-              fontSize: widget.wsys.sfs
-            } :
-              {
-                backgroundColor: {
-                  r: 255,
-                  g: 255,
-                  b: 255,
-                  a: 1
-                }
-              },
-            enableMin: widget.wenmn,
-            enableMax: widget.wenmx,
-            enableBarLines: widget.wenbl,
-            useSelectedBarColor: widget.wusbc,
-            showYAxis: widget.wsy,
-            scrollType: getScrollType(widget.twrst),
-            scrollSpeed: widget.twrd,
-            matrix: widget.wt == WidgetTypeEnum.Combo ? convertToMatrix(widget.wmx, widget.ws.srt.rc, widget.ws.srt.rf, widget.wid, widget.ws.stom) : '',
-            PictureSelected: widget.wt == WidgetTypeEnum.Picture ? widget.wpsl : '',
-            appliedSettings: mapAppliedSettings(widget, isEdit, dataMetricsMetadata),
-            showLabels: widget.sll,
-            showLegends: widget.sld
-          }
-        default:
-          return {
-            x: widget.wxp,
-            y: widget.wyp,
-            width: widget.width,
-            height: widget.height,
-            z: widget.zIndex,
-            id: widget.wid,
-            widgetType: widget.wt,
-            min: widget.wmin,
-            max: widget.wmax,
-            refreshInterval: widget.wri,
-            value: 0,
-            displayValue: 0,
-            title: widget.wtl,
-            showMaxValueOnWidget: widget.wsmv,
-            appliedBackgroundColor: widget.wb ? widget.wb.sbc : {},
-            valueStyles: widget.wvs ? {
-              color: widget.wvs.sc,
-              fontFamily: widget.wvs.sff,
-              fontSize: widget.wvs.sfs
-            } :
-              {
-                color: {
-                  r: 255,
-                  g: 255,
-                  b: 255,
-                  a: 1
-                },
-                fontFamily: 'Arial',
-                fontSize: '36'
-              },
-            titleStyles: widget.wts ? {
-              color: widget.wts.sc,
-              fontFamily: widget.wts.sff,
-              fontSize: widget.wts.sfs
-            } :
-              {
-                color: {
-                  r: 255,
-                  g: 255,
-                  b: 255,
-                  a: 1
-                },
-                fontFamily: 'Arial',
-                fontSize: '12'
-              },
-            rangeValueStyles: widget.wrs ? {
-              color: widget.wrs.sc,
-              fontFamily: widget.wrs.sff,
-              fontSize: widget.wrs.sfs
-            } :
-              {
-                color: {
-                  r: 255,
-                  g: 255,
-                  b: 255,
-                  a: 1
-                },
-                fontFamily: 'Arial',
-                fontSize: '12'
-              },
-            widgetBody: widget.wb ? {
-              backgroundColor: widget.wb.sbc,
-              color: widget.wb.sc,
-              fontFamily: widget.wb.sff,
-              fontSize: widget.wb.sfs
-            } :
-              {
-                backgroundColor: {
-                  r: 255,
-                  g: 255,
-                  b: 255,
-                  a: 1
-                }
-              },
-
-
-            segmentColors: widget.wsgc && widget.wsgc.length > 0 ? widget.wsgc : [
-              {
-                r: 255, g: 0, b: 0, a: 1
-              },
-              {
-                r: 255, g: 232, b: 0, a: 1
-              },
-              {
-                r: 0, g: 255, b: 0, a: 1
-              }
-            ],
-            barStyles: widget.wbs ? {
-              backgroundColor: widget.wbs.sbc,
-              color: widget.wbs.sc,
-              fontFamily: widget.wbs.sff,
-              fontSize: widget.wbs.sfs
-            } :
-              {
-                backgroundColor: {
-                  r: 255,
-                  g: 255,
-                  b: 255,
-                  a: 1
-                }
-              },
-
-            xAxisStyles: widget.wsxs ? {
-              backgroundColor: widget.wsxs.sbc,
-              color: widget.wsxs.sc,
-              fontFamily: widget.wsxs.sff,
-              fontSize: widget.wsxs.sfs
-            } :
-              {
-                backgroundColor: {
-                  r: 255,
-                  g: 255,
-                  b: 255,
-                  a: 1
-                }
-              },
-            yAxisStyles: widget.wsys ? {
-              backgroundColor: widget.wsys.sbc,
-              color: widget.wsys.sc,
-              fontFamily: widget.wsys.sff,
-              fontSize: widget.wsys.sfs
-            } :
-              {
-                backgroundColor: {
-                  r: 255,
-                  g: 255,
-                  b: 255,
-                  a: 1
-                }
-              },
-            enableMin: widget.wenmn,
-            enableMax: widget.wenmx,
-            enableBarLines: widget.wenbl,
-            useSelectedBarColor: widget.wusbc,
-            showYAxis: widget.wsy,
-            scrollType: getScrollType(widget.twrst),
-            scrollSpeed: widget.twrd,
-            matrix: widget.wt == WidgetTypeEnum.Combo ? convertToMatrix(widget.wmx, widget.ws.srt.rc, widget.ws.srt.rf, widget.wid, widget.ws.stom) : '',
-            PictureSelected: widget.wt == WidgetTypeEnum.Picture ? widget.wpsl : '',
-            appliedSettings: mapAppliedSettings(widget, isEdit, dataMetricsMetadata),
-            showLabels: widget.sll,
-            showLegends: widget.sld
-          }
-      }
-    })
-  }
-}
-
 /**
  * mapping the custom combo headers
  * @param {*} cHeader 
@@ -928,24 +555,14 @@ function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId) {
         wri: -1,
         displayValue: categoryId == StatisticCategoryEnum.RealTime ? i == 0 || j == 0 ? eachWidget.wtl : '--' : i == 0 ? eachWidget.wtl : '--',
         value: '0',
-        segmentColors: eachWidget.wsgc && eachWidget.wsgc.length > 0 ? eachWidget.wsgc : [
-          {
-            r: 255, g: 0, b: 0, a: 1
-          },
-          {
-            r: 255, g: 232, b: 0, a: 1
-          },
-          {
-            r: 0, g: 255, b: 0, a: 1
-          }
-        ],
+        segmentColors: eachWidget.wsgc && eachWidget.wsgc.length > 0 ? eachWidget.wsgc : [rgba(255, 0, 0, 1), rgba(255, 232, 0, 1), rgba(0, 255, 0, 1)],
         isComboWidget: true,
         scrollType: ScrollTypeEnum.None,
         widgetBody: StylesMapper(eachWidget.wb),
         valueStyles: StylesMapper(eachWidget.wvs),
         titleStyles: StylesMapper(eachWidget.wts),
         rangeValueStyles: StylesMapper(eachWidget.wrs),
-        arcColor: eachWidget.cpac ? eachWidget.cpac : { r: 0, g: 192, b: 239, a: 1 },
+        arcColor: eachWidget.cpac ? eachWidget.cpac : rgba(0, 192, 239, 1),
         arcWidth: eachWidget.cpaw ? eachWidget.cpaw : 15,
         appliedBackgroundColor: categoryId == StatisticCategoryEnum.Custom && resultMatrix[0][j].abc ? resultMatrix[0][j].abc : StylesMapper(eachWidget.wb).backgroundColor,// categoryId ==  StatisticCategoryEnum.Custom ? GetWidget(WidgetTypeEnum.Box, true, 0).appliedBackgroundColor : StylesMapper(eachWidget.wb).backgroundColor,
         showMaxValueOnWidget: eachWidget.wsmv,
@@ -1154,4 +771,392 @@ function comboResultMapping(widget, data) {
       widget.matrix.push(cellList);
     }
   }
-} 
+}
+
+export function mapDashboardFromServer(dashboard, dataMetricsMetadata, isEdit) {
+  return {
+    Id: dashboard.di,
+    name: dashboard.dn,
+    isGlobal: dashboard.dig,
+    isDefault: dashboard.didf,
+    category: dashboard.dci,
+    widgets: _.map(dashboard.dws, (widget) => {
+      switch (widget.wt) {
+        case WidgetTypeEnum.Clock:
+          return clockWidgetConfigurationsFromServer(widget, dataMetricsMetadata, isEdit);
+        case WidgetTypeEnum.CircularProgress:
+          return circularWidgetConfigurationsFromServer(widget, dataMetricsMetadata, isEdit);
+        case WidgetTypeEnum.Combo:
+          return comboWidgetConfigurationsFromServer(widget, dataMetricsMetadata, isEdit);
+        case WidgetTypeEnum.Text:
+          return textWidgetConfigurationsFromServer(widget, dataMetricsMetadata, isEdit);
+        case WidgetTypeEnum.Picture:
+          return pictureWidgetConfigurationsFromServer(widget, dataMetricsMetadata, isEdit);
+        default:
+          return widgetConfigurationsFromServer(widget, dataMetricsMetadata, isEdit);
+      }
+    })
+  }
+}
+
+function pictureWidgetConfigurationsFromServer(pictureWidget, dataMetricsMetadata, isEdit) {
+  return {
+    x: pictureWidget.wxp,
+    y: pictureWidget.wyp,
+    width: pictureWidget.width,
+    height: pictureWidget.height,
+    z: pictureWidget.zIndex,
+    id: pictureWidget.wid,
+    widgetType: pictureWidget.wt,
+    PictureSelected: pictureWidget.wpsl
+  }
+}
+function textWidgetConfigurationsFromServer(textWidget, dataMetricsMetadata, isEdit) {
+  return {
+    x: textWidget.wxp,
+    y: textWidget.wyp,
+    width: textWidget.width,
+    height: textWidget.height,
+    z: textWidget.zIndex,
+    id: textWidget.wid,
+    widgetType: textWidget.wt,
+    scrollType: getScrollType(textWidget.twrst),
+    scrollSpeed: textWidget.twrd,
+    title: textWidget.wtl,
+
+  }
+}
+function comboWidgetConfigurationsFromServer(widget, dataMetricsMetadata, isEdit) {
+  return {
+    x: widget.wxp,
+    y: widget.wyp,
+    width: widget.width,
+    height: widget.height,
+    z: widget.zIndex,
+    id: widget.wid,
+    widgetType: widget.wt,
+    min: widget.wmin,
+    max: widget.wmax,
+    refreshInterval: widget.wri,
+    value: 0,
+    displayValue: 0,
+    title: widget.wtl,
+    showMaxValueOnWidget: widget.wsmv,
+    appliedBackgroundColor: widget.wb ? widget.wb.sbc : {},
+    valueStyles: widget.wvs ? {
+      color: widget.wvs.sc,
+      fontFamily: widget.wvs.sff,
+      fontSize: widget.wvs.sfs
+    } :
+      {
+        color: rgba(255, 255, 255, 1),
+        fontFamily: 'Arial',
+        fontSize: '36'
+      },
+    titleStyles: widget.wts ? {
+      color: widget.wts.sc,
+      fontFamily: widget.wts.sff,
+      fontSize: widget.wts.sfs
+    } :
+      {
+        color: rgba(255, 255, 255, 1),
+        fontFamily: 'Arial',
+        fontSize: '12'
+      },
+    rangeValueStyles: widget.wrs ? {
+      color: widget.wrs.sc,
+      fontFamily: widget.wrs.sff,
+      fontSize: widget.wrs.sfs
+    } :
+      {
+        color: rgba(255, 255, 255, 1),
+        fontFamily: 'Arial',
+        fontSize: '12'
+      },
+    widgetBody: widget.wb ? {
+      backgroundColor: widget.wb.sbc,
+      color: widget.wb.sc,
+      fontFamily: widget.wb.sff,
+      fontSize: widget.wb.sfs
+    } :
+      {
+        backgroundColor: rgba(255, 255, 255, 1)
+      },
+
+
+    segmentColors: widget.wsgc && widget.wsgc.length > 0 ? widget.wsgc : [rgba(255, 0, 0, 1), rgba(255, 232, 0, 1), rgba(0, 255, 0, 1)],
+    barStyles: widget.wbs ? {
+      backgroundColor: widget.wbs.sbc,
+      color: widget.wbs.sc,
+      fontFamily: widget.wbs.sff,
+      fontSize: widget.wbs.sfs
+    } :
+      {
+        backgroundColor: rgba(255, 255, 255, 1)
+      },
+
+    xAxisStyles: widget.wsxs ? {
+      backgroundColor: widget.wsxs.sbc,
+      color: widget.wsxs.sc,
+      fontFamily: widget.wsxs.sff,
+      fontSize: widget.wsxs.sfs
+    } :
+      {
+        backgroundColor: rgba(255, 255, 255, 1)
+      },
+    yAxisStyles: widget.wsys ? {
+      backgroundColor: widget.wsys.sbc,
+      color: widget.wsys.sc,
+      fontFamily: widget.wsys.sff,
+      fontSize: widget.wsys.sfs
+    } :
+      {
+        backgroundColor: rgba(255, 255, 255, 1)
+      },
+    enableMin: widget.wenmn,
+    enableMax: widget.wenmx,
+    enableBarLines: widget.wenbl,
+    useSelectedBarColor: widget.wusbc,
+    showYAxis: widget.wsy,
+    scrollType: getScrollType(widget.twrst),
+    scrollSpeed: widget.twrd,
+    matrix: widget.wt == WidgetTypeEnum.Combo ? convertToMatrix(widget.wmx, widget.ws.srt.rc, widget.ws.srt.rf, widget.wid, widget.ws.stom) : '',
+    PictureSelected: widget.wt == WidgetTypeEnum.Picture ? widget.wpsl : '',
+    appliedSettings: mapAppliedSettings(widget, isEdit, dataMetricsMetadata),
+    showLabels: widget.sll,
+    showLegends: widget.sld
+  };
+}
+
+function widgetConfigurationsFromServer(widget, dataMetricsMetadata, isEdit) {
+  return {
+    x: widget.wxp,
+    y: widget.wyp,
+    width: widget.width,
+    height: widget.height,
+    z: widget.zIndex,
+    id: widget.wid,
+    widgetType: widget.wt,
+    min: widget.wmin,
+    max: widget.wmax,
+    refreshInterval: widget.wri,
+    value: 0,
+    displayValue: 0,
+    title: widget.wtl,
+    appliedBackgroundColor: widget.wb ? widget.wb.sbc : {},
+    valueStyles: widget.wvs ? {
+      color: widget.wvs.sc,
+      fontFamily: widget.wvs.sff,
+      fontSize: widget.wvs.sfs
+    } :
+      {
+        color: rgba(255, 255, 255, 1),
+        fontFamily: 'Arial',
+        fontSize: '36'
+      },
+    titleStyles: widget.wts ? {
+      color: widget.wts.sc,
+      fontFamily: widget.wts.sff,
+      fontSize: widget.wts.sfs
+    } :
+      {
+        color: rgba(255, 255, 255, 1),
+        fontFamily: 'Arial',
+        fontSize: '12'
+      },
+    rangeValueStyles: widget.wrs ? {
+      color: widget.wrs.sc,
+      fontFamily: widget.wrs.sff,
+      fontSize: widget.wrs.sfs
+    } :
+      {
+        color: rgba(255, 255, 255, 1),
+        fontFamily: 'Arial',
+        fontSize: '12'
+      },
+    widgetBody: widget.wb ? {
+      backgroundColor: widget.wb.sbc,
+      color: widget.wb.sc,
+      fontFamily: widget.wb.sff,
+      fontSize: widget.wb.sfs
+    } :
+      {
+        backgroundColor: rgba(255, 255, 255, 1)
+      },
+    segmentColors: widget.wsgc && widget.wsgc.length > 0 ? widget.wsgc : [rgba(255, 0, 0, 1), rgba(255, 232, 0, 1), rgba(0, 255, 0, 1)],
+    barStyles: widget.wbs ? {
+      backgroundColor: widget.wbs.sbc,
+      color: widget.wbs.sc,
+      fontFamily: widget.wbs.sff,
+      fontSize: widget.wbs.sfs
+    } :
+      {
+        backgroundColor: rgba(255, 255, 255, 1)
+      },
+
+    xAxisStyles: widget.wsxs ? {
+      backgroundColor: widget.wsxs.sbc,
+      color: widget.wsxs.sc,
+      fontFamily: widget.wsxs.sff,
+      fontSize: widget.wsxs.sfs
+    } :
+      {
+        backgroundColor: rgba(255, 255, 255, 1)
+      },
+    yAxisStyles: widget.wsys ? {
+      backgroundColor: widget.wsys.sbc,
+      color: widget.wsys.sc,
+      fontFamily: widget.wsys.sff,
+      fontSize: widget.wsys.sfs
+    } :
+      {
+        backgroundColor: rgba(255, 255, 255, 1)
+      },
+    enableMin: widget.wenmn,
+    enableMax: widget.wenmx,
+    enableBarLines: widget.wenbl,
+    useSelectedBarColor: widget.wusbc,
+    showYAxis: widget.wsy,
+
+    showLabels: widget.sll,
+    showLegends: widget.sld,
+    appliedSettings: mapAppliedSettings(widget, isEdit, dataMetricsMetadata),
+
+  }
+}
+
+/**
+ * This methods returns only styles and nothing else. This should be used only in view mode which doesnt need any settings.
+ * @param {Circular widget} circularWidget 
+ */
+function circularWidgetConfigurationsFromServer(circularWidget, dataMetricsMetadata, isEdit) {
+  return {
+    x: circularWidget.wxp,
+    y: circularWidget.wyp,
+    width: circularWidget.width,
+    height: circularWidget.height,
+    z: circularWidget.zIndex,
+    id: circularWidget.wid,
+    widgetType: circularWidget.wt,
+    min: circularWidget.wmin,
+    max: circularWidget.wmax,
+    refreshInterval: circularWidget.wri,
+    value: 0,
+    displayValue: 0,
+    title: circularWidget.wtl,
+    showMaxValueOnWidget: circularWidget.wsmv,
+    appliedBackgroundColor: circularWidget.wb ? circularWidget.wb.sbc : {},
+    arcColor: circularWidget.cpac ? circularWidget.cpac : rgba(255, 255, 255, 1),
+    arcWidth: circularWidget.cpaw ? circularWidget.cpaw : 15,
+    valueStyles: circularWidget.wvs ? {
+      color: circularWidget.wvs.sc,
+      fontFamily: circularWidget.wvs.sff,
+      fontSize: circularWidget.wvs.sfs
+    } :
+      {
+        color: rgba(255, 255, 255, 1),
+        fontFamily: 'Arial',
+        fontSize: '36'
+      },
+    titleStyles: circularWidget.wts ? {
+      color: circularWidget.wts.sc,
+      fontFamily: circularWidget.wts.sff,
+      fontSize: circularWidget.wts.sfs
+    } :
+      {
+        color: rgba(255, 255, 255, 1),
+        fontFamily: 'Arial',
+        fontSize: '12'
+      },
+    rangeValueStyles: circularWidget.wrs ? {
+      color: circularWidget.wrs.sc,
+      fontFamily: circularWidget.wrs.sff,
+      fontSize: circularWidget.wrs.sfs
+    } :
+      {
+        color: rgba(255, 255, 255, 1),
+        fontFamily: 'Arial',
+        fontSize: '12'
+      },
+
+    widgetBody: circularWidget.wb ? {
+      backgroundColor: circularWidget.wb.sbc,
+      color: circularWidget.wb.sc,
+      fontFamily: circularWidget.wb.sff,
+      fontSize: circularWidget.wb.sfs
+    } :
+      {
+        backgroundColor: rgba(255, 255, 255, 1)
+      },
+    appliedSettings: mapAppliedSettings(circularWidget, isEdit, dataMetricsMetadata),
+
+  }
+}
+
+function clockWidgetConfigurationsFromServer(clockWidget, dataMetricsMetadata, isEdit) {
+  return {
+    x: clockWidget.wxp,
+    y: clockWidget.wyp,
+    width: clockWidget.width,
+    height: clockWidget.height,
+    z: clockWidget.zIndex,
+    id: clockWidget.wid,
+    widgetType: clockWidget.wt,
+    value: 0,
+    displayValue: 0,
+    appliedSettings: {
+      dataMetrics: {
+        selectedTimeZoneItem: { 'label': clockWidget.cs.tid, 'value': clockWidget.cs.tid },
+        title: clockWidget.wtl,
+        timezoneid: clockWidget.cs.tid,
+        timezoneLabel: undefined,
+        isAnalog: clockWidget.cs.ia,
+        tzoneText: clockWidget.cs.tl,
+        selectedHoursFormat: !clockWidget.cs.ia ? clockWidget.cs.istfh : 0,
+        selectedTimeFormat: !clockWidget.cs.ia ? clockWidget.cs.istd : 0,
+        selectedDateFormat: !clockWidget.cs.ia ? clockWidget.cs.isl : 0,
+        displayDate: !clockWidget.cs.ia ? clockWidget.cs.dida : false,
+        displayDays: !clockWidget.cs.ia ? clockWidget.cs.didy : false,
+      }
+    },
+    widgetBody: {
+      clockbackgroundColor: clockWidget.css.cbs.cbb,
+      clockOuterbackgroundColor: clockWidget.css.cbs.cobb,
+      clockRoundingColor: clockWidget.css.cbs.cbr,
+
+    },
+    numberStyles: {
+      color: clockWidget.css.cns.cc,
+      fontSize: clockWidget.css.cns.cf
+
+    },
+    timezoneStyles: {
+      color: clockWidget.css.cts.cc,
+      fontSize: clockWidget.css.cts.cf,
+      fontFamily: clockWidget.css.cts.cff ? clockWidget.css.cts.cff : 'Arial'
+    },
+
+    hands: {
+      hourhandcolor: clockWidget.css.hhs.ch,
+      minutehandcolor: clockWidget.css.mhs.ch,
+      secondhandcolor: clockWidget.css.shs.ch
+    },
+    timeStyles: {
+
+      color: clockWidget.css.ctt.cc ? clockWidget.css.ctt.cc : rgba(0, 0, 0, 1),
+      fontSize: clockWidget.css.ctt.cf == 0 ? "11" : clockWidget.css.ctt.cf
+
+    },
+    dateStyles: {
+      color: clockWidget.css.cdt.cc ? clockWidget.css.cdt.cc : rgba(0, 0, 0, 1),
+      fontSize: clockWidget.css.cdt.cf == 0 ? "11" : clockWidget.css.cdt.cf
+    },
+    currentDayColor: clockWidget.css.cdc ? clockWidget.css.cdc : rgba(0, 0, 0, 1),
+    daysStyles: {
+      color: clockWidget.css.cdy ? clockWidget.css.cdy.cc ? clockWidget.css.cdy.cc : rgba(0, 0, 0, 1) : rgba(0, 0, 0, 1),
+      fontSize: clockWidget.css.cdy ? clockWidget.css.cdy.cf == 0 ? "11" : clockWidget.css.cdy.cf : 11
+    },
+
+    cs: clockWidget.cs,
+  }
+}
