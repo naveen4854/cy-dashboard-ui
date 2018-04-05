@@ -122,6 +122,12 @@ export function testU() {
     })
   }
 }
+// export function ViewDashboard() {
+//   return (dispatch, getState) => {
+//    // Dispatch mode of dashboard from here.
+//    // Dispatch an API to get dashboard data from an API and set it in dashboard store which contains only widgets
+//   }
+// }
 
 const initialState = {
   categories: [],

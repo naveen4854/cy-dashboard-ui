@@ -3,7 +3,7 @@ import StylesComponent from './styles.component';
 import localize from '../localization/localization.hoc';
 import commonProps from './styles-common-props';
 import * as Reducer from './styles.reducer';
-import { DisplayFormatEnum } from '../../shared/enums';
+import { DisplayFormatEnum, PageEnum } from '../../shared/enums';
 
 const mapDispatchToProps = (dispatch) => {
     //let commons = commonProps(dispatch);
@@ -40,4 +40,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(localize(StylesComponent))
+export default connect(mapStateToProps, mapDispatchToProps)(localize(StylesComponent, PageEnum.WIDGET_STYLES ))
