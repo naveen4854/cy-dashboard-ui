@@ -9,7 +9,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        
+        // dashboardMode: state.dashboard.mode
     }
 }
 
