@@ -1,3 +1,3 @@
-import WidgetComponent from './widget/widget.component';
+import WidgetContainer from './widget/widget.component';
 
-export default WidgetComponent;
+export default WidgetContainer;

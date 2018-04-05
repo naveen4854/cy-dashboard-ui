@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 
-import WidgetComponent from '../widget-components'
+import WidgetContainer from '../widget-components'
 import RndWidgetComponent from '../resize-n-drag-widget';
 
 export default class DashboardLayoutComponent extends PureComponent {
