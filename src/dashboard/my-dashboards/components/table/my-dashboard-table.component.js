@@ -9,6 +9,7 @@ export default class MyDashboardTable extends PureComponent {
     }
 
     viewDashboard(id) {
+        //this.props.ViewDashboard(id);
         browserHistory.push(`/dashboard/view/${id}`);
     }
 

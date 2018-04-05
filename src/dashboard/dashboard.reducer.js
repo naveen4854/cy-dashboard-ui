@@ -2,9 +2,10 @@ import { WidgetTypeEnum, DashboardModeEnum } from '../shared/enums'
 import { WidgetData } from '../shared/lib';
 import { TOGGLE_SETTINGS_PANEL } from '../components/widget-configurations/widget-configurations.reducer';
 
-const ADD_WIDGET = 'ADD_WIDGET'
-export const UPDATE_DASHBOARD_WIDGET = 'UPDATE_DASHBOARD_WIDGET';
-export const UPDATE_DASHBOARD_WIDGETS = 'UPDATE_DASHBOARD_WIDGETS';
+
+import { updateDashboardMode, getDashboardById, updateWidgets } from './dashboard.actions';
+import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS,UPDATE_DASHBOARD_WIDGET, ADD_WIDGET, UPDATE_WIDGET } from './dashboard.constants';
+
 
 export function AddWidget(widgetType) {
     return (dispatch, getState) => {
@@ -42,14 +43,25 @@ export const ACTION_HANDLERS = {
         })
         return Object.assign({}, state, { widgets });
     },
+    [UPDATE_DASHBOARD_MODE]: (state, action) => {
+        return Object.assign({}, state, {
+            mode: action.mode,
+
+        })
+    },
     [UPDATE_DASHBOARD_WIDGETS]: (state, action) => {
-        return Object.assign({}, state, { widgets: action.widgets })
+        return Object.assign({}, state, {
+            widgets: action.widgets,
+        })
     }
 }
 
 const initialState = {
     widgets: [],
-    mode: DashboardModeEnum.Edit
+    mode: DashboardModeEnum.Edit,
+    updateDashboardMode,
+    getDashboardById,
+    updateWidgets,
 };
 
 export default function DashboardReducer(state = _.cloneDeep(initialState), action) {

@@ -92,5 +92,3 @@ export const pictureOptions = [
 	{ value: PictureStretchEnum.ActualSize, label: 'Actual Size' },
 	{ value: PictureStretchEnum.Fill, label: 'Fill' }
 ];
-
-

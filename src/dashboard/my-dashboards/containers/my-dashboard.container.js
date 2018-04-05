@@ -19,8 +19,8 @@ const mapDispatchToProps = (dispatch) => {
         DeleteDashboard: (dashboardId) => {
             dispatch(Reducer.DeleteDashboard(dashboardId))
         },
-        ViewDashboard: () => {
-            dispatch(Reducer.ViewDashboardAction())
+        ViewDashboard: (dashboardId) => {
+            dispatch(Reducer.ViewDashboard(dashboardId))
         },
         GetUserDashboardById: (dashboardId) => {
             dispatch(Reducer.getUserDashboardByIdAction(dashboardId))
