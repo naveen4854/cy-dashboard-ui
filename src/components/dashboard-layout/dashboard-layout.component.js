@@ -13,7 +13,7 @@ export default class DashboardLayoutComponent extends PureComponent {
                             key={widget.id}
                             widget={widget}
                             mode={this.props.dashboard.mode}
-                            ToggleSettingsMenu={this.props.ToggleSettingsMenu}
+                            toggleSettingsMenu={this.props.toggleSettingsMenu}
                             onResizeStop={this.onResizeStop}
                             onResizeStart={this.onResizeStart}
                             onDragStop={this.onDragStop}

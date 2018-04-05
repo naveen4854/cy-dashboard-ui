@@ -11,20 +11,21 @@ export default class RndWidgetComponent extends PureComponent {
         this.onDragStop = this.onDragStop.bind(this);
         this.onDragStart = this.onDragStart.bind(this);
     }
+
     onResizeStop(e, direction, ref, delta, position) {
-        // this.props.UpdateWidgetSize(ref.offsetWidth, ref.offsetHeight, widget.id)
+        // this.props.updateWidgetSize(ref.offsetWidth, ref.offsetHeight, widget.id)
     }
 
     onResizeStart(e, direction, ref, delta, position) {
-        // this.props.UpdateWidgetZIndex({}, {}, widget);
+        this.props.updateWidgetZIndex(this.props.widget);
     }
 
     onDragStop(e, position) {
-        // this.props.UpdateWidgetPosition(position.x, position.y, widget.id);
+        // this.props.updateWidgetPosition(position.x, position.y, widget.id);
     }
 
     onDragStart(e, position) {
-        // this.props.UpdateWidgetZIndex({}, {}, widget);
+        this.props.updateWidgetZIndex(this.props.widget);
     }
 
     render() {
@@ -57,11 +58,12 @@ export default class RndWidgetComponent extends PureComponent {
                 z={widget.z}
                 bounds='.dashboard-layout'
                 _freeBottomBounds={true}
+            // position={{ x: widget.x, y: widget.y }}
             >
                 <WidgetComponent key={widget.id}
                     mode={mode}
                     widget={widget}
-                    ToggleSettingsMenu={this.props.ToggleSettingsMenu}
+                    toggleSettingsMenu={this.props.toggleSettingsMenu}
                 />
             </Rnd>
         )

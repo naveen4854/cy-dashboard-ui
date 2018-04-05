@@ -56,7 +56,7 @@ export default class ResizableWidgetComponent extends PureComponent {
                 <WidgetComponent key={cell.id}
                     // mode={this.props.dashboard.mode}
                     widget={cell}
-                // ToggleSettingsMenu={this.props.ToggleSettingsMenu}
+                // toggleSettingsMenu={this.props.toggleSettingsMenu}
                 />
             </Resizable>
         )

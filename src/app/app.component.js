@@ -63,7 +63,7 @@ export default class AppComponent extends PureComponent {
                     <button onClick={() => { this.props.common.notify('en-us'); this.props.GetLocalizationData("en-us") }}>en-us</button>
                     <button onClick={() => { this.props.common.notify('en-AU'); this.props.GetLocalizationData("en-AU") }}>en-AU</button>
                     <button onClick={() => { this.props.common.notify('he'); this.props.GetLocalizationData("he") }}>he</button>
-                    <h3 style={{ backgroundColor: 'white' }}>{this.props.app.currentTabId}</h3>
+                    <button style={{ backgroundColor: 'white' }}>{this.props.app.currentTabId}</button>
                 </div>
             </div>
         )

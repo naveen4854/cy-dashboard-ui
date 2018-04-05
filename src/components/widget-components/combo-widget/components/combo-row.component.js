@@ -4,7 +4,6 @@ import ComboCell from './combo-cell.component';
 export default class ComboRowComponent extends PureComponent {
     render() {
         const {row, rowIndex} = this.props
-        debugger
         return (
             <tr>
                 {

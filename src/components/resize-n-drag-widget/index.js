@@ -1,3 +1,3 @@
-import RndWidgetComponent from './resize-n-drag-widget.component';
+import RndWidgetContainer from './resize-n-drag-widget.container';
 
-export default RndWidgetComponent;
+export default RndWidgetContainer;

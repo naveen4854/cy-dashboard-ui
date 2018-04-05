@@ -1,20 +1,21 @@
-import {ResponseStatusEnum, WidgetTypeEnum } from "../../shared/enums";
+import { ResponseStatusEnum, WidgetTypeEnum } from "../../shared/enums";
 import _ from 'lodash';
-import { UPDATE_WIDGET } from "../../dashboard/dashboard.reducer";
+import { UPDATE_DASHBOARD_WIDGET } from "../../dashboard/dashboard.reducer";
 import { DashboardUtilities } from "../../shared/lib";
-import * as widgetService  from './widget-configurations.service';
+import * as widgetService from './widget-configurations.service';
 export const TOGGLE_CONFIGURATIONS_PANEL = "TOGGLE_CONFIGURATIONS_PANEL"
 export const UPDATE_CONFIGURATIONS_WIDGET = "UPDATE_CONFIGURATIONS_WIDGET"
 export const PREVIEW_WIDGET = 'PREVIEW_WIDGET';
+import { updateConfigurationsWidget } from './widget-configurations.actions'
 
-export function ToggleSettingsMenu(widget) {
+export function toggleSettingsMenu(widget) {
     return (dispatch, getState) => {
         dispatch(getState().dataMetrics.clearSelectedDM())
 
         dispatch(getState().cyReportSettings.clearCyReportSettings());
         dispatch(getState().customSettings.clearCustomSettings());
         dispatch(getState().realTimeSettings.clearRealTimeSettings());
-        
+
         let currentWidget = _.cloneDeep(widget);
         let showPanel = !(getState().configurations.showPanel && getState().configurations.widgetId == currentWidget.id)
         dispatch({
@@ -46,20 +47,19 @@ export function updateDashboardWidget(widget) {
             widget: widget
         })
         dispatch({
-            type: UPDATE_WIDGET,
+            type: UPDATE_DASHBOARD_WIDGET,
             widget: widget
         });
-  
-
     }
 }
-export function PreviewWidget(widget) {
+
+export function previewWidget(widget) {
     return (dispatch, getState) => {
         dispatch(getState().notificationStore.ClearNotifications());
         const widgetData = DashboardUtilities.WidgetMapper(widget, getState().dataMetrics.datametricsMetadata);
         widgetService.getWidgetPreviewData(widgetData).then(function (response) {
             if (response.status === 200) {
-             
+
                 if (widget) {
                     DashboardUtilities.WidgetDataMapper(widget, response.data)
 
@@ -75,6 +75,7 @@ export function PreviewWidget(widget) {
         });
     }
 }
+
 export const ACTION_HANDLERS = {
     [TOGGLE_CONFIGURATIONS_PANEL]: (state, action) => {
         return Object.assign({}, state, {
@@ -86,23 +87,20 @@ export const ACTION_HANDLERS = {
     },
     [UPDATE_CONFIGURATIONS_WIDGET]: (state, action) => {
         return Object.assign({}, state, {
-            widget: _.cloneDeep(action.widget)
-        })
-    },
-    [PREVIEW_WIDGET]: (state, action) => {
-        return Object.assign({}, state, {
-            widget: _.cloneDeep(action.widget),
+            widget: { ...action.widget }
         })
     }
 }
 
 const initialState = {
-    widgetId: 1,
+    widget: {},
+    widgetId: -1,
     widgetType: WidgetTypeEnum.Box,
     showPanel: false,
-    ToggleSettingsMenu,
+    toggleSettingsMenu,
     updateDashboardWidget,
-    PreviewWidget
+    previewWidget,
+    updateConfigurationsWidget
 };
 
 export default function WidgetConfigurationsReducer(state = _.cloneDeep(initialState), action) {

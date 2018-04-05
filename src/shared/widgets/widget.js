@@ -1,7 +1,7 @@
 import { rgba } from '../../utilities'
 export class Widget {
     constructor(zIndex, isCombo, isHeader) {
-        this.zIndex = zIndex || 1;
+        this.z = zIndex || 5;
         this.isCombo = isCombo || false;
         this.isHeader = isHeader || false;
         if (isHeader)
@@ -17,15 +17,16 @@ export class Widget {
     width = 150;
     height = 100;
     z = 1;
+    value = 0;
+    displayValue = "--";
+
     showSettings = false;
     showEditor = false;
     showIcons = true;
 
-    value = 0;
-    displayValue = "--";
-    refreshInterval = '';
     title = this.isCombo ? '' : "<< Not Configured >>";
-
+    refreshInterval = '';
+    
     appliedSettings = {
         filters: [],
         dataMetrics: {},
