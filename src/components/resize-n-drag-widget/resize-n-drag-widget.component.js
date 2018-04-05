@@ -47,14 +47,15 @@ export default class RndWidgetComponent extends PureComponent {
             topRight: "topRight"
         };
         return (
-            <Rnd key={widget.id} default={{ x: widget.x, y: widget.y, width: widget.width, height: widget.height }}
+            <Rnd
+                default={{ x: widget.x, y: widget.y, width: widget.width, height: widget.height }}
                 onResizeStop={this.onResizeStop}
                 onResizeStart={this.onResizeStart}
                 onDragStop={this.onDragStop}
                 onDragStart={this.onDragStart}
-                enableResizing={enableResizingValue}
                 resizeHandleClasses={resizeHandleClasses}
-                disableDragging={this.props.static ? true : false}
+                disableDragging={this.props.disableDrag}
+                enableResizing={enableResizingValue}
                 z={widget.z}
                 bounds='.dashboard-layout'
                 _freeBottomBounds={true}

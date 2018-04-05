@@ -1,4 +1,4 @@
-import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET } from "./dashboard.constants";
+import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, UPDATE_DRAGGABLE } from "./dashboard.constants";
 import * as dashboardService from './dashboard-service';
 import * as dataMetricsService from '../components/data-metrics/data-metrics-service'
 import { DashboardModeEnum, WidgetTypeEnum } from "../shared/enums";
@@ -167,5 +167,14 @@ export function updateWidgetSize(width, height, currentWidget) {
         })
 
         dispatch(getState().configurations.updateConfigurationsWidget(updatedWidget))
+    }
+}
+
+export function updateDraggable(draggable) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: UPDATE_DRAGGABLE,
+            draggable
+        })
     }
 }

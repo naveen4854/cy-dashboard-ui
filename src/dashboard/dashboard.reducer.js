@@ -4,7 +4,7 @@ import { TOGGLE_SETTINGS_PANEL } from '../components/widget-configurations/widge
 
 
 import { updateDashboardMode, getDashboardById, updateWidgets, updateWidget } from './dashboard.actions';
-import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, ADD_WIDGET, UPDATE_WIDGET } from './dashboard.constants';
+import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, ADD_WIDGET, UPDATE_WIDGET, UPDATE_DRAGGABLE } from './dashboard.constants';
 
 
 export function AddWidget(widgetType) {
@@ -53,6 +53,12 @@ export const ACTION_HANDLERS = {
         return Object.assign({}, state, {
             widgets: action.widgets,
         })
+    },
+    [UPDATE_DRAGGABLE]: (state, action) => {
+        console.log(action.draggable, 'action.draggable')
+        return Object.assign({}, state, {
+            disableDrag: action.draggable,
+        })
     }
 }
 
@@ -62,7 +68,8 @@ const initialState = {
     updateDashboardMode,
     getDashboardById,
     updateWidgets,
-    updateWidget
+    updateWidget,
+    disableDrag: false,
 };
 
 export default function DashboardReducer(state = _.cloneDeep(initialState), action) {

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
-import ResizableWidgetComponent from './resizable-widget';
 import WidgetComponent from '../../widget/widget.component';
+import ResizableWidgetContainer from '../../../resizable-widget';
 
 export default class ComboCellComponent extends PureComponent {
     render() {
@@ -25,7 +25,7 @@ export default class ComboCellComponent extends PureComponent {
             <td>
                 <div className="cell" style={{ height: cell.height, width: cell.width }}>{
                     rowIndex == 0 || columnIndex == 0 ?
-                        <ResizableWidgetComponent cell={cell} columnIndex={columnIndex} rowIndex={rowIndex} />
+                        <ResizableWidgetContainer cell={cell} columnIndex={columnIndex} rowIndex={rowIndex} />
                         :
                         <WidgetComponent key={cell.id}
                             // mode={this.props.dashboard.mode}

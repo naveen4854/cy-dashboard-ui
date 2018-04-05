@@ -1,15 +1,25 @@
 import React, { PureComponent } from 'react'
 import Resizable from 're-resizable';
-import WidgetComponent from '../../widget/widget.component';
+import WidgetComponent from '../widget-components';
 
 export default class ResizableWidgetComponent extends PureComponent {
-    onResizeStop(e, direction, ref, d, columnIndex, rowIndex) {
-        console.log(e, direction, ref, d, columnIndex, rowIndex, 'onResizeStop')
+    constructor(props){
+        super(props);
+        this.onResizeStart = this.onResizeStart.bind(this);
+        this.onResizeStop = this.onResizeStop.bind(this);
     }
 
     onResizeStart(e, direction, ref) {
-        console.log(e, direction, ref, 'onResizeStart')
+        e.stopPropagation()
+        this.props.updateDraggable(true);
     }
+
+    onResizeStop(e, direction, ref, d) {
+        const { columnIndex, rowIndex } = this.props
+        e.stopPropagation()
+        this.props.updateDraggable(false);
+    }
+
     render() {
         const style = {
             display: "flex",
@@ -50,8 +60,8 @@ export default class ResizableWidgetComponent extends PureComponent {
                     width: cell.width,
                     height: cell.height
                 }}
-                onResizeStop={this.onResizeStart}
-                onResizeStop={(e, direction, ref, d) => this.onResizeStop(e, direction, ref, d, columnIndex, rowIndex)}
+                onResizeStart={this.onResizeStart}
+                onResizeStop={this.onResizeStop}
             >
                 <WidgetComponent key={cell.id}
                     // mode={this.props.dashboard.mode}
