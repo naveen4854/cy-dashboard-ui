@@ -3,7 +3,7 @@ import Resizable from 're-resizable';
 import WidgetComponent from '../widget-components';
 
 export default class ResizableWidgetComponent extends PureComponent {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.onResizeStart = this.onResizeStart.bind(this);
         this.onResizeStop = this.onResizeStop.bind(this);
@@ -18,6 +18,8 @@ export default class ResizableWidgetComponent extends PureComponent {
         const { columnIndex, rowIndex } = this.props
         e.stopPropagation()
         this.props.updateDraggable(false);
+        let comboWidgetId = 102020202;
+        this.props.updateMatrix(comboWidgetId, columnIndex, rowIndex, d);
     }
 
     render() {

@@ -178,3 +178,62 @@ export function updateDraggable(draggable) {
         })
     }
 }
+
+export function updateComboMatrix(comboWidgetId, columnIndex, rowIndex, delta) {
+    return (dispatch, getState) => {
+        let widget = _.find(getState().dashboard.widgets, (widget) => widget.id == comboWidgetId)
+        let newMatrix = _.map(widget.matrix, (row, index) => {
+            if (columnIndex == 0 && rowIndex == 0) {
+                let _rIndex = index
+                return _.map(row, (cell, index) => {
+                    if (index == columnIndex && _rIndex == rowIndex)
+                        return {
+                            ...cell,
+                            width: cell.width + delta.width,
+                            height: cell.height + delta.height,
+                        };
+                    if (columnIndex == index)
+                        return {
+                            ...cell,
+                            width: cell.width + delta.width,
+                        }
+                    if (_rIndex == rowIndex)
+                        return {
+                            ...cell,
+                            height: cell.height + delta.height,
+                        }
+                    return cell;
+                })
+            }
+            if (columnIndex == 0) {
+                if (rowIndex != index)
+                    return row
+                return _.map(row, (cell) => {
+                    return {
+                        ...cell,
+                        height: cell.height + delta.height,
+                    }
+                })
+            }
+
+            if (rowIndex == 0) {
+                return _.map(row, (cell, index) => {
+                    if (columnIndex != index)
+                        return cell
+
+                    return {
+                        ...cell,
+                        width: cell.width + delta.width,
+                    }
+                })
+            }
+
+            return row
+        });
+        let updatedWidget = { ...widget, matrix: newMatrix }
+        dispatch({
+            type: UPDATE_DASHBOARD_WIDGET,
+            widget: updatedWidget
+        })
+    }
+}

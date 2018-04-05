@@ -55,7 +55,6 @@ export const ACTION_HANDLERS = {
         })
     },
     [UPDATE_DRAGGABLE]: (state, action) => {
-        console.log(action.draggable, 'action.draggable')
         return Object.assign({}, state, {
             disableDrag: action.draggable,
         })

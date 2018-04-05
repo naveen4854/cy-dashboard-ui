@@ -7,6 +7,7 @@ export default class ComboWidget extends Widget {
     constructor(zIndex) {
         super(zIndex)
     }
+    id = 102020202; // TODO: temporary till matrix build logic is written
     widgetType = WidgetTypeEnum.Combo;
     width = 450; height = 250;
     comboSelectedStatisticItem = {};
