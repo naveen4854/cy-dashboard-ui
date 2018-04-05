@@ -13,7 +13,7 @@ export default class RndWidgetComponent extends PureComponent {
     }
 
     onResizeStop(e, direction, ref, delta, position) {
-        // this.props.updateWidgetSize(ref.offsetWidth, ref.offsetHeight, widget.id)
+        this.props.updateWidgetSize(ref.offsetWidth, ref.offsetHeight, this.props.widget)
     }
 
     onResizeStart(e, direction, ref, delta, position) {
@@ -21,7 +21,7 @@ export default class RndWidgetComponent extends PureComponent {
     }
 
     onDragStop(e, position) {
-        // this.props.updateWidgetPosition(position.x, position.y, widget.id);
+        this.props.updateWidgetPosition(position.x, position.y, this.props.widget);
     }
 
     onDragStart(e, position) {

@@ -1,15 +1,17 @@
 import { connect } from 'react-redux'
 import RndWidgetComponent from './resize-n-drag-widget.component';
-import { updateWidgetZIndex } from '../../dashboard/dashboard.actions'
+import { updateWidgetZIndex, updateWidgetSize, updateWidgetPosition } from '../../dashboard/dashboard.actions'
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateWidgetSize: (widget) => {
+        updateWidgetSize: (width, height, widget) => {
+            dispatch(updateWidgetSize(width, height, widget))
         },
         updateWidgetZIndex: (widget) => {
             dispatch(updateWidgetZIndex(widget))
         },
-        updateWidgetPosition: (widget) => {
+        updateWidgetPosition: (x, y, widget) => {
+            dispatch(updateWidgetPosition(x, y, widget))
         },
     }
 }

@@ -42,26 +42,49 @@ export function updateWidgetZIndex(currentWidget) {
             type: UPDATE_DASHBOARD_WIDGETS,
             widgets: updatedWidgets
         })
-        
+
         dispatch(getState().configurations.updateConfigurationsWidget(updatedWidget))
     }
 }
 
-export function UpdateWidgetPositionAction(x, y, widgetId) {
+export function updateWidgetPosition(x, y, currentWidget) {
     return (dispatch, getState) => {
+        let allWidgets = getState().dashboard.widgets;
 
-        let allWidgets = getState().dashboard.widgets
-
-        let newWidgets = _.map(allWidgets, (widget) => {
+        let updatedWidget = { ...currentWidget, x, y };
+        let updatedWidgets = _.map(allWidgets, (widget) => {
             if (widget.id == currentWidget.id)
-                return { ...currentWidget, x, y }
+                return updatedWidget
+
+            return widget;
+        });
+
+        dispatch({
+            type: UPDATE_DASHBOARD_WIDGETS,
+            widgets: updatedWidgets
+        });
+        dispatch(getState().configurations.updateConfigurationsWidget(updatedWidget))
+    }
+}
+
+
+export function updateWidgetSize(width, height, currentWidget) {
+    return (dispatch, getState) => {
+        let allWidgets = getState().dashboard.widgets;
+
+        let updatedWidget = { ...currentWidget, width, height };
+        let updatedWidgets = _.map(allWidgets, (widget) => {
+            if (widget.id == currentWidget.id)
+                return updatedWidget
 
             return widget;
         })
 
         dispatch({
-            type: UPDATE_WIDGET,
-            widget: selectedWidget
-        });
+            type: UPDATE_DASHBOARD_WIDGETS,
+            widgets: updatedWidgets
+        })
+
+        dispatch(getState().configurations.updateConfigurationsWidget(updatedWidget))
     }
 }
