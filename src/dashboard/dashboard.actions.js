@@ -71,7 +71,7 @@ export function getDashboardById(dashboardId) {
                                         };
                                     });
 
-                                    const dashboardData = DashboardUtilities.dashboard(dashboard, datametricsMetaData, true);
+                                    const dashboardData = DashboardUtilities.mapDashboardFromServer(dashboard, datametricsMetaData, true);
                                     debugger;
                                     dispatch(getState().dashboard.updateWidgets(dashboardData.widgets));
 
