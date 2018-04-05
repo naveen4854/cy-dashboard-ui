@@ -1,9 +1,9 @@
-import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_WIDGET } from "./dashboard.constants";
+import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET } from "./dashboard.constants";
 import * as dashboardService from './dashboard-service';
 import * as dataMetricsService from '../components/data-metrics/data-metrics-service'
 import { DashboardModeEnum, WidgetTypeEnum } from "../shared/enums";
 import { DashboardUtilities } from "../shared/lib";
- 
+
 
 export function PreviewActionPicture(dashboardId, widgetid) {
     return (dispatch, getState) => {
@@ -85,12 +85,20 @@ export function getDashboardById(dashboardId) {
     }
 }
 
-export function updateWidgets(widgets){
+export function updateWidgets(widgets) {
     return {
         type: UPDATE_DASHBOARD_WIDGETS,
         widgets
     };
 }
+
+export function updateWidget(widget) {
+    return {
+        type: UPDATE_DASHBOARD_WIDGET,
+        widget: widget
+    }
+}
+
 export function toggleSettingsMenu(widget) {
     return (dispatch, getState) => {
         dispatch(getState().configurations.toggleSettingsMenu(widget))
@@ -140,7 +148,6 @@ export function updateWidgetPosition(x, y, currentWidget) {
         dispatch(getState().configurations.updateConfigurationsWidget(updatedWidget))
     }
 }
-
 
 export function updateWidgetSize(width, height, currentWidget) {
     return (dispatch, getState) => {

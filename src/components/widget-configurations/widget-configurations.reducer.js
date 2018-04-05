@@ -46,10 +46,7 @@ export function updateDashboardWidget(widget) {
             type: UPDATE_CONFIGURATIONS_WIDGET,
             widget: widget
         })
-        dispatch({
-            type: UPDATE_DASHBOARD_WIDGET,
-            widget: widget
-        });
+        dispatch(getState().dashboard.updateWidget(widget));
     }
 }
 

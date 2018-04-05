@@ -39,7 +39,7 @@ export default class WidgetComponent extends PureComponent {
                 classToBeApplied += ' zoom-widget ';
             }
         }
-        console.log('this.props.widget', this.props.widget);
+
         return (
            
             <div style={{ height: this.props.widget.height, width: this.props.widget.width }}
