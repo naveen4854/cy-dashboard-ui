@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import Rnd from 'react-rnd';
-import WidgetComponent from '../widget-components';
+import WidgetContainer from '../widget-components';
 
 export default class RndWidgetComponent extends PureComponent {
     constructor(props) {
@@ -60,7 +60,7 @@ export default class RndWidgetComponent extends PureComponent {
                 _freeBottomBounds={true}
             // position={{ x: widget.x, y: widget.y }}
             >
-                <WidgetComponent key={widget.id}
+                <WidgetContainer key={widget.id}
                     mode={mode}
                     widget={widget}
                     toggleSettingsMenu={this.props.toggleSettingsMenu}

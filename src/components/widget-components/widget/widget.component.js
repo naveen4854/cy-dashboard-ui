@@ -41,7 +41,7 @@ export default class WidgetComponent extends PureComponent {
         }
 
         return (
-           
+
             <div style={{ height: this.props.widget.height, width: this.props.widget.width }}
                 className={classToBeApplied}>
                 {

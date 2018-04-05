@@ -4,7 +4,7 @@ import { TOGGLE_SETTINGS_PANEL } from '../components/widget-configurations/widge
 
 
 import { updateDashboardMode, getDashboardById, updateWidgets, updateWidget } from './dashboard.actions';
-import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, ADD_WIDGET, UPDATE_WIDGET } from './dashboard.constants';
+import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, ADD_WIDGET } from './dashboard.constants';
 
 
 export function AddWidget(widgetType) {
