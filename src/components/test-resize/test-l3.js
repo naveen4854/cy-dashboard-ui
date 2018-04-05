@@ -2,7 +2,7 @@ import React from 'react';
 import Resizable from "re-resizable";
 import './styles.css'
 import _ from 'lodash'
-export default class TestLayout2 extends React.Component {
+export default class TestLayout3 extends React.Component {
     state = {
         matrix: [
             [{ title: 'content11', width: 80, height: 80 }, { title: 'content12', width: 80, height: 80 }, { title: 'content13', width: 80, height: 80 }],
@@ -18,15 +18,8 @@ export default class TestLayout2 extends React.Component {
     onResize = (event, { element, size }) => {
         this.setState({ width: size.width, height: size.height });
     };
+
     onResizeStop(e, direction, ref, d, columnIndex, rowIndex) {
-
-        // {
-        //     this.setState({
-        //         width: this.state.width + d.width,
-        //         height: this.state.height + d.height,
-        //     });
-        // }
-
         let newMatrix = _.map(this.state.matrix, (row, index) => {
             if (columnIndex == 0 && rowIndex == 0) {
                 let _rIndex = index
@@ -79,8 +72,8 @@ export default class TestLayout2 extends React.Component {
         this.setState({
             matrix: newMatrix
         })
-
     }
+
     onResizeStart(e, data) {
         console.log(data, 'onResizeStart')
     }
@@ -137,6 +130,7 @@ export default class TestLayout2 extends React.Component {
                                                                 width: cell.width,
                                                                 height: cell.height
                                                             }}
+                                                            onResizeStop={this.onResizeStart}
                                                             onResizeStop={(e, direction, ref, d) => this.onResizeStop(e, direction, ref, d, columnIndex, rowIndex)}
                                                         >
                                                             <div style={{ height: cell.height, width: cell.width }} className="react-resizable"> {cell.title}</div>
@@ -153,11 +147,6 @@ export default class TestLayout2 extends React.Component {
                         }
                     </tbody>
                 </table>
-                {/* <ResizableBox width={80} height={80}
-                    minConstraints={[100, 100]} maxConstraints={[300, 300]}>
-                    <span>Contents</span>
-                </ResizableBox> */}
-
             </div>
         );
     }

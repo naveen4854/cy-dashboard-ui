@@ -10,29 +10,29 @@ import { BoxWidget, SpeedoWidget, BarWidget, CircularProgressWidget, PieWidget, 
  * @param {int} zIndex 
  * @param {int} isHeader 
  */
-export function GetWidget(widgetType, isCombo, zIndex, isHeader = false) {
+export function GetWidget(widgetType, zIndex, isCombo, isHeader = false) {
     switch (widgetType) {
         case WidgetTypeEnum.Box:
-            return new BoxWidget(isCombo, zIndex, isHeader);
+            return new BoxWidget(zIndex, isCombo, isHeader);
         case WidgetTypeEnum.Bar:
-            return new BarWidget(isCombo, zIndex, isHeader);
+            return new BarWidget(zIndex, isCombo, isHeader);
         case WidgetTypeEnum.Pie:
-            return new PieWidget(isCombo, zIndex, isHeader);
+            return new PieWidget(zIndex, isCombo, isHeader);
         case WidgetTypeEnum.CircularProgress:
-            return new CircularProgressWidget(isCombo, zIndex, isHeader);
+            return new CircularProgressWidget(zIndex, isCombo, isHeader);
         case WidgetTypeEnum.Speedo:
-            return new SpeedoWidget(isCombo, zIndex, isHeader);
+            return new SpeedoWidget(zIndex, isCombo, isHeader);
         case WidgetTypeEnum.Progress:
-            return new ProgressWidget(isCombo, zIndex, isHeader);
+            return new ProgressWidget(zIndex, isCombo, isHeader);
         case WidgetTypeEnum.Clock:
-            return new ClockWidget(isCombo, zIndex, isHeader);
+            return new ClockWidget(zIndex, isCombo, isHeader);
         case WidgetTypeEnum.Text:
-            return new TextWidget(isCombo, zIndex, isHeader);
+            return new TextWidget(zIndex, isCombo, isHeader);
         case WidgetTypeEnum.Picture:
-            return new PictureWidget(isCombo, zIndex, isHeader);
+            return new PictureWidget(zIndex, isCombo, isHeader);
         case WidgetTypeEnum.Combo:
-            return new ComboWidget(isCombo, zIndex, isHeader);
+            return new ComboWidget(zIndex, isCombo, isHeader);
         default:
-            return new BoxWidget(isCombo, zIndex, isHeader);
+            return new BoxWidget(zIndex, isCombo, isHeader);
     }
 }

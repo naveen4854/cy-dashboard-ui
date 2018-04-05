@@ -1,10 +1,9 @@
-import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS } from "./dashboard.constants";
+import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_WIDGET } from "./dashboard.constants";
 import * as dashboardService from './dashboard-service';
 import * as dataMetricsService from '../components/data-metrics/data-metrics-service'
 import { DashboardModeEnum, WidgetTypeEnum } from "../shared/enums";
 import { DashboardUtilities } from "../shared/lib";
-
-
+ 
 
 export function PreviewActionPicture(dashboardId, widgetid) {
     return (dispatch, getState) => {
@@ -91,4 +90,52 @@ export function updateWidgets(widgets){
         type: UPDATE_DASHBOARD_WIDGETS,
         widgets
     };
+}
+export function toggleSettingsMenu(widget) {
+    return (dispatch, getState) => {
+        dispatch(getState().configurations.toggleSettingsMenu(widget))
+    }
+}
+
+export function updateWidgetZIndex(currentWidget) {
+    return (dispatch, getState) => {
+        let allWidgets = getState().dashboard.widgets
+        let updatedWidget = { ...currentWidget, z: allWidgets.length }
+
+        let updatedWidgets = _.map(allWidgets, (widget) => {
+            if (widget.id == currentWidget.id)
+                return updatedWidget;
+
+            if (widget.z > currentWidget.z)
+                return { ...widget, z: widget.z - 1 };
+
+            return widget;
+        })
+
+        dispatch({
+            type: UPDATE_DASHBOARD_WIDGETS,
+            widgets: updatedWidgets
+        })
+        
+        dispatch(getState().configurations.updateConfigurationsWidget(updatedWidget))
+    }
+}
+
+export function UpdateWidgetPositionAction(x, y, widgetId) {
+    return (dispatch, getState) => {
+
+        let allWidgets = getState().dashboard.widgets
+
+        let newWidgets = _.map(allWidgets, (widget) => {
+            if (widget.id == currentWidget.id)
+                return { ...currentWidget, x, y }
+
+            return widget;
+        })
+
+        dispatch({
+            type: UPDATE_WIDGET,
+            widget: selectedWidget
+        });
+    }
 }

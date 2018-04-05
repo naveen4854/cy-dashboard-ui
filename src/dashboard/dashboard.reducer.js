@@ -2,41 +2,35 @@ import { WidgetTypeEnum, DashboardModeEnum } from '../shared/enums'
 import { WidgetData } from '../shared/lib';
 import { TOGGLE_SETTINGS_PANEL } from '../components/widget-configurations/widget-configurations.reducer';
 
-const ADD_WIDGET = 'ADD_WIDGET'
-export const UPDATE_WIDGET = 'UPDATE_WIDGET'
+
 import { updateDashboardMode, getDashboardById, updateWidgets } from './dashboard.actions';
-import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS } from './dashboard.constants';
+import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS,UPDATE_DASHBOARD_WIDGET, ADD_WIDGET, UPDATE_WIDGET } from './dashboard.constants';
 
 
 export function AddWidget(widgetType) {
-    let widget = WidgetData.GetWidget(widgetType)
-    return {
-        type: ADD_WIDGET,
-        widget
+    return (dispatch, getState) => {
+        let widgets = getState().dashboard.widgets;
+        let widget = WidgetData.GetWidget(widgetType, widgets.length + 1)
+        dispatch({
+            type: ADD_WIDGET,
+            widget
+        })
     }
 }
 
 export function UpdateWidget(widget) {
     return {
-        type: UPDATE_WIDGET,
+        type: UPDATE_DASHBOARD_WIDGET,
         widget
     };
 }
-
-export function ToggleSettingsMenu(widget) {
-    return (dispatch, getState) => {
-        dispatch(getState().configurations.ToggleSettingsMenu(widget))
-    }
-}
-
-
 
 export const ACTION_HANDLERS = {
     [ADD_WIDGET]: (state, action) => {
         state.widgets = state.widgets.concat([action.widget])
         return Object.assign({}, state);
     },
-    [UPDATE_WIDGET]: (state, action) => {
+    [UPDATE_DASHBOARD_WIDGET]: (state, action) => {
         let widgets = state.widgets.map((widget) => {
             if (widget.id !== action.widget.id) {
                 return widget;
@@ -59,7 +53,7 @@ export const ACTION_HANDLERS = {
         return Object.assign({}, state, {
             widgets: action.widgets,
         })
-    },
+    }
 }
 
 const initialState = {
