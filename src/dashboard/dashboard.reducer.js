@@ -59,8 +59,8 @@ export const ACTION_HANDLERS = {
             disableDrag: action.draggable,
         })
     },
-    [UPDATE_DASHBOARD]:(state, action) => {
-        return Object.assign({}, state, {...action.dashboard}); 
+    [UPDATE_DASHBOARD]: (state, action) => {
+        return Object.assign({}, state, { ...action.dashboard });
     },
     [UPDATE_SHOW_ICONS]: (state, action) => {
         return Object.assign({}, state, {

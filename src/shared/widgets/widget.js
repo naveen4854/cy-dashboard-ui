@@ -26,7 +26,7 @@ export class Widget {
 
     title = this.isCombo ? '' : "<< Not Configured >>";
     refreshInterval = '';
-    
+
     appliedSettings = {
         filters: [],
         dataMetrics: {},
@@ -57,5 +57,22 @@ export class Widget {
         this.widgetBody = { ...this.widgetBody, backgroundColor: rgba(255, 255, 255, 1) }
         this.valueStyles = { ...this.valueStyles, color: rgba(0, 0, 0, 1) }
         this.titleStyles = { ...this.titleStyles, color: rgba(0, 0, 0, 1) }
+    }
+
+    setDisplayFormat(displayFormat) {
+        this.appliedSettings = {
+            ...this.appliedSettings,
+            dataMetrics: {
+                ...this.appliedSettings.dataMetrics,
+                displayformat: displayFormat
+            }
+        }
+    }
+
+    setDataMetrics(dataMetrics) {
+        this.appliedSettings = {
+            ...this.appliedSettings,
+            dataMetrics
+        }
     }
 }

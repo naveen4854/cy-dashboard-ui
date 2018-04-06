@@ -199,7 +199,7 @@ export function saveDataMetrics(settings) {
                 dataMetrics
             }
         }
-        
+
         dispatch(getState().configurations.PreviewWidget(updatedWidget));
         dispatch(getState().threshold.updateDisplayFormat(settings.displayFormat.id));
     }
@@ -260,17 +260,7 @@ export const ACTION_HANDLERS = {
 export const initialState = {
     widgetType: WidgetTypeEnum.Box,
     statisticCategory: StatisticCategoryEnum.RealTime,
-    storeProcOptions: [],
-    storeProcData: null,
-    selectedWidgetforStatisticItem: '',
-    isDirty: false,
-    isLoaded: false,
-    allColumnOptions: [],
-    columnOptions: [],
-    comboSelectedStatisticItems: [],
     datametricsMetadata: {},
-    isDefault: false,
-    displayName: '',
     LoadDataMetricsMetaData,
     initializeStatisticMetadata,
     clearSelectedDM,
