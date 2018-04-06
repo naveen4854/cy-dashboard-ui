@@ -44,11 +44,6 @@ export function updateDashboardWidget(widget) {
             type: UPDATE_CONFIGURATIONS_WIDGET,
             widget: widget
         })
-        dispatch({
-            type: UPDATE_WIDGET,
-            widget: widget
-        });
-
 
         dispatch(getState().dashboard.updateWidget(widget));
     }
@@ -56,24 +51,24 @@ export function updateDashboardWidget(widget) {
 
 export function previewWidget(widget) {
     return (dispatch, getState) => {
-        dispatch(getState().notificationStore.ClearNotifications());
-        const widgetData = DashboardUtilities.WidgetMapper(widget, getState().dataMetrics.datametricsMetadata);
-        widgetService.getWidgetPreviewData(widgetData).then(function (response) {
-            if (response.status === 200) {
+        dispatch(getState().configurations.updateDashboardWidget(widget));
+        // dispatch(getState().notificationStore.ClearNotifications());
+        // const widgetData = DashboardUtilities.WidgetMapper(widget, getState().dataMetrics.datametricsMetadata);
+        // widgetService.getWidgetPreviewData(widgetData).then(function (response) {
+        //     if (response.status === 200) {
 
-                if (widget) {
-                    DashboardUtilities.WidgetDataMapper(widget, response.data)
+        //         if (widget) {
+        //             DashboardUtilities.WidgetDataMapper(widget, response.data)
 
-                    const { widgetBody } = widget || {};
-                    if (widgetBody) {
-                        widget.appliedBackgroundColor = response.data.wrth && response.data.wrth.thc ? response.data.wrth.thc : widgetBody.backgroundColor;
-                    }
-                }
-                dispatch(getState().configurations.updateDashboardWidget(widget));
-            }
-        }).catch((error) => {
-            dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error));
-        });
+        //             const { widgetBody } = widget || {};
+        //             if (widgetBody) {
+        //                 widget.appliedBackgroundColor = response.data.wrth && response.data.wrth.thc ? response.data.wrth.thc : widgetBody.backgroundColor;
+        //             }
+        //         }
+        //     }
+        // }).catch((error) => {
+        //     dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error));
+        // });
     }
 }
 

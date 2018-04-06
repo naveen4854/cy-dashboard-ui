@@ -1,8 +1,10 @@
 import { StatisticCategoryEnum, WidgetTypeEnum } from "../../shared/enums";
 import { WidgetData } from "../../shared/lib";
-import { SET_COMBO_REALTIME_STATISTIC_GROUPS, UPDATE_COMBO_SELECTED_GROUP, UPDATE_COMBO_STATISTIC_ITEMS, UPDATE_COMBO_DRILL_DOWN_METADATA, SET_COMBO_SELECTED_STATISTIC_ITEMS } from "./combo-realtime-metrics-settings.constants";
+import { SET_COMBO_REALTIME_STATISTIC_GROUPS, UPDATE_COMBO_SELECTED_GROUP, UPDATE_COMBO_STATISTIC_ITEMS, SET_COMBO_SELECTED_STATISTIC_ITEMS, UPDATE_COMBO_REALTIME_DISPLAYNAME, SET_COMBO_REALTIME_STATISTIC_ITEM, UPDATE_COMBO_REALTIME_FUNCTIONS, UPDATE_COMBO_REALTIME_SELECTED_FUNCTION, UPDATE_COMBO_REALTIME_DISPLAY_FORMATS, UPDATE_COMBO_REALTIME_SELECTED_DISPLAY_FORMAT, UPDATE_COMBO_REALTIME_APPLICABLE_WIDGETS, SET_COMBO_REALTIME_APPLICABLE_WIDGET, UPDATE_COMBO_DRILL_DOWN_METADATA, UPDATE_COMBO_REALTIME_TOGGLE_ADD, SET_COMBO_REALTIME_STATISTIC_COLUMNS } from './combo-realtime-metrics-settings.constants';
+
 import * as dataMetricsService from '../data-metrics/data-metrics-service';
 import { getWidgetByEnum } from "../../shared/lib/widget-data";
+import { getRandom } from "../../utilities/utils";
 
 export function initiateComboRealTimeSettings() {
     return (dispatch, getState) => {
@@ -39,111 +41,6 @@ export function initiateComboRealTimeSettings() {
 }
 
 
-export function generateMatrix() {
-    return (dispatch, getState) => {
-        let currentCombo = getState().configurations.widget;
-        let comboId = currentCombo.id;
-        let oldMatrix = currentCombo ? _.flatten(currentCombo.matrix) : null;
-        let selectedGroup = getState().comboRealTimeSettings.selectedGroup;
-
-        let matrix = []
-        let headers = [];
-
-        let comboSelectedStatisticItems = getState().configurations.comboSelectedStatisticItems;
-        let columns = _.map(comboSelectedStatisticItems, (metric, i) => {
-            headers.push(getColumnHeader(metric, i, comboId));
-            return getColumn(metric)
-        });
-
-        let filters = getState().configurations.drillDownOptions//_.filter(drillDownOptions, (eachOption) => eachOption.checked);
-        let rowHeaders = _.map(filters, (filter) => {
-            return getRowHeader(filter, comboId);
-        });
-
-        let newMatrix = getNewMatrix(filters, headers, comboSelectedStatisticItems, rowHeaders, selectedGroup, comboId, oldMatrix)
-
-    }
-}
-
-function getNewMatrix(filters, headers, comboSelectedStatisticItems, rowHeaders, selectedGroup, comboId, oldMatrix) {
-    return _.map(filters, (filter, rowIndex) => {
-        if (rowIndex == 0)
-            return headers;
-        let row = _.map(comboSelectedStatisticItems, (statisticItem, columnIndex) => {
-            if (columnIndex == 0)
-                return rowHeaders[0];
-
-            // check if cell exists in old matrix by comparing columnId and rowId
-            // if exists apply all its settings onto new widget
-            // else create new widget and return
-            // TODO please track the statistic item changes and apply them again and also widgettype
-            let existingCell = _.find(oldMatrix, (oldCell) => oldCell.columnId == statisticItem.id && oldCell.rowId == filter.value + '_' + selectedGroup)
-            if (existingCell)
-                return existingCell;
-
-
-            // Have to figure out if its a new row cell or a new column 
-            // based on which we apply styles
-            let dataMetrics = {
-                group: {},
-                item: statisticItem.item,
-                func: statisticItem.func,
-                displayFormat: statisticItem.displayFormat,
-            };
-            let cell = WidgetData.GetWidget(statisticItem.widget.value);
-            cell.setDataMetrics(dataMetrics);
-            cell.isComboWidget = true;
-            cell.comboId = comboId;
-            cell.columnId = statisticItem.id;
-            cell.rowId = filter.value + '_' + selectedGroup; // TODO: check , using combination because there is chance of same id for unrelated drilldown options
-            // isRowrColumn = false
-            return cell;
-        });
-        return row;
-    });
-}
-
-function getRowHeader(filter, comboId) {
-    let rHeader = WidgetData.GetWidget(WidgetTypeEnum.Box, 0, true, true);
-    rHeader.displayValue = filter.label;
-    rHeader.isComboWidget = true;
-    rHeader.comboId = comboId;
-    rHeader.HideSettings = true;
-    rHeader.settings = {
-        filter: filter.value
-    };
-    rHeader.isRowrColumn = true;
-    return rHeader;
-}
-
-function getColumnHeader(metric, index, comboId) {
-    let cHeader = WidgetData.GetWidget(WidgetTypeEnum.Box, 0, true, true);
-    cHeader.displayValue = metric.displayName;
-    cHeader.isComboWidget = true;
-    cHeader.HideSettings = index == 0 ? true : false;
-    cHeader.comboId = comboId;
-    cHeader.isHeader = true;
-    cHeader.isRowrColumn = true;
-    cHeader.settings = {
-        item: metric.item && metric.item.id,
-        cWidgetType: metric.widget && metric.widget.value,
-    };
-    return cHeader;
-}
-
-function getColumn(metric) {
-    return {
-        id: metric.id,
-        cisiid: metric && metric.item && metric.item.id,
-        ciafid: metric && metric.func && metric.func.id,
-        cirob: 0,
-        ciia: 0,
-        cdf: metric && metric.displayFormat && metric.displayFormat.id,
-        cwt: metric && metric.widget && metric.widget.value,
-        dn: metric && metric.displayName
-    };
-}
-
 export function setSelectedComboGroupValue(selectedGroup) {
     return (dispatch, getState) => {
         dispatch({
@@ -158,7 +55,7 @@ export function setStatisticsItems() {
         let currentWidget = getState().configurations.widget;
         let selectedGroup = getState().comboRealTimeSettings.selectedGroup;
 
-        let allData = getState().dataMetrics.datametricMetadata;
+        let allData = getState().dataMetrics.datametricsMetadata;
 
         let availableItems = _.uniqBy(_.map(_.filter(allData,
             metric => metric.StatisticGroupId === selectedGroup.id &&
@@ -308,7 +205,7 @@ function mapComboItems(wdt, metaData) {
         if (key > 0) {
             var itemOption = _.find(metaData.itemOptions, m => m.id == value.cisiid)
             if (itemOption) {
-                var functionOption = _.find(_.uniqBy(_.map(_.filter(metaData.datametricMetadata,
+                var functionOption = _.find(_.uniqBy(_.map(_.filter(metaData.datametricsMetadata,
                     metric => metric.StatisticItemId === itemOption.id &&
                         metric.StatisticCategory === metaData.statisticCategory &&
                         metric.WidgetType === wdt.widgetType), item => {
@@ -319,7 +216,7 @@ function mapComboItems(wdt, metaData) {
                             }
                         }), 'id'), f => f.id = value.ciafid);
 
-                var displayFormatOption = _.find(_.uniqBy(_.map(_.filter(metaData.datametricMetadata, metric =>
+                var displayFormatOption = _.find(_.uniqBy(_.map(_.filter(metaData.datametricsMetadata, metric =>
                     (metric.StatisticItemId === itemOption.id &&
                         metric.StatisticCategory === metaData.statisticCategory &&
                         metric.StatisticFunctionId === functionOption.id &&
@@ -348,4 +245,177 @@ function mapComboItems(wdt, metaData) {
             }
         }
     });
+}
+
+
+export function setSatisticItem(selectedItem) {
+    return (dispatch, getState) => {
+        if (!selectedItem)
+            return
+
+        dispatch({
+            type: SET_COMBO_REALTIME_STATISTIC_ITEM,
+            selectedItem
+        });
+
+        let dn = getState().comboRealTimeSettings.displayName;
+        dispatch({
+            type: UPDATE_COMBO_REALTIME_DISPLAYNAME,
+            displayName: dn != '' ? dn : selectedItem.label
+        })
+
+    }
+}
+
+export function setStatisticFunctions() {
+    return (dispatch, getState) => {
+        let currentWidget = getState().configurations.widget;
+        let selectedItem = getState().comboRealTimeSettings.selectedItem;
+
+        let _funcOptions = _.uniqBy(_.map(_.filter(getState().dataMetrics.datametricsMetadata,
+            metric =>
+                metric.StatisticItemId === selectedItem.id &&
+                metric.StatisticCategory === getState().dataMetrics.statisticCategory &&
+                metric.WidgetType === currentWidget.widgetType),
+            item => {
+                return {
+                    id: item.StatisticFunctionId,
+                    label: item.StatisticFunction,
+                    value: item.Id
+                }
+            }), 'id');
+
+        dispatch({
+            type: UPDATE_COMBO_REALTIME_FUNCTIONS,
+            functionOptions: _funcOptions
+        });
+
+    }
+}
+
+export function setSelectedFunction(selectedFunction) {
+    return (dispatch, getState) => {
+
+        dispatch({
+            type: UPDATE_COMBO_REALTIME_SELECTED_FUNCTION,
+            selectedFunction
+        });
+    }
+}
+
+export function getDisplayFormatOptions() {
+    return (dispatch, getState) => {
+        let selectedFunction = getState().comboRealTimeSettings.selectedFunction;
+        let currentWidget = getState().configurations.widget;
+        let displayFormatOptions = _.uniqBy(_.map(_.filter(getState().dataMetrics.datametricsMetadata, metric =>
+            (metric.StatisticItemId === getState().comboRealTimeSettings.selectedItem.id &&
+                metric.StatisticCategory === getState().dataMetrics.statisticCategory &&
+                metric.StatisticFunctionId === selectedFunction.id && metric.WidgetType === currentWidget.widgetType)
+        ), item => {
+            return {
+                id: item.DisplayFormatId,
+                label: item.DisplayFormat,
+                value: item.Id
+            }
+        }), 'id')
+        dispatch({
+            type: UPDATE_COMBO_REALTIME_DISPLAY_FORMATS,
+            displayFormatOptions
+        });
+    }
+}
+export function setSelectedDisplayFormat(selectedDisplayFormat) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: UPDATE_COMBO_REALTIME_SELECTED_DISPLAY_FORMAT,
+            selectedDisplayFormat
+        });
+    }
+}
+
+
+export function getApplicableWidget(selectedDisplayFormat) {
+    return (dispatch, getState) => {
+        let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
+        let selectedItem = getState().comboRealTimeSettings.selectedItem.id;
+        let applicableWidgets = _.map(_.uniqBy(_.filter(datametricsMetadata, x => x.StatisticItemId == selectedItem &&
+            (x.WidgetType == WidgetTypeEnum.Box ||
+                x.WidgetType == WidgetTypeEnum.Progress ||
+                x.WidgetType == WidgetTypeEnum.Speedo ||
+                x.WidgetType == WidgetTypeEnum.CircularProgress)
+        ), u => {
+            return u.WidgetType;
+        }), (item) => {
+            return {
+                label: getWidgetByEnum(item.WidgetType),
+                value: item.WidgetType
+            };
+        });
+
+        dispatch({
+            type: UPDATE_COMBO_REALTIME_APPLICABLE_WIDGETS,
+            applicableWidgets
+        });
+    }
+}
+
+export function setApplicableWidget(selectedWidget) {
+    return (dispatch, getState) => {
+        // const widget = _.find(getState().newdashboard.widgets, widget => widget.id === widgetId);
+        dispatch({
+            type: SET_COMBO_REALTIME_APPLICABLE_WIDGET,
+            selectedWidget: selectedWidget
+        });
+    }
+}
+export function updateDisplayName(displayName) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: UPDATE_COMBO_REALTIME_DISPLAYNAME,
+            displayName
+        })
+    }
+}
+
+
+export function toggleAddEdit(toggleAddEdit) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: UPDATE_COMBO_REALTIME_TOGGLE_ADD,
+            toggleAddEdit
+        })
+    }
+}
+
+export function addComboStatisticItem() {
+    return (dispatch, getState) => {
+        let comboSelectedStatisticItems = getState().comboRealTimeSettings.comboSelectedStatisticItems;
+        let comboRealTimeSettings = getState().comboRealTimeSettings;
+        let selectedStatisticItem = {
+            id: getRandom(),
+            item: comboRealTimeSettings.selectedItem,
+            func: comboRealTimeSettings.selectedFunction,
+            displayFormat: comboRealTimeSettings.selectedDisplayFormat,
+            widget: comboRealTimeSettings.selectedWidget,
+            displayName: comboRealTimeSettings.displayName
+
+        }
+        let columns = comboSelectedStatisticItems.splice(comboSelectedStatisticItems.length, 0, selectedStatisticItem);
+        dispatch(getState().notificationStore.ClearNotifications());
+        // dispatch({
+        //     type: UPDATE_DISPLAYNAME,
+        //     displayName: selectedStatisticItem.displayName
+        // });
+        dispatch({
+            type: SET_COMBO_REALTIME_STATISTIC_COLUMNS,
+            comboSelectedStatisticItems: comboSelectedStatisticItems
+        })
+
+    }
+}
+
+export function applyComboRealTimeMetrics() {
+    return (dispatch, getState) => {
+        dispatch(getState().dataMetrics.saveComboRealTimeMetrics())
+    }
 }

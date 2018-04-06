@@ -5,16 +5,47 @@ import * as Actions from './combo-realtime-metrics-settings.actions'
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateComboDrillDownOptions: (options) =>{
+        updateComboDrillDownOptions: (options) => {
             dispatch(Actions.updateComboDrillDownOptions(options));
         },
-        setStatisticGroupAndDrilldown: (selectedGroup) =>{
+        setStatisticGroupAndDrilldown: (selectedGroup) => {
             if (selectedGroup && selectedGroup.id) {
                 dispatch(Actions.setSelectedComboGroupValue(selectedGroup));
                 dispatch(Actions.setStatisticsItems(selectedGroup));
                 dispatch(Actions.getComboDrillDownMetaData(selectedGroup));
                 dispatch(Actions.addDefaultComboStatisticItems(selectedGroup));
-              }
+            }
+        },
+        setItemAndGetFunctions: (selectedItem) => {
+            dispatch(Actions.setSatisticItem(selectedItem));
+            dispatch(Actions.setStatisticFunctions());
+        },
+        setFunctionAndGetDisplayFormat: (selectedFunction) => {
+            dispatch(Actions.setSelectedFunction(selectedFunction));
+            dispatch(Actions.getDisplayFormatOptions());
+        },
+        getApplicableWidget: (selectedDisplayFormat) => {
+            if (selectedDisplayFormat) {
+                dispatch(Actions.setSelectedDisplayFormat(selectedDisplayFormat));
+                dispatch(Actions.getApplicableWidget(selectedDisplayFormat));
+            }
+        },
+        setApplicableWidget: (selectedWidget) => {
+            if (selectedWidget) {
+                dispatch(Actions.setApplicableWidget(selectedWidget));
+            }
+        },
+        updateDisplayName: (displayName) => {
+            dispatch(Actions.updateDisplayName(displayName));
+        },
+        toggleAddEdit: (toggleAddEdit) => {
+            dispatch(Actions.toggleAddEdit(toggleAddEdit));
+        },
+        addComboStatisticItem:(toggleAddEdit) => {
+            dispatch(Actions.addComboStatisticItem(toggleAddEdit));
+        },
+        applyComboRealTimeMetrics:() => {
+            dispatch(Actions.applyComboRealTimeMetrics());
         },
     }
 }
@@ -25,4 +56,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(localize( ComboRealTimeMetricsSettingsComponent))
+export default connect(mapStateToProps, mapDispatchToProps)(localize(ComboRealTimeMetricsSettingsComponent))

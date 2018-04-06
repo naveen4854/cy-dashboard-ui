@@ -125,3 +125,7 @@ export function getFormatter(displayFormatid) {
             break;
     }
 }
+
+export function getRandom(){
+    return Date.now() + Math.floor(Math.random() * 10000);
+}
