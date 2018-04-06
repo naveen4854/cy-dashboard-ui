@@ -3,7 +3,7 @@ import { WidgetData } from '../shared/lib';
 import { TOGGLE_SETTINGS_PANEL } from '../components/widget-configurations/widget-configurations.reducer';
 
 
-import { updateDashboardMode, getDashboardById, updateWidgets, updateWidget, updateDashboard, updateShowIcons } from './dashboard.actions';
+import { updateDashboardMode, getDashboardById, updateWidgets, updateWidget, updateDashboard, updateShowIcons, pullWidget } from './dashboard.actions';
 import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, ADD_WIDGET, UPDATE_DRAGGABLE, UPDATE_DASHBOARD, UPDATE_SHOW_ICONS } from './dashboard.constants';
 
 
@@ -82,6 +82,7 @@ const initialState = {
     Id: -1,
     updateShowIcons,
     showIcons: true,
+    pullWidget,
 };
 
 export default function DashboardReducer(state = _.cloneDeep(initialState), action) {

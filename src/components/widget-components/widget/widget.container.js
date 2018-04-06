@@ -1,10 +1,14 @@
 import { connect } from 'react-redux';
 import WidgetComponent from './widget.component';
 import { DashboardModeEnum } from '../../../shared/enums';
+import { pullWidget } from '../../../dashboard/dashboard.actions'
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        
+        pullWidgetData: (dashboardId, widgetId, refreshInterval)=>{
+            console.log('dashboardId, widgetId', dashboardId, widgetId);
+           dispatch( pullWidget(dashboardId, widgetId, refreshInterval));
+        }
     }
 }
 

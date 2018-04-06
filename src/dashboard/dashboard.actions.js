@@ -78,7 +78,6 @@ export function getDashboardById(dashboardId) {
                                     });
 
                                     const dashboardData = DashboardUtilities.mapDashboardFromServer(dashboard, datametricsMetaData, true);
-                                    debugger;
                                     dispatch(getState().dashboard.updateDashboard(dashboardData));
 
                                 }
@@ -247,5 +246,28 @@ export function updateComboMatrix(comboWidgetId, columnIndex, rowIndex, delta) {
             type: UPDATE_DASHBOARD_WIDGET,
             widget: updatedWidget
         })
+    }
+}
+
+export function pullWidget(dashboardId, widgetId, refreshInterval) {
+    return (dispatch, getState) => {
+        debugger
+        refreshInterval = 5 * 1000;
+        let Id = setTimeout(() => {
+
+            //console.log("This Widget REFRESH STARTED", dashboardId, widgetId)
+            dashboardService.viewWidgetData(dashboardId, widgetId, {}).then(res => {
+
+                //console.log('logged')
+                let nextRefreshInterval = refreshInterval;
+
+                dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval))
+            })
+                .catch((err) => {
+                    //console.log(err, "Error retrieving this widget data");
+                });
+        }, refreshInterval);
+
+        console.log('id of refreshintervals ', Id)
     }
 }
