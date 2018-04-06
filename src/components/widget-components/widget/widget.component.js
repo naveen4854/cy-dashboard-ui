@@ -17,6 +17,17 @@ import '../styles.css'
 
 export default class WidgetComponent extends PureComponent {
 
+    constructor(props) {
+        super(props);
+        //debugger
+        console.log('constructor ',this.props.widget.refreshInterval)
+        //this.props.pullWidgetData(this.props.dashboardId, this.props.widget.id, this.props.widget.refreshInterval)
+    }
+    componentWillReceiveProps(nextProps) {
+        // console.log('receive props')
+        // if(this.props.widget.id != nextProps.widget.id)
+        // this.props.pullWidgetData(nextProps.dashboardId, nextProps.widget.id,  nextProps.widget.refreshInterval)
+    }
     render() {
         let classToBeApplied = 'widget';
 
@@ -41,10 +52,11 @@ export default class WidgetComponent extends PureComponent {
         }
 
         return (
+
             <div style={{ height: this.props.widget.height, width: this.props.widget.width }}
                 className={classToBeApplied}>
                 {
-                    (this.props.mode == DashboardModeEnum.Edit || this.props.mode == DashboardModeEnum.New) &&
+                    (this.props.showIcons) &&
                     <WidgetHeader {...this.props} />
                 }
                 {

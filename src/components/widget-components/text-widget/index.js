@@ -1,3 +1,3 @@
-import TextWidget from './text-widget.component';
+import TextWidgetComponent from './text-widget.component';
 
-export default TextWidget;
+export default TextWidgetComponent;

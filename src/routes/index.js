@@ -1,6 +1,7 @@
 import LoginPage from '../login';
 import MyDashboardPage from '../dashboard/my-dashboards';
 import NewDashboardPage from '../dashboard/new-dashboard';
+import ViewDashboardPage from '../dashboard/view-dashboard';
 import TestPage from '../components/test-resize';
 
 /*  Note: Instead of using JSX, we recommend using react-router
@@ -27,6 +28,10 @@ export const createRoutes = (store) => (
                 {
                     path: 'edit/:id',
                     indexRoute: NewDashboardPage(store)
+                },
+                {
+                    path: 'view/:id',
+                    indexRoute: ViewDashboardPage(store),
                 }
             ]
         },

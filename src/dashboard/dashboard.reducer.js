@@ -2,22 +2,25 @@ import { WidgetTypeEnum, DashboardModeEnum } from '../shared/enums'
 import { WidgetData } from '../shared/lib';
 import { TOGGLE_SETTINGS_PANEL } from '../components/widget-configurations/widget-configurations.reducer';
 
-const ADD_WIDGET = 'ADD_WIDGET'
-export const UPDATE_WIDGET = 'UPDATE_WIDGET'
-export const UPDATE_WIDGETS = 'UPDATE_WIDGETS'
-export const UPDATE_DASHBOARD = 'UPDATE_DASHBOARD'
+
+import { updateDashboardMode, getDashboardById, updateWidgets, updateWidget, updateDashboard, updateShowIcons, pullWidget } from './dashboard.actions';
+import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, ADD_WIDGET, UPDATE_DRAGGABLE, UPDATE_DASHBOARD, UPDATE_SHOW_ICONS } from './dashboard.constants';
+
 
 export function AddWidget(widgetType) {
-    let widget = WidgetData.GetWidget(widgetType)
-    return {
-        type: ADD_WIDGET,
-        widget
+    return (dispatch, getState) => {
+        let widgets = getState().dashboard.widgets;
+        let widget = WidgetData.GetWidget(widgetType, widgets.length + 1)
+        dispatch({
+            type: ADD_WIDGET,
+            widget
+        })
     }
 }
 
 export function UpdateWidget(widget) {
     return {
-        type: UPDATE_WIDGET,
+        type: UPDATE_DASHBOARD_WIDGET,
         widget
     };
 }
@@ -38,7 +41,7 @@ export const ACTION_HANDLERS = {
         state.widgets = state.widgets.concat([action.widget])
         return Object.assign({}, state);
     },
-    [UPDATE_WIDGET]: (state, action) => {
+    [UPDATE_DASHBOARD_WIDGET]: (state, action) => {
         let widgets = state.widgets.map((widget) => {
             if (widget.id !== action.widget.id) {
                 return widget;
@@ -51,26 +54,46 @@ export const ACTION_HANDLERS = {
         })
         return Object.assign({}, state, { widgets });
     },
-    [UPDATE_WIDGETS]: (state, action) => {
+    [UPDATE_DASHBOARD_MODE]: (state, action) => {
         return Object.assign({}, state, {
-            widgets: action.widgets
+            mode: action.mode,
+
         })
     },
-    [UPDATE_DASHBOARD]: (state, action) => {
+    [UPDATE_DASHBOARD_WIDGETS]: (state, action) => {
         return Object.assign({}, state, {
-            Id: action.dashboardData.Id,
-            name: action.dashboardData.name,
-            isGlobal: action.dashboardData.isGlobal,
-            isDefault: action.dashboardData.isDefault,
-            category: action.dashboardData.category,
-            widgets: action.dashboardData.widgets
-        });
+            widgets: action.widgets,
+        })
+    },
+    [UPDATE_DRAGGABLE]: (state, action) => {
+        return Object.assign({}, state, {
+            disableDrag: action.draggable,
+        })
+    },
+    [UPDATE_DASHBOARD]:(state, action) => {
+        return Object.assign({}, state, {...action.dashboard}); 
+    },
+    [UPDATE_SHOW_ICONS]: (state, action) => {
+        return Object.assign({}, state, {
+            showIcons: action.showIcons,
+
+        })
     },
 }
 
 const initialState = {
     widgets: [],
-    mode: DashboardModeEnum.Edit
+    mode: DashboardModeEnum.Edit,
+    updateDashboardMode,
+    getDashboardById,
+    updateWidgets,
+    updateWidget,
+    disableDrag: false,
+    updateDashboard,
+    Id: -1,
+    updateShowIcons,
+    showIcons: true,
+    pullWidget,
 };
 
 export default function DashboardReducer(state = _.cloneDeep(initialState), action) {

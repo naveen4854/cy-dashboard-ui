@@ -1,6 +1,6 @@
 import * as dataMetricsService from './data-metrics-service';
 import { StatisticCategoryEnum, WidgetTypeEnum, ResponseStatusEnum } from '../../shared/enums';
-import { UPDATE_WIDGET } from '../../dashboard/dashboard.reducer';
+import { UPDATE_DASHBOARD_WIDGET } from '../../dashboard/dashboard.reducer';
 import { UPDATE_CONFIGURATIONS_WIDGET } from '../widget-configurations/widget-configurations.reducer';
 
 export const UPDATE_DATA_METRICS = "UPDATE_DATA_METRICS"

@@ -1,9 +1,11 @@
 import { rgba } from '../../utilities'
 export class Widget {
     constructor(zIndex, isCombo, isHeader) {
-        this.zIndex = zIndex || 1;
+        this.z = zIndex || 5;
         this.isCombo = isCombo || false;
-        this.isHeader = isHeader || false
+        this.isHeader = isHeader || false;
+        if (isHeader)
+            this.setComboHeaderProperties()
     }
 
     id = Date.now() + Math.floor(Math.random() * 10000) + 1;
@@ -15,15 +17,16 @@ export class Widget {
     width = 150;
     height = 100;
     z = 1;
+    value = 0;
+    displayValue = "--";
+
     showSettings = false;
     showEditor = false;
     showIcons = true;
 
-    value = 0;
-    displayValue = "--";
-    refreshInterval = '';
     title = this.isCombo ? '' : "<< Not Configured >>";
-
+    refreshInterval = '';
+    
     appliedSettings = {
         filters: [],
         dataMetrics: {},
@@ -31,28 +34,28 @@ export class Widget {
     }
 
     // styles
-    appliedBackgroundColor = this.isHeader ? rgba(255, 255, 255, 1) : rgba(0, 192, 239, 1);
+    appliedBackgroundColor = rgba(0, 192, 239, 1);
     widgetBody = {
-        backgroundColor: this.isHeader ? rgba(255, 255, 255, 1) : rgba(0, 192, 239, 1),
+        backgroundColor: rgba(0, 192, 239, 1),
         fontFamily: 'Arial',
         fontSize: 12,
-        color: {
-            r: 0, g: 0, b: 0, a: 1
-        }
+        color: rgba(0, 0, 0, 1)
     };
     valueStyles = {
-        color: this.isHeader ? {
-            r: 0, g: 0, b: 0, a: 1
-        } :
-            {
-                r: 255, g: 255, b: 255, a: 1
-            },
+        color: rgba(255, 255, 255, 1),
         fontFamily: 'Arial',
         fontSize: 12
     };
     titleStyles = {
-        color: this.isHeader ? rgba(0, 0, 0, 1) : rgba(255, 255, 255, 1),
+        color: rgba(255, 255, 255, 1),
         fontFamily: 'Arial',
         fontSize: 12
     };
+
+    setComboHeaderProperties() {
+        this.appliedBackgroundColor = rgba(255, 255, 255, 1);
+        this.widgetBody = { ...this.widgetBody, backgroundColor: rgba(255, 255, 255, 1) }
+        this.valueStyles = { ...this.valueStyles, color: rgba(0, 0, 0, 1) }
+        this.titleStyles = { ...this.titleStyles, color: rgba(0, 0, 0, 1) }
+    }
 }

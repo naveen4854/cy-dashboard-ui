@@ -104,7 +104,6 @@ export function setTokenRefreshTimeout(timeDiff) {
         type: Constants.USER_LOGOUT
       })
     }
-
     if (user.tokenRefTimeOutId != -1)
       return
 
