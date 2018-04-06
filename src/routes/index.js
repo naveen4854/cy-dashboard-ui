@@ -26,6 +26,10 @@ export const createRoutes = (store) => (
                     indexRoute: NewDashboardPage(store),
                 },
                 {
+                    path: 'edit/:id',
+                    indexRoute: NewDashboardPage(store)
+                },
+                {
                     path: 'view/:id',
                     indexRoute: ViewDashboardPage(store),
                 }

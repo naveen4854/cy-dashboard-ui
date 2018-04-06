@@ -1,5 +1,7 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
+import { ModalManager as ModalManager, ModalManager as SaveAsModalManager } from 'react-dynamic-modal';
+import CustomModalPopUp from '../custom-modal-popup';
 
 export default class WidgetsBar extends React.Component {
 	constructor(props) {
@@ -10,30 +12,80 @@ export default class WidgetsBar extends React.Component {
 		this.updateDashboardName = this.updateDashboardName.bind(this);
 	}
 
-	componentWillReceiveProps(nextProps) {
-	}
 
-	componentDidUpdate() {
-	}
 
 	redirectToFiles() {
 		// this.props.ResetDashboard();
 		browserHistory.push(`/dashboard/mydashboards`)
 	}
-	handleDocks(e){
-//this.props.dashboard.Id ? this.props.UpdateDashboard() : this.props.SaveDashboard()
+	handleDocks(e) {
+		this.props.CollapseAllSettingsMenus();
 	}
 
-	updateDashboardIsDefault(e){
-		this.props.UpdateProperty('isDefault',e.target.checked);
+	updateDashboardIsDefault(e) {
+		this.props.UpdateProperty('isDefault', e.target.checked);
 	}
-	updateDashboardIsGlobal(e){
-		this.props.UpdateProperty('isGlobal',e.target.checked);
+	updateDashboardIsGlobal(e) {
+		this.props.UpdateProperty('isGlobal', e.target.checked);
 	}
-	updateDashboardName(e){
-		this.props.UpdateProperty('name',e.target.value);
+	updateDashboardName(e) {
+		this.props.UpdateProperty('name', e.target.value);
 	}
-	
+	componentDidUpdate() {
+		if (this.props.widgetsBar.showSaveAsModalPopup) {
+			SaveAsModalManager.open(<CustomModalPopUp title={this.props.l.t('Save_As_Dashboard', 'Save As Dashboard')} {...this.props}
+				okButtonText={this.props.l.t('Save_As', 'Save As')} placeholder="Dashboard Name"
+				onRequestClose={this.OnSaveAsCancel.bind(this)}
+				SaveClick={(name) => { this.saveAsDashboard(name) }}
+				OnCancel={() => { this.OnSaveAsCancel(); }}
+
+			/>);
+		}
+
+		if (this.props.widgetsBar.showModalPopup) {
+			ModalManager.open(<CustomModalPopUp title={this.props.l.t('Save_Dashboard', 'Save Dashboard')} {...this.props}
+				okButtonText={this.props.l.t('Save', 'Save')} placeholder="Dashboard Name"
+				onRequestClose={(input) => { this.onRequestClose(input) }}
+				SaveClick={(name) => { this.saveDashboard(name) }}
+				OnCancel={() => { this.OnCancel() }}
+
+			/>);
+		}
+	}
+
+	showSaveAsModalPopup() {
+		this.props.HandleSaveAsPopUp(true);
+	}
+	OnSaveAsCancel() {
+		this.props.HandleSaveAsPopUp(false);
+		SaveAsModalManager.close();
+	}
+	saveAsDashboard(name) {
+		this.props.UpdateProperty("name", name);
+		this.handleDocks();
+		this.props.HandleSaveAsPopUp(false);
+		this.props.SaveAsDashboard();
+		SaveAsModalManager.close();
+	}
+	saveDashboard(name) {
+		this.props.UpdateProperty("name", name);
+		this.props.SaveDashboard();
+		this.props.HandleModalPopup(false);
+		ModalManager.close();
+	}
+	OnCancel() {
+		debugger;
+		this.props.UpdateProperty("name", '')
+		this.props.HandleModalPopup(false);
+		ModalManager.close();
+	}
+
+	onRequestClose(input) {
+		this.props.HandleModalPopup(false);
+		this.props.UpdateProperty("name", '')
+		ModalManager.close();
+	}
+
 
 	render() {
 		let orderedWidgets = _.orderBy(this.props.widgetsBar.widgets, 'order', 'asc');

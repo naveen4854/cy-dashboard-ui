@@ -24,6 +24,17 @@ export function UpdateWidget(widget) {
         widget
     };
 }
+export function UpdateWidgets(widgets) {
+    return {
+        type: UPDATE_WIDGETS,
+        widgets
+    };
+}
+export function ToggleSettingsMenu(widget) {
+    return (dispatch, getState) => {
+        dispatch(getState().configurations.ToggleSettingsMenu(widget))
+    }
+}
 
 export const ACTION_HANDLERS = {
     [ADD_WIDGET]: (state, action) => {
