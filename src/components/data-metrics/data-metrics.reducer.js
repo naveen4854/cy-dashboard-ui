@@ -106,9 +106,15 @@ export function initializeStatisticMetadata() {
             datametricsMetadata
         });
 
-        dispatch(getState().realTimeSettings.initiateRealTimeSettings());
-        dispatch(getState().cyReportSettings.initiateCyReportSettings());
-        dispatch(getState().customSettings.initiateCustomMetricsSettings());
+        if (currentWidget.widgetType == WidgetTypeEnum.Combo) {
+            dispatch(getState().comboRealTimeSettings.initiateComboRealTimeSettings());
+            dispatch(getState().comboCustomSettings.initiateComboCustomSettings());
+        }
+        else {
+            dispatch(getState().realTimeSettings.initiateRealTimeSettings());
+            dispatch(getState().cyReportSettings.initiateCyReportSettings());
+            dispatch(getState().customSettings.initiateCustomMetricsSettings());
+        }
     }
 }
 
@@ -199,7 +205,7 @@ export function saveDataMetrics(settings) {
                 dataMetrics
             }
         }
-        
+
         dispatch(getState().configurations.PreviewWidget(updatedWidget));
         dispatch(getState().threshold.updateDisplayFormat(settings.displayFormat.id));
     }

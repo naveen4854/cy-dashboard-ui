@@ -27,7 +27,7 @@ export default class DataMetricsComponent extends PureComponent {
                 return (<DataMetricsSettingsContainer />);
             case WidgetTypeEnum.Combo:
                 return (
-                    <div><ComboMetricsSettingsContainer /></div>
+                    <ComboMetricsSettingsContainer />
                 );
             case WidgetTypeEnum.Clock:
                 return (<ClockMetricsSettingsContainer />);
