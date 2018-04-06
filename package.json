@@ -122,6 +122,7 @@
     "react-dock": "^0.2.4",
     "react-dom": "^16.2.0",
     "react-dropzone": "^4.2.9",
+    "react-dynamic-modal": "^1.1.1",
     "react-input-autosize": "^2.2.1",
     "react-input-mask": "^1.2.2",
     "react-paginate": "^5.1.0",

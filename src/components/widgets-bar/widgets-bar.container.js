@@ -10,7 +10,22 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(WidgetsBarActions.updateProperty(key, value))
         },
         SaveDashboard: () => {
-            dispatch(WidgetsBarActions.saveDashboard())
+            dispatch(WidgetsBarActions.SaveDashboard())
+        },
+        CollapseAllSettingsMenus: () => {
+            dispatch(WidgetsBarActions.CollapseAllSettingsMenus());
+        },
+        HandleModalPopup: (showModalPopup) => {
+            dispatch(WidgetsBarActions.HandleModalPopup(showModalPopup))
+        },
+        HandleSaveAsPopUp: (showSaveAsPopup) => {
+            dispatch(WidgetsBarActions.HandleSaveAsPopUpAction(showSaveAsPopup))
+        },
+        SaveAsPopUpAction: (showSaveAsPopup) => {
+            dispatch(WidgetsBarActions.HandleSaveAsPopUpAction(showSaveAsPopup))
+        },
+        SaveAsDashboard: () => {
+            dispatch(WidgetsBarActions.SaveDashboard());
         }
     }
 }

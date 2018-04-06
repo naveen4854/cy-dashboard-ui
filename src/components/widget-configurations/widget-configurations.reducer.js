@@ -1,8 +1,8 @@
-import {ResponseStatusEnum, WidgetTypeEnum } from "../../shared/enums";
+import { ResponseStatusEnum, WidgetTypeEnum } from "../../shared/enums";
 import _ from 'lodash';
 import { UPDATE_WIDGET } from "../../dashboard/dashboard.reducer";
 import { DashboardUtilities } from "../../shared/lib";
-import * as widgetService  from './widget-configurations.service';
+import * as widgetService from './widget-configurations.service';
 export const TOGGLE_CONFIGURATIONS_PANEL = "TOGGLE_CONFIGURATIONS_PANEL"
 export const UPDATE_CONFIGURATIONS_WIDGET = "UPDATE_CONFIGURATIONS_WIDGET"
 export const PREVIEW_WIDGET = 'PREVIEW_WIDGET';
@@ -10,7 +10,6 @@ export const PREVIEW_WIDGET = 'PREVIEW_WIDGET';
 export function ToggleSettingsMenu(widget) {
     return (dispatch, getState) => {
         dispatch(getState().dataMetrics.clearSelectedDM())
-
         let currentWidget = _.cloneDeep(widget);
         let showPanel = !(getState().configurations.showPanel && getState().configurations.widgetId == currentWidget.id)
         dispatch({
@@ -45,7 +44,7 @@ export function updateDashboardWidget(widget) {
             type: UPDATE_WIDGET,
             widget: widget
         });
-  
+
 
     }
 }
@@ -55,7 +54,7 @@ export function PreviewWidget(widget) {
         const widgetData = DashboardUtilities.WidgetMapper(widget, getState().dataMetrics.datametricsMetadata);
         widgetService.getWidgetPreviewData(widgetData).then(function (response) {
             if (response.status === 200) {
-             
+
                 if (widget) {
                     DashboardUtilities.WidgetDataMapper(widget, response.data)
 

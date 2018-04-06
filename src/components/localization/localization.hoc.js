@@ -23,7 +23,6 @@ export default function localize(Component, pageName) {
         dir: locData.dir,
         t: (key, str, params) => {
           let localizedString = !data ? str : data[key] || str;
-
           if (!params)
             return localizedString;
           _.forEach(Object.keys(params), (key) => {

@@ -1,3 +1,5 @@
+import { DashboardUtilities } from "../shared/lib";
+
 export function PreviewActionPicture(dashboardId, widgetid) {
     return (dispatch, getState) => {
         dashboardService.viewWidgetData(dashboardId, widgetid).then((response) => {
@@ -14,3 +16,4 @@ export function PreviewActionPicture(dashboardId, widgetid) {
         });
     }
 }
+

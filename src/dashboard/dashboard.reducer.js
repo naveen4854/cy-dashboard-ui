@@ -4,6 +4,8 @@ import { TOGGLE_SETTINGS_PANEL } from '../components/widget-configurations/widge
 
 const ADD_WIDGET = 'ADD_WIDGET'
 export const UPDATE_WIDGET = 'UPDATE_WIDGET'
+export const UPDATE_WIDGETS = 'UPDATE_WIDGETS'
+export const UPDATE_DASHBOARD = 'UPDATE_DASHBOARD'
 
 export function AddWidget(widgetType) {
     let widget = WidgetData.GetWidget(widgetType)
@@ -19,7 +21,12 @@ export function UpdateWidget(widget) {
         widget
     };
 }
-
+export function UpdateWidgets(widgets) {
+    return {
+        type: UPDATE_WIDGETS,
+        widgets
+    };
+}
 export function ToggleSettingsMenu(widget) {
     return (dispatch, getState) => {
         dispatch(getState().configurations.ToggleSettingsMenu(widget))
@@ -43,7 +50,22 @@ export const ACTION_HANDLERS = {
             };
         })
         return Object.assign({}, state, { widgets });
-    }
+    },
+    [UPDATE_WIDGETS]: (state, action) => {
+        return Object.assign({}, state, {
+            widgets: action.widgets
+        })
+    },
+    [UPDATE_DASHBOARD]: (state, action) => {
+        return Object.assign({}, state, {
+            Id: action.dashboardData.Id,
+            name: action.dashboardData.name,
+            isGlobal: action.dashboardData.isGlobal,
+            isDefault: action.dashboardData.isDefault,
+            category: action.dashboardData.category,
+            widgets: action.dashboardData.widgets
+        });
+    },
 }
 
 const initialState = {
