@@ -178,10 +178,10 @@ export function updateWidgetSize(width, height, currentWidget) {
 
 export function updateDraggable(draggable) {
     return (dispatch, getState) => {
-        dispatch({
-            type: UPDATE_DRAGGABLE,
-            draggable
-        })
+        // dispatch({
+        //     type: UPDATE_DRAGGABLE,
+        //     draggable
+        // })
     }
 }
 
