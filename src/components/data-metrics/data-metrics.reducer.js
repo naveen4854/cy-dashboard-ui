@@ -148,7 +148,12 @@ export function clearSelectedDM() {
             dataMetrics
         })
 
-        dispatch(getState().realTimeSettings.clearRealTimeSettings())
+        dispatch(getState().realTimeSettings.clearRealTimeSettings());
+        dispatch(getState().cyReportSettings.clearCyReportSettings());
+        dispatch(getState().customSettings.clearCustomSettings());
+        dispatch(getState().comboRealTimeSettings.clearComboRealTimeSettings());
+       // dispatch(getState().comboCustomSettings.clearCustomSettings());
+        
     }
 }
 

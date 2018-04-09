@@ -128,7 +128,6 @@ export function removeCustomComboColumn(columnId) {
         let columns = getState().comboCustomSettings.columns;
 
         let updatedColumns = _.filter(columns, (column) => column.id != columnId);
-        debugger
         dispatch({
             type: UPDATE_CUSTOM_COMBO_COLUMNS,
             columns: updatedColumns

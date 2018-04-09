@@ -64,7 +64,6 @@ export default class ComboCustomAccordion extends PureComponent {
         let column = {
             ...this.props.column, timeFormat: e
         }
-        debugger
         this.props.updateCustomComboColumn(column);
     }
     onhoursFormatChange(e) {

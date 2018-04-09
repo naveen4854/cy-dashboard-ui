@@ -1,10 +1,11 @@
 import { StatisticCategoryEnum, WidgetTypeEnum } from "../../shared/enums";
 import { WidgetData } from "../../shared/lib";
-import { SET_COMBO_REALTIME_STATISTIC_GROUPS, UPDATE_COMBO_SELECTED_GROUP, UPDATE_COMBO_STATISTIC_ITEMS, SET_COMBO_SELECTED_STATISTIC_ITEMS, UPDATE_COMBO_REALTIME_DISPLAYNAME, SET_COMBO_REALTIME_STATISTIC_ITEM, UPDATE_COMBO_REALTIME_FUNCTIONS, UPDATE_COMBO_REALTIME_SELECTED_FUNCTION, UPDATE_COMBO_REALTIME_DISPLAY_FORMATS, UPDATE_COMBO_REALTIME_SELECTED_DISPLAY_FORMAT, UPDATE_COMBO_REALTIME_APPLICABLE_WIDGETS, SET_COMBO_REALTIME_APPLICABLE_WIDGET, UPDATE_COMBO_DRILL_DOWN_METADATA, UPDATE_COMBO_REALTIME_TOGGLE_ADD, SET_COMBO_REALTIME_STATISTIC_COLUMNS } from './combo-realtime-metrics-settings.constants';
+import { SET_COMBO_REALTIME_STATISTIC_GROUPS, UPDATE_COMBO_SELECTED_GROUP, UPDATE_COMBO_STATISTIC_ITEMS, SET_COMBO_SELECTED_STATISTIC_ITEMS, UPDATE_COMBO_REALTIME_DISPLAYNAME, SET_COMBO_REALTIME_STATISTIC_ITEM, UPDATE_COMBO_REALTIME_FUNCTIONS, UPDATE_COMBO_REALTIME_SELECTED_FUNCTION, UPDATE_COMBO_REALTIME_DISPLAY_FORMATS, UPDATE_COMBO_REALTIME_SELECTED_DISPLAY_FORMAT, UPDATE_COMBO_REALTIME_APPLICABLE_WIDGETS, SET_COMBO_REALTIME_APPLICABLE_WIDGET, UPDATE_COMBO_DRILL_DOWN_METADATA, UPDATE_COMBO_REALTIME_TOGGLE_ADD, SET_COMBO_REALTIME_STATISTIC_COLUMNS, UPDATE_COMBO_REALTIME_RESET_ADD, DEFAULT_COMBO_REALTIME_METRICS, CLEAR_SELECTED_COMBO_REALTIME_SETTINGS } from './combo-realtime-metrics-settings.constants';
 
 import * as dataMetricsService from '../data-metrics/data-metrics-service';
 import { getWidgetByEnum } from "../../shared/lib/widget-data";
 import { getRandom } from "../../utilities/utils";
+import { comboRealTimeInitialState } from "./combo-realtime-metrics-settings.reducer";
 
 export function initiateComboRealTimeSettings() {
     return (dispatch, getState) => {
@@ -12,6 +13,7 @@ export function initiateComboRealTimeSettings() {
         let selectedStatisticCategory = getState().dataMetrics.statisticCategory;
         let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
         let groupOptions = getState().realTimeSettings.groupOptions;
+
         if (!groupOptions || groupOptions.length == 0) {
             let _grpOptions = _.uniqBy(_.map(_.filter(datametricsMetadata, metric => (metric.StatisticCategory === StatisticCategoryEnum.RealTime &&
                 metric.WidgetType === currentWidget.widgetType)), (obj) => {
@@ -29,14 +31,19 @@ export function initiateComboRealTimeSettings() {
         }
 
         let appliedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory
-        if (appliedStatisticCategory == StatisticCategoryEnum.RealTime)
+
+        if (appliedStatisticCategory == StatisticCategoryEnum.RealTime) {
+            debugger
+            let datametrics = currentWidget.appliedSettings.dataMetrics;
             dispatch({
-                // type: DEFAULT_REALTIME_METRICS,
-                // selectedGroup: currentWidget.appliedSettings.dataMetrics.group || {},
-                // selectedItem: currentWidget.appliedSettings.dataMetrics.item || {},
-                // selectedFunction: currentWidget.appliedSettings.dataMetrics.func || {},
-                // selectedDisplayFormat: currentWidget.appliedSettings.dataMetrics.displayFormat || {}
+                type: DEFAULT_COMBO_REALTIME_METRICS,
+                selectedGroup: datametrics.group || {},
+                // selectedDrilldownOptions: datametrics.drillDownOptions || [],
+                comboSelectedStatisticItems: datametrics.comboSelectedStatisticItems || [],
             })
+
+            dispatch(getState().comboRealTimeSettings.getComboDrillDownMetaData(datametrics.group))
+        }
     }
 }
 
@@ -75,19 +82,18 @@ export function setStatisticsItems() {
     }
 }
 
-export function getComboDrillDownMetaData(selectedGroup, widgetId) {
+export function getComboDrillDownMetaData(selectedGroup) {
     return (dispatch, getState) => {
         //const selectedWidget = getState().configurations.widget;
-
         dataMetricsService.getDrillDownMetaData(selectedGroup.id).then(function (response) {
             if (response.status === 200) {
                 let currentWidget = getState().configurations.widget;
-                let group = getState().comboRealTimeSettings.selectedGroup;
+                // let selectedGroup = getState().comboRealTimeSettings.selectedGroup;
 
-                let isEqual = currentWidget.appliedSettings.dataMetrics.group && _.isEqualWith(currentWidget.appliedSettings.dataMetrics.group, group,
+                let isEqual = currentWidget.appliedSettings.dataMetrics.group && _.isEqualWith(currentWidget.appliedSettings.dataMetrics.group, selectedGroup,
                     (f, s) => f.id == s.id && f.label == s.label
                 );
-                const shouldcheck = group ? isEqual : true;
+                const shouldcheck = true; //group ? isEqual : true;
                 let drillDownOptions = _.map(_.uniqBy(response.data, 'Id'), (obj) => {
                     // all these calculations because of the difference in drill down options saved in db vs appended obj to DM
                     let o = _.find(currentWidget.appliedSettings.dataMetrics.drillDownOptions, (_opt) => _opt == obj.Id || _opt.value == obj.Id)
@@ -106,18 +112,18 @@ export function getComboDrillDownMetaData(selectedGroup, widgetId) {
 
                 let selectedDrilldownOptions = []
 
-                if (isEqual) {
-                    selectedDrilldownOptions = _.map(currentWidget.appliedSettings.dataMetrics.drillDownOptions, function (value, i) {
-                        let selectedValue = _.find(drillDownOptions, { 'value': value.value ? value.value : value });
-                        if (selectedValue) {
-                            selectedValue.checked = false;
-                            return selectedValue;
-                        }
-                    })
-                }
-                else {
-                    selectedDrilldownOptions = [];
-                }
+                //if (isEqual) {
+                selectedDrilldownOptions = _.map(currentWidget.appliedSettings.dataMetrics.drillDownOptions, function (option, i) {
+                    let selectedValue = _.find(drillDownOptions, { 'value': option.value ? option.value : option });
+                    if (selectedValue) {
+                        selectedValue.checked = false;
+                        return selectedValue;
+                    }
+                })
+                // }
+                // else {
+                //  selectedDrilldownOptions = [];
+                // }
 
                 //selectedWidget.appliedSettings.group.isEdit = false;
                 dispatch({
@@ -132,13 +138,20 @@ export function getComboDrillDownMetaData(selectedGroup, widgetId) {
 
 export function addDefaultComboStatisticItems(selectedGroup) {
     return (dispatch, getState) => {
-
         const currentWidget = getState().configurations.widget; // TODO updating settings reducer widget directly.. move it into a reducer action
-        var result = _.find(currentWidget.appliedSettings.dataMetrics.comboSelectedStatisticItems, item => item.isDefault);
-        // if (result.length == 0 || widget.appliedSettings.group.isNew) {
-        //currentWidget.appliedSettings.dataMetrics.comboSelectedStatisticItems = [];
+        debugger
+        let comboRTDefaulted = getState().comboRealTimeSettings.comboRTDefaulted;
+        if (!comboRTDefaulted) {
+            let defaultItems = currentWidget.appliedSettings.dataMetrics.comboSelectedStatisticItems;
+            if (defaultItems && defaultItems.length > 0)
+                return dispatch({
+                    type: SET_COMBO_SELECTED_STATISTIC_ITEMS,
+                    comboSelectedStatisticItems: defaultItems,
+                    comboRTDefaulted: true
+                });
+        }
 
-
+        debugger
         const group = _.find(getState().dataMetrics.datametricsMetadata, (metric) =>
             metric.StatisticGroupId === selectedGroup.id &&
             metric.WidgetType === currentWidget.widgetType &&
@@ -164,6 +177,9 @@ export function addDefaultComboStatisticItems(selectedGroup) {
             value: WidgetTypeEnum.Box
         };
 
+        // if (result.length == 0 || widget.appliedSettings.group.isNew) {
+        //currentWidget.appliedSettings.dataMetrics.comboSelectedStatisticItems = [];
+        var result = _.find(currentWidget.appliedSettings.dataMetrics.comboSelectedStatisticItems, item => item.isDefault);
         let defaultStatisticItem = {
             id: 1, // defaulted to one, helps with reordering rows
             isDefault: true,
@@ -175,9 +191,11 @@ export function addDefaultComboStatisticItems(selectedGroup) {
         };
         let comboSelectedStatisticItems = [];
         comboSelectedStatisticItems.push(defaultStatisticItem);
+
         dispatch({
             type: SET_COMBO_SELECTED_STATISTIC_ITEMS,
-            comboSelectedStatisticItems
+            comboSelectedStatisticItems,
+            comboRTDefaulted: true
         });
     }
 }
@@ -373,6 +391,15 @@ export function updateDisplayName(displayName) {
 
 export function toggleAddEdit(toggleAddEdit) {
     return (dispatch, getState) => {
+
+        dispatch({
+            type: UPDATE_COMBO_REALTIME_RESET_ADD,
+            selectedItem: {},
+            displayName: '',
+            selectedFunction: {},
+            selectedDisplayFormat: {},
+            selectedWidget: {},
+        });
         dispatch({
             type: UPDATE_COMBO_REALTIME_TOGGLE_ADD,
             toggleAddEdit
@@ -410,5 +437,16 @@ export function addComboStatisticItem() {
 export function applyComboRealTimeMetrics() {
     return (dispatch, getState) => {
         dispatch(getState().dataMetrics.saveComboRealTimeMetrics())
+    }
+}
+
+export function clearComboRealTimeSettings() {
+    return (dispatch, getState) => {
+        let groupOptions = getState().comboRealTimeSettings.groupOptions;
+        let realTimeSettings = { ...comboRealTimeInitialState, groupOptions }
+        dispatch({
+            type: CLEAR_SELECTED_COMBO_REALTIME_SETTINGS,
+            realTimeSettings
+        })
     }
 }

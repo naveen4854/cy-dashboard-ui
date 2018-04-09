@@ -40,6 +40,7 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
         this.props.updateComboDrillDownOptions(options);
     }
     onStatisticItemChange(item) {
+       // if(!item.value) return;
         this.props.setItemAndGetFunctions(item);
     }
     onFunctionChange(selectedFunction) {

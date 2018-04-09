@@ -1,6 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 import './styles.css';
+import _ from 'lodash'
 
 export default class CustomSelect extends React.Component {
     constructor(props) {
@@ -9,7 +10,7 @@ export default class CustomSelect extends React.Component {
         this.state = {
             value: props.value,
         };
-        if (props.value !== undefined && props.value !== {}) {
+        if (props.value !== undefined && !_.isEqual(props.value, {}) ) {
             this.props.onChange(props.value);
         }
     }
@@ -17,17 +18,17 @@ export default class CustomSelect extends React.Component {
     componentWillReceiveProps(nextProps) {
         //TODO: work on this to stop double change trigger 
         // this causes double onchange..but not having this doesnt trigger default on change, hence checking value to undefined
-        // if ((_.isEqual(this.props.value == {}) || this.props.value == undefined) && nextProps.value !== undefined && this.props.value !== nextProps.value) {
-        if (nextProps.value !== undefined && this.props.value !== nextProps.value) {
-            this.props.onChange(nextProps.value);
-        }
+    //      if ((_.isEqual(this.props.value, {}) || this.props.value == undefined) && ( !_.isEqual(this.props.value, {}) || nextProps.value !== undefined) &&  (!_.isEqual(this.props.value, nextProps.value))) {
+    //   // if (nextProps.value !== undefined &&  !_.isEqual(nextProps.value, {}) && this.props.value !== nextProps.value) {
+    //         debugger
+    //         this.props.onChange(nextProps.value);
+    //     }
 
         if (nextProps.options) {
             if (nextProps.options.length === 1) {
                 this.setState({
                     value: nextProps.options[0]
                 });
-                console.log('single option for ', nextProps.options[0])
                 // this.props.onChange(nextProps.options[0])
             } else {
                 this.setState({
