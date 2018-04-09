@@ -1,7 +1,5 @@
 import React, { PureComponent } from 'react'
 
-
-
 export default class ComboCustomQueryComponent extends PureComponent {
     constructor(props) {
         super(props);

@@ -44,8 +44,8 @@ export const timeFormat = [
 
 export const customCombotimeFormat = [
 	{
-		id: 0,
-		value: 0,
+		id: -1,
+		value: -1,
 		label: '--Select--'
 	},
 	{

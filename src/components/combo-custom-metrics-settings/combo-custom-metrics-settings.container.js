@@ -15,7 +15,16 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(Actions.loadColumns());
         },
         toggleExpandQuery: () => {
-            dispatch(Actions.toggleExpandQuery(options));
+            dispatch(Actions.toggleExpandQuery());
+        },
+        updateCustomComboColumn: (id, key, value) => {
+            dispatch(Actions.updateCustomComboColumn(id, key, value));
+        },
+        addCustomColumn: () => {
+            dispatch(Actions.addCustomColumn());
+        },
+        toggleAddColumn: () => {
+            dispatch(Actions.toggleAddColumn());
         },
     }
 }

@@ -109,7 +109,7 @@ export function initializeStatisticMetadata() {
 
         if (currentWidget.widgetType == WidgetTypeEnum.Combo) {
             dispatch(getState().comboRealTimeSettings.initiateComboRealTimeSettings());
-            //dispatch(getState().comboCustomSettings.initiateComboCustomSettings());
+            dispatch(getState().comboCustomSettings.initiateComboCustomSettings());
         }
         else {
             dispatch(getState().realTimeSettings.initiateRealTimeSettings());
