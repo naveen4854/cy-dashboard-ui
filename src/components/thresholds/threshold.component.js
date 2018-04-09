@@ -35,7 +35,7 @@ export default class ThresholdTab extends PureComponent {
         if (thresholdErrors)
             errors = errors.concat(thresholdErrors);
 
-        this.props.common.ClearNotifications()
+        this.props.common.clearNotifications()
         if (errors.length != 0) {
             let config = {
                 type: ResponseStatusEnum.Error,

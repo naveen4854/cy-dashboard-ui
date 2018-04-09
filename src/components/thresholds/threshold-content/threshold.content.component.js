@@ -58,7 +58,7 @@ export default class ThresholdTabContent extends PureComponent {
         errors = errors.concat(this.validateEmailIds(this.props.emailTo));
         errors = errors.concat(this.validateSMS(this.props.smsTo))
 
-        this.props.common.ClearNotifications()
+        this.props.common.clearNotifications()
         e.stopPropagation();
         if (errors.length != 0) {
 

@@ -40,7 +40,6 @@ export function toggleSettingsMenu(widget) {
 
 export function updateDashboardWidget(widget) {
     return (dispatch, getState) => {
-        debugger;
         dispatch({
             type: UPDATE_CONFIGURATIONS_WIDGET,
             widget: widget
@@ -53,7 +52,7 @@ export function updateDashboardWidget(widget) {
 export function previewWidget(widget) {
     return (dispatch, getState) => {
         dispatch(getState().configurations.updateDashboardWidget(widget));
-        // dispatch(getState().notificationStore.ClearNotifications());
+        // dispatch(getState().notificationStore.clearNotifications());
         // const widgetData = DashboardUtilities.WidgetMapper(widget, getState().dataMetrics.datametricsMetadata);
         // widgetService.getWidgetPreviewData(widgetData).then(function (response) {
         //     if (response.status === 200) {
@@ -83,7 +82,6 @@ export const ACTION_HANDLERS = {
         })
     },
     [UPDATE_CONFIGURATIONS_WIDGET]: (state, action) => {
-        debugger;
         return Object.assign({}, state, {
             widget: { ...action.widget }
         })

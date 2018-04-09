@@ -3,7 +3,6 @@ import { WidgetTypeEnum } from "../../shared/enums";
 
 export function saveComboRealTimeMetrics() {
     return (dispatch, getState) => {
-        debugger
         let currentWidget = getState().configurations.widget;
         let comboId = currentWidget.id;
         let oldMatrix = currentWidget ? _.flatten(currentWidget.matrix) : null;
@@ -49,7 +48,6 @@ export function saveComboRealTimeMetrics() {
 function getNewMatrix(filters, comboSelectedStatisticItems, rowHeaders, selectedGroup, comboId, oldMatrix) {
 
     return _.map(filters, (filter, rowIndex) => {
-        debugger
         let row = _.map(comboSelectedStatisticItems, (statisticItem, columnIndex) => {
             if (columnIndex == 0)
                 return rowHeaders[rowIndex];

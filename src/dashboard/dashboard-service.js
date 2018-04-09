@@ -68,9 +68,3 @@ export function testThreshold(threshold) {
         ApiUrl.TEST_THRESHOLD, threshold
     )
 }
-
-export function ValidateQuery(query) {
-    return service.axiosPost(
-        ApiUrl.VALIDATE_QUERY, `=${query}`
-    )
-}

@@ -28,7 +28,7 @@ export default (store) => ({
       injectReducer(store, { key: 'widgetsBar', reducer: WidgetsBarReducer })
       // injectReducer(store, { key: 'comboSettings', reducer: ComboSettingsMetricsReducer })
       injectReducer(store, { key: 'comboRealTimeSettings', reducer: ComboRealTimeSettingsReducer })
-      injectReducer(store, { key: 'combocustomSettings', reducer: ComboCustomSettingsReducer })
+      injectReducer(store, { key: 'comboCustomSettings', reducer: ComboCustomSettingsReducer })
 
       
       cb(null, authenticate(NewDashboardContainer))

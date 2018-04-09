@@ -40,7 +40,7 @@ export default class Notification extends PureComponent {
     }
 
     messageTypes() {
-        if (this.props.notification.id < 0)
+        if (this.props.notification.id < 0 || this.props.notification.messages.length == 0)
             return
         if (!this.props.notification.persistMessages) {
             toastr.removeByType('error')

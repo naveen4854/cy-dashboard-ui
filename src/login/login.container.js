@@ -8,7 +8,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     defaultRedirection: () => {
     },
-    ClearNotifications: () => {
+    clearNotifications: () => {
     },
     login: (loginDetails) => {
       dispatch(Reducer.login(loginDetails))

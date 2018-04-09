@@ -7,13 +7,22 @@ const mapDispatchToProps = (dispatch) => {
     return {
         updateComboDrillDownOptions: (options) => {
             dispatch(Actions.updateComboDrillDownOptions(options));
-        }
+        },
+        updateCustomQuery: (query) => {
+            dispatch(Actions.updateCustomQuery(query));
+        },
+        loadColumns: () => {
+            dispatch(Actions.loadColumns());
+        },
+        toggleExpandQuery: () => {
+            dispatch(Actions.toggleExpandQuery(options));
+        },
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        combocustomSettings: state.combocustomSettings
+        comboCustomSettings: state.comboCustomSettings
     }
 }
 

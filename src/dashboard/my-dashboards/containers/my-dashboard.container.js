@@ -50,7 +50,7 @@ const mapDispatchToProps = (dispatch) => {
         UserLogout: () => {
             dispatch(Reducer.UserLogoutAction());
         },
-        ClearNotifications: () => {
+        clearNotifications: () => {
             dispatch(Reducer.ClearNotificationsAction())
         },
         test: () => {

@@ -5,16 +5,6 @@ import { ResponseStatusEnum } from '../../shared/enums'
 const SHOW_NOTIFICATIONS = "SHOW_NOTIFICATIONS";
 const CLEAR_NOTIFICATIONS = "CLEAR_NOTIFICATIONS";
 
-export function ShowNotification(messagesConfiguration) {
-  return (dispatch, getState) => {
-    dispatch({
-      type: SHOW_NOTIFICATIONS,
-      messagesConfiguration: messagesConfiguration,
-      isRtl: getState().localizationStore.isRtl
-    });
-  }
-}
-
 /**
  * notify to user
  * @param {string[] | string} messages
@@ -29,7 +19,7 @@ export function notify(messages, errorType, persistMessage) {
     else
       msgArr.push(messages);
     let messagesConfig = {};
-    messagesConfig.messages = _.map(msgArr, (msg) => { return { displayMessage: msg.Message || msg.displayMessage || msg, normalizedMessage: msg.NormalizedMessage, params: msg.params } });
+    messagesConfig.messages = _.map(msgArr, (msg) => { return { displayMessage: msg.Message || msg.displayMessage || msg, normalizedMessage: msg.normalizedMessage || msg.NormalizedMessage, params: msg.params } });
     messagesConfig.type = errorType || ResponseStatusEnum.Success;
     messagesConfig.persistMessages = persistMessage || false;
 
@@ -98,7 +88,7 @@ export function confirm(message, buttons) {
   }
 }
 
-export function ClearNotifications() {
+export function clearNotifications() {
   return {
     type: CLEAR_NOTIFICATIONS
   };
@@ -136,7 +126,7 @@ const initialState = {
   isRtl: false,
   id: -1,
   notify,
-  ClearNotifications,
+  clearNotifications,
   custom,
   confirm
 };

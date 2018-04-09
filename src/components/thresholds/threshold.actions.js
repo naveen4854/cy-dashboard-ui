@@ -44,7 +44,7 @@ export function TestThreshold(threshold, widgetId) {
     return (dispatch, getState) => {
         let widgets = getState().dashboard.widgets;
         dispatch(getState().spinnerStore.BeginTask());
-        dispatch(getState().notificationStore.ClearNotifications());
+        dispatch(getState().notificationStore.clearNotifications());
         let widget = _.find(widgets, (widget) => widget.id === widgetId);
 
         if (!widget) { // Below condition is to see if selected widget is within combo
@@ -120,7 +120,7 @@ export function TestThreshold(threshold, widgetId) {
                 messages: [{ displayMessage: getState().newdashboard.l.t("Some_error_occuredPERIOD", "Some error occured.") }]
             };
 
-            dispatch(getState().notificationStore.ShowNotification(errorResponse));
+            //dispatch(getState().notificationStore.ShowNotification(errorResponse));
             dispatch(getState().spinnerStore.EndTask());
         })
 

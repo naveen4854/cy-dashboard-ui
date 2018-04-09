@@ -401,7 +401,7 @@ export function addComboStatisticItem() {
 
         }
         let columns = comboSelectedStatisticItems.splice(comboSelectedStatisticItems.length, 0, selectedStatisticItem);
-        dispatch(getState().notificationStore.ClearNotifications());
+        dispatch(getState().notificationStore.clearNotifications());
         // dispatch({
         //     type: UPDATE_DISPLAYNAME,
         //     displayName: selectedStatisticItem.displayName

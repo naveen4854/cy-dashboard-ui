@@ -6,7 +6,7 @@ const commonProps = (dispatch) => {
             dispatch(NotificationReducer.notify(messages, errorType, persistMessage))
         },
         clearNotifications: () => {
-            dispatch(NotificationReducer.ClearNotifications())
+            dispatch(NotificationReducer.clearNotifications())
         },
         custom: (message, buttons) => {
             dispatch(NotificationReducer.custom(message, buttons))

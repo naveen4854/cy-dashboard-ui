@@ -1,33 +1,30 @@
 
 import { initiateComboCustomSettings } from './combo-custom-metrics-settings.actions'
-import { SET_COMBO_REALTIME_STATISTIC_GROUPS } from './combo-custom-metrics-settings.constants';
+import { SET_COMBO_REALTIME_STATISTIC_GROUPS, TOGGLE_EXPAND_COMBO_CUSTOM_QUERY, UPDATE_COMBO_CUSTOM_COLUMN_OPTIONS, UPDATE_COMBO_CUSTOM_QUERY } from './combo-custom-metrics-settings.constants';
 
 export const ACTION_HANDLERS = {
-    [SET_COMBO_REALTIME_STATISTIC_GROUPS]: (state, action) => {
+    [UPDATE_COMBO_CUSTOM_QUERY]: (state, action) => {
         return Object.assign({}, state, {
-            groupOptions: action.groupOptions
+            query: action.query
         })
-    } ,
+    },
+    [TOGGLE_EXPAND_COMBO_CUSTOM_QUERY]: (state, action) => {
+        return Object.assign({}, state, {
+            isCustomQueryExpanded: !state.isCustomQueryExpanded
+        })
+    },
+    [UPDATE_COMBO_CUSTOM_COLUMN_OPTIONS]: (state, action) => {
+        return Object.assign({}, state, {
+            columOptions: action.columOptions
+        })
+    }
 }
 
 const initialState = {
-    groupOptions: [],
-    selectedGroup: {},
-    drillDownOptions: [],
-    selectedDrilldownOptions: [],
-    statisticItems: [],
-    comboSelectedStatisticItems: [],
-    selectedItem: {},
-    displayName: '',
-    functionOptions: [],
-    selectedFunction: {},
-    displayFormatOptions: [],
-    selectedDisplayFormat: {},
-    applicableWidgets: [],
-    selectedWidget: {},
-    toggleAddEdit: false,
-    initiateComboCustomSettings,
-
+    isCustomQueryExpanded: true,
+    query: '',
+    columOptions: [],
+    columns: []
 };
 
 export default function ComboCustomSettingsReducer(state = _.cloneDeep(initialState), action) {

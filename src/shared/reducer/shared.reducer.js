@@ -8,9 +8,9 @@ export function notify(messages, errorType, persistMessage) {
     })
 }
 
-export function ClearNotifications() {
+export function clearNotifications() {
     return store.dispatch((dispatch, getState) => {
-        dispatch(getState().notificationStore.ClearNotifications())
+        dispatch(getState().notificationStore.clearNotifications())
     });
 }
 
@@ -31,7 +31,7 @@ export const ACTION_HANDLERS = {
 }
 
 const initialState = {
-    ClearNotifications,
+    clearNotifications,
     notify,
     custom,
     confirm

@@ -125,7 +125,7 @@ export function setTokenRefreshTimeout(timeDiff) {
         dispatch(getState().user.setTokenRefreshTimeout(nextTimeDiff))
       })
         .catch((err) => {
-          dispatch(getState().notificationStore.ClearNotifications());
+          dispatch(getState().notificationStore.clearNotifications());
           dispatch(getState().notificationStore.notify(err.response.data.Messages, ResponseStatusEnum.Error, true));
           dispatch(getState().user.logout())
         });

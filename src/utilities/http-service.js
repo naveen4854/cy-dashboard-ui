@@ -146,7 +146,7 @@ function handleUnAuthWithRetry(error) {
         })
             .catch((err) => {
                 dispatch(getState().user.logout())
-                dispatch(getState().notificationStore.ClearNotifications());
+                dispatch(getState().notificationStore.clearNotifications());
                 dispatch(getState().notificationStore.notify(err.response.data.Messages, ResponseStatusEnum.Error, true));
             });
     })
