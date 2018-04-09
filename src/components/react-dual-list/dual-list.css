@@ -1,0 +1,87 @@
+.list-item, .list-item-selected {
+  /* border-top: thin solid #ddd; */
+  border-bottom: 1px solid #ddd;
+  display: block;
+  padding: 7px 2px 7px 10px;
+  /* margin-bottom: -1px; */
+  font-size: 0.85em;
+  cursor: pointer;
+  white-space: nowrap;
+  /* min-height: 16px; */
+}
+
+.list-item:hover{
+    background-color: #f5f5f5;
+}
+
+.list-item-selected{
+  background-color: #d9edf7;
+}
+
+.list-box{
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  position: relative;
+  cursor: pointer;
+  margin-top: 5px
+}
+
+.action-button{
+   
+  text-align: center;
+  cursor: default;
+  color: #fff;
+  width: 40px;
+  background-color: #337ab7;
+  box-sizing: border-box;
+  padding: 2px 6px 3px;
+  display: table;
+   margin: 0 auto;
+  border-image: initial;
+  margin-top:5px;
+  cursor: pointer
+}
+
+
+li.placeholder { background: rgb(255,240,120);}
+li.placeholder:before {
+  content: "Drop here"; color: rgb(225,210,90);
+}
+ul {
+  list-style: none;
+  margin:0;
+  padding:0
+}
+
+.point-right::after {
+  content: "\00A0\00A0\00A0\25B6";
+}
+
+.point-left::before{
+  content:"\25C0\00A0\00A0\00A0";
+}
+
+.button-bar {
+  margin-right:0px;
+  margin-left:0px;
+  margin-top:5px;
+}
+.list-item > td,  .list-item-selected > td{
+  border: 0px !important
+}
+
+.drag-drop-filter{
+  overflow-y: scroll;
+  border: 1px solid #ddd
+}
+
+width_100{
+width: '100%'
+}
+.heading{
+  margin: 10px 0px 10px 0px;
+  padding: 5px 0px 5px 0px;
+  color: black
+}

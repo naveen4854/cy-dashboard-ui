@@ -2,6 +2,7 @@ import * as dataMetricsService from './data-metrics-service';
 import { StatisticCategoryEnum, WidgetTypeEnum, ResponseStatusEnum } from '../../shared/enums';
 import { UPDATE_DASHBOARD_WIDGET } from '../../dashboard/dashboard.reducer';
 import { UPDATE_CONFIGURATIONS_WIDGET } from '../widget-configurations/widget-configurations.reducer';
+import { saveComboRealTimeMetrics } from './data-metrics.actions';
 
 export const UPDATE_DATA_METRICS = "UPDATE_DATA_METRICS"
 export const SET_STATISTIC_CATEGORY = "SET_STATISTIC_CATEGORY"
@@ -15,7 +16,7 @@ export const UPDATE_COMBO_SELECTED_ROW = "UPDATE_COMBO_SELECTED_ROW"
 export const UPDATE_APPLICABLE_WIDGETS = "UPDATE_APPLICABLE_WIDGETS"
 export const SET_APPLICABLE_WIDGET = "SET_APPLICABLE_WIDGET"
 export const UPDATE_WIDGET_DM = "UPDATE_WIDGET_DM"
-export const UPDATE_COMBO_DRILL_DOWN_METADATA = "UPDATE_COMBO_DRILL_DOWN_METADATA"
+// export const UPDATE_COMBO_DRILL_DOWN_METADATA = "UPDATE_COMBO_DRILL_DOWN_METADATA"
 export const UPDATE_CUSTOM_STASTISTICS_SP_DATA = "UPDATE_CUSTOM_STASTISTICS_SP_DATA"
 export const UPDATE_APPLICABLE_WIDGET = "UPDATE_APPLICABLE_WIDGET"
 export const UPDATE_COLUMNS = "UPDATE_COLUMNS"
@@ -106,9 +107,15 @@ export function initializeStatisticMetadata() {
             datametricsMetadata
         });
 
-        dispatch(getState().realTimeSettings.initiateRealTimeSettings());
-        dispatch(getState().cyReportSettings.initiateCyReportSettings());
-        dispatch(getState().customSettings.initiateCustomMetricsSettings());
+        if (currentWidget.widgetType == WidgetTypeEnum.Combo) {
+            dispatch(getState().comboRealTimeSettings.initiateComboRealTimeSettings());
+            //dispatch(getState().comboCustomSettings.initiateComboCustomSettings());
+        }
+        else {
+            dispatch(getState().realTimeSettings.initiateRealTimeSettings());
+            dispatch(getState().cyReportSettings.initiateCyReportSettings());
+            dispatch(getState().customSettings.initiateCustomMetricsSettings());
+        }
     }
 }
 
@@ -199,7 +206,6 @@ export function saveDataMetrics(settings) {
                 dataMetrics
             }
         }
-        
         dispatch(getState().configurations.previewWidget(updatedWidget));
         dispatch(getState().threshold.updateDisplayFormat(settings.displayFormat.id));
     }
@@ -260,21 +266,12 @@ export const ACTION_HANDLERS = {
 export const initialState = {
     widgetType: WidgetTypeEnum.Box,
     statisticCategory: StatisticCategoryEnum.RealTime,
-    storeProcOptions: [],
-    storeProcData: null,
-    selectedWidgetforStatisticItem: '',
-    isDirty: false,
-    isLoaded: false,
-    allColumnOptions: [],
-    columnOptions: [],
-    comboSelectedStatisticItems: [],
     datametricsMetadata: {},
-    isDefault: false,
-    displayName: '',
     LoadDataMetricsMetaData,
     initializeStatisticMetadata,
     clearSelectedDM,
-    saveDataMetrics
+    saveDataMetrics,
+    saveComboRealTimeMetrics
 };
 
 export default function DataMetricsReducer(state = _.cloneDeep(initialState), action) {

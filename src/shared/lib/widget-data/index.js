@@ -36,3 +36,20 @@ export function GetWidget(widgetType, zIndex, isCombo, isHeader = false) {
             return new BoxWidget(zIndex, isCombo, isHeader);
     }
 }
+
+export function getWidgetByEnum(widgetType) {
+    switch (widgetType) {
+        case WidgetTypeEnum.Box:
+            return "Box"
+        case WidgetTypeEnum.Progress:
+            return "Step"
+        case WidgetTypeEnum.Speedo:
+            return "Speedo"
+        case WidgetTypeEnum.Text:
+            return "Text"
+        case WidgetTypeEnum.CircularProgress:
+            return "Circular Progress"
+        default:
+            return "None"
+    }
+}
