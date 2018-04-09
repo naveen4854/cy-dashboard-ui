@@ -23,7 +23,9 @@ export function saveComboRealTimeMetrics() {
             return getRowHeader(filter, comboId);
         });
 
-        let newMatrix = getNewMatrix(filters, headers, comboSelectedStatisticItems, rowHeaders, selectedGroup, comboId, oldMatrix)
+        let newMatrix = getNewMatrix(filters, comboSelectedStatisticItems, rowHeaders, selectedGroup, comboId, oldMatrix)
+
+        newMatrix.splice(0,0, headers);
 
         let dataMetrics = {
             comboSelectedStatisticItems,
@@ -44,13 +46,13 @@ export function saveComboRealTimeMetrics() {
     }
 }
 
-function getNewMatrix(filters, headers, comboSelectedStatisticItems, rowHeaders, selectedGroup, comboId, oldMatrix) {
+function getNewMatrix(filters, comboSelectedStatisticItems, rowHeaders, selectedGroup, comboId, oldMatrix) {
+
     return _.map(filters, (filter, rowIndex) => {
-        if (rowIndex == 0)
-            return headers;
+        debugger
         let row = _.map(comboSelectedStatisticItems, (statisticItem, columnIndex) => {
             if (columnIndex == 0)
-                return rowHeaders[0];
+                return rowHeaders[rowIndex];
 
             // check if cell exists in old matrix by comparing columnId and rowId
             // if exists apply all its settings onto new widget

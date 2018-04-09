@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import ToggleSwitch from '../toggle-switch';
 import ComboRealTimeMetricsSettingsContainer from '../combo-realtime-metrics-settings';
 import { StatisticCategoryEnum } from '../../shared/enums';
+import ComboCustomMetricsSettingsContainer from '../combo-custom-metrics-settings';
 
 export default class ComboMetricsSettingsComponent extends PureComponent {
     render() {
@@ -31,7 +32,7 @@ export default class ComboMetricsSettingsComponent extends PureComponent {
                 return <ComboRealTimeMetricsSettingsContainer />;
                 break;
             case (StatisticCategoryEnum.Custom):
-                return <div>These are custom statistics for a custom</div>
+                return <ComboCustomMetricsSettingsContainer />;
                 break;
             default:
                 return <h1>Statistic category not set</h1>

@@ -14,6 +14,7 @@ import DataMetricsReducer from '../../components/data-metrics/data-metrics.reduc
 import ClockMetricsSettingsReducer from '../../components/clock-metrics-settings/clock-metrics-settings.reducer';
 import WidgetsBarReducer from '../../components/widgets-bar/widgets-bar.reducer';
 import ComboRealTimeSettingsReducer from '../../components/combo-realtime-metrics-settings/combo-realtime-metrics-settings.reducer';
+import ComboCustomSettingsReducer from '../../components/combo-custom-metrics-settings/combo-custom-metrics-settings.reducer';
 
 export default (store) => ({
   getComponent(nextState, cb) {
@@ -27,6 +28,7 @@ export default (store) => ({
       injectReducer(store, { key: 'widgetsBar', reducer: WidgetsBarReducer })
       // injectReducer(store, { key: 'comboSettings', reducer: ComboSettingsMetricsReducer })
       injectReducer(store, { key: 'comboRealTimeSettings', reducer: ComboRealTimeSettingsReducer })
+      injectReducer(store, { key: 'combocustomSettings', reducer: ComboCustomSettingsReducer })
 
       
       cb(null, authenticate(NewDashboardContainer))
