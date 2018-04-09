@@ -252,7 +252,6 @@ export function updateComboMatrix(comboWidgetId, columnIndex, rowIndex, delta) {
 
 export function pullWidget(dashboardId, widgetId, refreshInterval) {
     return (dispatch, getState) => {
-        debugger
         refreshInterval = 5 * 1000;
         let Id = setTimeout(() => {
 

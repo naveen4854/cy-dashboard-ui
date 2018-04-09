@@ -38,9 +38,12 @@ export function CollapseAllSettingsMenus() {
 }
 export function SaveDashboard() {
     return (dispatch, getState) => {
-        debugger;
         let name = _.trim(getState().widgetsBar.name);
         dispatch(getState().spinnerStore.BeginTask());
+        if (!name && name == '') {
+            dispatch(getState().spinnerStore.EndTask());
+            return dispatch(HandleModalPopup(true));
+        }
         const dashboard = getState().dashboard;
         if (dashboard && dashboard.widgets) {
             let imageWidgets = _.filter(dashboard.widgets, function (widget, i) {
@@ -110,7 +113,6 @@ export function SaveDashboard() {
                 } else {
 
                     if (response.data.Messages[0].MessageCode == 'DE') {
-                        debugger;
                         let existingDashboardId = response.data.Messages[0].Info1
                         let notifyMessage = response.data.Messages[0]
                         let finalNotifyMessage = { Message: notifyMessage.Message, NormalizedMessage: notifyMessage.NormalizedMessage, params: { dashboardName: name } }
@@ -244,8 +246,8 @@ export function SaveAsDashboard() {
                 if (response.data.Status == true) {
                     let savedDashboardId = response.data.Messages[0].Info1;
 
-                    let images = _.filter(getState().newdashboard.widgets, function (widget, i) {
-                        return (widget.widgetType == WidgetType.Picture);
+                    let images = _.filter(getState().dashboard.widgets, function (widget, i) {
+                        return (widget.widgetType == WidgetTypeEnum.Picture);
                     });
                     let len = images.length;
                     let dashboard = getState().dashboard;
@@ -411,7 +413,6 @@ function DashboardPictureAPI(mediaStorageInput, key, len, dispatch, getState) {
  * @param {*} isUpdate 
  */
 function MapDashboard(dashboard, getState, isUpdate, name) {
-    debugger;
     const dataMetricsMetadata = getState.dataMetrics.datametricsMetadata;
     return {
         di: isUpdate ? dashboard.Id : Date.now(),
@@ -431,7 +432,6 @@ function MapDashboard(dashboard, getState, isUpdate, name) {
 }
 
 function NavigateToRequiredPage(action, savedDashboardId, dispatch) {
-    debugger;
     if (action == 'Save_and_exit') {
         dispatch({
             type: UPDATE_ACTION,
