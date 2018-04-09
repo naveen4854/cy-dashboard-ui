@@ -40,7 +40,6 @@ export function initiateComboRealTimeSettings() {
     }
 }
 
-
 export function setSelectedComboGroupValue(selectedGroup) {
     return (dispatch, getState) => {
         dispatch({
@@ -75,7 +74,6 @@ export function setStatisticsItems() {
         });
     }
 }
-
 
 export function getComboDrillDownMetaData(selectedGroup, widgetId) {
     return (dispatch, getState) => {
@@ -132,8 +130,6 @@ export function getComboDrillDownMetaData(selectedGroup, widgetId) {
     }
 }
 
-
-
 export function addDefaultComboStatisticItems(selectedGroup) {
     return (dispatch, getState) => {
 
@@ -186,7 +182,6 @@ export function addDefaultComboStatisticItems(selectedGroup) {
     }
 }
 
-
 export function updateComboDrillDownOptions(options) {
     return (dispatch, getState) => {
         dispatch({
@@ -196,7 +191,6 @@ export function updateComboDrillDownOptions(options) {
         })
     }
 }
-
 
 function mapComboItems(wdt, metaData) {
     let columns = _.filter(wdt.appliedSettings.dataMetrics.columns, column => column.cwt != 0);
@@ -246,7 +240,6 @@ function mapComboItems(wdt, metaData) {
         }
     });
 }
-
 
 export function setSatisticItem(selectedItem) {
     return (dispatch, getState) => {
@@ -324,6 +317,7 @@ export function getDisplayFormatOptions() {
         });
     }
 }
+
 export function setSelectedDisplayFormat(selectedDisplayFormat) {
     return (dispatch, getState) => {
         dispatch({
@@ -332,7 +326,6 @@ export function setSelectedDisplayFormat(selectedDisplayFormat) {
         });
     }
 }
-
 
 export function getApplicableWidget(selectedDisplayFormat) {
     return (dispatch, getState) => {
@@ -368,6 +361,7 @@ export function setApplicableWidget(selectedWidget) {
         });
     }
 }
+
 export function updateDisplayName(displayName) {
     return (dispatch, getState) => {
         dispatch({
@@ -376,7 +370,6 @@ export function updateDisplayName(displayName) {
         })
     }
 }
-
 
 export function toggleAddEdit(toggleAddEdit) {
     return (dispatch, getState) => {

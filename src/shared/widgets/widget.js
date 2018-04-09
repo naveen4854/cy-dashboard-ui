@@ -2,7 +2,7 @@ import { rgba } from '../../utilities'
 export class Widget {
     constructor(zIndex, isCombo, isHeader) {
         this.z = zIndex || 5;
-        this.isCombo = isCombo || false;
+        this.isComboWidget = isCombo || false;
         this.isHeader = isHeader || false;
         if (isHeader)
             this.setComboHeaderProperties()
@@ -10,7 +10,7 @@ export class Widget {
 
     id = Date.now() + Math.floor(Math.random() * 10000) + 1;
     isHeader = false;
-    isCombo = false;
+    isComboWidget = false;
 
     x = 1;
     y = 1;
@@ -24,7 +24,7 @@ export class Widget {
     showEditor = false;
     showIcons = true;
 
-    title = this.isCombo ? '' : "<< Not Configured >>";
+    title = this.isComboWidget ? '' : "<< Not Configured >>";
     refreshInterval = '';
 
     appliedSettings = {

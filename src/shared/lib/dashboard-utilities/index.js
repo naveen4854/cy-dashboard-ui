@@ -459,23 +459,22 @@ function mapThresholds(thresholds) {
 /**
  * mapping the custom combo headers
  * @param {*} cHeader 
- * @param {*} level 
+ * @param {*} column 
  */
-export function MappingCustomMatrixHeaders(cHeader, level) {
-  cHeader.displayValue = level.displayName ? level.displayName : level.column.label;
-  cHeader.column = level.column.label;
-  cHeader.id = level.column.value;
-  cHeader.dataType = level.column.type;
-  cHeader.dateFormat = level.dateFormat && level.dateFormat.type;
-  cHeader.showZeroValues = level.showZeroValues;
-  cHeader.isSummary = level.isSummary;
-  cHeader.displayFormatId = Object.keys(level.displayFormat).length > 0 ? level.displayFormat.value : level.displayFormat;
-  cHeader.dateFormatId = level.dateFormat && level.dateFormat.value;
-  cHeader.aggregateOperationId = level.aggregateOperation && level.aggregateOperation.value ? level.aggregateOperation.value : undefined;
-  cHeader.timeFormatId = level.timeFormat && level.timeFormat.value ? level.timeFormat.value : undefined;
-  cHeader.hoursFormatId = level.hoursFormat && level.hoursFormat.value ? level.hoursFormat.value : undefined;
+export function mappingCustomMatrixHeaders(cHeader, column) {
+  cHeader.displayValue = column.displayName ? column.displayName : column.selectedColumn.label;
+  cHeader.column = column.selectedColumn.label;
+  cHeader.columnId = column.selectedColumn.value;
+  cHeader.dataType = column.selectedColumn.type;
+  cHeader.dateFormat = column.dateFormat && column.dateFormat.type;
+  cHeader.showZeroValues = column.showZeroValues;
+  cHeader.isSummary = column.isSummary;
+  cHeader.displayFormatId = Object.keys(column.displayFormat).length > 0 ? column.displayFormat.value : column.displayFormat;
+  cHeader.dateFormatId = column.dateFormat && column.dateFormat.value;
+  cHeader.aggregateOperationId = column.aggregateOperation && column.aggregateOperation.value ? column.aggregateOperation.value : undefined;
+  cHeader.timeFormatId = column.timeFormat && column.timeFormat.value ? column.timeFormat.value : undefined;
+  cHeader.hoursFormatId = column.hoursFormat && column.hoursFormat.value ? column.hoursFormat.value : undefined;
   return cHeader;
-
 }
 
 

@@ -1,5 +1,6 @@
 import { WidgetData } from "../../shared/lib";
 import { WidgetTypeEnum } from "../../shared/enums";
+import { mappingCustomMatrixHeaders } from "../../shared/lib/dashboard-utilities";
 
 export function saveComboRealTimeMetrics() {
     return (dispatch, getState) => {
@@ -24,14 +25,17 @@ export function saveComboRealTimeMetrics() {
 
         let newMatrix = getNewMatrix(filters, comboSelectedStatisticItems, rowHeaders, selectedGroup, comboId, oldMatrix)
 
-        newMatrix.splice(0,0, headers);
+        newMatrix.splice(0, 0, headers);
+        let statisticCategory = getState().dataMetrics.statisticCategory;
 
         let dataMetrics = {
             comboSelectedStatisticItems,
             columns,
             drillDownOptions: filters,
-            group: selectedGroup
+            group: selectedGroup,
+            statisticCategory
         }
+
         let updatedWidget = {
             ...currentWidget,
             matrix: newMatrix,
@@ -40,13 +44,12 @@ export function saveComboRealTimeMetrics() {
                 dataMetrics
             }
         }
-        dispatch(getState().configurations.previewWidget(updatedWidget));
+        dispatch(getState().configurations.applyWidget(updatedWidget));
         // dispatch(getState().threshold.updateDisplayFormat(settings.displayFormat.id));
     }
 }
 
 function getNewMatrix(filters, comboSelectedStatisticItems, rowHeaders, selectedGroup, comboId, oldMatrix) {
-
     return _.map(filters, (filter, rowIndex) => {
         let row = _.map(comboSelectedStatisticItems, (statisticItem, columnIndex) => {
             if (columnIndex == 0)
@@ -121,4 +124,46 @@ function getColumn(metric) {
         cwt: metric && metric.widget && metric.widget.value,
         dn: metric && metric.displayName
     };
+}
+
+
+export function saveComboCustomMetricsAction() {
+    return (dispatch, getState) => {
+        dispatch(getState().notificationStore.clearNotifications());
+        let columns = getState().comboCustomSettings.columns;
+        let currentWidget = getState().configurations.widget;
+        let query = getState().comboCustomSettings.query;
+        let existedMatrix = currentWidget ? currentWidget.matrix : [];
+        let existingHeaders = existedMatrix[0];
+
+        let newMatrix = [];
+        let headers = _.map(columns, (column) => {
+            let existingHeader = _.find(existingHeaders, (header) => header.columnId == column.selectedColumn.value)
+            if (existingHeader)
+                return mappingCustomMatrixHeaders(existingHeader, column);
+
+            let cellHeader = WidgetData.GetWidget(WidgetTypeEnum.Box, 0, true);
+            cellHeader.comboId = currentWidget.id;
+            return mappingCustomMatrixHeaders(cellHeader, column);
+        });
+
+        newMatrix.splice(0, 0, headers);
+
+        let statisticCategory = getState().dataMetrics.statisticCategory;
+        let dataMetrics = {
+            query,
+            columns,
+            statisticCategory
+        }
+
+        let updatedWidget = {
+            ...currentWidget,
+            matrix: newMatrix,
+            appliedSettings: {
+                ...currentWidget.appliedSettings,
+                dataMetrics
+            }
+        }
+        dispatch(getState().configurations.applyWidget(updatedWidget));
+    }
 }

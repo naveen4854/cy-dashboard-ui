@@ -2,7 +2,7 @@ import * as dataMetricsService from './data-metrics-service';
 import { StatisticCategoryEnum, WidgetTypeEnum, ResponseStatusEnum } from '../../shared/enums';
 import { UPDATE_DASHBOARD_WIDGET } from '../../dashboard/dashboard.reducer';
 import { UPDATE_CONFIGURATIONS_WIDGET } from '../widget-configurations/widget-configurations.reducer';
-import { saveComboRealTimeMetrics } from './data-metrics.actions';
+import { saveComboRealTimeMetrics, saveComboCustomMetricsAction } from './data-metrics.actions';
 
 export const UPDATE_DATA_METRICS = "UPDATE_DATA_METRICS"
 export const SET_STATISTIC_CATEGORY = "SET_STATISTIC_CATEGORY"
@@ -206,7 +206,7 @@ export function saveDataMetrics(settings) {
                 dataMetrics
             }
         }
-        dispatch(getState().configurations.previewWidget(updatedWidget));
+        dispatch(getState().configurations.applyWidget(updatedWidget));
         dispatch(getState().threshold.updateDisplayFormat(settings.displayFormat.id));
     }
 }
@@ -271,7 +271,8 @@ export const initialState = {
     initializeStatisticMetadata,
     clearSelectedDM,
     saveDataMetrics,
-    saveComboRealTimeMetrics
+    saveComboRealTimeMetrics,
+    saveComboCustomMetricsAction
 };
 
 export default function DataMetricsReducer(state = _.cloneDeep(initialState), action) {

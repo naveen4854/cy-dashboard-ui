@@ -10,10 +10,13 @@ export default class ComboCustomMetricsSettingsComponent extends PureComponent {
     constructor(props) {
         super(props);
         this.applyComboRealTimeMetrics = this.applyComboRealTimeMetrics.bind(this);
+        this.saveDataMetrics = this.saveDataMetrics.bind(this);
     }
+
     applyComboRealTimeMetrics() {
         this.props.applyComboRealTimeMetrics();
     }
+
     saveDataMetrics() {
         // this.props.clearNotification()
         // let errors = [];
@@ -38,17 +41,9 @@ export default class ComboCustomMetricsSettingsComponent extends PureComponent {
         //     return this.props.showNotification(config)
         // }
 
-        this.props.SaveComboCustomMetrics(
-            {
-                id: Date.now(),
-                statisticCategory: _.cloneDeep(this.props.dataMetrics.statisticCategory),
-                query: _.cloneDeep(this.props.dataMetrics.query),
-                levels: _.cloneDeep(this.state.levels),
-                columnOptions: _.clone(this.props.dataMetrics.allColumnOptions)
-            },
-            this.props.widget.id
-        );
+        this.props.saveComboCustomMetrics();
     }
+
     render() {
         const { comboCustomSettings } = this.props;
         return (

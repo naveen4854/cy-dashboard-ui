@@ -26,6 +26,9 @@ const mapDispatchToProps = (dispatch) => {
         toggleAddColumn: () => {
             dispatch(Actions.toggleAddColumn());
         },
+        saveComboCustomMetrics: () => {
+            dispatch(Actions.saveComboCustomMetrics());
+        },
     }
 }
 

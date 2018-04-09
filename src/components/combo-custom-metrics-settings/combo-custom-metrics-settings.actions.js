@@ -169,52 +169,8 @@ export function toggleAddColumn() {
     }
 }
 
-export function SaveComboCustomMetricsAction(dataMetrics, widgetId) {
+export function saveComboCustomMetrics() {
     return (dispatch, getState) => {
-        dispatch(getState().notificationStore.ClearNotifications());
-        let matrix = [];
-        let headers = [];
-        let statisticCategory = dataMetrics.statisticCategory;
-        let levels = dataMetrics.levels;
-        let query = dataMetrics.query;
-        const combo = _.find(getState().newdashboard.widgets, (w) => w.id === widgetId);
-        const existedMatrix = combo ? combo.matrix : [];
-        if (levels.length > 0) {
-            _.map(levels, (level) => {
-                let ecHeader = _.find(existedMatrix[0], mat => mat.id == level.column.value);
-                if (ecHeader) {
-                    headers.push(dashboardUtils.MappingCustomMatrixHeaders(ecHeader, level));
-                }
-                else {
-                    let cHeader = WidgetData.GetWidget(WidgetType.Box, true, 0);
-                    cHeader.isComboWidget = true;
-                    cHeader.comboId = widgetId;
-                    headers.push(dashboardUtils.MappingCustomMatrixHeaders(cHeader, level));
-                }
-            });
-        } else {
-            _.map(dataMetrics.columnOptions, (option) => {
-                let cHeader = WidgetData.GetWidget(WidgetType.Box, true, 0);
-                cHeader.displayValue = option.label;
-                cHeader.isComboWidget = true;
-                cHeader.comboId = widgetId;
-                cHeader.column = option.label;
-                cHeader.id = option.value;
-                headers.push(cHeader);
-
-            });
-        }
-        matrix[0] = headers;
-
-        dispatch({
-            type: SAVE_COMBO_CUSTOM_METRICS,
-            statisticCategory,
-            levels,
-            widgetId,
-            matrix,
-            query
-        });
-        dispatch(getState().newdashboard.SetUpdateTimeAction());
-
+        dispatch(getState().dataMetrics.saveComboCustomMetricsAction())
     }
 }
