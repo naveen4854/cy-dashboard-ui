@@ -2,6 +2,7 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import { ModalManager as ModalManager, ModalManager as SaveAsModalManager } from 'react-dynamic-modal';
 import CustomModalPopUp from '../custom-modal-popup';
+import { ResponseStatusEnum } from '../../shared/enums';
 
 export default class WidgetsBar extends React.Component {
 	constructor(props) {
@@ -74,7 +75,6 @@ export default class WidgetsBar extends React.Component {
 		ModalManager.close();
 	}
 	OnCancel() {
-		debugger;
 		this.props.UpdateProperty("name", '')
 		this.props.HandleModalPopup(false);
 		ModalManager.close();
@@ -86,7 +86,46 @@ export default class WidgetsBar extends React.Component {
 		ModalManager.close();
 	}
 
+	onFilesClick() {
+		ModalManager.close();
+		this.props.HandleModalPopup(false);
+		this.showEditConfirmation();
+	}
+	showEditConfirmation() {
 
+		const configs = {
+			type: ResponseStatusEnum.Custom,
+			messages: [],
+			func: {
+				onOk: () => { },
+				onCancel: () => { },
+				onSaveAndExit: () => { this.saveAndExitClick() }
+			}
+		}
+		let notifyMessage = this.props.l.t('Are_you_sure_you_want_to_discard_the_changes', 'Are you sure you want to discard the changes?')
+		let buttons = [
+			{
+				text: 'Yes',
+				handler: () => this.redirectToFiles()
+			},
+			{
+				text: 'Cancel',
+				handler: () => { }
+			},
+			{
+				text: 'Save And Exit',
+				handler: () => this.saveAndExitClick()
+			}
+		]
+		this.props.common.custom(notifyMessage, buttons);
+
+	}
+	saveAndExitClick() {
+		this.handleDocks();
+		this.props.UpdateProperty("fromAction", 'Save_and_exit');
+		this.props.widgetsBar.Id ? this.props.UpdateDashboard() : this.props.SaveDashboard();
+
+	}
 	render() {
 		let orderedWidgets = _.orderBy(this.props.widgetsBar.widgets, 'order', 'asc');
 		return (

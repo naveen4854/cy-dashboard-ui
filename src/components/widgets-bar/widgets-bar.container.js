@@ -28,14 +28,15 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(WidgetsBarActions.SaveDashboard());
         },
         UpdateDashboard: () => {
-              dispatch(WidgetsBarActions.UpdateDashboard())
+            dispatch(WidgetsBarActions.UpdateDashboard())
         }
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        widgetsBar: state.widgetsBar
+        widgetsBar: state.widgetsBar,
+        common: state.common
     }
 }
 
