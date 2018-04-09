@@ -1,7 +1,9 @@
 import * as  widgetBarConstants from "./widgets-bar.constants";
 
 import _ from 'lodash';
-import { UPDATE_WIDGETS, UPDATE_DASHBOARD } from "../../dashboard/dashboard.reducer";
+import { UPDATE_WIDGETS } from "../../dashboard/dashboard.reducer";
+import { UPDATE_DASHBOARD } from '../../dashboard/dashboard.constants';
+
 import { TOGGLE_CONFIGURATIONS_PANEL } from "../widget-configurations/widget-configurations.reducer";
 import { WidgetTypeEnum, ResponseStatusEnum } from "../../shared/enums";
 import { DashboardUtilities } from "../../shared/lib";
@@ -36,6 +38,7 @@ export function CollapseAllSettingsMenus() {
 }
 export function SaveDashboard() {
     return (dispatch, getState) => {
+        debugger;
         let name = _.trim(getState().widgetsBar.name);
         dispatch(getState().spinnerStore.BeginTask());
         const dashboard = getState().dashboard;
@@ -64,8 +67,13 @@ export function SaveDashboard() {
                     dashboard.isGlobal = dashboardData.dig;
                     dispatch({
                         type: UPDATE_DASHBOARD,
-                        dashboardData: dashboard
+                        dashboard
                     });
+                    dispatch({
+                        type: widgetBarConstants.UPDATE_DASHBOARD_PROPERTY,
+                        key: 'id',
+                        value: savedDashboardId
+                    })
                     if (len <= 0) {
                         dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Success));
                     }
@@ -90,10 +98,7 @@ export function SaveDashboard() {
                                 DashboardPictureSave(widget, key, len, savedDashboardId, dispatch, getState, true, mediaStorageInput);
                             }
                             if (key == images.length - 1) {
-                                dispatch(getState().notificationStore.ShowNotification({
-                                    type: ResponseStatusEnum.Success,
-                                    messages: dashboardUtils.returnMessages(response.data.Messages, ResponseStatusEnum.Success)
-                                }));
+                                dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Success));
 
                             }
 
@@ -105,6 +110,7 @@ export function SaveDashboard() {
                 } else {
 
                     if (response.data.Messages[0].MessageCode == 'DE') {
+                        debugger;
                         let existingDashboardId = response.data.Messages[0].Info1
                         let notifyMessage = response.data.Messages[0]
                         let finalNotifyMessage = { Message: notifyMessage.Message, NormalizedMessage: notifyMessage.NormalizedMessage, params: { dashboardName: name } }
@@ -117,9 +123,9 @@ export function SaveDashboard() {
                                     dashboard.name = name;
                                     dispatch({
                                         type: UPDATE_DASHBOARD,
-                                        dashboardData: dashboard
+                                        dashboard
                                     });
-                                    dispatch(UpdateDashboardAction(name))
+                                    dispatch(UpdateDashboard())
                                 }
                             },
                             {
@@ -144,7 +150,7 @@ export function SaveDashboard() {
 
 
 
-export function UpdateDashboardAction() {
+export function UpdateDashboard() {
     return (dispatch, getState) => {
         const dashboard = getState().dashboard;
         let messagesConfig = {};
@@ -153,7 +159,7 @@ export function UpdateDashboardAction() {
         if (!name) {
             dispatch(getState().spinnerStore.EndTask());
             return dispatch({
-                type: MODAL_POPUP,
+                type: widgetBarConstants.MODAL_POPUP,
                 showModalPopup: true
             });
         }
@@ -172,12 +178,17 @@ export function UpdateDashboardAction() {
                 if (response.data.Status == true) {
                     let savedDashboardId = response.data.Messages[0].Info1;
                     dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Success));
-                    let dashboardState = getState().dashboard;
-                    dashboardState.name = name;
+                    let dashboard = getState().dashboard;
+                    dashboard.name = name;
                     dispatch({
                         type: UPDATE_DASHBOARD,
-                        dashboardData: dashboardState
+                        dashboard
                     });
+                    dispatch({
+                        type: widgetBarConstants.UPDATE_DASHBOARD_PROPERTY,
+                        key: 'id',
+                        value: savedDashboardId
+                    })
                     let images = _.filter(dashboard.widgets, function (widget, i) {
                         return (widget.widgetType == WidgetTypeEnum.Picture);
                     });
@@ -213,7 +224,116 @@ export function UpdateDashboardAction() {
     }
 }
 
+export function SaveAsDashboard() {
+    return (dispatch, getState) => {
+        dispatch(getState().spinnerStore.BeginTask());
 
+        const dashboard = getState().dashboard;
+        let name = _.trim(getState().widgetsBar.name);
+        if (dashboard && dashboard.widgets) {
+            let imageWidgets = _.filter(dashboard.widgets, function (widget, i) {
+                if (widget.widgetType == WidgetTypeEnum.Picture) {
+                    let mspid = "MSP" + i;
+                    widget.UniqueId = mspid;
+                    return true;
+                }
+            });
+            const dashboardData = MapDashboard(dashboard, getState(), false, name, isNameFromStore)
+            dashboardService.saveDashboard(dashboardData).then((response) => {
+                //TODO: Need to add enums to display success and error messages.eg:response.data[0].Success.
+                if (response.data.Status == true) {
+                    let savedDashboardId = response.data.Messages[0].Info1;
+
+                    let images = _.filter(getState().newdashboard.widgets, function (widget, i) {
+                        return (widget.widgetType == WidgetType.Picture);
+                    });
+                    let len = images.length;
+                    let dashboard = getState().dashboard;
+                    dashboard.Id = savedDashboardId;
+                    dashboard.name = name
+                    dashboard.isDefault = dashboardData.didf;
+                    dashboard.isGlobal = dashboardData.dig;
+                    dispatch({
+                        type: UPDATE_DASHBOARD,
+                        dashboard
+                    });
+                    dispatch({
+                        type: widgetBarConstants.UPDATE_DASHBOARD_PROPERTY,
+                        key: 'id',
+                        value: savedDashboardId
+                    })
+                    if (len <= 0) {
+                        dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Success));
+
+                    }
+                    else {
+                        _.map(images, (widget, key) => {
+
+                            if (widget.file) {
+                                DashboardPictureSave(widget, key, len, savedDashboardId, dispatch, getState, false);
+                            }
+                            else {
+                                let mediaStorageInput = {};
+                                mediaStorageInput.did = savedDashboardId;
+                                //mediaStorageInput.oid = 1;
+                                let blobData = [];
+
+                                dispatch(getState().spinnerStore.BeginTask());
+                                blobData.push({
+                                    pbd: widget.picturePath,
+                                    mspid: widget.UniqueId
+                                });
+                                mediaStorageInput.pblobs = blobData;
+                                DashboardPictureSave(widget, key, len, savedDashboardId, dispatch, getState, true, mediaStorageInput);
+                            }
+                            if (key == images.length - 1) {
+                                dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Success));
+
+                            }
+
+                        })
+                    }
+                    dispatch(getState().spinnerStore.EndTask());
+                    NavigateToRequiredPage(getState().dashboard.fromAction, savedDashboardId, dispatch);
+
+                } else {
+
+                    if (response.data.Messages[0].MessageCode == 'DE') {
+                        let existingDashboardId = response.data.Messages[0].Info1
+                        let notifyMessage = response.data.Messages[0]
+                        let finalNotifyMessage = { Message: notifyMessage.Message, NormalizedMessage: notifyMessage.NormalizedMessage, params: { dashboardName: name } }
+                        let buttons = [
+                            {
+                                text: 'Yes',
+                                handler: () => {
+                                    let dashboard = getState().dashboard;
+                                    dashboard.Id = existingDashboardId;
+                                    dashboard.name = name;
+                                    dispatch({
+                                        type: UPDATE_DASHBOARD,
+                                        dashboard
+                                    });
+                                    dispatch(UpdateDashboard())
+                                }
+                            },
+                            {
+                                text: 'No',
+                                handler: () => { dispatch(HandleSaveAsPopUpAction(true)) },
+                            }]
+                        dispatch(getState().spinnerStore.EndAllTasks());
+                        return dispatch(getState().notificationStore.confirm(finalNotifyMessage, buttons));
+                    }
+                    else {
+                        dispatch(getState().spinnerStore.EndAllTasks());
+                        return dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Error));
+                    }
+                }
+            }).catch((err) => {
+                dispatch(getState().spinnerStore.EndTask());
+            });
+        }
+    }
+}
 export function HandleSaveAsPopUpAction(showSaveAsPopUp) {
     return (dispatch, getState) => {
         dispatch({
@@ -232,6 +352,58 @@ export function HandleModalPopup(showModalPopup) {
     }
 }
 
+
+/**
+ * This method is used to save picture to database.
+ * @param {*} widget 
+ * @param {*} key 
+ * @param {*} len 
+ * @param {*} dashboardId 
+ * @param {*} dispatch 
+ * @param {*} getState 
+ */
+function DashboardPictureSave(widget, key, len, dashboardId, dispatch, getState, isBlobLoaded, widgetMediaStorageInput) {
+
+    if (!isBlobLoaded) {
+        let blobData = [];
+        let mediaStorageInput = {};
+        mediaStorageInput.did = dashboardId;
+        let reader = new FileReader();
+        let file = widget.file;
+        let UniqueId = widget.UniqueId;
+
+        reader.readAsDataURL(file);
+        reader.onload = (upload) => {
+            let value = upload.target.result;
+            blobData.push({
+                pbd: value,
+                mspid: UniqueId
+            });
+            // if (key <= len - 1) {
+            dispatch(getState().spinnerStore.BeginTask());
+            mediaStorageInput.pblobs = blobData;
+            DashboardPictureAPI(mediaStorageInput, key, len, dispatch, getState);
+            // }
+        }
+    }
+    else {
+        DashboardPictureAPI(widgetMediaStorageInput, key, len, dispatch, getState);
+    }
+}
+function DashboardPictureAPI(mediaStorageInput, key, len, dispatch, getState) {
+    dispatch(getState().spinnerStore.BeginTask());
+
+    dashboardService.pictureSave(mediaStorageInput).then(function (response) {
+        if (key == len - 1) {
+
+            dispatch(getState().spinnerStore.EndAllTasks());
+            NavigateToRequiredPage(getState().dashboard.fromAction, mediaStorageInput.did, dispatch);
+
+        }
+    }).catch((err) => {
+        dispatch(getState().spinnerStore.EndAllTasks());
+    });
+}
 /**
  * This method is used to map dashboard data and is being used in multiple places.
  * @param {*} dashboard 
@@ -239,6 +411,7 @@ export function HandleModalPopup(showModalPopup) {
  * @param {*} isUpdate 
  */
 function MapDashboard(dashboard, getState, isUpdate, name) {
+    debugger;
     const dataMetricsMetadata = getState.dataMetrics.datametricsMetadata;
     return {
         di: isUpdate ? dashboard.Id : Date.now(),
@@ -258,6 +431,7 @@ function MapDashboard(dashboard, getState, isUpdate, name) {
 }
 
 function NavigateToRequiredPage(action, savedDashboardId, dispatch) {
+    debugger;
     if (action == 'Save_and_exit') {
         dispatch({
             type: UPDATE_ACTION,

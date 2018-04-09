@@ -26,7 +26,8 @@ const initialState = {
     isGlobal: false,
     widgets: Widgets,
     showModalPopup: false,
-    showSaveAsModalPopup: false
+    showSaveAsModalPopup: false,
+    Id: undefined
 };
 export default function WidgetsBarReducer(state = _.cloneDeep(initialState), action) {
     const handler = ACTION_HANDLERS[action.type];

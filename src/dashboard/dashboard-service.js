@@ -58,6 +58,7 @@ export function pictureSave(pictureData) {
 }
 
 export function updateDashboard(dashboard) {
+    debugger;
     return service.axiosPost(
         ApiUrl.UPDATE_DASHBOARD, dashboard
     )

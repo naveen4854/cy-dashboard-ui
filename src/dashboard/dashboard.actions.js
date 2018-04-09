@@ -1,4 +1,3 @@
-import { DashboardUtilities } from "../shared/lib";
 
 import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, UPDATE_DRAGGABLE, UPDATE_DASHBOARD, UPDATE_SHOW_ICONS } from "./dashboard.constants";
 import * as dashboardService from './dashboard-service';

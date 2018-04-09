@@ -40,16 +40,11 @@ export function toggleSettingsMenu(widget) {
 
 export function updateDashboardWidget(widget) {
     return (dispatch, getState) => {
+        debugger;
         dispatch({
             type: UPDATE_CONFIGURATIONS_WIDGET,
             widget: widget
         })
-        dispatch({
-            type: UPDATE_WIDGET,
-            widget: widget
-        });
-
-
         dispatch(getState().dashboard.updateWidget(widget));
     }
 }
@@ -87,6 +82,7 @@ export const ACTION_HANDLERS = {
         })
     },
     [UPDATE_CONFIGURATIONS_WIDGET]: (state, action) => {
+        debugger;
         return Object.assign({}, state, {
             widget: { ...action.widget }
         })

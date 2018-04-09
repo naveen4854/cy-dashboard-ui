@@ -26,6 +26,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         SaveAsDashboard: () => {
             dispatch(WidgetsBarActions.SaveDashboard());
+        },
+        UpdateDashboard: () => {
+              dispatch(WidgetsBarActions.UpdateDashboard())
         }
     }
 }
