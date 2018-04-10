@@ -1,4 +1,4 @@
-import { UPDATE_CONFIGURATIONS_WIDGET } from "./widget-configurations.reducer";
+import { UPDATE_CONFIGURATIONS_WIDGET } from "./widget-configurations.constants";
 
 export function updateConfigurationsWidget(updatedWidget) {
     return (dispatch, getState) => {

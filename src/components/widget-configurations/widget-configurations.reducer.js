@@ -3,10 +3,8 @@ import _ from 'lodash';
 import { UPDATE_DASHBOARD_WIDGET } from "../../dashboard/dashboard.reducer";
 import { DashboardUtilities } from "../../shared/lib";
 import * as widgetService from './widget-configurations.service';
-export const TOGGLE_CONFIGURATIONS_PANEL = "TOGGLE_CONFIGURATIONS_PANEL"
-export const UPDATE_CONFIGURATIONS_WIDGET = "UPDATE_CONFIGURATIONS_WIDGET"
-export const PREVIEW_WIDGET = 'PREVIEW_WIDGET';
 import { updateConfigurationsWidget } from './widget-configurations.actions'
+import { TOGGLE_CONFIGURATIONS_PANEL, UPDATE_CONFIGURATIONS_WIDGET, SET_METRICS_TAB_VISIBILITY, SET_THRESHOLDS_TAB_VISIBILITY } from "./widget-configurations.constants";
 
 export function toggleSettingsMenu(widget) {
     return (dispatch, getState) => {
@@ -23,8 +21,24 @@ export function toggleSettingsMenu(widget) {
             widgetType: currentWidget.widgetType,
             showPanel
         })
+        
+        let showMetricsTab = !(currentWidget.widgetType == WidgetTypeEnum.Picture 
+                                    || currentWidget.widgetType == WidgetTypeEnum.Text);
+        let showThresholdsTab = !(currentWidget.widgetType == WidgetTypeEnum.Picture
+                                    || currentWidget.widgetType == WidgetTypeEnum.Text
+                                    || currentWidget.widgetType == WidgetTypeEnum.Pie
+                                    || currentWidget.widgetType == WidgetTypeEnum.Bar) ;
 
         if (showPanel) {
+            dispatch({
+                type: SET_THRESHOLDS_TAB_VISIBILITY,
+                showThresholdsTab
+            });
+            dispatch({
+                type: SET_METRICS_TAB_VISIBILITY,
+                showMetricsTab
+            });
+
             if (currentWidget.widgetType == WidgetTypeEnum.Clock) {
                 dispatch(getState().clockSettings.initializeClocksettings());
             }
@@ -87,6 +101,16 @@ export const ACTION_HANDLERS = {
         return Object.assign({}, state, {
             widget: { ...action.widget }
         })
+    },
+    [SET_METRICS_TAB_VISIBILITY]: (state, action) => {
+        return Object.assign({}, state, {
+            showMetricsTab: action.showMetricsTab
+        })
+    },
+    [SET_THRESHOLDS_TAB_VISIBILITY]: (state, action) => {
+        return Object.assign({}, state, {
+            showThresholdsTab: action.showThresholdsTab
+        })
     }
 }
 
@@ -95,6 +119,8 @@ const initialState = {
     widgetId: -1,
     widgetType: WidgetTypeEnum.Box,
     showPanel: false,
+    showThresholdsTab: true,
+    showMetricsTab: true,
     toggleSettingsMenu,
     updateDashboardWidget,
     applyWidget,

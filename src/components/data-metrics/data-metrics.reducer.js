@@ -1,7 +1,7 @@
 import * as dataMetricsService from './data-metrics-service';
 import { StatisticCategoryEnum, WidgetTypeEnum, ResponseStatusEnum } from '../../shared/enums';
 import { UPDATE_DASHBOARD_WIDGET } from '../../dashboard/dashboard.reducer';
-import { UPDATE_CONFIGURATIONS_WIDGET } from '../widget-configurations/widget-configurations.reducer';
+import { UPDATE_CONFIGURATIONS_WIDGET } from '../widget-configurations/widget-configurations.constants';
 import { saveComboRealTimeMetrics, saveComboCustomMetricsAction } from './data-metrics.actions';
 
 export const UPDATE_DATA_METRICS = "UPDATE_DATA_METRICS"

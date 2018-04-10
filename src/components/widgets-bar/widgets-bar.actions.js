@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { UPDATE_WIDGETS } from "../../dashboard/dashboard.reducer";
 import { UPDATE_DASHBOARD } from '../../dashboard/dashboard.constants';
 
-import { TOGGLE_CONFIGURATIONS_PANEL } from "../widget-configurations/widget-configurations.reducer";
+import { TOGGLE_CONFIGURATIONS_PANEL } from "../widget-configurations/widget-configurations.constants";
 import { WidgetTypeEnum, ResponseStatusEnum } from "../../shared/enums";
 import { DashboardUtilities } from "../../shared/lib";
 import * as dashboardService from '../../dashboard/dashboard-service';
