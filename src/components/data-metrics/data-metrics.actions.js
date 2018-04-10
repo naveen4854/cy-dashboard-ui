@@ -126,7 +126,6 @@ function getColumn(metric) {
     };
 }
 
-
 export function saveComboCustomMetricsAction() {
     return (dispatch, getState) => {
         dispatch(getState().notificationStore.clearNotifications());
@@ -148,7 +147,6 @@ export function saveComboCustomMetricsAction() {
         });
 
         newMatrix.splice(0, 0, headers);
-
         let statisticCategory = getState().dataMetrics.statisticCategory;
         let dataMetrics = {
             query,

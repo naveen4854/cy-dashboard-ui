@@ -33,12 +33,10 @@ export function initiateComboRealTimeSettings() {
         let appliedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory
 
         if (appliedStatisticCategory == StatisticCategoryEnum.RealTime) {
-            debugger
             let datametrics = currentWidget.appliedSettings.dataMetrics;
             dispatch({
                 type: DEFAULT_COMBO_REALTIME_METRICS,
                 selectedGroup: datametrics.group || {},
-                // selectedDrilldownOptions: datametrics.drillDownOptions || [],
                 comboSelectedStatisticItems: datametrics.comboSelectedStatisticItems || [],
             })
 
@@ -139,7 +137,6 @@ export function getComboDrillDownMetaData(selectedGroup) {
 export function addDefaultComboStatisticItems(selectedGroup) {
     return (dispatch, getState) => {
         const currentWidget = getState().configurations.widget; // TODO updating settings reducer widget directly.. move it into a reducer action
-        debugger
         let comboRTDefaulted = getState().comboRealTimeSettings.comboRTDefaulted;
         if (!comboRTDefaulted) {
             let defaultItems = currentWidget.appliedSettings.dataMetrics.comboSelectedStatisticItems;

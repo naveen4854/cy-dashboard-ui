@@ -152,8 +152,7 @@ export function clearSelectedDM() {
         dispatch(getState().cyReportSettings.clearCyReportSettings());
         dispatch(getState().customSettings.clearCustomSettings());
         dispatch(getState().comboRealTimeSettings.clearComboRealTimeSettings());
-       // dispatch(getState().comboCustomSettings.clearCustomSettings());
-        
+        dispatch(getState().comboCustomSettings.clearComboCustomSettings());
     }
 }
 
