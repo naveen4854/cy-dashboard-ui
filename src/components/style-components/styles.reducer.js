@@ -97,7 +97,6 @@ export function updateWidgetStyles() {
     return (dispatch, getState) => {
 
         let currentWidget = getState().configurations.widget;
-
         let styles = getState().styles;
         let title = currentWidget.widgetType === WidgetTypeEnum.Clock ? currentWidget.title : styles.title;
         let updatedWidget = {

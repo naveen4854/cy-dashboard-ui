@@ -3,6 +3,7 @@ import { CustomInputText } from '../../input-component'
 import { StylesGroup } from '../styles-group';
 import ColorPicker from '../../color-picker/color-picker';
 import { LabelledInput, LabelledColorPicker, LabelledToggle, LabelledDurationInput } from '../../labelled-controls';
+import { ApplyToOptions } from '../../../shared/enums';
 
 export default class ProgressBarStyles extends PureComponent {
 
@@ -23,7 +24,7 @@ export default class ProgressBarStyles extends PureComponent {
         this.updateMaxValue = this.updateMaxValue.bind(this);
         this.updateRangeValueStyles = this.updateRangeValueStyles.bind(this);
 
-        
+
     }
 
 
@@ -100,48 +101,55 @@ export default class ProgressBarStyles extends PureComponent {
         return (
             <div className="col-xs-12">
                 <div className="form-group">
-                    <LabelledInput
-                        label={this.props.l.t('TitleCOLON', 'Title:')}
-                        updateColorKey='title'
-                        value={this.props.styles.title}
-                        // className="form-control"
-                        onCustomInputChange={this.updateTitle}
-                    />
-                    <StylesGroup
-                        l={this.props.l}
-                        fontStyles={this.props.styles.titleStyles}
-                        colorLabel={this.props.l.t('Title_colorCOLON', 'Title color:')}
-                        fontFamilyLabel={this.props.l.t('Title_fontCOLON', 'Title font:')}
-                        fontSizeLabel={this.props.l.t('Title_font_sizeCOLON', 'Title font size:')}
-                        onUpdateFontStyles={this.updateTitleFontStyles}
-                        ColorId="2"
-                        ColorKey="2"
-                    />
-                   
-                    <LabelledColorPicker
-                        label={this.props.l.t('Stage1_ColorCOLON', 'Stage1 Color:')}
-                        ColorId="segmentColors0"
-                        ColorKey="segmentColors0"
-                        value={this.props.styles.segmentColors[2]}
-                        // className="form-control"
-                        updateColor={this.updateThirdSegmentColor}
-                    />
-                    <LabelledColorPicker
-                        label={this.props.l.t('Stage2_ColorCOLON', 'Stage2 Color:')}
-                        ColorId="segmentColors1"
-                        ColorKey="segmentColors1"
-                        value={this.props.styles.segmentColors[1]}
-                        // className="form-control"
-                        updateColor={this.updateSecondSegmentColor}
-                    />
-                     <LabelledColorPicker
-                        label={this.props.l.t('Stage3_ColorCOLON', 'Stage3 Color:')}
-                        ColorId="segmentColors2"
-                        ColorKey="segmentColors2"
-                        value={this.props.styles.segmentColors[0]}
-                        // className="form-control"
-                        updateColor={this.updateFirstSegmentColor}
-                    />
+                    {this.props.styles.isComboWidget &&
+                        <div>
+                            <LabelledInput
+                                label={this.props.l.t('TitleCOLON', 'Title:')}
+                                updateColorKey='title'
+                                value={this.props.styles.title}
+                                // className="form-control"
+                                onCustomInputChange={this.updateTitle}
+                            />
+                            <StylesGroup
+                                l={this.props.l}
+                                fontStyles={this.props.styles.titleStyles}
+                                colorLabel={this.props.l.t('Title_colorCOLON', 'Title color:')}
+                                fontFamilyLabel={this.props.l.t('Title_fontCOLON', 'Title font:')}
+                                fontSizeLabel={this.props.l.t('Title_font_sizeCOLON', 'Title font size:')}
+                                onUpdateFontStyles={this.updateTitleFontStyles}
+                                ColorId="2"
+                                ColorKey="2"
+                            />
+                        </div>
+                    }
+                    {(this.props.styles.selectedApplyTo != ApplyToOptions.Row) &&
+                        <div>
+                            <LabelledColorPicker
+                                label={this.props.l.t('Stage1_ColorCOLON', 'Stage1 Color:')}
+                                ColorId="segmentColors0"
+                                ColorKey="segmentColors0"
+                                value={this.props.styles.segmentColors[2]}
+                                // className="form-control"
+                                updateColor={this.updateThirdSegmentColor}
+                            />
+                            <LabelledColorPicker
+                                label={this.props.l.t('Stage2_ColorCOLON', 'Stage2 Color:')}
+                                ColorId="segmentColors1"
+                                ColorKey="segmentColors1"
+                                value={this.props.styles.segmentColors[1]}
+                                // className="form-control"
+                                updateColor={this.updateSecondSegmentColor}
+                            />
+                            <LabelledColorPicker
+                                label={this.props.l.t('Stage3_ColorCOLON', 'Stage3 Color:')}
+                                ColorId="segmentColors2"
+                                ColorKey="segmentColors2"
+                                value={this.props.styles.segmentColors[0]}
+                                // className="form-control"
+                                updateColor={this.updateFirstSegmentColor}
+                            />
+                        </div>
+                    }
                     <LabelledColorPicker
                         label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
                         ColorId="444"
@@ -163,44 +171,47 @@ export default class ProgressBarStyles extends PureComponent {
                         ColorKey="valueStyles"
                     />
 
+                    {(this.props.styles.selectedApplyTo != ApplyToOptions.Row) &&
+                        <div>
+                            <LabelledDurationInput
+                                label={this.props.l.t('MinCOLON', 'Min:')}
+                                displayFormatColorId={this.props.displayFormatId}
+                                value={this.props.styles.min}
+                                wKey='min'
+                                enableInput={true}
+                                updatePropOnChange={this.updateMinValue}
+                            />
 
-                    <LabelledDurationInput
-                        label={this.props.l.t('MinCOLON', 'Min:')}
-                        displayFormatColorId={this.props.displayFormatId}
-                        value={this.props.styles.min}
-                        wKey='min'
-                        enableInput={true}
-                        updatePropOnChange={this.updateMinValue}
-                    />
 
+                            <LabelledDurationInput
+                                label={this.props.l.t('MaxCOLON', 'Max:')}
+                                displayFormatColorId={this.props.displayFormatId}
+                                value={this.props.styles.max}
+                                wKey='max'
+                                enableInput={true}
+                                updatePropOnChange={this.updateMaxValue}
+                            />
 
-                    <LabelledDurationInput
-                        label={this.props.l.t('MaxCOLON', 'Max:')}
-                        displayFormatColorId={this.props.displayFormatId}
-                        value={this.props.styles.max}
-                        wKey='max'
-                        enableInput={true}
-                        updatePropOnChange={this.updateMaxValue}
-                    />
-
-                    <StylesGroup
-                        l={this.props.l}
-                        fontStyles={this.props.styles.rangeValueStyles}
-                        colorLabel={this.props.l.t('Range_colorCOLON', 'Range color:')}
-                        fontFamilyLabel={this.props.l.t('Range_fontCOLON', 'Range font:')}
-                        fontSizeLabel={this.props.l.t('Range_font_sizeCOLON', 'Range font size:')}
-                        onUpdateFontStyles={this.updateRangeValueStyles}
-                        ColorId="rangeValueStyles"
-                        ColorKey="rangeValueStyles"
-                    />
-
-                    <LabelledInput
-                        label={this.props.l.t('Refresh_interval__in_sec_COLON', 'Refresh interval (in sec):')}
-                        value={this.props.styles.refreshInterval}
-                        className="form-control"
-                        onCustomInputChange={this.updateRefreshInterval}
-                    />
-
+                            <StylesGroup
+                                l={this.props.l}
+                                fontStyles={this.props.styles.rangeValueStyles}
+                                colorLabel={this.props.l.t('Range_colorCOLON', 'Range color:')}
+                                fontFamilyLabel={this.props.l.t('Range_fontCOLON', 'Range font:')}
+                                fontSizeLabel={this.props.l.t('Range_font_sizeCOLON', 'Range font size:')}
+                                onUpdateFontStyles={this.updateRangeValueStyles}
+                                ColorId="rangeValueStyles"
+                                ColorKey="rangeValueStyles"
+                            />
+                        </div>
+                    }
+                    {this.props.styles.isComboWidget &&
+                        <LabelledInput
+                            label={this.props.l.t('Refresh_interval__in_sec_COLON', 'Refresh interval (in sec):')}
+                            value={this.props.styles.refreshInterval}
+                            className="form-control"
+                            onCustomInputChange={this.updateRefreshInterval}
+                        />
+                    }
                 </div>
             </div>
         )

@@ -3,6 +3,7 @@ import { CustomInputText } from '../../input-component'
 import { StylesGroup } from '../styles-group';
 import ColorPicker from '../../color-picker/color-picker';
 import { LabelledInput, LabelledColorPicker, LabelledToggle, LabelledDurationInput } from '../../labelled-controls';
+import { ApplyToOptions } from '../../../shared/enums';
 
 export default class CircularProgressStyles extends PureComponent {
 
@@ -70,24 +71,28 @@ export default class CircularProgressStyles extends PureComponent {
         return (
             <div className="col-xs-12">
                 <div className="form-group">
-                    <LabelledInput
-                        label={this.props.l.t('TitleCOLON', 'Title:')}
-                        updateKey='title'
-                        value={this.props.styles.title}
-                        // className="form-control"
-                        onCustomInputChange={this.updateTitle}
-                    />
-                    <StylesGroup
-                        l={this.props.l}
-                        fontStyles={this.props.styles.titleStyles}
-                        colorLabel={this.props.l.t('Title_colorCOLON', 'Title color:')}
-                        fontFamilyLabel={this.props.l.t('Title_fontCOLON', 'Title font:')}
-                        fontSizeLabel={this.props.l.t('Title_font_sizeCOLON', 'Title font size:')}
-                        onUpdateFontStyles={this.updateTitleFontStyles}
-                        id="2"
-                        key="2"
-                    //updateKey='titleStyles'
-                    />
+                    {this.props.styles.isComboWidget &&
+                        <LabelledInput
+                            label={this.props.l.t('TitleCOLON', 'Title:')}
+                            updateKey='title'
+                            value={this.props.styles.title}
+                            // className="form-control"
+                            onCustomInputChange={this.updateTitle}
+                        />
+                    }
+                    {this.props.styles.isComboWidget &&
+                        <StylesGroup
+                            l={this.props.l}
+                            fontStyles={this.props.styles.titleStyles}
+                            colorLabel={this.props.l.t('Title_colorCOLON', 'Title color:')}
+                            fontFamilyLabel={this.props.l.t('Title_fontCOLON', 'Title font:')}
+                            fontSizeLabel={this.props.l.t('Title_font_sizeCOLON', 'Title font size:')}
+                            onUpdateFontStyles={this.updateTitleFontStyles}
+                            id="2"
+                            key="2"
+                        //updateKey='titleStyles'
+                        />
+                    }
 
                     <LabelledColorPicker
                         label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
@@ -112,56 +117,59 @@ export default class CircularProgressStyles extends PureComponent {
                     //updateKey='titleStyles'
                     />
 
+                    {(this.props.styles.selectedApplyTo != ApplyToOptions.Row) &&
+                        <div>
+                            <LabelledDurationInput
+                                label={this.props.l.t('MinCOLON', 'Min:')}
+                                displayFormatId={this.props.displayFormatId}
+                                value={this.props.styles.min}
+                                wKey='min'
+                                enableInput={true}
+                                updatePropOnChange={this.updateMinValue}
+                            />
 
-                    <LabelledDurationInput
-                        label={this.props.l.t('MinCOLON', 'Min:')}
-                        displayFormatId={this.props.displayFormatId}
-                        value={this.props.styles.min}
-                        wKey='min'
-                        enableInput={true}
-                        updatePropOnChange={this.updateMinValue}
-                    />
 
+                            <LabelledDurationInput
+                                label={this.props.l.t('MaxCOLON', 'Max:')}
+                                displayFormatId={this.props.displayFormatId}
+                                value={this.props.styles.max}
+                                wKey='max'
+                                enableInput={true}
+                                updatePropOnChange={this.updateMaxValue}
+                            />
 
-                    <LabelledDurationInput
-                        label={this.props.l.t('MaxCOLON', 'Max:')}
-                        displayFormatId={this.props.displayFormatId}
-                        value={this.props.styles.max}
-                        wKey='max'
-                        enableInput={true}
-                        updatePropOnChange={this.updateMaxValue}
-                    />
-
-                    <LabelledToggle
-                        label={this.props.l.t('Show_Max_ValueCOLON', 'Show Max Value:')}
-                        //updateKey='useSelectedBarColor'
-                        nodes={[{ label: "Yes", value: true }, { label: "No", value: false }]}
-                        checkedNode={this.props.styles.showMaxValueOnWidget}
-                        onToggleChange={this.updateShowMaxValueOnWidget}
-                    />
-                    <LabelledInput
-                        label={this.props.l.t('Arc_width', 'Arc width:')}
-                        value={this.props.styles.arcWidth}
-                        className="form-control"
-                        onCustomInputChange={this.updateArcWidth}
-                    />
-                    <LabelledColorPicker
-                        label={this.props.l.t('Arc_colorCOLON', 'Arc color:')}
-                        //updateKey='backgroundColor'
-                        ColorId="arcColor"
-                        ColorKey="arcColor"
-                        value={this.props.styles.arcColor}
-                        // className="form-control"
-                        updateColor={this.updateArcColor}
-                    />
-
-                    <LabelledInput
-                        label={this.props.l.t('Refresh_interval__in_sec_COLON', 'Refresh interval (in sec):')}
-                        value={this.props.styles.refreshInterval}
-                        className="form-control"
-                        onCustomInputChange={this.updateRefreshInterval}
-                    />
-
+                            <LabelledToggle
+                                label={this.props.l.t('Show_Max_ValueCOLON', 'Show Max Value:')}
+                                //updateKey='useSelectedBarColor'
+                                nodes={[{ label: "Yes", value: true }, { label: "No", value: false }]}
+                                checkedNode={this.props.styles.showMaxValueOnWidget}
+                                onToggleChange={this.updateShowMaxValueOnWidget}
+                            />
+                            <LabelledInput
+                                label={this.props.l.t('Arc_width', 'Arc width:')}
+                                value={this.props.styles.arcWidth}
+                                className="form-control"
+                                onCustomInputChange={this.updateArcWidth}
+                            />
+                            <LabelledColorPicker
+                                label={this.props.l.t('Arc_colorCOLON', 'Arc color:')}
+                                //updateKey='backgroundColor'
+                                ColorId="arcColor"
+                                ColorKey="arcColor"
+                                value={this.props.styles.arcColor}
+                                // className="form-control"
+                                updateColor={this.updateArcColor}
+                            />
+                        </div>
+                    }
+                    {this.props.styles.isComboWidget &&
+                        <LabelledInput
+                            label={this.props.l.t('Refresh_interval__in_sec_COLON', 'Refresh interval (in sec):')}
+                            value={this.props.styles.refreshInterval}
+                            className="form-control"
+                            onCustomInputChange={this.updateRefreshInterval}
+                        />
+                    }
 
 
                 </div>

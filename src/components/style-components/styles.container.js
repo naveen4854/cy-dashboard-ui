@@ -49,7 +49,7 @@ const mapStateToProps = (state) => {
         isComboWidget: state.configurations.widget.isComboWidget,
         isRowHeader: state.configurations.widget.isRowHeader,
         isColumnHeader: state.configurations.widget.isColumnHeader,
-        selectedStatisticCategory: state.dataMetrics.statisticCategory
+        selectedStatisticCategory: state.dataMetrics.statisticCategory,
     }
 }
 
