@@ -1,15 +1,16 @@
 import { rgba } from '../../utilities'
 export class Widget {
-    constructor(zIndex, isCombo, isHeader) {
+    constructor(zIndex, isCombo, isColumnHeader) {
         this.z = zIndex || 5;
         this.isComboWidget = isCombo || false;
-        this.isHeader = isHeader || false;
-        if (isHeader)
+        this.isColumnHeader = isColumnHeader || false;
+        if (isColumnHeader)
             this.setComboHeaderProperties()
     }
 
     id = Date.now() + Math.floor(Math.random() * 10000) + 1;
-    isHeader = false;
+    isColumnHeader = false;
+    isRowHeader = false;
     isComboWidget = false;
 
     x = 1;

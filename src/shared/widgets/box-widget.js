@@ -2,8 +2,8 @@ import { Widget } from "./widget";
 import { WidgetTypeEnum } from "../enums";
 
 export default class BoxWidget extends Widget {
-    constructor(zIndex, isCombo, isHeader) {
-        super(zIndex, isCombo, isHeader)
+    constructor(zIndex, isCombo, isColumnHeader) {
+        super(zIndex, isCombo, isColumnHeader)
     }
     widgetType = WidgetTypeEnum.Box;
     width = 150;

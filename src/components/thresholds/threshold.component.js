@@ -88,7 +88,7 @@ export default class ThresholdTab extends PureComponent {
             }
 
             // Combo real time headers
-            if (widget.isHeader) {
+            if (widget.isColumnHeader) {
                 let comboWidget = _.cloneDeep(_.find(this.props.newDashboard.widgets, (w) => w.id === this.props.widget.comboId));
                 if (!comboWidget) return DisplayFormatEnum.Text;
                 let wColumnIndex = this.getColumnIndex(comboWidget.matrix[0], this.props.widget.id);

@@ -8,32 +8,32 @@ import { BoxWidget, SpeedoWidget, BarWidget, CircularProgressWidget, PieWidget, 
  * @param {WidgetTypeEnum} widgetType 
  * @param {boolean} isComboWidget 
  * @param {int} zIndex 
- * @param {int} isHeader 
+ * @param {int} isColumnHeader 
  */
-export function GetWidget(widgetType, zIndex, isComboWidget, isHeader = false) {
+export function GetWidget(widgetType, zIndex, isComboWidget, isColumnHeader = false) {
     switch (widgetType) {
         case WidgetTypeEnum.Box:
-            return new BoxWidget(zIndex, isComboWidget, isHeader);
+            return new BoxWidget(zIndex, isComboWidget, isColumnHeader);
         case WidgetTypeEnum.Bar:
-            return new BarWidget(zIndex, isComboWidget, isHeader);
+            return new BarWidget(zIndex, isComboWidget, isColumnHeader);
         case WidgetTypeEnum.Pie:
-            return new PieWidget(zIndex, isComboWidget, isHeader);
+            return new PieWidget(zIndex, isComboWidget, isColumnHeader);
         case WidgetTypeEnum.CircularProgress:
-            return new CircularProgressWidget(zIndex, isComboWidget, isHeader);
+            return new CircularProgressWidget(zIndex, isComboWidget, isColumnHeader);
         case WidgetTypeEnum.Speedo:
-            return new SpeedoWidget(zIndex, isComboWidget, isHeader);
+            return new SpeedoWidget(zIndex, isComboWidget, isColumnHeader);
         case WidgetTypeEnum.Progress:
-            return new ProgressWidget(zIndex, isComboWidget, isHeader);
+            return new ProgressWidget(zIndex, isComboWidget, isColumnHeader);
         case WidgetTypeEnum.Clock:
-            return new ClockWidget(zIndex, isComboWidget, isHeader);
+            return new ClockWidget(zIndex, isComboWidget, isColumnHeader);
         case WidgetTypeEnum.Text:
-            return new TextWidget(zIndex, isComboWidget, isHeader);
+            return new TextWidget(zIndex, isComboWidget, isColumnHeader);
         case WidgetTypeEnum.Picture:
-            return new PictureWidget(zIndex, isComboWidget, isHeader);
+            return new PictureWidget(zIndex, isComboWidget, isColumnHeader);
         case WidgetTypeEnum.Combo:
-            return new ComboWidget(zIndex, isComboWidget, isHeader);
+            return new ComboWidget(zIndex, isComboWidget, isColumnHeader);
         default:
-            return new BoxWidget(zIndex, isComboWidget, isHeader);
+            return new BoxWidget(zIndex, isComboWidget, isColumnHeader);
     }
 }
 

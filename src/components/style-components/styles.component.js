@@ -9,6 +9,7 @@ import CircularProgressStyles from './circular-progress-styles';
 import ClockStyles from './clock-styles';
 import TextStyles from './text-styles';
 import PictureStyles from './picture-styles';
+import ComboStylesComponent from './combo-styles';
 
 // import DataMetricsSettingsContainer from '../data-metrics-settings/';
 
@@ -17,18 +18,23 @@ class StylesComponent extends PureComponent {
     render() {
         return (
             <div>
+                {this.props.isComboWidget &&
+                    this.renderApplyOptions()
+                }
                 {this.renderStyles()}
-                    <button
-                        disabled={this.props.styles.disableSave}
-                        type="button"
-                        className=" btn btn-sm btn btn-primary"
-                        onClick={this.props.updateWidgetStyles}>
-                        {this.props.l.t("Save", "Save")}
-                    </button>
+                <button
+                    disabled={this.props.styles.disableSave}
+                    type="button"
+                    className=" btn btn-sm btn btn-primary"
+                    onClick={this.props.updateWidgetStyles}>
+                    {this.props.l.t("Save", "Save")}
+                </button>
             </div>
         )
     }
+    renderApplyOptions() {
 
+    }
     renderStyles() {
         switch (this.props.styles.widgetType) {
             case WidgetTypeEnum.Box:
@@ -71,8 +77,7 @@ class StylesComponent extends PureComponent {
                 );
             case WidgetTypeEnum.Combo:
                 return (
-                    // <ComboStyles {...this.state} l={this.props.l} UpdateWidgetStyles={(widget) => this.UpdateWidgetStyles(widget)} />
-                    <div>{this.props.l.t('Sytles_not_present_for_this_widget', 'Sytles not present for this widget')}</div>
+                    <ComboStylesComponent {...this.props} />
                 );
             default:
                 return (

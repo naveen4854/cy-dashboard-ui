@@ -35,7 +35,8 @@ const mapStateToProps = (state) => {
         displayFormatId: state.configurations.widget.appliedSettings.dataMetrics.displayFormat ? 
                             state.configurations.widget.appliedSettings.dataMetrics.displayFormat.id : 
                             DisplayFormatEnum.Number,
-        isAnalog : state.configurations.widget.appliedSettings.dataMetrics.isAnalog // only for clock widget.
+        isAnalog : state.configurations.widget.appliedSettings.dataMetrics.isAnalog, // only for clock widget.
+        isComboWidget: state.configurations.widget.isComboWidget
 
     }
 }

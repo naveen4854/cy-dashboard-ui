@@ -474,7 +474,7 @@ export function mappingCustomMatrixHeaders(cHeader, column) {
   cHeader.aggregateOperationId = column.aggregateOperation && column.aggregateOperation.value ? column.aggregateOperation.value : undefined;
   cHeader.timeFormatId = column.timeFormat && column.timeFormat.value ? column.timeFormat.value : undefined;
   cHeader.hoursFormatId = column.hoursFormat && column.hoursFormat.value ? column.hoursFormat.value : undefined;
-  return {...cHeader};
+  return { ...cHeader };
 }
 
 
@@ -576,7 +576,8 @@ function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId) {
         column: eachWidget.fc,
         showSettings: false,
         showEditor: false,
-        isHeader: i == 0 ? true : false,
+        isColumnHeader: i == 0,
+        isRowHeader: j == 0,
         hideIcon: categoryId == StatisticCategoryEnum.Custom && i > 0 ? true : false,
         basedColumn: eachWidget.bsdc ? { value: eachWidget.bsdc.v, label: eachWidget.bsdc.l, type: eachWidget.bsdc.t } : null,
 

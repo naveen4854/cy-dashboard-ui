@@ -22,12 +22,12 @@ export function toggleSettingsMenu(widget) {
             showPanel
         })
         
-        let showMetricsTab = !(currentWidget.widgetType == WidgetTypeEnum.Picture 
+        let showMetricsTab = !(currentWidget.isComboWidget || currentWidget.widgetType == WidgetTypeEnum.Picture 
                                     || currentWidget.widgetType == WidgetTypeEnum.Text);
         let showThresholdsTab = !(currentWidget.widgetType == WidgetTypeEnum.Picture
                                     || currentWidget.widgetType == WidgetTypeEnum.Text
                                     || currentWidget.widgetType == WidgetTypeEnum.Pie
-                                    || currentWidget.widgetType == WidgetTypeEnum.Bar) ;
+                                    || currentWidget.widgetType == WidgetTypeEnum.Bar);
 
         if (showPanel) {
             dispatch({

@@ -7,9 +7,9 @@ import * as DashboardActions from '../../dashboard/dashboard.actions';
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        toggleSettingsMenu: (widget) => {
-            dispatch(DashboardActions.toggleSettingsMenu(widget))
-        },
+        // toggleSettingsMenu: (widget) => {
+        //     dispatch(DashboardActions.toggleSettingsMenu(widget))
+        // },
         
     }
 }

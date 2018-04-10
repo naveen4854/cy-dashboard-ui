@@ -90,7 +90,9 @@ function getRowHeader(filter, comboId) {
     rHeader.displayValue = filter.label;
     rHeader.isComboWidget = true;
     rHeader.comboId = comboId;
-    rHeader.HideSettings = true;
+    rHeader.HideSettings = true; 
+    rHeader.isColumnHeader = false;
+    rHeader.isRowHeader = true;
     rHeader.settings = {
         filter: filter.value
     };
@@ -104,7 +106,8 @@ function getColumnHeader(metric, index, comboId) {
     cHeader.isComboWidget = true;
     cHeader.HideSettings = index == 0 ? true : false;
     cHeader.comboId = comboId;
-    cHeader.isHeader = true;
+    cHeader.isColumnHeader = true;
+    cHeader.isRowHeader = false;
     cHeader.isRowrColumn = true;
     cHeader.settings = {
         item: metric.item && metric.item.id,

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
-import WidgetComponent from '../../widget/widget.component';
+// import WidgetComponent from '../../widget/widget.component';
+import WidgetContainer from '../../../widget-components';
 import ResizableWidgetContainer from '../../../resizable-widget';
 
 export default class ComboCellComponent extends PureComponent {
@@ -27,7 +28,7 @@ export default class ComboCellComponent extends PureComponent {
                     rowIndex == 0 || columnIndex == 0 ?
                         <ResizableWidgetContainer cell={cell} columnIndex={columnIndex} rowIndex={rowIndex} />
                         :
-                        <WidgetComponent key={cell.id}
+                        <WidgetContainer key={cell.id}
                             // mode={this.props.dashboard.mode}
                             widget={cell}
                             // toggleSettingsMenu={this.props.toggleSettingsMenu}

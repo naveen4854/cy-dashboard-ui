@@ -3,8 +3,8 @@ import { WidgetTypeEnum } from "../enums";
 import { rgba } from "../../utilities";
 
 export default class SpeedoWidget extends Widget {
-    constructor(zIndex, isCombo, isHeader) {
-        super(zIndex, isCombo, isHeader)
+    constructor(zIndex, isCombo, isColumnHeader) {
+        super(zIndex, isCombo, isColumnHeader)
     }
     widgetType = WidgetTypeEnum.Speedo;
     width = 300; height = 200;

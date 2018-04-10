@@ -195,7 +195,7 @@ export function initializeThresholddata() {
             StatisticCategoryEnum.RealTime
         let widgets = getState().dashboard.widgets;
         let comboWidget = _.find(widgets, wt => wt.id == currentWidget.comboId);
-        let columnOptions = getColumns(currentWidget, comboWidget);
+        let columnOptions = [];// getColumns(currentWidget, comboWidget);
         let column = getBasedColumn(currentWidget, selectedStatisticCategory, columnOptions);
         let displayFormat = getDisplayFormat(currentWidget, widgets);
         dispatch({
@@ -209,7 +209,7 @@ export function initializeThresholddata() {
             widgetType: currentWidget.widgetType,
             isComboWidget: currentWidget.isComboWidget,
             displayFormatId: displayFormat,
-            isHeader: currentWidget.isHeader,
+            isColumnHeader: currentWidget.isColumnHeader,
             comboId: currentWidget.comboId
         })
     }
@@ -248,7 +248,7 @@ export function addSelectedLevels() {
         }
         if (threshold.isComboWidget) {
             if (thresholdstatisticsCategoryId == StatisticCategoryEnum.RealTime) {
-                if (threshold.isHeader) {
+                if (threshold.isColumnHeader) {
                     let comboWidget = _.find(getState().dashboard.widgets, (w) => w.id === threshold.comboId);
                     let wColumnIndex = this.getColumnIndex(comboWidget.matrix[0], threshold.widgetId);
                     if (wColumnIndex) {
@@ -356,6 +356,9 @@ function getBasedColumn(widget, selectedStatisticCategory, columnOptions) {
    * @param {*} widget 
    */
 function getDisplayFormat(widget, widgets) {
+
+    return DisplayFormatEnum.Number; // temp 
+
     // For combo cell widgets
     if (widget.isComboWidget) {
         // Combo Custom
@@ -381,7 +384,7 @@ function getDisplayFormat(widget, widgets) {
         }
 
         // Combo real time headers
-        if (widget.isHeader) {
+        if (widget.isColumnHeader) {
             let comboWidget = _.find(widgets, (w) => w.id === widget.comboId);
             if (!comboWidget) return DisplayFormatEnum.Text;
             let wColumnIndex = getColumnIndex(comboWidget.matrix[0], widget.id);

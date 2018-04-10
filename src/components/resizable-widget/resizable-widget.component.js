@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import Resizable from 're-resizable';
-import WidgetComponent from '../widget-components';
+import WidgetContainer from '../widget-components';
 
 export default class ResizableWidgetComponent extends PureComponent {
     constructor(props) {
@@ -65,7 +65,7 @@ export default class ResizableWidgetComponent extends PureComponent {
                 onResizeStart={this.onResizeStart}
                 onResizeStop={this.onResizeStop}
             >
-                <WidgetComponent key={cell.id}
+                <WidgetContainer key={cell.id}
                     // mode={this.props.dashboard.mode}
                     widget={cell}
                 // toggleSettingsMenu={this.props.toggleSettingsMenu}
