@@ -1,4 +1,5 @@
-import { WidgetTypeEnum } from "../../shared/enums";
+import { ApplyToOptions, WidgetTypeEnum } from "../../shared/enums";
+import { STYLES_UPDATE_APPLY_OPTION } from "./styles.constants";
 
 export const INITIALIZE_STYLES = "INITIALIZE_STYLES"
 export const UPDATE_STYLE_PROP = "UPDATE_STYLE_PROP"
@@ -240,12 +241,18 @@ export const ACTION_HANDLERS = {
             [action.key]: action.value,
 
         })
+    },
+    [STYLES_UPDATE_APPLY_OPTION]: (state, action) => {
+        return Object.assign({}, state, {
+            selectedApplyTo: action.applyToOption
+        })
     }
 }
 
 const initialState = {
     initializeStyles,
-    showMessage: false
+    showMessage: false,
+    selectedApplyTo: ApplyToOptions.Column
 };
 
 export default function StylesReducer(state = _.cloneDeep(initialState), action) {

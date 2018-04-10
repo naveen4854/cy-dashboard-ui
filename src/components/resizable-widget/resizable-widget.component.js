@@ -18,7 +18,7 @@ export default class ResizableWidgetComponent extends PureComponent {
         const { columnIndex, rowIndex } = this.props
         e.stopPropagation()
         this.props.updateDraggable(false);
-        let comboWidgetId = 102020202;
+        let comboWidgetId = this.props.cell.comboId;
         this.props.updateMatrix(comboWidgetId, columnIndex, rowIndex, d);
     }
 

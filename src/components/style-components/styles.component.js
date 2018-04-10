@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { WidgetTypeEnum } from '../../shared/enums';
+import { WidgetTypeEnum, StatisticCategoryEnum } from '../../shared/enums';
 import BoxStyles from './box-styles';
 import BarStyles from './bar-styles'
 import PieStyles from './pie-styles';
@@ -10,15 +10,41 @@ import ClockStyles from './clock-styles';
 import TextStyles from './text-styles';
 import PictureStyles from './picture-styles';
 import ComboStylesComponent from './combo-styles';
+import { Constants } from '../../shared/constants';
+import ToggleSwitch from '../toggle-switch';
+import { LabelledToggle } from '../labelled-controls';
 
 // import DataMetricsSettingsContainer from '../data-metrics-settings/';
 
 class StylesComponent extends PureComponent {
+    constructor(props) {
+        super(props);
+        this.updateApplyToOptions = this.updateApplyToOptions.bind(this);
+        this.updateWidgetStyles = this.updateWidgetStyles.bind(this);
+    }
+    updateApplyToOptions(e) {
+        this.props.updateApplyToOptions(e);
+    }
+    updateWidgetStyles() {
+        if (this.props.isComboWidget) {
+            this.props.updateMatrixStyles();
+        }
+        // if (this.props.isColumnHeader) {
+        //     this.props.updateMatrixStylesByColumn();
+        // }
+        // else if (this.props.isRowHeader) {
+        //     this.props.updateMatrixStylesByRow();
+        // }
+        else {
+            this.props.updateWidgetStyles();
+        }
+    }
 
     render() {
         return (
             <div>
-                {this.props.isComboWidget &&
+                {
+                    this.props.isComboWidget &&
                     this.renderApplyOptions()
                 }
                 {this.renderStyles()}
@@ -26,14 +52,23 @@ class StylesComponent extends PureComponent {
                     disabled={this.props.styles.disableSave}
                     type="button"
                     className=" btn btn-sm btn btn-primary"
-                    onClick={this.props.updateWidgetStyles}>
+                    onClick={this.updateWidgetStyles}>
                     {this.props.l.t("Save", "Save")}
                 </button>
             </div>
         )
     }
     renderApplyOptions() {
-
+        let applyToOptions = this.props.isColumnHeader ? Constants.ColumnStyleOptions : this.props.isRowHeader ? Constants.RowStyleOptions : Constants.AllStyleOptions;
+        if (this.props.selectedStatisticCategory == StatisticCategoryEnum.Custom)
+            applyToOptions = Constants.AllStyleOptions;
+        return <LabelledToggle
+            label={this.props.l.t('Apply_toCOLON', 'Apply to:')}
+            //updateKey='useSelectedBarColor'
+            nodes={applyToOptions}
+            checkedNode={this.props.styles.selectedApplyTo}
+            onToggleChange={this.updateApplyToOptions}
+        />
     }
     renderStyles() {
         switch (this.props.styles.widgetType) {

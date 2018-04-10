@@ -21,13 +21,13 @@ export function toggleSettingsMenu(widget) {
             widgetType: currentWidget.widgetType,
             showPanel
         })
-        
-        let showMetricsTab = !(currentWidget.isComboWidget || currentWidget.widgetType == WidgetTypeEnum.Picture 
-                                    || currentWidget.widgetType == WidgetTypeEnum.Text);
+
+        let showMetricsTab = !(currentWidget.isComboWidget || currentWidget.widgetType == WidgetTypeEnum.Picture
+            || currentWidget.widgetType == WidgetTypeEnum.Text);
         let showThresholdsTab = !(currentWidget.widgetType == WidgetTypeEnum.Picture
-                                    || currentWidget.widgetType == WidgetTypeEnum.Text
-                                    || currentWidget.widgetType == WidgetTypeEnum.Pie
-                                    || currentWidget.widgetType == WidgetTypeEnum.Bar);
+            || currentWidget.widgetType == WidgetTypeEnum.Text
+            || currentWidget.widgetType == WidgetTypeEnum.Pie
+            || currentWidget.widgetType == WidgetTypeEnum.Bar);
 
         if (showPanel) {
             dispatch({
@@ -58,14 +58,20 @@ export function updateDashboardWidget(widget) {
             type: UPDATE_CONFIGURATIONS_WIDGET,
             widget: widget
         })
-
-        dispatch(getState().dashboard.updateWidget(widget));
+        debugger
+        // if (!widget.isComboWidget)
+            dispatch(getState().dashboard.updateWidget(widget));
     }
 }
 
 export function applyWidget(widget) {
     return (dispatch, getState) => {
         dispatch(getState().configurations.updateDashboardWidget(widget));
+    }
+}
+
+export function previewWidget(widget) {
+    return (dispatch, getState) => {
         if (widget.widgetType = WidgetTypeEnum.Combo)
             return;
         dispatch(getState().notificationStore.clearNotifications());

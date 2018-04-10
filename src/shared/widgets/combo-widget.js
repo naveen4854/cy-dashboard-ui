@@ -7,12 +7,12 @@ export default class ComboWidget extends Widget {
     constructor(zIndex) {
         super(zIndex)
     }
-    id = 102020202; // TODO: temporary till matrix build logic is written
+    //id = 102020202; // TODO: temporary till matrix build logic is written
     widgetType = WidgetTypeEnum.Combo;
     width = 450; height = 250;
     comboSelectedStatisticItem = {};
     title = "Combo widget";
-    comboSelectedStatisticItems = [];
+    comboSelectedStatisticColumns = [];
     appliedBackgroundColor = rgba(255, 255, 255, 1);
     widgetBody = {
         fontFamily: 'Arial',
@@ -20,9 +20,9 @@ export default class ComboWidget extends Widget {
         color: rgba(0, 0, 0, 1)
     };
     matrix = [
-        [new BoxWidget(1, true, true), new BoxWidget(1, true, true), new BoxWidget(1, true, true)],
-        [new BoxWidget(1, true, false), new BoxWidget(1, true, false), new BoxWidget(1, true, false)],
-        [new BoxWidget(1, true, false), new BoxWidget(1, true, false), new BoxWidget(1, true, false)],
+        // [new BoxWidget(1, true, true), new BoxWidget(1, true, true), new BoxWidget(1, true, true)],
+        // [new BoxWidget(1, true, false), new BoxWidget(1, true, false), new BoxWidget(1, true, false)],
+        // [new BoxWidget(1, true, false), new BoxWidget(1, true, false), new BoxWidget(1, true, false)],
     ];
     appliedSettings =
         {
@@ -31,7 +31,7 @@ export default class ComboWidget extends Widget {
             dataMetrics:
                 {
                     ...this.appliedSettings.dataMetrics,
-                    comboSelectedStatisticItems: []
+                    comboSelectedStatisticColumns: []
                 },
             thresholds: [],
             group: {}

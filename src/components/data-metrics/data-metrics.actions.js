@@ -12,24 +12,24 @@ export function saveComboRealTimeMetrics() {
         let matrix = []
         let headers = [];
 
-        let comboSelectedStatisticItems = getState().comboRealTimeSettings.comboSelectedStatisticItems;
-        let columns = _.map(comboSelectedStatisticItems, (metric, i) => {
+        let comboSelectedStatisticColumns = getState().comboRealTimeSettings.comboSelectedStatisticColumns;
+        let columns = _.map(comboSelectedStatisticColumns, (metric, i) => {
             headers.push(getColumnHeader(metric, i, comboId));
             return getColumn(metric)
         });
 
         let filters = getState().comboRealTimeSettings.selectedDrilldownOptions//_.filter(drillDownOptions, (eachOption) => eachOption.checked);
         let rowHeaders = _.map(filters, (filter) => {
-            return getRowHeader(filter, comboId);
+            return getRowHeader(filter, comboId, selectedGroup);
         });
 
-        let newMatrix = getNewMatrix(filters, comboSelectedStatisticItems, rowHeaders, selectedGroup, comboId, oldMatrix)
+        let newMatrix = getNewMatrix(filters, comboSelectedStatisticColumns, rowHeaders, selectedGroup, comboId, oldMatrix)
 
         newMatrix.splice(0, 0, headers);
         let statisticCategory = getState().dataMetrics.statisticCategory;
 
         let dataMetrics = {
-            comboSelectedStatisticItems,
+            comboSelectedStatisticColumns,
             columns,
             drillDownOptions: filters,
             group: selectedGroup,
@@ -49,9 +49,9 @@ export function saveComboRealTimeMetrics() {
     }
 }
 
-function getNewMatrix(filters, comboSelectedStatisticItems, rowHeaders, selectedGroup, comboId, oldMatrix) {
+function getNewMatrix(filters, comboSelectedStatisticColumns, rowHeaders, selectedGroup, comboId, oldMatrix) {
     return _.map(filters, (filter, rowIndex) => {
-        let row = _.map(comboSelectedStatisticItems, (statisticItem, columnIndex) => {
+        let row = _.map(comboSelectedStatisticColumns, (statisticItem, columnIndex) => {
             if (columnIndex == 0)
                 return rowHeaders[rowIndex];
 
@@ -85,7 +85,7 @@ function getNewMatrix(filters, comboSelectedStatisticItems, rowHeaders, selected
     });
 }
 
-function getRowHeader(filter, comboId) {
+function getRowHeader(filter, comboId, selectedGroup) {
     let rHeader = WidgetData.GetWidget(WidgetTypeEnum.Box, 0, true, true);
     rHeader.displayValue = filter.label;
     rHeader.isComboWidget = true;
@@ -96,6 +96,8 @@ function getRowHeader(filter, comboId) {
     rHeader.settings = {
         filter: filter.value
     };
+    rHeader.columnId = -1;// filter.value;
+    rHeader.rowId = filter.value + '_' + selectedGroup.id;
     rHeader.isRowrColumn = true;
     return rHeader;
 }
@@ -109,6 +111,8 @@ function getColumnHeader(metric, index, comboId) {
     cHeader.isColumnHeader = true;
     cHeader.isRowHeader = false;
     cHeader.isRowrColumn = true;
+    cHeader.columnId = (metric.item && metric.item.id);
+    cHeader.rowId = -1; 
     cHeader.settings = {
         item: metric.item && metric.item.id,
         cWidgetType: metric.widget && metric.widget.value,

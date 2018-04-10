@@ -88,7 +88,7 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
   //Since it is box, we have added only one column. this should be updated to support multiple values as well.
   if (inputWidget && inputWidget.appliedSettings && inputWidget.appliedSettings.dataMetrics) {
     if (inputWidget.widgetType == WidgetTypeEnum.Combo) {
-      columns = _.map(inputWidget.appliedSettings.dataMetrics.comboSelectedStatisticItems, eachDataMetrics => {
+      columns = _.map(inputWidget.appliedSettings.dataMetrics.comboSelectedStatisticColumns, eachDataMetrics => {
         return {
 
           cisiid: eachDataMetrics && eachDataMetrics.item && eachDataMetrics.item.id,
@@ -489,7 +489,7 @@ function mapAppliedSettings(widget, isEdit, dataMetricsMetadata) {
         func: widget.ws.srt.rsfid ? getSelectedFunction(widget.ws.srt, dataMetricsMetadata) : '',
         drillDownOptions: widget.ws.srt.rf,
         columns: widget.ws.srt.rc,
-        comboSelectedStatisticItems: _.map(widget.ws.srt.rc, (eachDataMetrics, i) => {
+        comboSelectedStatisticColumns: _.map(widget.ws.srt.rc, (eachDataMetrics, i) => {
           return {
             id: Date.now(),
             item: {

@@ -1,6 +1,6 @@
 import { StatisticCategoryEnum, WidgetTypeEnum } from "../../shared/enums";
 import { WidgetData } from "../../shared/lib";
-import { SET_COMBO_REALTIME_STATISTIC_GROUPS, UPDATE_COMBO_SELECTED_GROUP, UPDATE_COMBO_STATISTIC_ITEMS, SET_COMBO_SELECTED_STATISTIC_ITEMS, UPDATE_COMBO_REALTIME_DISPLAYNAME, SET_COMBO_REALTIME_STATISTIC_ITEM, UPDATE_COMBO_REALTIME_FUNCTIONS, UPDATE_COMBO_REALTIME_SELECTED_FUNCTION, UPDATE_COMBO_REALTIME_DISPLAY_FORMATS, UPDATE_COMBO_REALTIME_SELECTED_DISPLAY_FORMAT, UPDATE_COMBO_REALTIME_APPLICABLE_WIDGETS, SET_COMBO_REALTIME_APPLICABLE_WIDGET, UPDATE_COMBO_DRILL_DOWN_METADATA, UPDATE_COMBO_REALTIME_TOGGLE_ADD, SET_COMBO_REALTIME_STATISTIC_COLUMNS, UPDATE_COMBO_REALTIME_RESET_ADD, DEFAULT_COMBO_REALTIME_METRICS, CLEAR_SELECTED_COMBO_REALTIME_SETTINGS, COMBO_REALTIME_SET_SELECTED_COLUMN, UPDATE_COMBO_REALTIME_TOGGLE_DRILL_DOWN } from './combo-realtime-metrics-settings.constants';
+import { SET_COMBO_REALTIME_STATISTIC_GROUPS, UPDATE_COMBO_SELECTED_GROUP, UPDATE_COMBO_STATISTIC_ITEMS, SET_COMBO_SELECTED_STATISTIC_ITEMS, UPDATE_COMBO_REALTIME_DISPLAYNAME, SET_COMBO_REALTIME_STATISTIC_ITEM, UPDATE_COMBO_REALTIME_FUNCTIONS, UPDATE_COMBO_REALTIME_SELECTED_FUNCTION, UPDATE_COMBO_REALTIME_DISPLAY_FORMATS, UPDATE_COMBO_REALTIME_SELECTED_DISPLAY_FORMAT, UPDATE_COMBO_REALTIME_APPLICABLE_WIDGETS, SET_COMBO_REALTIME_APPLICABLE_WIDGET, UPDATE_COMBO_DRILL_DOWN_METADATA, UPDATE_COMBO_REALTIME_TOGGLE_ADD, SET_COMBO_REALTIME_STATISTIC_COLUMNS, UPDATE_COMBO_REALTIME_RESET_ADD, DEFAULT_COMBO_REALTIME_METRICS, CLEAR_SELECTED_COMBO_REALTIME_SETTINGS, COMBO_REALTIME_SET_SELECTED_COLUMN, UPDATE_COMBO_REALTIME_TOGGLE_DRILL_DOWN, UPDATE_COMBO_REALTIME_STATISTIC_COLUMNS } from './combo-realtime-metrics-settings.constants';
 
 import * as dataMetricsService from '../data-metrics/data-metrics-service';
 import { getWidgetByEnum } from "../../shared/lib/widget-data";
@@ -37,7 +37,7 @@ export function initiateComboRealTimeSettings() {
             dispatch({
                 type: DEFAULT_COMBO_REALTIME_METRICS,
                 selectedGroup: datametrics.group || {},
-                comboSelectedStatisticItems: datametrics.comboSelectedStatisticItems || [],
+                comboSelectedStatisticColumns: datametrics.comboSelectedStatisticColumns || [],
             })
 
             dispatch(getState().comboRealTimeSettings.getComboDrillDownMetaData(datametrics.group))
@@ -139,11 +139,11 @@ export function addDefaultComboStatisticItems(selectedGroup) {
         const currentWidget = getState().configurations.widget; // TODO updating settings reducer widget directly.. move it into a reducer action
         let comboRTDefaulted = getState().comboRealTimeSettings.comboRTDefaulted;
         if (!comboRTDefaulted) {
-            let defaultItems = currentWidget.appliedSettings.dataMetrics.comboSelectedStatisticItems;
+            let defaultItems = currentWidget.appliedSettings.dataMetrics.comboSelectedStatisticColumns;
             if (defaultItems && defaultItems.length > 0)
                 return dispatch({
                     type: SET_COMBO_SELECTED_STATISTIC_ITEMS,
-                    comboSelectedStatisticItems: defaultItems,
+                    comboSelectedStatisticColumns: defaultItems,
                     comboRTDefaulted: true
                 });
         }
@@ -174,8 +174,8 @@ export function addDefaultComboStatisticItems(selectedGroup) {
         };
 
         // if (result.length == 0 || widget.appliedSettings.group.isNew) {
-        //currentWidget.appliedSettings.dataMetrics.comboSelectedStatisticItems = [];
-        var result = _.find(currentWidget.appliedSettings.dataMetrics.comboSelectedStatisticItems, item => item.isDefault);
+        //currentWidget.appliedSettings.dataMetrics.comboSelectedStatisticColumns = [];
+        var result = _.find(currentWidget.appliedSettings.dataMetrics.comboSelectedStatisticColumns, item => item.isDefault);
         let defaultStatisticItem = {
             id: 1, // defaulted to one, helps with reordering rows
             isDefault: true,
@@ -185,12 +185,12 @@ export function addDefaultComboStatisticItems(selectedGroup) {
             widget: applicableWidget,
             displayName: result && result.displayName ? result.displayName : statisticItem.label
         };
-        let comboSelectedStatisticItems = [];
-        comboSelectedStatisticItems.push(defaultStatisticItem);
+        let comboSelectedStatisticColumns = [];
+        comboSelectedStatisticColumns.push(defaultStatisticItem);
 
         dispatch({
             type: SET_COMBO_SELECTED_STATISTIC_ITEMS,
-            comboSelectedStatisticItems,
+            comboSelectedStatisticColumns,
             comboRTDefaulted: true
         });
     }
@@ -249,7 +249,7 @@ function mapComboItems(wdt, metaData) {
                     },
                     displayName: value.dn || itemOption.label
                 }
-                wdt.appliedSettings.dataMetrics.comboSelectedStatisticItems.push(comboItem)
+                wdt.appliedSettings.dataMetrics.comboSelectedStatisticColumns.push(comboItem)
             }
         }
     });
@@ -406,7 +406,7 @@ export function toggleAddEdit(toggleAddEdit) {
 
 export function addComboStatisticItem() {
     return (dispatch, getState) => {
-        let comboSelectedStatisticItems = getState().comboRealTimeSettings.comboSelectedStatisticItems;
+        let comboSelectedStatisticColumns = getState().comboRealTimeSettings.comboSelectedStatisticColumns;
         let comboRealTimeSettings = getState().comboRealTimeSettings;
         let selectedStatisticItem = {
             id: getRandom(),
@@ -418,12 +418,12 @@ export function addComboStatisticItem() {
             isDefault: false
         }
 
-        let columns = comboSelectedStatisticItems.splice(comboSelectedStatisticItems.length, 0, selectedStatisticItem);
+        let columns = comboSelectedStatisticColumns.splice(comboSelectedStatisticColumns.length, 0, selectedStatisticItem);
         dispatch(getState().notificationStore.clearNotifications());
 
         dispatch({
             type: SET_COMBO_REALTIME_STATISTIC_COLUMNS,
-            comboSelectedStatisticItems: comboSelectedStatisticItems
+            comboSelectedStatisticColumns: comboSelectedStatisticColumns
         })
 
     }
@@ -448,13 +448,13 @@ export function clearComboRealTimeSettings() {
 
 export function removeComboStatisticItemAction(statisticItem) {
     return (dispatch, getState) => {
-        let comboSelectedStatisticItems = _.filter(getState().comboRealTimeSettings.comboSelectedStatisticItems, function (item) {
+        let comboSelectedStatisticColumns = _.filter(getState().comboRealTimeSettings.comboSelectedStatisticColumns, function (item) {
             return statisticItem.id != item.id;
         });
 
         dispatch({
             type: SET_COMBO_REALTIME_STATISTIC_COLUMNS,
-            comboSelectedStatisticItems: comboSelectedStatisticItems
+            comboSelectedStatisticColumns: comboSelectedStatisticColumns
         })
     }
 }
@@ -482,7 +482,7 @@ export function updatedComboStatisticColumn() {
             isDefault: comboRealTimeSettings.isDefault
         }
 
-        let updatedColumns = _.map(getState().comboRealTimeSettings.comboSelectedStatisticItems, (column) => {
+        let updatedColumns = _.map(getState().comboRealTimeSettings.comboSelectedStatisticColumns, (column) => {
             if (column.id == selectedStatisticItem.id)
                 return selectedStatisticItem;
 
@@ -491,7 +491,7 @@ export function updatedComboStatisticColumn() {
 
         dispatch({
             type: SET_COMBO_REALTIME_STATISTIC_COLUMNS,
-            comboSelectedStatisticItems: updatedColumns
+            comboSelectedStatisticColumns: updatedColumns
         })
     }
 }
@@ -501,6 +501,14 @@ export function toggleDrillDown(toggleDrillDown) {
         dispatch({
             type: UPDATE_COMBO_REALTIME_TOGGLE_DRILL_DOWN,
             isDrillDownOpen: toggleDrillDown
+        })
+    }
+}
+export function updateComboSelectedStatisticColumns(comboSelectedStatisticColumns) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: UPDATE_COMBO_REALTIME_STATISTIC_COLUMNS,
+            comboSelectedStatisticColumns
         })
     }
 }

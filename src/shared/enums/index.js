@@ -8,5 +8,8 @@ import DashboardModeEnum from "./dashboard-mode-enum"
 import StatisticCategoryEnum from './statistic-category-enum'
 import DisplayFormatEnum from './display-format.enum'
 import PictureStretchEnum from './picture-stretch-enum'
+import ApplyToOptions from './apply-to-options-enum'
 
-export { PictureStretchEnum, ResponseStatusEnum, PageEnum, WidgetTypeEnum, SortColumnEnum, SortOrderEnum, ScrollTypeEnum, DashboardModeEnum, StatisticCategoryEnum, DisplayFormatEnum };
+export { PictureStretchEnum, ResponseStatusEnum, PageEnum, WidgetTypeEnum, SortColumnEnum, 
+    SortOrderEnum, ScrollTypeEnum, DashboardModeEnum, StatisticCategoryEnum, DisplayFormatEnum,
+    ApplyToOptions };

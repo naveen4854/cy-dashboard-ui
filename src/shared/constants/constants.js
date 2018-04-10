@@ -1,7 +1,7 @@
 
 import displayFormatEnum from '../enums/display-format.enum';
 import {  utils } from '../../utilities'
-import {PictureStretchEnum} from '../enums';
+import {ApplyToOptions, PictureStretchEnum } from '../enums';
 
 export const refreshTabId = 'rt';
 export const tabsList = 'tlst';
@@ -91,4 +91,41 @@ export const DefaultDashboardId = 'new';
 export const pictureOptions = [
 	{ value: PictureStretchEnum.ActualSize, label: 'Actual Size' },
 	{ value: PictureStretchEnum.Fill, label: 'Fill' }
+];
+
+export const AllStyleOptions = [
+	{
+		label: "Cell",
+		value: ApplyToOptions.Cell
+	},
+	{
+		label: "Row",
+		value: ApplyToOptions.Row
+	},
+	{
+		label: "Column",
+		value: ApplyToOptions.Column
+	}
+];
+
+export const RowStyleOptions = [
+	{
+		label: "Cell",
+		value: ApplyToOptions.Cell
+	},{
+		label: "Column",
+		value: ApplyToOptions.Column
+	} 
+];
+
+export const ColumnStyleOptions = [
+	{
+		label: "Cell",
+		value: ApplyToOptions.Cell
+	},
+	{
+		label: "Row",
+		value: ApplyToOptions.Row
+	}
+	
 ];

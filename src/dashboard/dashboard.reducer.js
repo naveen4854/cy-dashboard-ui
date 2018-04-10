@@ -43,14 +43,13 @@ export const ACTION_HANDLERS = {
     },
     [UPDATE_DASHBOARD_WIDGET]: (state, action) => {
         let widgets = state.widgets.map((widget) => {
-            if (widget.id !== action.widget.id) {
-                return widget;
+            if (widget.id == action.widget.id) {
+                return {
+                    ...widget,
+                    ...action.widget
+                };
             }
-
-            return {
-                ...widget,
-                ...action.widget
-            };
+            return widget;
         })
         return Object.assign({}, state, { widgets });
     },
@@ -70,8 +69,8 @@ export const ACTION_HANDLERS = {
             disableDrag: action.draggable,
         })
     },
-    [UPDATE_DASHBOARD]:(state, action) => {
-        return Object.assign({}, state, action.dashboard); 
+    [UPDATE_DASHBOARD]: (state, action) => {
+        return Object.assign({}, state, action.dashboard);
     },
     [UPDATE_SHOW_ICONS]: (state, action) => {
         return Object.assign({}, state, {
@@ -84,16 +83,16 @@ export const ACTION_HANDLERS = {
 const initialState = {
     widgets: [],
     mode: DashboardModeEnum.Edit,
-    updateDashboardMode,
-    getDashboardById,
-    updateWidgets,
-    updateWidget,
     disableDrag: false,
     updateDashboard,
     Id: -1,
     updateShowIcons,
     showIcons: true,
     pullWidget,
+    updateDashboardMode,
+    getDashboardById,
+    updateWidgets,
+    updateWidget,
 };
 
 export default function DashboardReducer(state = _.cloneDeep(initialState), action) {

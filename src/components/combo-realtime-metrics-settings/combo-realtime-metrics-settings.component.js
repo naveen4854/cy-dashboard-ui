@@ -91,8 +91,8 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
         //     messages: [{ displayMessage: 'All the previously set thresholds will not work if the display format or statistic function is changed.' }]
         // });
     }
-    onRowOrderChanged(rows) {
-        this.props.updatecomboSelectedStatisticItems(comboSelectedStatisticItems);
+    onRowOrderChanged(comboSelectedStatisticColumns) {
+        this.props.updateComboSelectedStatisticColumns(comboSelectedStatisticColumns);
     }
 
     render() {
@@ -142,7 +142,7 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
                                             <div className="table-responsive">
                                                 <DragAndDropTable rowOnDragClass={"drag-highlight"}
                                                     columns={this.columns}
-                                                    rows={comboRealTimeSettings.comboSelectedStatisticItems}
+                                                    rows={comboRealTimeSettings.comboSelectedStatisticColumns}
                                                     onDelete={this.deleteSelectedItem.bind(this)}
                                                     onEdit={this.editSelectedItem.bind(this)}
                                                     onRowOrderChange={this.onRowOrderChanged.bind(this)}

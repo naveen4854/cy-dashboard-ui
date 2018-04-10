@@ -63,6 +63,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         toggleDrillDown: (toggleDrillDown) => {
             dispatch(Actions.toggleDrillDown(toggleDrillDown));
+        },
+        updateComboSelectedStatisticColumns: (comboSelectedStatisticColumns) => {
+            dispatch(Actions.updateComboSelectedStatisticColumns(comboSelectedStatisticColumns));
         }
     }
 }
