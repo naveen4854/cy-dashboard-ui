@@ -14,6 +14,7 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(Actions.setStatisticsItems(selectedGroup));
                 dispatch(Actions.getComboDrillDownMetaData(selectedGroup));
                 dispatch(Actions.addDefaultComboStatisticItems(selectedGroup));
+                dispatch(Actions.toggleDrillDown(true));
             }
         },
         setItemAndGetFunctions: (selectedItem) => {
@@ -41,12 +42,28 @@ const mapDispatchToProps = (dispatch) => {
         toggleAddEdit: (toggleAddEdit) => {
             dispatch(Actions.toggleAddEdit(toggleAddEdit));
         },
-        addComboStatisticItem:(toggleAddEdit) => {
+        addComboStatisticItem: (toggleAddEdit) => {
             dispatch(Actions.addComboStatisticItem(toggleAddEdit));
         },
-        applyComboRealTimeMetrics:() => {
+        applyComboRealTimeMetrics: () => {
             dispatch(Actions.applyComboRealTimeMetrics());
         },
+        removeComboStatisticItems: (selectedStatisticItem) => {
+            if (selectedStatisticItem) {
+                dispatch(Actions.removeComboStatisticItemAction(selectedStatisticItem));
+            }
+        },
+        editComboSelectedColumn: (selectedStatisticItem) => {
+            if (selectedStatisticItem) {
+                dispatch(Actions.editComboSelectedColumn(selectedStatisticItem));
+            }
+        },
+        updatedComboStatisticColumn: () => {
+            dispatch(Actions.updatedComboStatisticColumn());
+        },
+        toggleDrillDown: (toggleDrillDown) => {
+            dispatch(Actions.toggleDrillDown(toggleDrillDown));
+        }
     }
 }
 

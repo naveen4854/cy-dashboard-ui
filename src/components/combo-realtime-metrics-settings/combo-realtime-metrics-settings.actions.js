@@ -1,6 +1,6 @@
 import { StatisticCategoryEnum, WidgetTypeEnum } from "../../shared/enums";
 import { WidgetData } from "../../shared/lib";
-import { SET_COMBO_REALTIME_STATISTIC_GROUPS, UPDATE_COMBO_SELECTED_GROUP, UPDATE_COMBO_STATISTIC_ITEMS, SET_COMBO_SELECTED_STATISTIC_ITEMS, UPDATE_COMBO_REALTIME_DISPLAYNAME, SET_COMBO_REALTIME_STATISTIC_ITEM, UPDATE_COMBO_REALTIME_FUNCTIONS, UPDATE_COMBO_REALTIME_SELECTED_FUNCTION, UPDATE_COMBO_REALTIME_DISPLAY_FORMATS, UPDATE_COMBO_REALTIME_SELECTED_DISPLAY_FORMAT, UPDATE_COMBO_REALTIME_APPLICABLE_WIDGETS, SET_COMBO_REALTIME_APPLICABLE_WIDGET, UPDATE_COMBO_DRILL_DOWN_METADATA, UPDATE_COMBO_REALTIME_TOGGLE_ADD, SET_COMBO_REALTIME_STATISTIC_COLUMNS, UPDATE_COMBO_REALTIME_RESET_ADD, DEFAULT_COMBO_REALTIME_METRICS, CLEAR_SELECTED_COMBO_REALTIME_SETTINGS } from './combo-realtime-metrics-settings.constants';
+import { SET_COMBO_REALTIME_STATISTIC_GROUPS, UPDATE_COMBO_SELECTED_GROUP, UPDATE_COMBO_STATISTIC_ITEMS, SET_COMBO_SELECTED_STATISTIC_ITEMS, UPDATE_COMBO_REALTIME_DISPLAYNAME, SET_COMBO_REALTIME_STATISTIC_ITEM, UPDATE_COMBO_REALTIME_FUNCTIONS, UPDATE_COMBO_REALTIME_SELECTED_FUNCTION, UPDATE_COMBO_REALTIME_DISPLAY_FORMATS, UPDATE_COMBO_REALTIME_SELECTED_DISPLAY_FORMAT, UPDATE_COMBO_REALTIME_APPLICABLE_WIDGETS, SET_COMBO_REALTIME_APPLICABLE_WIDGET, UPDATE_COMBO_DRILL_DOWN_METADATA, UPDATE_COMBO_REALTIME_TOGGLE_ADD, SET_COMBO_REALTIME_STATISTIC_COLUMNS, UPDATE_COMBO_REALTIME_RESET_ADD, DEFAULT_COMBO_REALTIME_METRICS, CLEAR_SELECTED_COMBO_REALTIME_SETTINGS, COMBO_REALTIME_SET_SELECTED_COLUMN, UPDATE_COMBO_REALTIME_TOGGLE_DRILL_DOWN } from './combo-realtime-metrics-settings.constants';
 
 import * as dataMetricsService from '../data-metrics/data-metrics-service';
 import { getWidgetByEnum } from "../../shared/lib/widget-data";
@@ -151,7 +151,6 @@ export function addDefaultComboStatisticItems(selectedGroup) {
                 });
         }
 
-        debugger
         const group = _.find(getState().dataMetrics.datametricsMetadata, (metric) =>
             metric.StatisticGroupId === selectedGroup.id &&
             metric.WidgetType === currentWidget.widgetType &&
@@ -391,7 +390,6 @@ export function updateDisplayName(displayName) {
 
 export function toggleAddEdit(toggleAddEdit) {
     return (dispatch, getState) => {
-
         dispatch({
             type: UPDATE_COMBO_REALTIME_RESET_ADD,
             selectedItem: {},
@@ -399,6 +397,8 @@ export function toggleAddEdit(toggleAddEdit) {
             selectedFunction: {},
             selectedDisplayFormat: {},
             selectedWidget: {},
+            selectedColumnId: -1,
+            columnIsDefault: false
         });
         dispatch({
             type: UPDATE_COMBO_REALTIME_TOGGLE_ADD,
@@ -417,15 +417,13 @@ export function addComboStatisticItem() {
             func: comboRealTimeSettings.selectedFunction,
             displayFormat: comboRealTimeSettings.selectedDisplayFormat,
             widget: comboRealTimeSettings.selectedWidget,
-            displayName: comboRealTimeSettings.displayName
-
+            displayName: comboRealTimeSettings.displayName,
+            isDefault: false
         }
+
         let columns = comboSelectedStatisticItems.splice(comboSelectedStatisticItems.length, 0, selectedStatisticItem);
         dispatch(getState().notificationStore.clearNotifications());
-        // dispatch({
-        //     type: UPDATE_DISPLAYNAME,
-        //     displayName: selectedStatisticItem.displayName
-        // });
+
         dispatch({
             type: SET_COMBO_REALTIME_STATISTIC_COLUMNS,
             comboSelectedStatisticItems: comboSelectedStatisticItems
@@ -447,6 +445,65 @@ export function clearComboRealTimeSettings() {
         dispatch({
             type: CLEAR_SELECTED_COMBO_REALTIME_SETTINGS,
             realTimeSettings
+        })
+    }
+}
+
+export function removeComboStatisticItemAction(statisticItem) {
+    return (dispatch, getState) => {
+        let comboSelectedStatisticItems = _.filter(getState().comboRealTimeSettings.comboSelectedStatisticItems, function (item) {
+            return statisticItem.id != item.id;
+        });
+
+        dispatch({
+            type: SET_COMBO_REALTIME_STATISTIC_COLUMNS,
+            comboSelectedStatisticItems: comboSelectedStatisticItems
+        })
+    }
+}
+
+export function editComboSelectedColumn(selectedStatisticColumn) {
+    return (dispatch, getState) => {
+        let isDefault = selectedStatisticColumn.isDefault || false;
+        dispatch({
+            type: COMBO_REALTIME_SET_SELECTED_COLUMN,
+            comboSelectedStatisticColumn: selectedStatisticColumn
+        });
+    }
+}
+
+export function updatedComboStatisticColumn() {
+    return (dispatch, getState) => {
+        let comboRealTimeSettings = getState().comboRealTimeSettings;
+        let selectedStatisticItem = {
+            id: comboRealTimeSettings.selectedColumnId,
+            item: comboRealTimeSettings.selectedItem,
+            func: comboRealTimeSettings.selectedFunction,
+            displayFormat: comboRealTimeSettings.selectedDisplayFormat,
+            widget: comboRealTimeSettings.selectedWidget,
+            displayName: comboRealTimeSettings.displayName,
+            isDefault: comboRealTimeSettings.isDefault
+        }
+
+        let updatedColumns = _.map(getState().comboRealTimeSettings.comboSelectedStatisticItems, (column) => {
+            if (column.id == selectedStatisticItem.id)
+                return selectedStatisticItem;
+
+            return column
+        })
+
+        dispatch({
+            type: SET_COMBO_REALTIME_STATISTIC_COLUMNS,
+            comboSelectedStatisticItems: updatedColumns
+        })
+    }
+}
+
+export function toggleDrillDown(toggleDrillDown) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: UPDATE_COMBO_REALTIME_TOGGLE_DRILL_DOWN,
+            isDrillDownOpen: toggleDrillDown
         })
     }
 }

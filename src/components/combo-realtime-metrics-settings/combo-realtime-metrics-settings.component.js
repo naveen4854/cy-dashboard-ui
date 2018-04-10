@@ -29,6 +29,10 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
         this.addComboStatisticItem = this.addComboStatisticItem.bind(this);
         this.closeAddItem = this.closeAddItem.bind(this);
         this.applyComboRealTimeMetrics = this.applyComboRealTimeMetrics.bind(this);
+        this.deleteSelectedItem = this.deleteSelectedItem.bind(this);
+        this.editSelectedItem = this.editSelectedItem.bind(this);
+        this.onRowOrderChanged = this.onRowOrderChanged.bind(this);
+        this.toggleDrillDown = this.toggleDrillDown.bind(this);
     }
     onStatisticGroupChange(statisticGroup) {
         if (!statisticGroup.id)
@@ -40,7 +44,7 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
         this.props.updateComboDrillDownOptions(options);
     }
     onStatisticItemChange(item) {
-       // if(!item.value) return;
+        // if(!item.value) return;
         this.props.setItemAndGetFunctions(item);
     }
     onFunctionChange(selectedFunction) {
@@ -59,15 +63,38 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
         this.props.toggleAddEdit(!this.props.comboRealTimeSettings.toggleAddEdit);
     }
     addComboStatisticItem() {
-        this.props.addComboStatisticItem();
+        if (this.props.comboRealTimeSettings.selectedColumnId == -1)
+            return this.props.addComboStatisticItem();
+
+        this.props.updatedComboStatisticColumn();
     }
     closeAddItem() {
         this.props.toggleAddEdit(false);
     }
-    toggleDrillDown = () => { }
+    toggleDrillDown() {
+        this.props.toggleDrillDown(!this.props.comboRealTimeSettings.isDrillDownOpen);
+    }
     applyComboRealTimeMetrics() {
         this.props.applyComboRealTimeMetrics();
     }
+    deleteSelectedItem(e, comboSelectedStatisticItem) {
+        // if (!this.state.isEditMode) {
+        this.props.removeComboStatisticItems(comboSelectedStatisticItem);
+        // }
+    }
+    editSelectedItem(e, comboSelectedStatisticItem) {
+        this.props.toggleAddEdit(true);
+        this.props.editComboSelectedColumn(comboSelectedStatisticItem);
+
+        // this.props.showNotifications({
+        //     type: ResponseStatusEnum.Warning,
+        //     messages: [{ displayMessage: 'All the previously set thresholds will not work if the display format or statistic function is changed.' }]
+        // });
+    }
+    onRowOrderChanged(rows) {
+        this.props.updatecomboSelectedStatisticItems(comboSelectedStatisticItems);
+    }
+
     render() {
         const { comboRealTimeSettings } = this.props;
         return (
@@ -89,7 +116,7 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
                 </div>
                 <div className="row">
                     {
-                        //comboRealTimeSettings.openDrillDown && comboRealTimeSettings.selectedGroup &&
+                        comboRealTimeSettings.isDrillDownOpen && comboRealTimeSettings.selectedGroup &&
                         this.renderComboDrillDown()
                     }
                 </div>
@@ -116,6 +143,9 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
                                                 <DragAndDropTable rowOnDragClass={"drag-highlight"}
                                                     columns={this.columns}
                                                     rows={comboRealTimeSettings.comboSelectedStatisticItems}
+                                                    onDelete={this.deleteSelectedItem.bind(this)}
+                                                    onEdit={this.editSelectedItem.bind(this)}
+                                                    onRowOrderChange={this.onRowOrderChanged.bind(this)}
                                                 />
                                             </div>
                                         </div>
@@ -213,6 +243,7 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
                                             <div className="row">
                                                 <div className="col-md-10 col-lg-12">
                                                     <CustomSelect name="field-function-options"
+                                                        disabled={comboRealTimeSettings.columnIsDefault}
                                                         value={comboRealTimeSettings.selectedFunction}
                                                         placeholder='Select...'
                                                         options={comboRealTimeSettings.functionOptions}
