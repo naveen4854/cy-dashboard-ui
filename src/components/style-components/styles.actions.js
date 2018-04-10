@@ -34,13 +34,14 @@ export function updateMatrixStyles() {
                 if (selectedApplyTo == ApplyToOptions.Row && cell.rowId == currentWidget.rowId) {
                     return {
                         ...cell,
-                        appliedBackgroundColor: rgba(0, 0, 255, 1)
+                        appliedBackgroundColor: styles.widgetBody.backgroundColor,
+                        widgetBody: styles.widgetBody,
+                        valueStyles: styles.valueStyles
                     }
                 }
-                return cell
+                return cell;
             })
         });
-        debugger
         let updatedWidget = {
             ...comboWidget,
             matrix: newMatrix

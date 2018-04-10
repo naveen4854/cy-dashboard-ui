@@ -271,3 +271,16 @@ export function pullWidget(dashboardId, widgetId, refreshInterval) {
         console.log('id of refreshintervals ', Id)
     }
 }
+
+export function deleteWidgetAction(widgetId) {
+    return (dispatch, getState) => {
+
+        let updatedWidgets = _.filter(getState().dashboard.widgets, (widget) => widget.id !== widgetId);
+        dispatch(getState().configurations.toggleSettingsMenu());
+        dispatch({
+                type: UPDATE_DASHBOARD_WIDGETS,
+                widgets: updatedWidgets
+            });
+        
+    }
+}

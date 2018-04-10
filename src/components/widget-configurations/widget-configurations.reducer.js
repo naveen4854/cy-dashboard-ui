@@ -9,9 +9,15 @@ import { TOGGLE_CONFIGURATIONS_PANEL, UPDATE_CONFIGURATIONS_WIDGET, SET_METRICS_
 export function toggleSettingsMenu(widget) {
     return (dispatch, getState) => {
         dispatch(getState().dataMetrics.clearSelectedDM())
-        dispatch(getState().cyReportSettings.clearCyReportSettings());
-        dispatch(getState().customSettings.clearCustomSettings());
-        dispatch(getState().realTimeSettings.clearRealTimeSettings());
+
+        if (!widget) {
+            return dispatch({
+                type: TOGGLE_CONFIGURATIONS_PANEL,
+                showPanel: false,
+                widget: {}
+            })
+        }
+
         let currentWidget = _.cloneDeep(widget);
         let showPanel = !(getState().configurations.showPanel && getState().configurations.widgetId == currentWidget.id)
         dispatch({
@@ -60,7 +66,7 @@ export function updateDashboardWidget(widget) {
         })
         debugger
         // if (!widget.isComboWidget)
-            dispatch(getState().dashboard.updateWidget(widget));
+        dispatch(getState().dashboard.updateWidget(widget));
     }
 }
 

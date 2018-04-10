@@ -147,7 +147,7 @@ export function clearSelectedDM() {
             type: CLEAR_SELECTED_DM,
             dataMetrics
         })
-
+        
         dispatch(getState().realTimeSettings.clearRealTimeSettings());
         dispatch(getState().cyReportSettings.clearCyReportSettings());
         dispatch(getState().customSettings.clearCustomSettings());

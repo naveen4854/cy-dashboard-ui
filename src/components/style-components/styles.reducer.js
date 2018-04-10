@@ -252,7 +252,7 @@ export const ACTION_HANDLERS = {
 const initialState = {
     initializeStyles,
     showMessage: false,
-    selectedApplyTo: ApplyToOptions.Column
+    selectedApplyTo: ApplyToOptions.Cell
 };
 
 export default function StylesReducer(state = _.cloneDeep(initialState), action) {

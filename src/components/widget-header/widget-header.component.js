@@ -3,6 +3,13 @@ import { WidgetTypeEnum } from '../../shared/enums';
 
 export default class WidgetHeader extends PureComponent {
 
+    constructor(props) {
+        super(props);
+        this.deleteWidget = this.deleteWidget.bind(this);
+    }
+    deleteWidget() {
+        this.props.deleteWidget(this.props.widget.id);
+    }
     render() {
 
         let classToBeApplied = 'widget-heading';
@@ -24,7 +31,7 @@ export default class WidgetHeader extends PureComponent {
                     &nbsp;&nbsp;
                     {
                         !this.props.widget.isComboWidget &&
-                        <i className="widget-heading-icon fa fa-trash-o" onClick={() => this.props.DeleteWidget(this.props.widget.id)} />
+                        <i className="widget-heading-icon fa fa-trash-o" onClick={this.deleteWidget} />
                     }
                 </div>
             </div>
