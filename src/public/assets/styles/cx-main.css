@@ -916,3 +916,18 @@ box-shadow: -3px -2px 30px 11px rgba(0,0,0,0.21);
   height: 100vh;
   overflow: auto !important;
 }
+
+.drill-icon > span {
+  padding: 2px 10px;
+  border: 1px dotted #30a0cd;
+  border-radius: 4px;
+  background: white;
+}
+.drill-icon {
+  /*padding-top: 5px;*/
+  /* font-size: 18px; */
+  color: #30a0cd;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 24px;
+}
