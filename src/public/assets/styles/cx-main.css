@@ -931,3 +931,8 @@ box-shadow: -3px -2px 30px 11px rgba(0,0,0,0.21);
   cursor: pointer;
   font-size: 24px;
 }
+
+
+.sortableHelper {
+  z-index: 999999;
+}

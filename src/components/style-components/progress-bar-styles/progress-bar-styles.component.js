@@ -23,8 +23,6 @@ export default class ProgressBarStyles extends PureComponent {
         this.updateMinValue = this.updateMinValue.bind(this);
         this.updateMaxValue = this.updateMaxValue.bind(this);
         this.updateRangeValueStyles = this.updateRangeValueStyles.bind(this);
-
-
     }
 
 

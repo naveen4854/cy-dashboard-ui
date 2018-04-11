@@ -29,6 +29,9 @@ const mapDispatchToProps = (dispatch) => {
         saveComboCustomMetrics: () => {
             dispatch(Actions.saveComboCustomMetrics());
         },
+        updateCustomComboColumns: (columns)=>{
+            dispatch(Actions.updateCustomComboColumns(columns));
+        }
     }
 }
 

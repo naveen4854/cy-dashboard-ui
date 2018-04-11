@@ -128,6 +128,15 @@ export function updateCustomComboColumn(selectedColumn) {
     }
 }
 
+export function updateCustomComboColumns(columns) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: UPDATE_CUSTOM_COMBO_COLUMNS,
+            columns: columns
+        })
+    }
+}
+
 export function removeCustomComboColumn(columnId) {
     return (dispatch, getState) => {
         let columns = getState().comboCustomSettings.columns;

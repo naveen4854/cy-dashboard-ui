@@ -74,6 +74,7 @@ export default class ComboCustomAccordion extends PureComponent {
         this.props.updateCustomComboColumn(column);
     }
     render() {
+        console.log(this.props ," this props in column accordion")
         let { column } = this.props;
         let index = this.props.index + 1;
         return (
