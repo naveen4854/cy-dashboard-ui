@@ -3,8 +3,8 @@ import { WidgetTypeEnum } from "../enums";
 import { rgba } from "../../utilities";
 
 export default class ProgressWidget extends Widget {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
     }
     widgetType = WidgetTypeEnum.Progress;
 

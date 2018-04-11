@@ -9,31 +9,33 @@ import { BoxWidget, SpeedoWidget, BarWidget, CircularProgressWidget, PieWidget, 
  * @param {boolean} isComboWidget 
  * @param {int} zIndex 
  * @param {int} isColumnHeader 
+ * @param {int} isRowHeader 
  */
-export function GetWidget(widgetType, zIndex, isComboWidget, isColumnHeader = false) {
+export function GetWidget(widgetType, zIndex, isComboWidget, isColumnHeader = false, isRowHeader = false) {
+    let props = { zIndex, isComboWidget, isColumnHeader, isRowHeader }
     switch (widgetType) {
         case WidgetTypeEnum.Box:
-            return new BoxWidget(zIndex, isComboWidget, isColumnHeader);
+            return new BoxWidget(props);
         case WidgetTypeEnum.Bar:
-            return new BarWidget(zIndex, isComboWidget, isColumnHeader);
+            return new BarWidget(props);
         case WidgetTypeEnum.Pie:
-            return new PieWidget(zIndex, isComboWidget, isColumnHeader);
+            return new PieWidget(props);
         case WidgetTypeEnum.CircularProgress:
-            return new CircularProgressWidget(zIndex, isComboWidget, isColumnHeader);
+            return new CircularProgressWidget(props);
         case WidgetTypeEnum.Speedo:
-            return new SpeedoWidget(zIndex, isComboWidget, isColumnHeader);
+            return new SpeedoWidget(props);
         case WidgetTypeEnum.Progress:
-            return new ProgressWidget(zIndex, isComboWidget, isColumnHeader);
+            return new ProgressWidget(props);
         case WidgetTypeEnum.Clock:
-            return new ClockWidget(zIndex, isComboWidget, isColumnHeader);
+            return new ClockWidget(props);
         case WidgetTypeEnum.Text:
-            return new TextWidget(zIndex, isComboWidget, isColumnHeader);
+            return new TextWidget(props);
         case WidgetTypeEnum.Picture:
-            return new PictureWidget(zIndex, isComboWidget, isColumnHeader);
+            return new PictureWidget(props);
         case WidgetTypeEnum.Combo:
-            return new ComboWidget(zIndex, isComboWidget, isColumnHeader);
+            return new ComboWidget(props);
         default:
-            return new BoxWidget(zIndex, isComboWidget, isColumnHeader);
+            return new BoxWidget(props);
     }
 }
 

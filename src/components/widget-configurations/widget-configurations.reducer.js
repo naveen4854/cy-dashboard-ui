@@ -60,11 +60,11 @@ export function toggleSettingsMenu(widget) {
 
 export function updateDashboardWidget(widget) {
     return (dispatch, getState) => {
+        debugger
         dispatch({
             type: UPDATE_CONFIGURATIONS_WIDGET,
             widget: widget
         })
-        debugger
         // if (!widget.isComboWidget)
         dispatch(getState().dashboard.updateWidget(widget));
     }

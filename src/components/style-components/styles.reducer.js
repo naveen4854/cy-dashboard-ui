@@ -10,7 +10,6 @@ export function initializeStyles() {
         let currentWidget = _.cloneDeep(getState().configurations.widget);
 
         let title = currentWidget.title;
-        let widgetType = currentWidget.widgetType;
         let titleStyles = currentWidget.titleStyles;
         let valueStyles = currentWidget.valueStyles;
         let widgetBody = currentWidget.widgetBody;
@@ -87,7 +86,6 @@ export function initializeStyles() {
             picturePath,
             pictureStretch,
             refreshInterval,
-            widgetType
         })
     }
 }
@@ -138,7 +136,7 @@ export function updateWidgetStyles() {
             refreshInterval: styles.refreshInterval,
             appliedBackgroundColor: styles.widgetBody.backgroundColor
         }
-
+debugger
         dispatch(getState().configurations.updateDashboardWidget(updatedWidget));
     }
 }
@@ -198,7 +196,6 @@ export const ACTION_HANDLERS = {
     [INITIALIZE_STYLES]: (state, action) => {
         return Object.assign({}, state, {
             title: action.title,
-            widgetType: action.widgetType,
             titleStyles: action.titleStyles,
             valueStyles: action.valueStyles,
             widgetBody: action.widgetBody,

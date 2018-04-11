@@ -54,7 +54,6 @@ export function updateMatrixStyles() {
 export function updateMatrixStylesByRow(key, value) {
     return (dispatch, getState) => {
         let currentWidget = getState().configurations.widget;
-
         dispatch({
             type: UPDATE_STYLE_PROP,
             key,

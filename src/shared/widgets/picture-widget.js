@@ -3,8 +3,8 @@ import { WidgetTypeEnum, PictureStretchEnum } from "../enums";
 import DefaultImage from '../../public/Images/NoImage.jpg';
 
 export default class PrictureWidget extends Widget {
-    constructor(zIndex) {
-        super(zIndex)
+    constructor(props) {
+        super(props)
     }
     widgetType = WidgetTypeEnum.Picture;
     width = 100;

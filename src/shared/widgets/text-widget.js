@@ -3,8 +3,8 @@ import { ScrollTypeEnum, WidgetTypeEnum } from "../enums";
 import { rgba } from "../../utilities";
 
 export default class TextWidget extends Widget {
-    constructor(zIndex, isCombo, isColumnHeader) {
-        super(zIndex, isCombo, isColumnHeader)
+    constructor(props) {
+       super(props)
     }
 
     widgetType = WidgetTypeEnum.Text;

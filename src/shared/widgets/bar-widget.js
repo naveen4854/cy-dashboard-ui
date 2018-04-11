@@ -3,9 +3,9 @@ import { WidgetTypeEnum } from "../enums";
 import { rgba } from '../../utilities'
 
 export default class BarWidget extends Widget {
-    constructor(zIndex) {
+    constructor(props) {
         //bar widget not avaiable for combo hence iscombo, isheader set to undefined
-        super(zIndex)
+        super(props)
     }
     widgetType = WidgetTypeEnum.Bar;
     height = 300;

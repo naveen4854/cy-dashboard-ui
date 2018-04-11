@@ -3,8 +3,8 @@ import { WidgetTypeEnum } from "../enums";
 import { rgba } from "../../utilities";
 
 export default class CircularProgressWidget extends Widget {
-    constructor(zIndex, isCombo, isColumnHeader) {
-        super(zIndex, isCombo, isColumnHeader)
+    constructor(props) {
+       super(props)
     }
     widgetType = WidgetTypeEnum.CircularProgress;
     width = 300;

@@ -8,9 +8,9 @@ import { DateZone } from "../lib";
 import { rgba } from '../../utilities';
 
 export default class ClockWidget extends Widget {
-    constructor(zIndex) {
+    constructor(props) {
         //ClockWidget not avaiable for combo hence iscombo, isheader set to undefined
-        super(zIndex)
+        super(props)
     }
     widgetType = WidgetTypeEnum.Clock;
     width = 250; height = 250;
