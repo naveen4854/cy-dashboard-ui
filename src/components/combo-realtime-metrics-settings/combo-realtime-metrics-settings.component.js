@@ -143,9 +143,9 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
                                                 <DragAndDropTable rowOnDragClass={"drag-highlight"}
                                                     columns={this.columns}
                                                     rows={comboRealTimeSettings.comboSelectedStatisticColumns}
-                                                    onDelete={this.deleteSelectedItem.bind(this)}
-                                                    onEdit={this.editSelectedItem.bind(this)}
-                                                    onRowOrderChange={this.onRowOrderChanged.bind(this)}
+                                                    onDelete={this.deleteSelectedItem}
+                                                    onEdit={this.editSelectedItem}
+                                                    onRowOrderChange={this.onRowOrderChanged}
                                                 />
                                             </div>
                                         </div>

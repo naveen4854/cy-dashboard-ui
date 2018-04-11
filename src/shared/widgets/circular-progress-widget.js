@@ -3,8 +3,8 @@ import { WidgetTypeEnum } from "../enums";
 import { rgba } from "../../utilities";
 
 export default class CircularProgressWidget extends Widget {
-    constructor(zIndex, isCombo, isColumnHeader) {
-        super(zIndex, isCombo, isColumnHeader)
+    constructor(props) {
+       super(props)
     }
     widgetType = WidgetTypeEnum.CircularProgress;
     width = 300;
@@ -25,13 +25,21 @@ export default class CircularProgressWidget extends Widget {
     };
     arcColor = rgba(0, 192, 239, 1);
     arcWidth = 15;
-    appliedBackgroundColor = rgba(255, 255, 255, 1) 
+    appliedBackgroundColor = rgba(255, 255, 255, 1)
     widgetBody = {
-        backgroundColor:  rgba(255, 255, 255, 1), 
+        backgroundColor: rgba(255, 255, 255, 1),
         fontFamily: 'Arial',
         fontSize: 12,
-        color: {
-            r: 0, g: 0, b: 0, a: 1
-        }
+        color: rgba(0, 0, 0, 1)
     };
+
+    applyStyles(styles) {
+        this.min = styles.min;
+        this.max = styles.max;
+        this.showMaxValueOnWidget = styles.showMaxValueOnWidget;
+        this.titleStyles = styles.titleStyles;
+        this.arcColor = styles.arcColor;
+        this.arcWidth = styles.arcWidth;
+        super.applyStyles(styles);
+    }
 }

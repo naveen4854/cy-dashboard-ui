@@ -4,8 +4,8 @@ import { rgba } from "../../utilities";
 import BoxWidget from "./box-widget";
 
 export default class ComboWidget extends Widget {
-    constructor(zIndex) {
-        super(zIndex)
+    constructor(props) {
+        super(props)
     }
     //id = 102020202; // TODO: temporary till matrix build logic is written
     widgetType = WidgetTypeEnum.Combo;

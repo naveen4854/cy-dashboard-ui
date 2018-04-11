@@ -6,28 +6,17 @@ export function saveComboRealTimeMetrics() {
     return (dispatch, getState) => {
         let currentWidget = getState().configurations.widget;
         let comboId = currentWidget.id;
-        let oldMatrix = currentWidget ? _.flatten(currentWidget.matrix) : null;
         let selectedGroup = getState().comboRealTimeSettings.selectedGroup;
-
         let matrix = []
-        let headers = [];
 
         let comboSelectedStatisticColumns = getState().comboRealTimeSettings.comboSelectedStatisticColumns;
+        let filters = getState().comboRealTimeSettings.selectedDrilldownOptions//_.filter(drillDownOptions, (eachOption) => eachOption.checked);
+        let newMatrix = getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, comboId, currentWidget)
+
+        let statisticCategory = getState().dataMetrics.statisticCategory;
         let columns = _.map(comboSelectedStatisticColumns, (metric, i) => {
-            headers.push(getColumnHeader(metric, i, comboId));
             return getColumn(metric)
         });
-
-        let filters = getState().comboRealTimeSettings.selectedDrilldownOptions//_.filter(drillDownOptions, (eachOption) => eachOption.checked);
-        let rowHeaders = _.map(filters, (filter) => {
-            return getRowHeader(filter, comboId, selectedGroup);
-        });
-
-        let newMatrix = getNewMatrix(filters, comboSelectedStatisticColumns, rowHeaders, selectedGroup, comboId, oldMatrix)
-
-        newMatrix.splice(0, 0, headers);
-        let statisticCategory = getState().dataMetrics.statisticCategory;
-
         let dataMetrics = {
             comboSelectedStatisticColumns,
             columns,
@@ -49,36 +38,54 @@ export function saveComboRealTimeMetrics() {
     }
 }
 
-function getNewMatrix(filters, comboSelectedStatisticColumns, rowHeaders, selectedGroup, comboId, oldMatrix) {
-    return _.map(filters, (filter, rowIndex) => {
-        let row = _.map(comboSelectedStatisticColumns, (statisticItem, columnIndex) => {
-            if (columnIndex == 0)
-                return rowHeaders[rowIndex];
+function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, comboId, currentWidget) {
+    let oldMatrix = currentWidget ? _.flatten(currentWidget.matrix) : null;
+    let newFilters = [...filters];
+    newFilters.splice(0, 0, {})
 
-            // check if cell exists in old matrix by comparing columnId and rowId
-            // if exists apply all its settings onto new widget
-            // else create new widget and return
-            // TODO please track the statistic item changes and apply them again and also widgettype
-            let existingCell = _.find(oldMatrix, (oldCell) => oldCell.columnId == statisticItem.id && oldCell.rowId == filter.value + '_' + selectedGroup)
-            if (existingCell)
-                return existingCell;
-
-
-            // Have to figure out if its a new row cell or a new column 
-            // based on which we apply styles
+    return _.map(newFilters, (filter, rowIndex) => {
+        let row = _.map(comboSelectedStatisticColumns, (statisticColumn, columnIndex) => {
+            let isColumnHeader = rowIndex == 0;
+            let isRowHeader = columnIndex == 0;
             let dataMetrics = {
                 group: {},
-                item: statisticItem.item,
-                func: statisticItem.func,
-                displayFormat: statisticItem.displayFormat,
+                item: statisticColumn.item,
+                func: statisticColumn.func,
+                displayFormat: statisticColumn.displayFormat,
             };
-            let cell = WidgetData.GetWidget(statisticItem.widget.value);
-            cell.setDataMetrics(dataMetrics);
-            cell.isComboWidget = true;
+
+            let widgetType = isColumnHeader ? WidgetTypeEnum.Box : statisticColumn.widget.value;
+            let cell = WidgetData.GetWidget(widgetType, 0, true, isColumnHeader, isRowHeader);
+            if (columnIndex != 0 && rowIndex != 0)
+                cell.setDataMetrics(dataMetrics);
+            else
+                cell.displayValue = filter.label || statisticColumn.displayName;
+
             cell.comboId = comboId;
-            cell.columnId = statisticItem.id;
-            cell.rowId = filter.value + '_' + selectedGroup.id; // TODO: check , using combination because there is chance of same id for unrelated drilldown options
-            // isRowrColumn = false
+            cell.columnId = statisticColumn.id;
+            cell.rowId = isColumnHeader ? -1 : filter.value + '_' + selectedGroup.id; // using combination because there is chance of same id for unrelated drilldown options
+
+            // check if cell exists in old matrix by comparing columnId and rowId
+            // if exists apply all its styles/thresholds onto new widget
+            // P.S. track the statistic item changes and apply them again and also widgettype
+            let existingCell = _.find(oldMatrix, (oldCell) => oldCell.columnId == cell.columnId && oldCell.rowId == cell.rowId)
+            if (existingCell) {
+                if (existingCell.widgetType == cell.widgetType)
+                    cell.applyStyles(existingCell);
+                else {
+                    // Have to figure out if its a new row cell or a new column 
+                    // based on which we apply styles
+                    //take from above row or combo syles
+                    let styles = {
+                        appliedBackgroundColor: existingCell.widgetBody.backgroundColor,
+                        widgetBody: existingCell.widgetBody,
+                        valueStyles: existingCell.valueStyles
+                    }
+                    cell.applyCommonStyles(styles);
+                }
+
+                //cell.applyThresholds(thresholds);
+            }
             return cell;
         });
         return row;
@@ -88,17 +95,18 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, rowHeaders, select
 function getRowHeader(filter, comboId, selectedGroup) {
     let rHeader = WidgetData.GetWidget(WidgetTypeEnum.Box, 0, true, true);
     rHeader.displayValue = filter.label;
-    rHeader.isComboWidget = true;
-    rHeader.comboId = comboId;
-    rHeader.HideSettings = true; 
+    rHeader.columnId = -1;// filter.value;
+    rHeader.rowId = filter.value + '_' + selectedGroup.id;
+
+    rHeader.isRowrColumn = true;
     rHeader.isColumnHeader = false;
     rHeader.isRowHeader = true;
     rHeader.settings = {
         filter: filter.value
     };
-    rHeader.columnId = -1;// filter.value;
-    rHeader.rowId = filter.value + '_' + selectedGroup.id;
-    rHeader.isRowrColumn = true;
+    rHeader.HideSettings = true;
+    rHeader.comboId = comboId;
+    rHeader.isComboWidget = true;
     return rHeader;
 }
 
@@ -111,8 +119,8 @@ function getColumnHeader(metric, index, comboId) {
     cHeader.isColumnHeader = true;
     cHeader.isRowHeader = false;
     cHeader.isRowrColumn = true;
-    cHeader.columnId = (metric.item && metric.item.id);
-    cHeader.rowId = -1; 
+    cHeader.columnId = metric.id;
+    cHeader.rowId = -1;
     cHeader.settings = {
         item: metric.item && metric.item.id,
         cWidgetType: metric.widget && metric.widget.value,

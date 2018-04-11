@@ -1,10 +1,11 @@
 import { rgba } from '../../utilities'
 export class Widget {
-    constructor(zIndex, isCombo, isColumnHeader) {
-        this.z = zIndex || 5;
-        this.isComboWidget = isCombo || false;
-        this.isColumnHeader = isColumnHeader || false;
-        if (isColumnHeader)
+    constructor(props) {
+        this.z = props.zIndex || 5;
+        this.isComboWidget = props.isComboWidget || false;
+        this.isColumnHeader = props.isColumnHeader || false;
+        this.isRowHeader = props.isRowHeader || false;
+        if (props.isColumnHeader || props.isRowHeader)
             this.setComboHeaderProperties()
     }
 
@@ -75,5 +76,15 @@ export class Widget {
             ...this.appliedSettings,
             dataMetrics
         }
+    }
+
+    applyCommonStyles(styles) {
+        this.appliedBackgroundColor = styles.widgetBody.backgroundColor;
+        this.widgetBody = styles.widgetBody;
+        this.valueStyles = styles.valueStyles;
+    }
+
+    applyStyles(styles) {
+        this.applyCommonStyles(styles);
     }
 }

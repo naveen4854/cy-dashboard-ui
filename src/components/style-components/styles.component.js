@@ -71,7 +71,7 @@ class StylesComponent extends PureComponent {
         />
     }
     renderStyles() {
-        switch (this.props.styles.widgetType) {
+        switch (this.props.widgetType) {
             case WidgetTypeEnum.Box:
                 return (
                     <BoxStyles {...this.props} />

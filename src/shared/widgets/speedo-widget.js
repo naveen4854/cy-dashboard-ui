@@ -3,8 +3,8 @@ import { WidgetTypeEnum } from "../enums";
 import { rgba } from "../../utilities";
 
 export default class SpeedoWidget extends Widget {
-    constructor(zIndex, isCombo, isColumnHeader) {
-        super(zIndex, isCombo, isColumnHeader)
+    constructor(props) {
+       super(props)
     }
     widgetType = WidgetTypeEnum.Speedo;
     width = 300; height = 200;
@@ -35,4 +35,13 @@ export default class SpeedoWidget extends Widget {
         fontFamily: 'Arial',
         fontSize: 12
     };
+
+    applyStyles(styles) {
+        this.rangeValueStyles = styles.rangeValueStyles;
+        this.segmentColors = styles.segmentColors;
+        this.titleStyles = styles.titleStyles;
+        this.min = styles.min;
+        this.max = styles.max;
+        super.applyStyles(styles);
+    }
 }

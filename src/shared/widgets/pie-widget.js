@@ -3,9 +3,9 @@ import { WidgetTypeEnum } from "../enums";
 import { rgba } from '../../utilities'
 
 export default class PieWidget extends Widget {
-    constructor(zIndex) {
+    constructor(props) {
         //CircularProgressWidget not avaiable for combo hence iscombo, isheader set to undefined
-        super(zIndex)
+        super(props)
     }
     widgetType = WidgetTypeEnum.Pie;
     width = 675;

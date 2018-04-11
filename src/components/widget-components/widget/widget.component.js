@@ -20,7 +20,7 @@ export default class WidgetComponent extends PureComponent {
     constructor(props) {
         super(props);
         //debugger
-        console.log('constructor ',this.props.widget.refreshInterval)
+        // console.log('constructor ', this.props.widget.refreshInterval)
         //this.props.pullWidgetData(this.props.dashboardId, this.props.widget.id, this.props.widget.refreshInterval)
     }
     componentWillReceiveProps(nextProps) {
@@ -55,6 +55,7 @@ export default class WidgetComponent extends PureComponent {
 
             <div style={{ height: this.props.widget.height, width: this.props.widget.width }}
                 className={classToBeApplied}>
+                <div style={{ position: 'absolute', color: 'black' }}>{this.props.widget.id}</div>
                 {
                     (this.props.showIcons) &&
                     <WidgetHeader {...this.props} />

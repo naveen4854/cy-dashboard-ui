@@ -3,8 +3,8 @@ import { WidgetTypeEnum } from "../enums";
 import { rgba } from "../../utilities";
 
 export default class ProgressWidget extends Widget {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
     }
     widgetType = WidgetTypeEnum.Progress;
 
@@ -38,4 +38,13 @@ export default class ProgressWidget extends Widget {
     value = 0;
     //defaultColor = rgba(128,128,128,0.15);
     // ["#FF0000", "rgb(255, 232, 0)", "#00FF00"]
+
+    applyStyles(styles) {
+        this.rangeValueStyles = styles.rangeValueStyles;
+        this.segmentColors = styles.segmentColors;
+        this.titleStyles = styles.titleStyles;
+        this.min = styles.min;
+        this.max = styles.max;
+        super.applyStyles(styles);
+    }
 }
