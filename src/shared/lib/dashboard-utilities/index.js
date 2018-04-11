@@ -8,15 +8,13 @@ import moment from 'moment';
 import { BoxWidget } from '../../widgets';
 import { rgba } from '../../../utilities';
 
-
-
-
 /**
  * Map widget with metrics
  * @param {*} inputWidget 
  * @param {*} dataMetricsMetadata 
  */
 export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
+  debugger
   let thresholds = [];
   let drillDownData = {};
   let comboMatrix = [];
@@ -87,17 +85,18 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
   } : {}
   //Since it is box, we have added only one column. this should be updated to support multiple values as well.
   if (inputWidget && inputWidget.appliedSettings && inputWidget.appliedSettings.dataMetrics) {
+    debugger
     if (inputWidget.widgetType == WidgetTypeEnum.Combo) {
-      columns = _.map(inputWidget.appliedSettings.dataMetrics.comboSelectedStatisticColumns, eachDataMetrics => {
+      columns = _.map(inputWidget.appliedSettings.dataMetrics.comboSelectedStatisticColumns, column => {
         return {
-
-          cisiid: eachDataMetrics && eachDataMetrics.item && eachDataMetrics.item.id,
-          ciafid: eachDataMetrics && eachDataMetrics.func && eachDataMetrics.func.id,
+          cid: column.id,
+          cisiid: column && column.item && column.item.id,
+          ciafid: column && column.func && column.func.id,
           cirob: 0,
           ciia: 0,
-          cdf: eachDataMetrics && eachDataMetrics.displayFormat && eachDataMetrics.displayFormat.id,
-          cwt: eachDataMetrics && eachDataMetrics.widget && eachDataMetrics.widget.value,
-          dn: eachDataMetrics && eachDataMetrics.displayName
+          cdf: column && column.displayFormat && column.displayFormat.id,
+          cwt: column && column.widget && column.widget.value,
+          dn: column && column.displayName
         };
       });
       const group = _.find(dataMetricsMetadata, (metric) => inputWidget.appliedSettings.dataMetrics.group &&
@@ -112,7 +111,7 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
       };
       columns = _.filter(columns, c => c.cisiid != column.cisiid);
       columns.splice(0, 0, column);
-      //  comboMatrix = GetComboMatrix(inputWidget);
+      comboMatrix = GetComboMatrix(inputWidget);
 
     } else {
 
@@ -217,6 +216,65 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
 }
 
 /**
+ * generates matrix for given widget
+ * @param {*} inputWidget 
+ */
+function GetComboMatrix(inputWidget) {
+  let i = 0,
+    j = 0;
+  let comboMatrixs = [];
+  for (i = 0; i < inputWidget.matrix.length; i++) {
+    let comboRow = [];
+    for (j = 0; j < inputWidget.matrix[i].length; j++) {
+      var comboInnerWidget = {};
+      let eachWidget = inputWidget.matrix[i][j];
+      comboInnerWidget = {
+        wid: eachWidget.id,
+        cid: eachWidget.comboId,
+        icw: eachWidget.isComboWidget,
+        wt: eachWidget.widgetType,
+        wmax: eachWidget.max,
+        wmin: eachWidget.min,
+        wtl: eachWidget.displayValue,
+        wri: -1,
+        abc: eachWidget.appliedBackgroundColor,
+        wsgc: (eachWidget.widgetType === WidgetTypeEnum.Speedo || eachWidget.widgetType === WidgetTypeEnum.Progress) ? eachWidget.segmentColors : [],
+        wth: MapThresholdsToServer(eachWidget),
+        wb: StylesMapperToServer(eachWidget.widgetBody),
+        wvs: StylesMapperToServer(eachWidget.valueStyles),
+        wts: StylesMapperToServer(eachWidget.titleStyles),
+        wrs: StylesMapperToServer(eachWidget.rangeValueStyles),
+        wsmv: eachWidget.showMaxValueOnWidget,
+        cpac: eachWidget.arcColor,
+        cpaw: eachWidget.arcWidth,
+        fc: eachWidget.column ? eachWidget.column : "",
+        dty: i == 0 && eachWidget.dataType ? eachWidget.dataType : null,
+        df: i == 0 && eachWidget.dateFormat ? eachWidget.dateFormat : null,
+        sz: i == 0 && eachWidget.showZeroValues ? eachWidget.showZeroValues : false,
+        dpid: eachWidget.displayFormatId,
+        tfid: eachWidget.timeFormatId,
+        dtid: eachWidget.dateFormatId,
+        hfid: eachWidget.hoursFormatId,
+
+        bsdc: eachWidget.basedColumn ? {
+          v: eachWidget.basedColumn.value,
+          l: eachWidget.basedColumn.label,
+          t: eachWidget.basedColumn.type
+        } : null,
+        isSummary: eachWidget.isSummary,
+        aggId: eachWidget.aggregateOperationId,
+        isLive: eachWidget.isLive
+        //isSummary:  eachWidget.displayFormatId,
+
+      };
+      comboRow.push(comboInnerWidget);
+    }
+    comboMatrixs.push(comboRow);
+  }
+  return comboMatrixs;
+}
+
+/**
  * map data to widget based on its type
  */
 export function WidgetDataMapper(widget, data) {
@@ -290,7 +348,7 @@ export function WidgetDataMapper(widget, data) {
       widget.scrollType = scrollType;
       break;
     case WidgetTypeEnum.Combo:
-      // comboResultMapping(widget, data);
+      comboResultMapping(widget, data);
       break;
 
 
@@ -298,8 +356,6 @@ export function WidgetDataMapper(widget, data) {
     //return widget;
   }
 }
-
-
 
 /**
  * Map Styles to server obj
@@ -312,7 +368,26 @@ function StylesMapperToServer(styles) {
     sfs: styles.fontSize
   } : {};
 }
-
+/**
+ * Map threshold to server obj
+ * @param {*} inputWidget 
+ */
+function MapThresholdsToServer(inputWidget) {
+  if (inputWidget.appliedSettings && inputWidget.appliedSettings.thresholds) {
+    let thresholds = _.map(inputWidget.appliedSettings.thresholds, threshold => {
+      return {
+        thv: threshold.levelValue,
+        thc: threshold.color, // TODO: Pass Color appropriately
+        // SoundFilePath: threshold.soundFile, // TODO: Pass sound file appropriately
+        thst: threshold.isContinuous ? 1 : 0, // TODO: Create an enum or have a boolean value for isContinuos
+        thea: threshold.emailTo,
+        thes: threshold.emailSubject,
+        thmn: threshold.smsTo
+      };
+    });
+    return thresholds;
+  }
+}
 
 export function getSelectedGroup(group, metrics) {
   var selectedGroup = _.find(metrics, {
@@ -712,11 +787,13 @@ function getSelectedTimeFormat(timeFormatId) {
  * @param {*} data 
  */
 function comboResultMapping(widget, data) {
+  debugger
   if (widget.appliedSettings.dataMetrics.statisticCategory == StatisticCategoryEnum.RealTime) {
     let i = 0,
       j = 0;
     for (i = 0; i < data.wrgd.length; i++) {
       for (j = 0; j < data.wrgd[i].length; j++) {
+        debugger
         widget.matrix[i + 1][j].displayValue = data.wrgd[i][j].gddv;
         widget.matrix[i + 1][j].value = data.wrgd[i][j].gdv;
         widget.matrix[i + 1][j].appliedBackgroundColor = data.wrgd[i][j].gdth && data.wrgd[i][j].gdth.thc ? data.wrgd[i][j].gdth.thc : widget.matrix[i + 1][j].widgetBody.backgroundColor;

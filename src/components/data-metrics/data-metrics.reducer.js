@@ -210,8 +210,11 @@ export function saveDataMetrics(settings) {
                 dataMetrics
             }
         }
-        dispatch(getState().configurations.applyWidget(updatedWidget));
-        dispatch(getState().threshold.updateDisplayFormat(settings.displayFormat.id));
+        // use preview widget instead
+        dispatch(getState().configurations.previewWidget(updatedWidget));
+        
+        // dispatch(getState().configurations.applyWidget(updatedWidget));
+        // dispatch(getState().threshold.updateDisplayFormat(settings.displayFormat.id));
     }
 }
 

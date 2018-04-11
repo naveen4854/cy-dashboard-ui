@@ -100,10 +100,10 @@ export function loadColumns() {
 export function toggleExpandQuery() {
     return (dispatch, getState) => {
         let isCustomQueryExpanded = getState().comboCustomSettings.isCustomQueryExpanded
-        return {
+        dispatch({
             type: TOGGLE_EXPAND_COMBO_CUSTOM_QUERY,
             isCustomQueryExpanded: !isCustomQueryExpanded
-        }
+        })
     }
 }
 
@@ -157,19 +157,20 @@ export function addCustomColumn() {
 
         };
         columns.splice(columns.length, 0, newColumn);
+        let newColumns = [...columns]
         dispatch({
             type: UPDATE_CUSTOM_COMBO_COLUMNS,
-            columns
+            columns: newColumns
         })
     }
 }
 export function toggleAddColumn() {
     return (dispatch, getState) => {
         let addColumnExpanded = getState().comboCustomSettings.addColumnExpanded
-        return {
+        dispatch({
             type: TOGGLE_EXPAND_ADD_COLUMN,
             addColumnExpanded: !addColumnExpanded
-        }
+        })
     }
 }
 
@@ -179,10 +180,11 @@ export function saveComboCustomMetrics() {
     }
 }
 
-export function clearComboCustomSettings(){
+export function clearComboCustomSettings() {
     return (dispatch, getState) => {
         let displayFormatOptions = getState().comboCustomSettings.displayFormatOptions;
-        let customSettings = { ...comboCustomInitialState, displayFormatOptions }
+        //TODO: figure out issue with this initial state
+        let customSettings = { ...comboCustomInitialState, displayFormatOptions, columns: [] }
         dispatch({
             type: CLEAR_SELECTED_COMBO_CUSTOM_SETTINGS,
             customSettings

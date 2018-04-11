@@ -60,7 +60,6 @@ export function toggleSettingsMenu(widget) {
 
 export function updateDashboardWidget(widget) {
     return (dispatch, getState) => {
-        debugger
         dispatch({
             type: UPDATE_CONFIGURATIONS_WIDGET,
             widget: widget
@@ -78,20 +77,22 @@ export function applyWidget(widget) {
 
 export function previewWidget(widget) {
     return (dispatch, getState) => {
-        if (widget.widgetType = WidgetTypeEnum.Combo)
-            return;
+        // if (widget.widgetType = WidgetTypeEnum.Combo)
+        //     return;
+        debugger;
         dispatch(getState().notificationStore.clearNotifications());
         const widgetData = DashboardUtilities.WidgetMapper(widget, getState().dataMetrics.datametricsMetadata);
         widgetService.getWidgetPreviewData(widgetData).then(function (response) {
             if (response.status === 200) {
-
                 if (widget) {
                     DashboardUtilities.WidgetDataMapper(widget, response.data)
-
                     const { widgetBody } = widget || {};
                     if (widgetBody) {
                         widget.appliedBackgroundColor = response.data.wrth && response.data.wrth.thc ? response.data.wrth.thc : widgetBody.backgroundColor;
                     }
+                    debugger
+                    dispatch(getState().configurations.updateDashboardWidget(widget));
+                    //TODO: update widget on dashboard
                 }
             }
         }).catch((error) => {
@@ -136,6 +137,7 @@ const initialState = {
     toggleSettingsMenu,
     updateDashboardWidget,
     applyWidget,
+    previewWidget,
     updateConfigurationsWidget
 };
 

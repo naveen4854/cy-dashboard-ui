@@ -136,7 +136,6 @@ export function updateWidgetStyles() {
             refreshInterval: styles.refreshInterval,
             appliedBackgroundColor: styles.widgetBody.backgroundColor
         }
-debugger
         dispatch(getState().configurations.updateDashboardWidget(updatedWidget));
     }
 }
