@@ -76,4 +76,10 @@ export class Widget {
             dataMetrics
         }
     }
+
+    applyCommonStyles(styles) {
+        this.appliedBackgroundColor = styles.widgetBody.backgroundColor;
+        this.widgetBody = styles.widgetBody;
+        this.valueStyles = styles.valueStyles;
+    }
 }

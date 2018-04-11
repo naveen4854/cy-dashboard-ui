@@ -112,6 +112,7 @@ export const ACTION_HANDLERS = {
             selectedWidget: action.comboSelectedStatisticColumn.widget,
             displayName: action.comboSelectedStatisticColumn.displayName,
             columnIsDefault: action.comboSelectedStatisticColumn.isDefault,
+            selectedColumnId: action.comboSelectedStatisticColumn.id
         })
     },
     [UPDATE_COMBO_REALTIME_TOGGLE_DRILL_DOWN]: (state, action) => {
