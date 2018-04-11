@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 import ComboCustomAccordionContainer from './combo-column-accordion/combo-column-accordion.container';
 
 export default class ComboCustomColumnsComponent extends PureComponent {
@@ -6,6 +7,7 @@ export default class ComboCustomColumnsComponent extends PureComponent {
         super(props);
         this.addColumn = this.addColumn.bind(this);
         this.toggleAddColumn = this.toggleAddColumn.bind(this);
+        this.onSortEnd = this.onSortEnd.bind(this);
     }
 
     addColumn() {
@@ -15,6 +17,14 @@ export default class ComboCustomColumnsComponent extends PureComponent {
     toggleAddColumn() {
         this.props.toggleAddColumn();
     }
+
+    onSortEnd({ oldIndex, newIndex }) {
+        if (oldIndex != newIndex) {
+            let newColumns = arrayMove(this.props.comboCustomSettings.columns, oldIndex, newIndex)
+            console.log(newColumns)
+            this.props.updateCustomComboColumns(newColumns);
+        }
+    };
 
     render() {
         const { comboCustomSettings } = this.props;
@@ -47,13 +57,11 @@ export default class ComboCustomColumnsComponent extends PureComponent {
 
                             <div>
                                 {
-                                    _.map(comboCustomSettings.columns, (column, i) =>
-                                        <ComboCustomAccordionContainer
-                                            key={i}
-                                            column={column}
-                                            index = {i}
-                                        />
-                                    )
+                                    <SortableList
+                                        distance="15"
+                                        helperClass='sortableHelper'
+                                        items={comboCustomSettings.columns}
+                                        onSortEnd={this.onSortEnd} />
                                 }
                             </div>
                         </div>
@@ -63,3 +71,23 @@ export default class ComboCustomColumnsComponent extends PureComponent {
         )
     }
 }
+
+
+const SortableList = SortableContainer(({ items }) => {
+    return (
+        <div>
+            {items.map((column, index) => (
+                <SortableItem key={index} indexKey={index} column={column} />
+            ))}
+        </div>
+    );
+});
+
+
+const SortableItem = SortableElement(({ column, indexKey }) => <ComboCustomAccordionContainer
+    key={indexKey}
+    column={column}
+    index={indexKey}
+/>);
+
+
