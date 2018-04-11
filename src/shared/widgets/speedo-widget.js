@@ -35,4 +35,13 @@ export default class SpeedoWidget extends Widget {
         fontFamily: 'Arial',
         fontSize: 12
     };
+
+    applyStyles(styles) {
+        this.rangeValueStyles = styles.rangeValueStyles;
+        this.segmentColors = styles.segmentColors;
+        this.titleStyles = styles.titleStyles;
+        this.min = styles.min;
+        this.max = styles.max;
+        super.applyStyles(styles);
+    }
 }

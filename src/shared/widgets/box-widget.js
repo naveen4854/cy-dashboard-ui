@@ -8,4 +8,8 @@ export default class BoxWidget extends Widget {
     widgetType = WidgetTypeEnum.Box;
     width = 150;
     height = 100;
+
+    applyStyles(styles) {
+        super.applyStyles(styles);
+    }
 }

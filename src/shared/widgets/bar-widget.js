@@ -50,4 +50,25 @@ export default class BarWidget extends Widget {
         color: rgba(0, 0, 0, 1)
     };
     data = [];
+
+    applyStyles(styles) {
+        this.titleStyles = styles.titleStyles;
+        this.min = styles.min;
+        this.max = styles.max;
+        this.enableMin = styles.enableMin;
+        this.enableMax = styles.enableMax;
+        this.enableBarLines = styles.enableBarLines;
+        this.useSelectedBarColor = styles.useSelectedBarColor;
+
+        this.titleStyles = styles.titleStyles
+        this.barStyles = styles.barStyles
+        this.xAxisStyles = styles.xAxisStyles
+        this.yAxisStyles = styles.yAxisStyles
+        this.showYAxis = styles.showYAxis;
+        this.showLegends = styles.showLegends;
+        this.showLabels = styles.showLabels;
+
+        this.appliedBackgroundColor = styles.appliedBackgroundColor;
+        this.widgetBody = styles.widgetBody
+    }
 }

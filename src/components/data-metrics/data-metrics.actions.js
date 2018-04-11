@@ -74,14 +74,19 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, rowHeaders, select
             // TODO please track the statistic item changes and apply them again and also widgettype
             let existingCell = _.find(oldMatrix, (oldCell) => oldCell.columnId == statisticColumn.id && oldCell.rowId == filter.value + '_' + selectedGroup.id)
             if (existingCell) {
-                // Have to figure out if its a new row cell or a new column 
-                // based on which we apply styles
-                let styles = {
-                    appliedBackgroundColor: existingCell.widgetBody.backgroundColor,
-                    widgetBody: existingCell.widgetBody,
-                    valueStyles: existingCell.valueStyles
+                if (existingCell.widgetType == cell.widgetType)
+                    cell.applyStyles(existingCell);
+                else {
+                    // Have to figure out if its a new row cell or a new column 
+                    // based on which we apply styles
+                    let styles = {
+                        appliedBackgroundColor: existingCell.widgetBody.backgroundColor,
+                        widgetBody: existingCell.widgetBody,
+                        valueStyles: existingCell.valueStyles
+                    }
+                    cell.applyCommonStyles(styles);
                 }
-                cell.applyCommonStyles(styles);
+
                 //cell.applyThresholds(thresholds);
             }
 

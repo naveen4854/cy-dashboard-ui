@@ -82,4 +82,8 @@ export class Widget {
         this.widgetBody = styles.widgetBody;
         this.valueStyles = styles.valueStyles;
     }
+
+    applyStyles(styles) {
+        this.applyCommonStyles(styles);
+    }
 }
