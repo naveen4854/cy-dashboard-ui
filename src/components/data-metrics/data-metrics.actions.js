@@ -33,7 +33,6 @@ export function saveComboRealTimeMetrics() {
                 dataMetrics
             }
         }
-        debugger
         dispatch(getState().configurations.previewWidget(updatedWidget));
         // dispatch(getState().configurations.applyWidget(updatedWidget));
         // dispatch(getState().threshold.updateDisplayFormat(settings.displayFormat.id));
@@ -179,6 +178,6 @@ export function saveComboCustomMetricsAction() {
                 dataMetrics
             }
         }
-        dispatch(getState().configurations.applyWidget(updatedWidget));
+        dispatch(getState().configurations.previewWidget(updatedWidget));
     }
 }
