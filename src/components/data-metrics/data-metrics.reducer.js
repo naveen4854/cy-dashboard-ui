@@ -39,7 +39,7 @@ export function loadDataMetricsMetaData(dashboardId) {
         let statisticCategories = getState().dataMetrics.statisticCategories;
         let dataMetricsMetadata = getState().dataMetrics.dataMetricsMetadata;
         if (statisticCategories && statisticCategories.length != 0 && dataMetricsMetadata) {
-            return
+            return dispatch(getState().dashboard.getDashboardById(dashboardId))
         }
 
         dispatch(getState().spinnerStore.BeginTask());
@@ -61,6 +61,7 @@ export function loadDataMetricsMetaData(dashboardId) {
         }).then((response) => {
             dispatch(getState().dashboard.getDashboardById(dashboardId))
         }).catch(err => {
+            dispatch(getState().spinnerStore.EndTask());
             dispatch(getState().notificationStore.notify('failure to load statistic Metadata, please reload', ResponseStatusEnum.Error))
         })
     }

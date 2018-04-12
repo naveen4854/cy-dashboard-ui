@@ -5,7 +5,6 @@ import * as WidgetsBarActions from './widgets-bar.actions';
 
 const mapDispatchToProps = (dispatch) => {
     return {
-
         UpdateProperty: (key, value) => {
             dispatch(WidgetsBarActions.updateProperty(key, value))
         },
@@ -36,7 +35,10 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
     return {
         widgetsBar: state.widgetsBar,
-        common: state.common
+        common: state.common,
+        name: state.dashboard.name,
+        isDefault: state.dashboard.isDefault,
+        isGlobal: state.dashboard.isGlobal
     }
 }
 

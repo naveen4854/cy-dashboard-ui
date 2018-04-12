@@ -91,8 +91,8 @@ export default class WidgetsBar extends React.Component {
 		this.props.HandleModalPopup(false);
 		this.showEditConfirmation();
 	}
-	showEditConfirmation() {
 
+	showEditConfirmation() {
 		const configs = {
 			type: ResponseStatusEnum.Custom,
 			messages: [],
@@ -120,19 +120,20 @@ export default class WidgetsBar extends React.Component {
 		this.props.common.custom(notifyMessage, buttons);
 
 	}
+
 	saveAndExitClick() {
 		this.handleDocks();
 		this.props.UpdateProperty("fromAction", 'Save_and_exit');
 		this.props.widgetsBar.Id ? this.props.UpdateDashboard() : this.props.SaveDashboard();
 
 	}
+	
 	render() {
-		let orderedWidgets = _.orderBy(this.props.widgetsBar.widgets, 'order', 'asc');
+		let orderedWidgets = _.orderBy(this.props.widgetsBar.widgetList, 'order', 'asc');
 		return (
 			<div>
 				<div className="page-toolbar dashboard-toolbar">
-					<a
-						onClick={() => { this.handleDocks(); this.onFilesClick() }}
+					<a onClick={() => { this.handleDocks(); this.onFilesClick() }}
 						className="action-tool bg-skyblue" role="button">
 						<i className="tool-icon fa fa-arrow-circle-left" />
 						<span className="tool-title">{this.props.l.t('Files', 'Files')}</span>
@@ -179,14 +180,14 @@ export default class WidgetsBar extends React.Component {
 								type="text"
 								className=""
 								placeholder="Dashboard name"
-								value={this.props.widgetsBar.name}
+								value={this.props.name}
 								onChange={this.updateDashboardName} />
 						</div>
 						<label className="action-tool">
 							<input
 								type="checkbox"
 								className="tool-icon"
-								checked={this.props.widgetsBar.isDefault}
+								checked={this.props.isDefault}
 								onChange={this.updateDashboardIsDefault} />
 							<span className="tool-title">{this.props.l.t('Default', 'Default')}</span>
 						</label>
@@ -194,7 +195,7 @@ export default class WidgetsBar extends React.Component {
 							<input
 								type="checkbox"
 								className="tool-icon"
-								checked={this.props.widgetsBar.isGlobal}
+								checked={this.props.isGlobal}
 								onChange={this.updateDashboardIsGlobal} />
 							<span className="tool-title">{this.props.l.t('Global', 'Global')}</span>
 						</label>

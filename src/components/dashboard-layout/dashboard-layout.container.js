@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        dashboard: state.dashboard,
+        widgets: state.dashboard.widgets
     }
 }
 
