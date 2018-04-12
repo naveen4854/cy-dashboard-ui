@@ -102,7 +102,7 @@ export const ACTION_HANDLERS = {
         })
     },
     [CLEAR_SELECTED_COMBO_REALTIME_SETTINGS]: (state, action) => {
-        return Object.assign({}, state, { ...action.realTimeSettings })
+        return Object.assign({}, state, { ...action.comboRealTimeSettings })
     },
     [COMBO_REALTIME_SET_SELECTED_COLUMN]: (state, action) => {
         return Object.assign({}, state, {
