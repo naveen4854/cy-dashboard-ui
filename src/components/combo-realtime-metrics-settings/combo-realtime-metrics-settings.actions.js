@@ -12,7 +12,7 @@ export function initiateComboRealTimeSettings() {
         let currentWidget = _.cloneDeep(getState().configurations.widget);
         let selectedStatisticCategory = getState().dataMetrics.statisticCategory;
         let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
-        let groupOptions = getState().realTimeSettings.groupOptions;
+        let groupOptions = getState().comboRealTimeSettings.groupOptions;
 
         if (!groupOptions || groupOptions.length == 0) {
             let _grpOptions = _.uniqBy(_.map(_.filter(datametricsMetadata, metric => (metric.StatisticCategory === StatisticCategoryEnum.RealTime &&
@@ -438,10 +438,10 @@ export function applyComboRealTimeMetrics() {
 export function clearComboRealTimeSettings() {
     return (dispatch, getState) => {
         let groupOptions = getState().comboRealTimeSettings.groupOptions;
-        let realTimeSettings = { ...comboRealTimeInitialState, groupOptions }
+        let comboRealTimeSettings = { ...comboRealTimeInitialState, groupOptions }
         dispatch({
             type: CLEAR_SELECTED_COMBO_REALTIME_SETTINGS,
-            realTimeSettings
+            comboRealTimeSettings
         })
     }
 }

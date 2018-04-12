@@ -14,7 +14,6 @@ import { rgba } from '../../../utilities';
  * @param {*} dataMetricsMetadata 
  */
 export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
-  debugger
   let thresholds = [];
   let drillDownData = {};
   let comboMatrix = [];
@@ -85,7 +84,6 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
   } : {}
   //Since it is box, we have added only one column. this should be updated to support multiple values as well.
   if (inputWidget && inputWidget.appliedSettings && inputWidget.appliedSettings.dataMetrics) {
-    debugger
     if (inputWidget.widgetType == WidgetTypeEnum.Combo) {
       columns = _.map(inputWidget.appliedSettings.dataMetrics.comboSelectedStatisticColumns, column => {
         return {
@@ -185,7 +183,7 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
       } : {},
       sc: inputWidget && inputWidget.appliedSettings && inputWidget.appliedSettings.dataMetrics && StatisticCategoryEnum.Custom == inputWidget.appliedSettings.dataMetrics.statisticCategory ? {
         qry: inputWidget.appliedSettings.dataMetrics.query,
-        isc: inputWidget.widgetType == WidgetTypeEnum.Combo && inputWidget.appliedSettings.dataMetrics.levels.length > 0,
+        isc: inputWidget.widgetType == WidgetTypeEnum.Combo && inputWidget.appliedSettings.dataMetrics.columns.length > 0,
         dfId: inputWidget.appliedSettings.dataMetrics.selectedDisplayFormat,
         sSp: inputWidget.appliedSettings.group.selectedStoreProc ? inputWidget.appliedSettings.group.selectedStoreProc.label : undefined,
         prl: inputWidget.appliedSettings.group.selectedStoreProc && inputWidget.appliedSettings.group.selectedStoreProc.value != 'Select Custom Query' ? inputWidget.appliedSettings.dataMetrics.filterStoreProcs : []
@@ -787,13 +785,11 @@ function getSelectedTimeFormat(timeFormatId) {
  * @param {*} data 
  */
 function comboResultMapping(widget, data) {
-  debugger
   if (widget.appliedSettings.dataMetrics.statisticCategory == StatisticCategoryEnum.RealTime) {
     let i = 0,
       j = 0;
     for (i = 0; i < data.wrgd.length; i++) {
       for (j = 0; j < data.wrgd[i].length; j++) {
-        debugger
         widget.matrix[i + 1][j].displayValue = data.wrgd[i][j].gddv;
         widget.matrix[i + 1][j].value = data.wrgd[i][j].gdv;
         widget.matrix[i + 1][j].appliedBackgroundColor = data.wrgd[i][j].gdth && data.wrgd[i][j].gdth.thc ? data.wrgd[i][j].gdth.thc : widget.matrix[i + 1][j].widgetBody.backgroundColor;

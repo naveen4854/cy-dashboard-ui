@@ -40,7 +40,7 @@ export default class Notification extends PureComponent {
     }
 
     messageTypes() {
-        if (this.props.notification.id < 0 || this.props.notification.messages.length == 0)
+        if (this.props.notification.id < 0)
             return
         if (!this.props.notification.persistMessages) {
             toastr.removeByType('error')
@@ -87,22 +87,32 @@ export default class Notification extends PureComponent {
     }
 
     addSuccess() {
+        if (this.props.notification.messages.length == 0)
+            return
         toastr.success('', this.toastrOptions(this.renderSuccess, 3000, true, false))
     }
 
     addError() {
+        if (this.props.notification.messages.length == 0)
+            return
         toastr.error('Please fix below errors', this.toastrOptions(this.renderNotifications, 3000, false, true))
     }
 
     addWarning() {
+        if (this.props.notification.messages.length == 0)
+            return
         toastr.warning('Warning', this.toastrOptions(this.renderNotifications, 3000, true, true))
     }
 
     addInfo() {
+        if (this.props.notification.messages.length == 0)
+            return
         toastr.info('info', this.toastrOptions(this.renderNotifications, 0, true, true))
     }
 
     showCustom() {
+        if (!this.props.notification.message.displayMessage)
+            return
         let okBtn = _.find(this.props.notification.buttons, 'ok');
         let msg = this.getMessage(this.props.notification.message);
         const toastrConfirmOptions = {
@@ -116,6 +126,8 @@ export default class Notification extends PureComponent {
     }
 
     showConfirmation() {
+        if (!this.props.notification.message.displayMessage)
+            return
         let okBtn = _.find(this.props.notification.buttons, 'ok');
         let cancelBtn = _.find(this.props.notification.buttons, 'cancel');
         let message = this.getMessage(this.props.notification.message);
