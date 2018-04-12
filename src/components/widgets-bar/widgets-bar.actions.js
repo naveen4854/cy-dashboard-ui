@@ -413,7 +413,7 @@ function DashboardPictureAPI(mediaStorageInput, key, len, dispatch, getState) {
  * @param {*} isUpdate 
  */
 function MapDashboard(dashboard, getState, isUpdate, name) {
-    const dataMetricsMetadata = getState.dataMetrics.datametricsMetadata;
+    const dataMetricsMetadata = getState.dataMetrics.dataMetricsMetadata;
     return {
         di: isUpdate ? dashboard.Id : Date.now(),
         dn: name,

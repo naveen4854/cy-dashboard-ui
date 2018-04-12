@@ -30,47 +30,39 @@ export const UPDATE_COMBO_DRILL_DOWN_OPTIONS = "UPDATE_COMBO_DRILL_DOWN_OPTIONS"
 export const DEFAULT_METRICS = "DEFAULT_METRICS"
 export const UPDATE_METRICS_WIDGET_DETAILS = "UPDATE_METRICS_WIDGET_DETAILS"
 
-export function LoadDataMetricsMetaData(dashboardId) {
+/**
+ *  Load StatisticCategories and groups for dashboard
+ * @param {*} dashboardId 
+ */
+export function loadDataMetricsMetaData(dashboardId) {
     return (dispatch, getState) => {
         let statisticCategories = getState().dataMetrics.statisticCategories;
-        let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
-        if (statisticCategories && statisticCategories.length != 0 && datametricsMetadata) {
+        let dataMetricsMetadata = getState().dataMetrics.dataMetricsMetadata;
+        if (statisticCategories && statisticCategories.length != 0 && dataMetricsMetadata) {
             return
         }
 
-        // Load StatisticCategories for all and then filter per widgetType and update DM store
         dispatch(getState().spinnerStore.BeginTask());
-
         dataMetricsService.getStatisticCategories().then(function (response) {
-            dispatch(getState().spinnerStore.EndTask());
-
-            if (response.status === 200) {
-                statisticCategories = response.data;
-
-                dispatch(getState().spinnerStore.BeginTask());
-                dataMetricsService.getStatisticGroups().then(function (response) {
-                    dispatch(getState().spinnerStore.EndTask());
-                    if (response.status === 200) {
-                        datametricsMetadata = _.map(response.data, (obj) => {
-                            return DataMetricsMetadataMapper(obj);
-                        });
-
-                        if (!datametricsMetadata)
-                            return;
-
-                        // Dispatching basic data for DM - categories and groups
-                        dispatch({
-                            type: UPDATE_DATA_METRICS,
-                            statisticCategories,
-                            statisticCategoryOptions: [],
-                            datametricsMetadata
-                        });
-                    }
+            return response.data;
+        }).then((statisticCategories) => {
+            return dataMetricsService.getStatisticGroups().then((response) => {
+                let dataMetricsMetadata = _.map(response.data, (metric) => {
+                    return dataMetricsMetadataMapper(metric);
+                })
+                dispatch({
+                    type: UPDATE_DATA_METRICS,
+                    statisticCategories,
+                    statisticCategoryOptions: [],
+                    dataMetricsMetadata
                 });
-            }
-        }).catch((error) => {
+                dispatch(getState().spinnerStore.EndTask());
+            })
+        }).then((response) => {
+            dispatch(getState().dashboard.getDashboardById(dashboardId))
+        }).catch(err => {
             dispatch(getState().notificationStore.notify('failure to load statistic Metadata, please reload', ResponseStatusEnum.Error))
-        });
+        })
     }
 }
 
@@ -82,8 +74,8 @@ export function initializeStatisticMetadata() {
             return
 
         let statisticCategories = getState().dataMetrics.statisticCategories;
-        let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
-        if (!statisticCategories || statisticCategories.length == 0 || !datametricsMetadata)
+        let dataMetricsMetadata = getState().dataMetrics.dataMetricsMetadata;
+        if (!statisticCategories || statisticCategories.length == 0 || !dataMetricsMetadata)
             return dispatch(getState().notificationStore.notify('failure to load statistic Metadata, please reload', ResponseStatusEnum.Error));
 
         let selectedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory || StatisticCategoryEnum.RealTime
@@ -104,7 +96,7 @@ export function initializeStatisticMetadata() {
             statisticCategories,
             statisticCategoryOptions: _categories,
             widgetType: currentWidget.widgetType,
-            datametricsMetadata
+            dataMetricsMetadata
         });
 
         if (currentWidget.widgetType == WidgetTypeEnum.Combo) {
@@ -119,35 +111,35 @@ export function initializeStatisticMetadata() {
     }
 }
 
-function DataMetricsMetadataMapper(obj) {
+function dataMetricsMetadataMapper(metric) {
     return {
-        StatisticGroupId: obj.dSGId,
-        StatisticGroup: obj.dSG,
-        StatisticItemId: obj.dSIId,
-        StatisticItem: obj.dSI,
-        StatisticFunctionId: obj.dSFId,
-        StatisticFunction: obj.dSF,
-        DisplayFormatId: obj.dDFId,
-        DisplayFormat: obj.dDF,
-        StatisticCategory: obj.dSC,
-        WidgetType: obj.dWT,
-        AllowMultiSelect: obj.dAMS,
-        IsDrillDownFilter: obj.dDDF,
-        IsFilterId: obj.dIF,
-        Id: obj.dId
+        StatisticGroupId: metric.dSGId,
+        StatisticGroup: metric.dSG,
+        StatisticItemId: metric.dSIId,
+        StatisticItem: metric.dSI,
+        StatisticFunctionId: metric.dSFId,
+        StatisticFunction: metric.dSF,
+        DisplayFormatId: metric.dDFId,
+        DisplayFormat: metric.dDF,
+        StatisticCategory: metric.dSC,
+        WidgetType: metric.dWT,
+        AllowMultiSelect: metric.dAMS,
+        IsDrillDownFilter: metric.dDDF,
+        IsFilterId: metric.dIF,
+        Id: metric.dId
     };
 }
 
 export function clearSelectedDM() {
     return (dispatch, getState) => {
         let statisticCategories = getState().dataMetrics.statisticCategories;
-        let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
-        let dataMetrics = { ..._.cloneDeep(initialState), statisticCategories, datametricsMetadata }
+        let dataMetricsMetadata = getState().dataMetrics.dataMetricsMetadata;
+        let dataMetrics = { ..._.cloneDeep(initialState), statisticCategories, dataMetricsMetadata }
         dispatch({
             type: CLEAR_SELECTED_DM,
             dataMetrics
         })
-        
+
         dispatch(getState().realTimeSettings.clearRealTimeSettings());
         dispatch(getState().cyReportSettings.clearCyReportSettings());
         dispatch(getState().customSettings.clearCustomSettings());
@@ -182,7 +174,7 @@ export function setSelectedStatisticCategory(selectedStatisticCategory) {
         // dispatch(getState().dataMetrics.updateDrillDownOptionsAction([]))
         // dispatch(getState().dataMetrics.CLearQuery());
         // let currentWidget = getState().configurations.widget;
-        // groupOptions: _.uniqBy(_.map(_.filter(getState().dataMetrics.datametricsMetadata, metric =>
+        // groupOptions: _.uniqBy(_.map(_.filter(getState().dataMetrics.dataMetricsMetadata, metric =>
         //     metric.StatisticCategory === selectedStatisticCategory &&
         //     metric.WidgetType === currentWidget.widgetType), (obj) => {
         //         return {
@@ -212,7 +204,7 @@ export function saveDataMetrics(settings) {
         }
         // use preview widget instead
         dispatch(getState().configurations.previewWidget(updatedWidget));
-        
+
         // dispatch(getState().configurations.applyWidget(updatedWidget));
         // dispatch(getState().threshold.updateDisplayFormat(settings.displayFormat.id));
     }
@@ -223,7 +215,7 @@ export const ACTION_HANDLERS = {
         return Object.assign({}, state, {
             statisticCategories: action.statisticCategories,
             statisticCategoryOptions: action.statisticCategoryOptions,
-            datametricsMetadata: action.datametricsMetadata
+            dataMetricsMetadata: action.dataMetricsMetadata
         })
     },
     [UPDATE_METRICS_WIDGET_DETAILS]: (state, action) => {
@@ -273,8 +265,8 @@ export const ACTION_HANDLERS = {
 export const initialState = {
     widgetType: WidgetTypeEnum.Box,
     statisticCategory: StatisticCategoryEnum.RealTime,
-    datametricsMetadata: {},
-    LoadDataMetricsMetaData,
+    dataMetricsMetadata: {},
+    loadDataMetricsMetaData,
     initializeStatisticMetadata,
     clearSelectedDM,
     saveDataMetrics,

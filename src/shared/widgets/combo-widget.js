@@ -31,7 +31,8 @@ export default class ComboWidget extends Widget {
             dataMetrics:
                 {
                     ...this.appliedSettings.dataMetrics,
-                    comboSelectedStatisticColumns: []
+                    comboSelectedStatisticColumns: [],
+                    drillDownOptions: []
                 },
             thresholds: [],
             group: {}
