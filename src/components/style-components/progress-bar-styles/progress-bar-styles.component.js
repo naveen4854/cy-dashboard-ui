@@ -99,7 +99,7 @@ export default class ProgressBarStyles extends PureComponent {
         return (
             <div className="col-xs-12">
                 <div className="form-group">
-                    {this.props.styles.isComboWidget &&
+                    {!this.props.isComboWidget &&
                         <div>
                             <LabelledInput
                                 label={this.props.l.t('TitleCOLON', 'Title:')}
@@ -202,7 +202,7 @@ export default class ProgressBarStyles extends PureComponent {
                             />
                         </div>
                     }
-                    {this.props.styles.isComboWidget &&
+                    {!this.props.isComboWidget &&
                         <LabelledInput
                             label={this.props.l.t('Refresh_interval__in_sec_COLON', 'Refresh interval (in sec):')}
                             value={this.props.styles.refreshInterval}

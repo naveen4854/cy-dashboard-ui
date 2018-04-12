@@ -37,8 +37,8 @@ export default class BoxStyles extends PureComponent {
         return (
             <div className="col-xs-12">
                 <div className="form-group">
-                    {this.props.styles.isComboWidget &&
-                        < LabelledInput
+                    {!this.props.isComboWidget &&
+                        <LabelledInput
                             label={this.props.l.t('TitleCOLON', 'Title:')}
                             // updateKey='title'
                             value={this.props.styles.title}
@@ -46,7 +46,7 @@ export default class BoxStyles extends PureComponent {
                             onCustomInputChange={this.updateTitle}
                         />
                     }
-                    {this.props.styles.isComboWidget &&
+                    {!this.props.isComboWidget &&
                         <StylesGroup
                             l={this.props.l}
                             fontStyles={this.props.styles.titleStyles}
@@ -77,7 +77,7 @@ export default class BoxStyles extends PureComponent {
                         // className="form-control"
                         updateColor={this.updateBackgroundColor}
                     />
-                    {this.props.styles.isComboWidget &&
+                    {!this.props.isComboWidget &&
 
                         <LabelledInput
                             label={this.props.l.t('Refresh_interval__in_sec_COLON', 'Refresh interval (in sec):')}
