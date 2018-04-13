@@ -238,19 +238,18 @@ export function updateDisplayFormat(displayFormatId) {
     }
 }
 export function addSelectedLevels() {
-
     return (dispatch, getState) => {
         let threshold = getState().threshold;
         let currentWidget = getState().configurations.widget;
         let thresholds = {
             ...threshold.levels,
-
         }
-        if (threshold.isComboWidget) {
-            if (thresholdstatisticsCategoryId == StatisticCategoryEnum.RealTime) {
-                if (threshold.isColumnHeader) {
-                    let comboWidget = _.find(getState().dashboard.widgets, (w) => w.id === threshold.comboId);
-                    let wColumnIndex = this.getColumnIndex(comboWidget.matrix[0], threshold.widgetId);
+        let statisticCategory = getState().dataMetrics.statisticCategory;
+        if (currentWidget.isComboWidget) {
+            if (statisticCategory == StatisticCategoryEnum.RealTime) {
+                if (currentWidget.isColumnHeader) {
+                    let comboWidget = _.find(getState().dashboard.widgets, (w) => w.id === currentWidget.comboId);
+                    let wColumnIndex = getColumnIndex(comboWidget.matrix[0], currentWidget.widgetId);
                     if (wColumnIndex) {
                         for (var rowIndex = 0; rowIndex < comboWidget.matrix.length; rowIndex++) {
                             let cWidget = comboWidget.matrix[rowIndex][wColumnIndex];
@@ -267,7 +266,6 @@ export function addSelectedLevels() {
                         this.props.UpdateWidget(comboWidget);
                     }
                 } else {
-
                     dispatch({
                         type: ThresholdConstants.ADD_THRESHOLD,
                         levels: threshold.levels,
@@ -294,11 +292,24 @@ export function addSelectedLevels() {
                     thresholds
                 }
             }
-            dispatch(getState().configurations.applyWidget(updatedWidget));
+            dispatch(getState().configurations.previewWidget(updatedWidget));
         }
     }
 }
 
+/**
+  * To get the column index based on widget from matrix
+  * @param {*} matrix 
+  * @param {*} widgetId 
+  */
+function getColumnIndex(matrix, widgetId) {
+    for (var columnIndex = 0; columnIndex < matrix.length; columnIndex++) {
+        var widget = matrix[columnIndex];
+        if (widget.id === widgetId) {
+            return columnIndex;
+        }
+    }
+}
 
 
 
