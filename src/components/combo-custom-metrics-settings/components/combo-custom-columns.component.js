@@ -58,7 +58,7 @@ export default class ComboCustomColumnsComponent extends PureComponent {
                             <div>
                                 {
                                     <SortableList
-                                        distance="15"
+                                        distance={15}
                                         helperClass='sortableHelper'
                                         items={comboCustomSettings.columns}
                                         onSortEnd={this.onSortEnd} />
@@ -77,14 +77,14 @@ const SortableList = SortableContainer(({ items }) => {
     return (
         <div>
             {items.map((column, index) => (
-                <SortableItem key={index} indexKey={index} column={column} />
+                <SortableItem key={index} indexKey={index} index={index} column={column} />
             ))}
         </div>
     );
 });
 
 
-const SortableItem = SortableElement(({ column, indexKey }) => <ComboCustomAccordionContainer
+const SortableItem = SortableElement(({ column, indexKey, index }) => <ComboCustomAccordionContainer
     key={indexKey}
     column={column}
     index={indexKey}

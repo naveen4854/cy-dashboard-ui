@@ -8,6 +8,7 @@ export default class LabelledDurationInput extends PureComponent {
 
     render() {
         return (
+            <div className="marginTop10">
             <LabelledControl label={this.props.label}>
                 <DurationInput
                     displayFormatId={this.props.displayFormatId}
@@ -17,6 +18,7 @@ export default class LabelledDurationInput extends PureComponent {
                     updatePropOnChange={this.props.updatePropOnChange}
                 />
             </LabelledControl >
+            </div>
         )
     }
 }

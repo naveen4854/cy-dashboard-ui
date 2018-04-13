@@ -18,9 +18,7 @@ export default class CustomDock extends PureComponent {
                     boxShadow: 'rgba(0, 0, 0, 0.23) -0.5px 0px 10px 1px',
                     background: 'rgb(244, 248, 250)',
                     left: 0,
-                    top: 45,
-                    width: '100%',
-                    height: '100%'
+                    top: 50,
                 }}
             >
                 {children}

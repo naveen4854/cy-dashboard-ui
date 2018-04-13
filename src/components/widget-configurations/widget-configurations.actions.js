@@ -1,4 +1,4 @@
-import { UPDATE_CONFIGURATIONS_WIDGET } from "./widget-configurations.constants";
+import { UPDATE_CONFIGURATIONS_WIDGET, TOGGLE_CONFIGURATIONS_PANEL } from "./widget-configurations.constants";
 
 export function updateConfigurationsWidget(updatedWidget) {
     return (dispatch, getState) => {
@@ -8,5 +8,16 @@ export function updateConfigurationsWidget(updatedWidget) {
                 widget: updatedWidget
             })
         }
+    }
+}
+
+export function closeConfigurations(closePanel = true) {
+    return (dispatch, getState) => {
+        dispatch(getState().dataMetrics.clearSelectedDM())
+        return dispatch({
+            type: TOGGLE_CONFIGURATIONS_PANEL,
+            showPanel: !closePanel,
+            widget: {}
+        })
     }
 }

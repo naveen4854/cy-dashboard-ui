@@ -120,6 +120,16 @@ export default class ProgressBarStyles extends PureComponent {
                             />
                         </div>
                     }
+                    <StylesGroup
+                        l={this.props.l}
+                        fontStyles={this.props.styles.valueStyles}
+                        colorLabel={this.props.l.t('Value_colorCOLON', 'Value color:')}
+                        fontFamilyLabel={this.props.l.t('Value_fontCOLON', 'Value font:')}
+                        fontSizeLabel={this.props.l.t('Value_font_sizeCOLON', 'Value font size:')}
+                        onUpdateFontStyles={this.updateValueStyles}
+                        ColorId="valueStyles"
+                        ColorKey="valueStyles"
+                    />
                     {(this.props.styles.selectedApplyTo != ApplyToOptions.Row) &&
                         <div>
                             <LabelledColorPicker
@@ -146,31 +156,26 @@ export default class ProgressBarStyles extends PureComponent {
                                 // className="form-control"
                                 updateColor={this.updateFirstSegmentColor}
                             />
+                             <hr className='grouping-border'/>
                         </div>
                     }
-                    <LabelledColorPicker
-                        label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
-                        ColorId="444"
-                        ColorKey="111"
-                        value={this.props.styles.widgetBody.backgroundColor}
-                        // className="form-control"
-                        updateColor={this.updateBackgroundColor}
-                    />
 
 
-                    <StylesGroup
-                        l={this.props.l}
-                        fontStyles={this.props.styles.valueStyles}
-                        colorLabel={this.props.l.t('Value_colorCOLON', 'Value color:')}
-                        fontFamilyLabel={this.props.l.t('Value_fontCOLON', 'Value font:')}
-                        fontSizeLabel={this.props.l.t('Value_font_sizeCOLON', 'Value font size:')}
-                        onUpdateFontStyles={this.updateValueStyles}
-                        ColorId="valueStyles"
-                        ColorKey="valueStyles"
-                    />
+
+
 
                     {(this.props.styles.selectedApplyTo != ApplyToOptions.Row) &&
                         <div>
+                            <StylesGroup
+                                l={this.props.l}
+                                fontStyles={this.props.styles.rangeValueStyles}
+                                colorLabel={this.props.l.t('Range_colorCOLON', 'Range color:')}
+                                fontFamilyLabel={this.props.l.t('Range_fontCOLON', 'Range font:')}
+                                fontSizeLabel={this.props.l.t('Range_font_sizeCOLON', 'Range font size:')}
+                                onUpdateFontStyles={this.updateRangeValueStyles}
+                                ColorId="rangeValueStyles"
+                                ColorKey="rangeValueStyles"
+                            />
                             <LabelledDurationInput
                                 label={this.props.l.t('MinCOLON', 'Min:')}
                                 displayFormatColorId={this.props.displayFormatId}
@@ -190,18 +195,17 @@ export default class ProgressBarStyles extends PureComponent {
                                 updatePropOnChange={this.updateMaxValue}
                             />
 
-                            <StylesGroup
-                                l={this.props.l}
-                                fontStyles={this.props.styles.rangeValueStyles}
-                                colorLabel={this.props.l.t('Range_colorCOLON', 'Range color:')}
-                                fontFamilyLabel={this.props.l.t('Range_fontCOLON', 'Range font:')}
-                                fontSizeLabel={this.props.l.t('Range_font_sizeCOLON', 'Range font size:')}
-                                onUpdateFontStyles={this.updateRangeValueStyles}
-                                ColorId="rangeValueStyles"
-                                ColorKey="rangeValueStyles"
-                            />
+
                         </div>
                     }
+                    <LabelledColorPicker
+                        label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
+                        ColorId="444"
+                        ColorKey="111"
+                        value={this.props.styles.widgetBody.backgroundColor}
+                        // className="form-control"
+                        updateColor={this.updateBackgroundColor}
+                    />
                     {!this.props.isComboWidget &&
                         <LabelledInput
                             label={this.props.l.t('Refresh_interval__in_sec_COLON', 'Refresh interval (in sec):')}

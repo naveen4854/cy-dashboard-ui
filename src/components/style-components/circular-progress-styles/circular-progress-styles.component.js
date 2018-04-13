@@ -94,15 +94,6 @@ export default class CircularProgressStyles extends PureComponent {
                         />
                     }
 
-                    <LabelledColorPicker
-                        label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
-                        //updateKey='backgroundColor'
-                        ColorId="444"
-                        ColorKey="111"
-                        value={this.props.styles.widgetBody.backgroundColor}
-                        // className="form-control"
-                        updateColor={this.updateBackgroundColor}
-                    />
 
 
                     <StylesGroup
@@ -119,6 +110,22 @@ export default class CircularProgressStyles extends PureComponent {
 
                     {(this.props.styles.selectedApplyTo != ApplyToOptions.Row) &&
                         <div>
+                            <LabelledInput
+                                label={this.props.l.t('Arc_width', 'Arc width:')}
+                                value={this.props.styles.arcWidth}
+                                className="form-control"
+                                onCustomInputChange={this.updateArcWidth}
+                            />
+                            <LabelledColorPicker
+                                label={this.props.l.t('Arc_colorCOLON', 'Arc color:')}
+                                //updateKey='backgroundColor'
+                                ColorId="arcColor"
+                                ColorKey="arcColor"
+                                value={this.props.styles.arcColor}
+                                // className="form-control"
+                                updateColor={this.updateArcColor}
+                            />
+                             <hr className='grouping-border'/>
                             <LabelledDurationInput
                                 label={this.props.l.t('MinCOLON', 'Min:')}
                                 displayFormatId={this.props.displayFormatId}
@@ -145,23 +152,19 @@ export default class CircularProgressStyles extends PureComponent {
                                 checkedNode={this.props.styles.showMaxValueOnWidget}
                                 onToggleChange={this.updateShowMaxValueOnWidget}
                             />
-                            <LabelledInput
-                                label={this.props.l.t('Arc_width', 'Arc width:')}
-                                value={this.props.styles.arcWidth}
-                                className="form-control"
-                                onCustomInputChange={this.updateArcWidth}
-                            />
-                            <LabelledColorPicker
-                                label={this.props.l.t('Arc_colorCOLON', 'Arc color:')}
-                                //updateKey='backgroundColor'
-                                ColorId="arcColor"
-                                ColorKey="arcColor"
-                                value={this.props.styles.arcColor}
-                                // className="form-control"
-                                updateColor={this.updateArcColor}
-                            />
+
                         </div>
                     }
+                    <LabelledColorPicker
+                        label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
+                        //updateKey='backgroundColor'
+                        ColorId="444"
+                        ColorKey="111"
+                        value={this.props.styles.widgetBody.backgroundColor}
+                        // className="form-control"
+                        updateColor={this.updateBackgroundColor}
+                    />
+
                     {!this.props.isComboWidget &&
                         <LabelledInput
                             label={this.props.l.t('Refresh_interval__in_sec_COLON', 'Refresh interval (in sec):')}
