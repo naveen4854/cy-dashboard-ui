@@ -15,7 +15,7 @@ export default class AnalogClockStyles extends PureComponent {
         this.updateSecondsHandColor = this.updateSecondsHandColor.bind(this);
         this.updateNumbersStyles = this.updateNumbersStyles.bind(this);
     }
-    
+
     updateClockRoundingColor(e) {
         let widgetBody = { ...this.props.styles.widgetBody, clockRoundingColor: e };
         this.props.updateProp('widgetBody', widgetBody);
@@ -32,22 +32,15 @@ export default class AnalogClockStyles extends PureComponent {
         let hands = { ...this.props.styles.hands, secondhandcolor: e };
         this.props.updateProp('hands', hands);
     }
-    updateNumbersStyles(e){
+    updateNumbersStyles(e) {
         this.props.updateProp('numberStyles', e);
     }
-    
+
     render() {
         return (
             <div className="col-xs-12">
                 <div className="form-group">
-                    <LabelledColorPicker
-                        label={this.props.l.t('Clock_Border_ColorCOLON', 'Clock Border Color:')}
-                        ColorId="clockRoundingColor"
-                        ColorKey="clockRoundingColor"
-                        value={this.props.styles.widgetBody.clockRoundingColor}
-                        // className="form-control"
-                        updateColor={this.updateClockRoundingColor}
-                    />
+
 
                     <LabelledColorPicker
                         label={this.props.l.t('Hour_Hand_ColorCOLON', 'Hour Hand Color:')}
@@ -73,6 +66,7 @@ export default class AnalogClockStyles extends PureComponent {
                         // className="form-control"
                         updateColor={this.updateSecondsHandColor}
                     />
+                    <hr className='grouping-border' />
                     <StylesGroup
                         l={this.props.l}
                         fontStyles={this.props.styles.numberStyles}
@@ -82,6 +76,14 @@ export default class AnalogClockStyles extends PureComponent {
                         onUpdateFontStyles={this.updateNumbersStyles}
                         ColorId="numberStyles"
                         ColorKey="numberStyles"
+                    />
+                    <LabelledColorPicker
+                        label={this.props.l.t('Clock_Border_ColorCOLON', 'Clock Border Color:')}
+                        ColorId="clockRoundingColor"
+                        ColorKey="clockRoundingColor"
+                        value={this.props.styles.widgetBody.clockRoundingColor}
+                        // className="form-control"
+                        updateColor={this.updateClockRoundingColor}
                     />
                 </div>
             </div>

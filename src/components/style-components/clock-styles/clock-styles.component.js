@@ -32,6 +32,19 @@ export default class ClockStyles extends PureComponent {
         return (
             <div className="col-xs-12">
                 <div className="form-group">
+                    <StylesGroup
+                        l={this.props.l}
+                        fontStyles={this.props.styles.timezoneStyles}
+                        colorLabel={this.props.l.t('Time_Zone_Font_ColorCOLON', 'Time Zone Font Color:')}
+                        fontFamilyLabel={this.props.l.t('Time_Zone_fontCOLON', 'Time Zone font:')}
+                        fontSizeLabel={this.props.l.t('Time_Zone_Font_SizeCOLON', 'Time Zone Font Size:')}
+                        onUpdateFontStyles={this.updateTimezoneStyles}
+                        ColorId="timezoneStyles"
+                        ColorKey="timezoneStyles"
+                    />
+                    {
+                        this.props.isAnalog ? <AnalogClockStyles {...this.props} /> : <DigitalClockStyles {...this.props} />
+                    }
                     <LabelledColorPicker
                         label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
                         ColorId="clockbackgroundColor"
@@ -49,20 +62,6 @@ export default class ClockStyles extends PureComponent {
                         updateColor={this.updateClockOuterbackgroundColor}
                     />
 
-                    {
-                        this.props.isAnalog ? <AnalogClockStyles {...this.props} /> : <DigitalClockStyles {...this.props} />
-                    }
-
-                    <StylesGroup
-                        l={this.props.l}
-                        fontStyles={this.props.styles.timezoneStyles}
-                        colorLabel={this.props.l.t('Time_Zone_Font_ColorCOLON', 'Time Zone Font Color:')}
-                        fontFamilyLabel={this.props.l.t('Time_Zone_fontCOLON', 'Time Zone font:')}
-                        fontSizeLabel={this.props.l.t('Time_Zone_Font_SizeCOLON', 'Time Zone Font Size:')}
-                        onUpdateFontStyles={this.updateTimezoneStyles}
-                        ColorId="timezoneStyles"
-                        ColorKey="timezoneStyles"
-                    />
                 </div>
             </div>
         )

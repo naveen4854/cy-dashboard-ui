@@ -48,13 +48,19 @@ class StylesComponent extends PureComponent {
                     this.renderApplyOptions()
                 }
                 {this.renderStyles()}
-                <button
-                    disabled={this.props.styles.disableSave}
-                    type="button"
-                    className=" btn btn-sm btn btn-primary"
-                    onClick={this.updateWidgetStyles}>
-                    {this.props.l.t("Save", "Save")}
-                </button>
+                <div className="row ">
+                    <div className="col-xs-4 col-xs-offset-4 col-sm-7  col-sm-offset-7 col-md-5 col-md-offset-5 marginTop10">
+
+                        <button
+                            disabled={this.props.styles.disableSave}
+                            type="button"
+                            className="btn btn-md btn-primary"
+                            onClick={this.updateWidgetStyles}>
+                            {this.props.l.t("Save", "Save")}
+                        </button>
+
+                    </div>
+                </div>
             </div>
         )
     }
