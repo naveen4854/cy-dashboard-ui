@@ -73,18 +73,11 @@ export default class PieStyles extends PureComponent {
 
 
 
-                    <LabelledColorPicker
-                        label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
-                        ColorId="111"
-                        ColorKey="111"
-                        value={this.props.styles.widgetBody.backgroundColor}
-                        // className="form-control"
-                        updateColor={this.updateBackgroundColor}
-                    />
+                  
                     <StylesGroup
                         l={this.props.l}
                         fontStyles={this.props.styles.widgetBody}
-                        colorLabel={this.props.l.t('Text_colorCOLON', 'Text color:')}
+                        colorLabel={this.props.l.t('Label_text_colorCOLON', 'Label text color:')}
                         fontFamilyLabel= {this.props.l.t('Label_font_sizeCOLON', 'Label font size:')}
                         fontSizeLabel={this.props.l.t('Label_font_styleCOLON', 'Label font style:')}
                         onUpdateFontStyles={this.updateWidgetBody}
@@ -104,6 +97,14 @@ export default class PieStyles extends PureComponent {
                         nodes={[{ label: "Yes", value: true }, { label: "No", value: false }]}
                         checkedNode={this.props.styles.showLabels}
                         onToggleChange={this.updateShowLabels}
+                    />
+                      <LabelledColorPicker
+                        label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
+                        ColorId="111"
+                        ColorKey="111"
+                        value={this.props.styles.widgetBody.backgroundColor}
+                        // className="form-control"
+                        updateColor={this.updateBackgroundColor}
                     />
                     <LabelledInput
                         label={this.props.l.t('Refresh_interval__in_sec_COLON', 'Refresh interval (in sec):')}

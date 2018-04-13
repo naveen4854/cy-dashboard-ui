@@ -936,3 +936,16 @@ box-shadow: -3px -2px 30px 11px rgba(0,0,0,0.21);
 .sortableHelper {
   z-index: 999999;
 }
+hr.grouping-border
+{
+  /* border-bottom: dotted;
+  border-spacing: 2px;
+  border-bottom-width: 1px;
+  width: 50%;
+  margin: 0 auto; */
+
+  border: 0; 
+  height: 1px; 
+  background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+
+}

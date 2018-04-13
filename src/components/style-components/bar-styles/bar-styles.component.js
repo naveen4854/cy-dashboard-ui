@@ -178,9 +178,7 @@ export default class BarStyles extends PureComponent {
                         enableInput={this.props.styles.enableMax}
                         updatePropOnChange={this.updateMaxValue}
                     />
-
-
-
+                     <hr className='grouping-border'/>
                     <LabelledColorPicker
                         label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
                         //updateKey='backgroundColor'

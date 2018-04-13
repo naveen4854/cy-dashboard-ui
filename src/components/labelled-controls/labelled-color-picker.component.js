@@ -7,7 +7,7 @@ export default class LabelledColorPicker extends PureComponent {
 
     render() {
         return (
-            <div className="marginTop10">
+            <div className="marginTop10 ">
                 <LabelledControl label={this.props.label}>
                     <ColorPicker
                         id={this.props.id}
