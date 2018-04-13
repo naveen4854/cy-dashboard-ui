@@ -7,10 +7,11 @@ import { store } from '../main'
 import ResponseStatusEnum from '../shared/enums/response-status-enum';
 import { SAVE_LOGIN, UPDATE_REF_TOKEN_TIMEOUT_ID } from '../login/login.reducer';
 import * as loginService from '../login/login.service';
-import {Constants} from '../shared/constants';
+import { Constants } from '../shared/constants';
 import * as authMan from '../authentication/auth-manager';
 
 const envconfig = require('./static/envconfig');
+let retryPromise = undefined;
 
 /**
  * http post
@@ -123,7 +124,7 @@ function handleUnAuthWithRetry(error) {
             console.log("NO REFRESH TOKEN FOUND")
             return dispatch(getState().user.logout())
         }
-        return loginService.refreshToken(user.refreshToken, user.nic).then(res => {
+        retryPromise = retryPromise || loginService.refreshToken(user.refreshToken, user.nic).then(res => {
             //set this tab as new rt
             if (currentTabId != rt)
                 localStorage.setItem(Constants.refreshTabId, currentTabId);
@@ -137,18 +138,23 @@ function handleUnAuthWithRetry(error) {
             });
             let nextTimeDiff = getState().user.expiresIn * 1000;
             dispatch(getState().user.setTokenRefreshTimeout(nextTimeDiff))
+        }).catch((err) => {
+            dispatch(getState().user.logout())
+            dispatch(getState().notificationStore.clearNotifications());
+            dispatch(getState().notificationStore.notify(err.response.data.Messages, ResponseStatusEnum.Error, true));
+        });
 
-            const authToken = " authMan.getAuthToken()";
+        return retryPromise.then(res => {
+            const authToken = authMan.getAuthToken();
             error.config.headers = Object.assign({}, error.config.headers, {
                 Authorization: `bearer ${authToken}`
             });
             return axios(error.config);
-        })
-            .catch((err) => {
-                dispatch(getState().user.logout())
-                dispatch(getState().notificationStore.clearNotifications());
-                dispatch(getState().notificationStore.notify(err.response.data.Messages, ResponseStatusEnum.Error, true));
-            });
+        }).catch((error) => {
+            dispatch(getState().notificationStore.ClearNotifications());
+            dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error, true));
+            dispatch(getState().user.logout())
+        });
     })
 }
 
