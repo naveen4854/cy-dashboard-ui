@@ -15,7 +15,7 @@ export default class StylesGroup extends PureComponent {
         this.props.onUpdateFontStyles(fonts);
     }
     onFontFamilyChange = (e, key) => {
-        if (!e.value)
+        if (!e || !e.value)
             return;
         let fonts = { ...this.props.fontStyles, fontFamily: e.value };
         this.props.onUpdateFontStyles(fonts);
@@ -51,7 +51,7 @@ export default class StylesGroup extends PureComponent {
                     onChange={this.onFontFamilyChange}
                     options={Fonts}
                 />
-                <hr className='grouping-border'/>
+                <hr className='grouping-border' />
             </div>
         )
     }

@@ -7,6 +7,7 @@ import * as DateZone from '../date-conversion';
 import moment from 'moment';
 import { BoxWidget } from '../../widgets';
 import { rgba } from '../../../utilities';
+import { getRandom } from '../../../utilities/utils';
 
 /**
  * Map widget with metrics
@@ -566,7 +567,7 @@ function mapAppliedSettings(widget, isEdit, dataMetricsMetadata) {
         columns: widget.ws.srt.rc,
         comboSelectedStatisticColumns: _.map(widget.ws.srt.rc, (eachDataMetrics, i) => {
           return {
-            id: Date.now(),
+            id: getRandom(),
             item: {
               id: eachDataMetrics.cisiid
             },

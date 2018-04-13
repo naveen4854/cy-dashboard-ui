@@ -129,20 +129,6 @@ export function testU() {
 //   }
 // }
 
-const initialState = {
-  categories: [],
-  category: -1,
-  userDashboards: [],
-  totalPages: 0,
-  myDashboards: true,
-  globals: false,
-  pageNumber: 1,
-  pageSize: 2,
-  sortColumn: "modifiedTime",
-  sortOrder: 1,
-  totalDashboards: 0,
-};
-
 export const ACTION_HANDLERS = {
 
   [UPDATE_CATEGORIES]: (state, action) => {
@@ -200,6 +186,20 @@ export const ACTION_HANDLERS = {
     return _.cloneDeep(state);
   }
 }
+
+const initialState = {
+  categories: [],
+  category: -1,
+  userDashboards: [],
+  totalPages: 0,
+  myDashboards: true,
+  globals: false,
+  pageNumber: 1,
+  pageSize: 10,
+  sortColumn: "modifiedTime",
+  sortOrder: 1,
+  totalDashboards: 0,
+};
 
 export default function MyDashboardReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type];
