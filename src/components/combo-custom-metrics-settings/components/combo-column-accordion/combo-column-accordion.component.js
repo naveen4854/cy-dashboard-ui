@@ -47,9 +47,9 @@ export default class ComboCustomAccordion extends PureComponent {
         }
         this.props.updateCustomComboColumn(column);
     }
-    updateShowZeroValues(e) {
+    updateShowZeroValues(value) {
         let column = {
-            ...this.props.column, showZeroValues: e.value
+            ...this.props.column, showZeroValues: value
         }
         this.props.updateCustomComboColumn(column);
     }

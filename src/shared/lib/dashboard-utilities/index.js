@@ -352,7 +352,7 @@ export function WidgetDataMapper(widget, data) {
       comboResultMapping(widget, data);
       break;
 
-      
+
       widget.previousData = data;
     //return widget;
   }
@@ -564,7 +564,7 @@ function mapAppliedSettings(widget, isEdit, dataMetricsMetadata) {
         item: widget.ws.srt.rsiid ? getSelectedItem(widget.ws.srt, dataMetricsMetadata) : '',
         func: widget.ws.srt.rsfid ? getSelectedFunction(widget.ws.srt, dataMetricsMetadata) : '',
         drillDownOptions: widget.ws.srt.rf,
-        columns: widget.ws.srt.rc,
+        columns: widget.ws.stom == StatisticCategoryEnum.Custom ? widget.ws.sc.isc ? addLevels(widget.wmx[0]) : [] : widget.ws.srt.rc,
         comboSelectedStatisticColumns: _.map(widget.ws.srt.rc, (eachDataMetrics, i) => {
           return {
             id: getRandom(),
@@ -708,28 +708,28 @@ function StylesMapper(styles) {
 
 /**
  * To add the levels for combo custom statistics
- * @param {*} levelsMatrix 
+ * @param {*} columns 
  */
-function addLevels(levelsMatrix) {
-  return _.map(levelsMatrix, (level, index) => {
+function addLevels(columns) {
+  return _.map(columns, (column, index) => {
     return {
-      id: level.wid,
+      id: column.wid,
       level: index + 1,
       levelValue: null,
       expanded: true,
-      column: {
-        value: level.wid,
-        label: level.fc,
-        type: level.dty
+      selectedColumn: {
+        value: column.wid,
+        label: column.fc,
+        type: column.dty
       },
-      showZeroValues: level.sz,
-      displayFormat: level.dpid,
-      dateFormat: getSelectedDateFormat(level.dtid),
-      displayName: level.wtl == level.fc ? level.fc : level.wtl,
-      hoursFormat: getSelectedHoursFormat(level.hfid),
-      timeFormat: getSelectedTimeFormat(level.tfid),
-      aggregateOperation: getSelectedAggregateFunction(level.aggId),
-      isSummary: level.isSummary
+      showZeroValues: column.sz,
+      displayFormat: column.dpid,
+      dateFormat: getSelectedDateFormat(column.dtid),
+      displayName: column.wtl == column.fc ? column.fc : column.wtl,
+      hoursFormat: getSelectedHoursFormat(column.hfid),
+      timeFormat: getSelectedTimeFormat(column.tfid),
+      aggregateOperation: getSelectedAggregateFunction(column.aggId),
+      isSummary: column.isSummary
     }
   });
 }
