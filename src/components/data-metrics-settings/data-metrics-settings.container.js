@@ -6,9 +6,6 @@ import * as DataMetricsReducer from '../data-metrics/data-metrics.reducer';
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        initializeStatisticMetadata: () => {
-            dispatch(DataMetricsReducer.initializeStatisticMetadata());
-        },
         setSelectedStatisticCategory: (selectedStatisticCategory) => {
             dispatch(DataMetricsReducer.setSelectedStatisticCategory(selectedStatisticCategory));
         }

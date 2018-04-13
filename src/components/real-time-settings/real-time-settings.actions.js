@@ -6,10 +6,10 @@ export function initiateRealTimeSettings() {
     return (dispatch, getState) => {
         let currentWidget = _.cloneDeep(getState().configurations.widget);
         let selectedStatisticCategory = getState().dataMetrics.statisticCategory;
-        let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
+        let dataMetricsMetadata = getState().dataMetrics.dataMetricsMetadata;
         let groupOptions = getState().realTimeSettings.groupOptions;
         if (!groupOptions || groupOptions.length == 0) {
-            let _grpOptions = _.uniqBy(_.map(_.filter(datametricsMetadata, metric => (metric.StatisticCategory === StatisticCategoryEnum.RealTime &&
+            let _grpOptions = _.uniqBy(_.map(_.filter(dataMetricsMetadata, metric => (metric.StatisticCategory === StatisticCategoryEnum.RealTime &&
                 metric.WidgetType === currentWidget.widgetType)), (obj) => {
                     return {
                         id: obj.StatisticGroupId,
@@ -50,7 +50,7 @@ export function setStatisticsItems() {
         let currentWidget = getState().configurations.widget;
         let selectedGroup = getState().realTimeSettings.selectedGroup;
 
-        let allData = getState().dataMetrics.datametricsMetadata;
+        let allData = getState().dataMetrics.dataMetricsMetadata;
         if (currentWidget.widgetType == WidgetTypeEnum.Bar || currentWidget.widgetType == WidgetTypeEnum.Pie) {
             allData = _.filter(allData, data => !data.IsDrillDownFilter)
         };
@@ -85,7 +85,7 @@ export function setStatisticFunctions() {
         let currentWidget = getState().configurations.widget;
         let dataMetrics = getState().dataMetrics;
         let selectedItem = getState().realTimeSettings.selectedItem;
-        let _funcOptions = _.uniqBy(_.map(_.filter(getState().dataMetrics.datametricsMetadata,
+        let _funcOptions = _.uniqBy(_.map(_.filter(getState().dataMetrics.dataMetricsMetadata,
             metric =>
                 metric.StatisticItemId === selectedItem.id &&
                 metric.StatisticCategory === getState().dataMetrics.statisticCategory &&
@@ -119,7 +119,7 @@ export function getDisplayFormat() {
         let currentWidget = getState().configurations.widget;
         dispatch({
             type: UPDATE_REALTIME_DISPLAY_FORMATS,
-            displayFormatOptions: _.uniqBy(_.map(_.filter(getState().dataMetrics.datametricsMetadata, metric =>
+            displayFormatOptions: _.uniqBy(_.map(_.filter(getState().dataMetrics.dataMetricsMetadata, metric =>
                 (metric.StatisticItemId === getState().realTimeSettings.selectedItem.id &&
                     metric.StatisticCategory === getState().dataMetrics.statisticCategory &&
                     metric.StatisticFunctionId === selectedFunction.id && metric.WidgetType === currentWidget.widgetType)
@@ -145,9 +145,9 @@ export function setSelectedDisplayFormatAction(selectedDisplayFormat) {
 
 export function getDrillDownMetaData(selectedItem) {
     return (dispatch, getState) => {
-        if (getState().dataMetrics && getState().dataMetrics.datametricsMetadata) {
+        if (getState().dataMetrics && getState().dataMetrics.dataMetricsMetadata) {
             let widget = getState().configurations.widget;
-            const selectedItemData = _.find(getState().dataMetrics.datametricsMetadata, (metaData) => metaData.StatisticItemId === selectedItem.id);
+            const selectedItemData = _.find(getState().dataMetrics.dataMetricsMetadata, (metaData) => metaData.StatisticItemId === selectedItem.id);
             let defaulted = getState().realTimeSettings.drillDownDefaulted
             dataMetricsService.getDrillDownMetaData(selectedItemData.StatisticGroupId).then(function (response) {
                 let _opts = _.map(_.uniqBy(response.data, 'Id'), (obj) => {

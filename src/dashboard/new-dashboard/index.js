@@ -36,7 +36,7 @@ export default (store) => ({
   },
   onEnter: (nextState, replace) => {
     injectReducer(store, { key: 'dataMetrics', reducer: DataMetricsReducer })
-    store.dispatch(store.getState().dataMetrics.LoadDataMetricsMetaData())
+    store.dispatch(store.getState().dataMetrics.loadDataMetricsMetaData(nextState.params.id))
     
     injectReducer(store, { key: 'clockSettings', reducer: ClockMetricsSettingsReducer })
     store.dispatch(store.getState().clockSettings.setTimeZonesList())

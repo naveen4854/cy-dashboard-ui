@@ -9,8 +9,6 @@ import CustomMetricsSettingsContainer from '../custom-metrics-settings';
 export default class DataMetricsSettingsComponent extends PureComponent {
 
     componentDidMount() {
-        // initialize widget data once.. map widget data onto datametrics
-        // this.props.initializeStatisticMetadata();
     }
 
     componentWillReceiveProps(nextProps) {

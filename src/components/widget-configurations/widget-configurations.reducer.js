@@ -80,7 +80,7 @@ export function previewWidget(widget) {
         // if (widget.widgetType = WidgetTypeEnum.Combo)
         //     return;
         dispatch(getState().notificationStore.clearNotifications());
-        const widgetData = DashboardUtilities.WidgetMapper(widget, getState().dataMetrics.datametricsMetadata);
+        const widgetData = DashboardUtilities.WidgetMapper(widget, getState().dataMetrics.dataMetricsMetadata);
         widgetService.getWidgetPreviewData(widgetData).then(function (response) {
             if (response.status === 200) {
                 if (widget) {

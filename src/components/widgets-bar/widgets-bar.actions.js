@@ -1,25 +1,24 @@
-import * as  widgetBarConstants from "./widgets-bar.constants";
-
 import _ from 'lodash';
 import { UPDATE_WIDGETS } from "../../dashboard/dashboard.reducer";
-import { UPDATE_DASHBOARD } from '../../dashboard/dashboard.constants';
+import { UPDATE_DASHBOARD, UPDATE_DASHBOARD_PROPERTY } from '../../dashboard/dashboard.constants';
 
 import { TOGGLE_CONFIGURATIONS_PANEL } from "../widget-configurations/widget-configurations.constants";
 import { WidgetTypeEnum, ResponseStatusEnum } from "../../shared/enums";
 import { DashboardUtilities } from "../../shared/lib";
 import * as dashboardService from '../../dashboard/dashboard-service';
 import { browserHistory, Router } from 'react-router';
-
+import {  MODAL_POPUP, SAVE_AS_MODAL_POPUP } from './widgets-bar.constants';
 
 export function updateProperty(key, value) {
     return (dispatch, getState) => {
         dispatch({
-            type: widgetBarConstants.UPDATE_DASHBOARD_PROPERTY,
+            type: UPDATE_DASHBOARD_PROPERTY,
             key,
             value
         })
     }
 }
+
 export function CollapseAllSettingsMenus() {
     return (dispatch, getState) => {
         let widgets = getState().dashboard.widgets;
@@ -36,9 +35,10 @@ export function CollapseAllSettingsMenus() {
 
     }
 }
+
 export function SaveDashboard() {
     return (dispatch, getState) => {
-        let name = _.trim(getState().widgetsBar.name);
+        let name = _.trim(getState().dashboard.name);
         dispatch(getState().spinnerStore.BeginTask());
         if (!name && name == '') {
             dispatch(getState().spinnerStore.EndTask());
@@ -73,7 +73,7 @@ export function SaveDashboard() {
                         dashboard
                     });
                     dispatch({
-                        type: widgetBarConstants.UPDATE_DASHBOARD_PROPERTY,
+                        type: UPDATE_DASHBOARD_PROPERTY,
                         key: 'id',
                         value: savedDashboardId
                     })
@@ -149,19 +149,16 @@ export function SaveDashboard() {
     }
 }
 
-
-
-
 export function UpdateDashboard() {
     return (dispatch, getState) => {
         const dashboard = getState().dashboard;
         let messagesConfig = {};
         messagesConfig.messages = [];
-        let name = _.trim(getState().widgetsBar.name);
+        let name = _.trim(getState().dashboard.name);
         if (!name) {
             dispatch(getState().spinnerStore.EndTask());
             return dispatch({
-                type: widgetBarConstants.MODAL_POPUP,
+                type: MODAL_POPUP,
                 showModalPopup: true
             });
         }
@@ -187,7 +184,7 @@ export function UpdateDashboard() {
                         dashboard
                     });
                     dispatch({
-                        type: widgetBarConstants.UPDATE_DASHBOARD_PROPERTY,
+                        type: UPDATE_DASHBOARD_PROPERTY,
                         key: 'id',
                         value: savedDashboardId
                     })
@@ -231,7 +228,7 @@ export function SaveAsDashboard() {
         dispatch(getState().spinnerStore.BeginTask());
 
         const dashboard = getState().dashboard;
-        let name = _.trim(getState().widgetsBar.name);
+        let name = _.trim(getState().dashboard.name);
         if (dashboard && dashboard.widgets) {
             let imageWidgets = _.filter(dashboard.widgets, function (widget, i) {
                 if (widget.widgetType == WidgetTypeEnum.Picture) {
@@ -260,7 +257,7 @@ export function SaveAsDashboard() {
                         dashboard
                     });
                     dispatch({
-                        type: widgetBarConstants.UPDATE_DASHBOARD_PROPERTY,
+                        type: UPDATE_DASHBOARD_PROPERTY,
                         key: 'id',
                         value: savedDashboardId
                     })
@@ -336,10 +333,11 @@ export function SaveAsDashboard() {
         }
     }
 }
+
 export function HandleSaveAsPopUpAction(showSaveAsPopUp) {
     return (dispatch, getState) => {
         dispatch({
-            type: widgetBarConstants.SAVE_AS_MODAL_POPUP,
+            type: SAVE_AS_MODAL_POPUP,
             showSaveAsModalPopup: showSaveAsPopUp
         });
     }
@@ -348,12 +346,11 @@ export function HandleSaveAsPopUpAction(showSaveAsPopUp) {
 export function HandleModalPopup(showModalPopup) {
     return (dispatch, getState) => {
         dispatch({
-            type: widgetBarConstants.MODAL_POPUP,
+            type: MODAL_POPUP,
             showModalPopup: showModalPopup
         });
     }
 }
-
 
 /**
  * This method is used to save picture to database.
@@ -392,6 +389,7 @@ function DashboardPictureSave(widget, key, len, dashboardId, dispatch, getState,
         DashboardPictureAPI(widgetMediaStorageInput, key, len, dispatch, getState);
     }
 }
+
 function DashboardPictureAPI(mediaStorageInput, key, len, dispatch, getState) {
     dispatch(getState().spinnerStore.BeginTask());
 
@@ -406,6 +404,7 @@ function DashboardPictureAPI(mediaStorageInput, key, len, dispatch, getState) {
         dispatch(getState().spinnerStore.EndAllTasks());
     });
 }
+
 /**
  * This method is used to map dashboard data and is being used in multiple places.
  * @param {*} dashboard 
@@ -413,7 +412,7 @@ function DashboardPictureAPI(mediaStorageInput, key, len, dispatch, getState) {
  * @param {*} isUpdate 
  */
 function MapDashboard(dashboard, getState, isUpdate, name) {
-    const dataMetricsMetadata = getState.dataMetrics.datametricsMetadata;
+    const dataMetricsMetadata = getState.dataMetrics.dataMetricsMetadata;
     return {
         di: isUpdate ? dashboard.Id : Date.now(),
         dn: name,

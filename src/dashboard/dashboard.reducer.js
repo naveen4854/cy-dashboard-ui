@@ -4,7 +4,7 @@ import { TOGGLE_SETTINGS_PANEL } from '../components/widget-configurations/widge
 
 
 import { updateDashboardMode, getDashboardById, updateWidgets, updateWidget, updateDashboard, updateShowIcons, pullWidget } from './dashboard.actions';
-import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, ADD_WIDGET, UPDATE_DRAGGABLE, UPDATE_DASHBOARD, UPDATE_SHOW_ICONS } from './dashboard.constants';
+import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, ADD_WIDGET, UPDATE_DRAGGABLE, UPDATE_DASHBOARD, UPDATE_SHOW_ICONS, UPDATE_DASHBOARD_PROPERTY } from './dashboard.constants';
 
 
 export function AddWidget(widgetType) {
@@ -37,6 +37,11 @@ export function ToggleSettingsMenu(widget) {
 }
 
 export const ACTION_HANDLERS = {
+    [UPDATE_DASHBOARD_PROPERTY]: (state, action) => {
+        return Object.assign({}, state, {
+            [action.key]: action.value
+        })
+    },
     [ADD_WIDGET]: (state, action) => {
         state.widgets = state.widgets.concat([action.widget])
         return Object.assign({}, state);

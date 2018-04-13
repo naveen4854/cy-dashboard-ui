@@ -69,7 +69,7 @@ export default class BoxStyles extends PureComponent {
                         key="2"
                     />
 
-                    <LabelledColorPicker
+                    <LabelledColorPicker className={this.props.isComboWidget ? 'grouping-border' : 'grouping-border'}
                         label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
                         ColorId="1"
                         ColorKey="1"

@@ -227,6 +227,8 @@ function GetComboMatrix(inputWidget) {
       var comboInnerWidget = {};
       let eachWidget = inputWidget.matrix[i][j];
       comboInnerWidget = {
+        height: eachWidget.height,
+        width: eachWidget.width,
         wid: eachWidget.id,
         cid: eachWidget.comboId,
         icw: eachWidget.isComboWidget,
@@ -349,7 +351,7 @@ export function WidgetDataMapper(widget, data) {
       comboResultMapping(widget, data);
       break;
 
-
+      
       widget.previousData = data;
     //return widget;
   }
@@ -618,6 +620,8 @@ function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId) {
         eachWidget.appliedSettings.dataMetrics.displayFormat.id = columns[j].cdf;
       }
       comboInnerWidget = {
+        height: eachWidget.height,
+        width: eachWidget.width,
         id: eachWidget.wid,
         comboId: comboId,
         widgetType: eachWidget.wt,

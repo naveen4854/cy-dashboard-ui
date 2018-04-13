@@ -26,7 +26,7 @@ export default class StylesGroup extends PureComponent {
     }
     render() {
         return (
-            <div>
+            <div >
                 <LabelledInput
                     label={this.props.fontSizeLabel}
                     // updateKey='title'
@@ -51,6 +51,7 @@ export default class StylesGroup extends PureComponent {
                     onChange={this.onFontFamilyChange}
                     options={Fonts}
                 />
+                <hr className='grouping-border'/>
             </div>
         )
     }

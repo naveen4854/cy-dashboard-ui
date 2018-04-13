@@ -2,7 +2,7 @@ import { WidgetTypeEnum } from "../../shared/enums";
 import { BarWidget, BoxWidget } from "../../shared/widgets";
 
 
-const Widgets = [
+const widgetList = [
     {
         widgetType: WidgetTypeEnum.Box,
         text: 'Box',
@@ -76,4 +76,4 @@ const Widgets = [
     }
 ]
 
-export default Widgets;
+export default widgetList;

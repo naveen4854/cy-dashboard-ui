@@ -229,7 +229,7 @@ const collection = {
       "Note: Max file size is 4MB",
       "selected",
       "Choose file to upload.",
-      "Text color:",
+      "Label Text color:",
       "Label font style:",
       "Label font size:",
       "Scroll Type:",

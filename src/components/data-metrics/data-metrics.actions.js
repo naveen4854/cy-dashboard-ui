@@ -18,7 +18,7 @@ export function saveComboRealTimeMetrics() {
             return getColumn(metric)
         });
         let dataMetrics = {
-            comboSelectedStatisticColumns,
+            comboSelectedStatisticColumns: [...comboSelectedStatisticColumns],
             columns,
             drillDownOptions: filters,
             group: selectedGroup,
@@ -41,6 +41,11 @@ export function saveComboRealTimeMetrics() {
 
 function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, comboId, currentWidget) {
     let oldMatrix = currentWidget ? _.flatten(currentWidget.matrix) : null;
+    let oldDrillDownOptions = currentWidget.appliedSettings.dataMetrics.drillDownOptions;
+    let oldFilters = oldDrillDownOptions ? [...oldDrillDownOptions] : [];
+    oldFilters.splice(0, 0, {});
+    let oldColumns = currentWidget.appliedSettings.dataMetrics.comboSelectedStatisticColumns;
+
     let newFilters = [...filters];
     newFilters.splice(0, 0, {})
 
@@ -76,7 +81,6 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
                 else {
                     // Have to figure out if its a new row cell or a new column 
                     // based on which we apply styles
-                    //take from above row or combo syles
                     let styles = {
                         appliedBackgroundColor: existingCell.widgetBody.backgroundColor,
                         widgetBody: existingCell.widgetBody,
@@ -84,9 +88,20 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
                     }
                     cell.applyCommonStyles(styles);
                 }
-
                 //cell.applyThresholds(thresholds);
             }
+
+            // default styles based on new column or row
+            if (_.find(oldFilters, oldFilter => oldFilter.value == filter.value)) {
+            } else {
+                // cell.applyStyles(existingCell);
+            }
+
+            if (_.find(oldColumns, oldColumn => oldColumn.id == statisticColumn.id)) {
+            } else {
+                // cell.applyCommonStyles(styles);
+            }
+
             return cell;
         });
         return row;

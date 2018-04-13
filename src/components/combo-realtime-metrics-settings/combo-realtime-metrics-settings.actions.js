@@ -11,11 +11,11 @@ export function initiateComboRealTimeSettings() {
     return (dispatch, getState) => {
         let currentWidget = _.cloneDeep(getState().configurations.widget);
         let selectedStatisticCategory = getState().dataMetrics.statisticCategory;
-        let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
+        let dataMetricsMetadata = getState().dataMetrics.dataMetricsMetadata;
         let groupOptions = getState().comboRealTimeSettings.groupOptions;
 
         if (!groupOptions || groupOptions.length == 0) {
-            let _grpOptions = _.uniqBy(_.map(_.filter(datametricsMetadata, metric => (metric.StatisticCategory === StatisticCategoryEnum.RealTime &&
+            let _grpOptions = _.uniqBy(_.map(_.filter(dataMetricsMetadata, metric => (metric.StatisticCategory === StatisticCategoryEnum.RealTime &&
                 metric.WidgetType === currentWidget.widgetType)), (obj) => {
                     return {
                         id: obj.StatisticGroupId,
@@ -59,7 +59,7 @@ export function setStatisticsItems() {
         let currentWidget = getState().configurations.widget;
         let selectedGroup = getState().comboRealTimeSettings.selectedGroup;
 
-        let allData = getState().dataMetrics.datametricsMetadata;
+        let allData = getState().dataMetrics.dataMetricsMetadata;
 
         let availableItems = _.uniqBy(_.map(_.filter(allData,
             metric => metric.StatisticGroupId === selectedGroup.id &&
@@ -148,7 +148,7 @@ export function addDefaultComboStatisticItems(selectedGroup) {
                 });
         }
 
-        const group = _.find(getState().dataMetrics.datametricsMetadata, (metric) =>
+        const group = _.find(getState().dataMetrics.dataMetricsMetadata, (metric) =>
             metric.StatisticGroupId === selectedGroup.id &&
             metric.WidgetType === currentWidget.widgetType &&
             metric.IsDrillDownFilter);
@@ -213,7 +213,7 @@ function mapComboItems(wdt, metaData) {
         if (key > 0) {
             var itemOption = _.find(metaData.itemOptions, m => m.id == value.cisiid)
             if (itemOption) {
-                var functionOption = _.find(_.uniqBy(_.map(_.filter(metaData.datametricsMetadata,
+                var functionOption = _.find(_.uniqBy(_.map(_.filter(metaData.dataMetricsMetadata,
                     metric => metric.StatisticItemId === itemOption.id &&
                         metric.StatisticCategory === metaData.statisticCategory &&
                         metric.WidgetType === wdt.widgetType), item => {
@@ -224,7 +224,7 @@ function mapComboItems(wdt, metaData) {
                             }
                         }), 'id'), f => f.id = value.ciafid);
 
-                var displayFormatOption = _.find(_.uniqBy(_.map(_.filter(metaData.datametricsMetadata, metric =>
+                var displayFormatOption = _.find(_.uniqBy(_.map(_.filter(metaData.dataMetricsMetadata, metric =>
                     (metric.StatisticItemId === itemOption.id &&
                         metric.StatisticCategory === metaData.statisticCategory &&
                         metric.StatisticFunctionId === functionOption.id &&
@@ -279,7 +279,7 @@ export function setStatisticFunctions() {
         let currentWidget = getState().configurations.widget;
         let selectedItem = getState().comboRealTimeSettings.selectedItem;
 
-        let _funcOptions = _.uniqBy(_.map(_.filter(getState().dataMetrics.datametricsMetadata,
+        let _funcOptions = _.uniqBy(_.map(_.filter(getState().dataMetrics.dataMetricsMetadata,
             metric =>
                 metric.StatisticItemId === selectedItem.id &&
                 metric.StatisticCategory === getState().dataMetrics.statisticCategory &&
@@ -314,7 +314,7 @@ export function getDisplayFormatOptions() {
     return (dispatch, getState) => {
         let selectedFunction = getState().comboRealTimeSettings.selectedFunction;
         let currentWidget = getState().configurations.widget;
-        let displayFormatOptions = _.uniqBy(_.map(_.filter(getState().dataMetrics.datametricsMetadata, metric =>
+        let displayFormatOptions = _.uniqBy(_.map(_.filter(getState().dataMetrics.dataMetricsMetadata, metric =>
             (metric.StatisticItemId === getState().comboRealTimeSettings.selectedItem.id &&
                 metric.StatisticCategory === getState().dataMetrics.statisticCategory &&
                 metric.StatisticFunctionId === selectedFunction.id && metric.WidgetType === currentWidget.widgetType)
@@ -343,9 +343,9 @@ export function setSelectedDisplayFormat(selectedDisplayFormat) {
 
 export function getApplicableWidget(selectedDisplayFormat) {
     return (dispatch, getState) => {
-        let datametricsMetadata = getState().dataMetrics.datametricsMetadata;
+        let dataMetricsMetadata = getState().dataMetrics.dataMetricsMetadata;
         let selectedItem = getState().comboRealTimeSettings.selectedItem.id;
-        let applicableWidgets = _.map(_.uniqBy(_.filter(datametricsMetadata, x => x.StatisticItemId == selectedItem &&
+        let applicableWidgets = _.map(_.uniqBy(_.filter(dataMetricsMetadata, x => x.StatisticItemId == selectedItem &&
             (x.WidgetType == WidgetTypeEnum.Box ||
                 x.WidgetType == WidgetTypeEnum.Progress ||
                 x.WidgetType == WidgetTypeEnum.Speedo ||
@@ -418,12 +418,12 @@ export function addComboStatisticItem() {
             isDefault: false
         }
 
-        let columns = comboSelectedStatisticColumns.splice(comboSelectedStatisticColumns.length, 0, selectedStatisticItem);
+        comboSelectedStatisticColumns.splice(comboSelectedStatisticColumns.length, 0, selectedStatisticItem);
         dispatch(getState().notificationStore.clearNotifications());
 
         dispatch({
             type: SET_COMBO_REALTIME_STATISTIC_COLUMNS,
-            comboSelectedStatisticColumns: comboSelectedStatisticColumns
+            comboSelectedStatisticColumns: [...comboSelectedStatisticColumns]
         })
 
     }

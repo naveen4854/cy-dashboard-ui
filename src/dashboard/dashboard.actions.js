@@ -37,57 +37,15 @@ export function updateShowIcons(mode) {
 }
 
 export function getDashboardById(dashboardId) {
-    {
-        return (dispatch, getState) => {
-            let isEditMode = getState().dashboard.mode == DashboardModeEnum.Edit ? true : false;
+    return (dispatch, getState) => {
+        let dataMetricsMetadata = getState().dataMetrics.dataMetricsMetadata;
+        let isEditMode = getState().dashboard.mode == DashboardModeEnum.Edit ? true : false;
+        if (dashboardId)
             dashboardService.getDashboardById(dashboardId, isEditMode).then((response) => {
-                if (response.status === 200) {
-                    let dashboard = response.data;
-
-                    //getState().dataMetrics.getMetaDataAction(WidgetType.Box);
-
-                    //var datametricMetadata = getState().dataMetrics.datametricMetadata;
-
-                    dataMetricsService.getStatisticCategories().then(function (response) {
-                        if (response.status === 200) {
-                            const statisticCategories = response.data;
-                            const statisticCategoryOptions =
-                                _.map(_.filter(statisticCategories, x => x.WidgetType === WidgetTypeEnum.Box), (obj) => {
-                                    return {
-                                        label: obj.StatisticCategoryName,
-                                        value: obj.StatisticCategory
-                                    };
-                                });
-                            dataMetricsService.getStatisticGroups().then(function (response) {
-                                if (response.status === 200) {
-                                    const datametricsMetaData = _.map(response.data, (obj) => {
-                                        return {
-                                            StatisticGroupId: obj.StatisticGroupId,
-                                            StatisticGroup: obj.StatisticGroup,
-                                            StatisticItemId: obj.StatisticItemId,
-                                            StatisticItem: obj.StatisticItem,
-                                            StatisticFunctionId: obj.StatisticFunctionId,
-                                            StatisticFunction: obj.StatisticFunction,
-                                            DisplayFormatId: obj.DisplayFormatId,
-                                            DisplayFormat: obj.DisplayFormat,
-                                            StatisticCategory: obj.StatisticCategory,
-                                            WidgetType: obj.WidgetType,
-                                            AllowMultiSelect: obj.AllowMultiSelect,
-                                            IsDrillDownFilter: obj.IsDrillDownFilter,
-                                            Id: obj.Id,
-                                        };
-                                    });
-
-                                    const dashboardData = DashboardUtilities.mapDashboardFromServer(dashboard, datametricsMetaData, true);
-                                    dispatch(getState().dashboard.updateDashboard(dashboardData));
-
-                                }
-                            });
-                        }
-                    });
-                }
+                let dashboard = response.data;
+                const dashboardData = DashboardUtilities.mapDashboardFromServer(dashboard, dataMetricsMetadata, true);
+                dispatch(getState().dashboard.updateDashboard(dashboardData));
             })
-        }
     }
 }
 

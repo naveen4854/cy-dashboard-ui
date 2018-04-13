@@ -46,7 +46,7 @@ export function updateMatrixStyles() {
             ...comboWidget,
             matrix: newMatrix
         }
-        dispatch(getState().dashboard.updateWidget(updatedWidget));
+        //dispatch(getState().dashboard.updateWidget(updatedWidget));
         dispatch(getState().configurations.applyWidget(updatedCell));
     }
 }
