@@ -33,3 +33,7 @@
     font-weight: 600;
     font-family: inherit;
 }
+
+.calculatedVH{
+    height: calc(100vh - 150px);
+}

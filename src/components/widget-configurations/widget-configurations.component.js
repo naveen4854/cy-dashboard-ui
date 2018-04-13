@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import CustomDock from '../custom-dock';
 import { Tab, Tabs } from 'react-bootstrap';
+import Scrollbars from 'react-scrollbar';
 import DataMetricsContainer from '../data-metrics';
 import StylesContainer from '../style-components';
 import ThresholdTabContainer from '../thresholds';
@@ -8,32 +9,47 @@ import { WidgetTypeEnum } from '../../shared/enums';
 import '../../public/assets/styles/headerStyles.css'
 
 export default class WidgetConfigurationsComponent extends PureComponent {
+    constructor(props) {
+        super(props);
+        this.closeSettingsMenu = this.closeSettingsMenu.bind(this);
+    }
+    closeSettingsMenu() {
+        this.props.closeConfigurations();
+    }
     render() {
         return (
             <div>
                 {this.props.configurations.showPanel &&
-                    <div style={{ marginTop: '100px' }}>
-                        <CustomDock>
-                            <div className='dockHeader'>
-                                <span> {this.renderTitle()} </span>
-                            </div>
-                            <Tabs id="top">
-                                {
-                                    this.props.configurations.showMetricsTab && <Tab eventKey="first" title={this.props.l.t('Data_Metrics', 'Data Metrics')}>
+                    <CustomDock>
+                        <div className='dockHeader'>
+                            <span> {this.renderTitle()} </span>
+                            <i
+                                className="dock-close-button fa fa-times"
+                                onClick={this.closeSettingsMenu}
+                            />
+                        </div>
+                        <Tabs id="top">
+                            {
+                                this.props.configurations.showMetricsTab && <Tab eventKey="first" title={this.props.l.t('Data_Metrics', 'Data Metrics')}>
+                                    <Scrollbars className="calculatedVH">
                                         <DataMetricsContainer />
-                                    </Tab>
-                                }
-                                <Tab eventKey="se" title={this.props.l.t('Styles', 'Styles')}>
-                                    <StylesContainer />
+                                    </Scrollbars>
                                 </Tab>
-                                {
-                                    this.props.configurations.showThresholdsTab && <Tab eventKey="t" title={this.props.l.t('Thresholds', 'Thresholds')}>
+                            }
+                            <Tab eventKey="se" title={this.props.l.t('Styles', 'Styles')}>
+                                <Scrollbars className="calculatedVH">
+                                    <StylesContainer />
+                                </Scrollbars>
+                            </Tab>
+                            {
+                                this.props.configurations.showThresholdsTab && <Tab eventKey="t" title={this.props.l.t('Thresholds', 'Thresholds')}>
+                                    <Scrollbars className="calculatedVH">
                                         <ThresholdTabContainer />
-                                    </Tab>
-                                }
-                            </Tabs>
-                        </CustomDock>
-                    </div>
+                                    </Scrollbars>
+                                </Tab>
+                            }
+                        </Tabs>
+                    </CustomDock>
                 }
             </div>
         )

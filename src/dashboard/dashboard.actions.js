@@ -276,11 +276,13 @@ export function deleteWidgetAction(widgetId) {
     return (dispatch, getState) => {
 
         let updatedWidgets = _.filter(getState().dashboard.widgets, (widget) => widget.id !== widgetId);
-        dispatch(getState().configurations.toggleSettingsMenu());
+        if (widgetId == getState().configurations.widget.id) {
+            dispatch(getState().configurations.closeConfigurations());
+        }
         dispatch({
-                type: UPDATE_DASHBOARD_WIDGETS,
-                widgets: updatedWidgets
-            });
-        
+            type: UPDATE_DASHBOARD_WIDGETS,
+            widgets: updatedWidgets
+        });
+
     }
 }

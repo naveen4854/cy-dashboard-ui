@@ -3,20 +3,20 @@ import _ from 'lodash';
 import { UPDATE_DASHBOARD_WIDGET } from "../../dashboard/dashboard.reducer";
 import { DashboardUtilities } from "../../shared/lib";
 import * as widgetService from './widget-configurations.service';
-import { updateConfigurationsWidget } from './widget-configurations.actions'
+import { updateConfigurationsWidget, closeConfigurations } from './widget-configurations.actions'
 import { TOGGLE_CONFIGURATIONS_PANEL, UPDATE_CONFIGURATIONS_WIDGET, SET_METRICS_TAB_VISIBILITY, SET_THRESHOLDS_TAB_VISIBILITY } from "./widget-configurations.constants";
 
 export function toggleSettingsMenu(widget) {
     return (dispatch, getState) => {
         dispatch(getState().dataMetrics.clearSelectedDM())
 
-        if (!widget) {
-            return dispatch({
-                type: TOGGLE_CONFIGURATIONS_PANEL,
-                showPanel: false,
-                widget: {}
-            })
-        }
+        // if (!widget) {
+        //     return dispatch({
+        //         type: TOGGLE_CONFIGURATIONS_PANEL,
+        //         showPanel: false,
+        //         widget: {}
+        //     })
+        // }
 
         let currentWidget = _.cloneDeep(widget);
         let showPanel = !(getState().configurations.showPanel && getState().configurations.widgetId == currentWidget.id)
@@ -136,7 +136,8 @@ const initialState = {
     updateDashboardWidget,
     applyWidget,
     previewWidget,
-    updateConfigurationsWidget
+    updateConfigurationsWidget,
+    closeConfigurations
 };
 
 export default function WidgetConfigurationsReducer(state = _.cloneDeep(initialState), action) {
