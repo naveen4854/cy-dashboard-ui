@@ -247,31 +247,37 @@ export function addSelectedLevels() {
         let statisticCategory = getState().dataMetrics.statisticCategory;
         if (currentWidget.isComboWidget) {
             if (statisticCategory == StatisticCategoryEnum.RealTime) {
-                if (currentWidget.isColumnHeader) {
-                    let comboWidget = _.find(getState().dashboard.widgets, (w) => w.id === currentWidget.comboId);
-                    let wColumnIndex = getColumnIndex(comboWidget.matrix[0], currentWidget.widgetId);
-                    if (wColumnIndex) {
-                        for (var rowIndex = 0; rowIndex < comboWidget.matrix.length; rowIndex++) {
-                            let cWidget = comboWidget.matrix[rowIndex][wColumnIndex];
-                            cWidget.appliedSettings.thresholds = _.cloneDeep(threshold.levels);
+                let comboWidget = _.find(getState().dashboard.widgets, (w) => w.id === currentWidget.comboId);
+                let updatedMatrix = _.map(comboWidget.matrix, (row, rowIndex) => {
+                    return _.map((cell, columnIndex) => {
+                        if (currentWidget.isColumnHeader) {
+                            if (cell.columnId == currentWidget.columnId)
+                                return {
+                                    ...cell,
+                                    appliedSettings: {
+                                        ...cell.appliedSettings,
+                                        thresholds
+                                    }
+                                }
                         }
-                        //todo: figure out below if clause
-                        if (threshold.levels.length == 0) {
-                            dispatch({
-                                type: ThresholdConstants.ADD_THRESHOLD,
-                                levels: threshold.levels,
-                                widgetId: threshold.widgetId
-                            })
-                        }
-                        this.props.UpdateWidget(comboWidget);
-                    }
-                } else {
-                    dispatch({
-                        type: ThresholdConstants.ADD_THRESHOLD,
-                        levels: threshold.levels,
-                        widgetId: threshold.widgetId
+
+                        if (currentWidget.id == cell.id)
+                            return {
+                                ...cell,
+                                appliedSettings: {
+                                    ...cell.appliedSettings,
+                                    thresholds
+                                }
+                            }
+
+                        return cell;
                     })
+                })
+                let updatedWidget = {
+                    ...comboWidget,
+                    matrix: updatedMatrix
                 }
+                dispatch(getState().configurations.previewWidget(updatedWidget));
             }
             else if (threshold.statisticsCategoryId == StatisticCategoryEnum.Custom) {
                 if (threshold.column)
