@@ -88,7 +88,7 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
                     }
                     cell.applyCommonStyles(styles);
                 }
-                //cell.applyThresholds(thresholds);
+                cell.applyThresholds(existingCell.appliedSettings.thresholds || []);
             }
 
             // default styles based on new column or row
@@ -101,7 +101,7 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
             } else {
                 // cell.applyCommonStyles(styles);
             }
-
+            
             return cell;
         });
         return row;

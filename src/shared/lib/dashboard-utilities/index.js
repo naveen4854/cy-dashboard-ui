@@ -556,47 +556,61 @@ export function mappingCustomMatrixHeaders(cHeader, column) {
 
 function mapAppliedSettings(widget, isEdit, dataMetricsMetadata) {
   {
+    let columns, comboSelectedStatisticColumns = []
+    let settings = widget.ws || {};
+    let realTimeSettings = settings.srt || {}
+    let customSettings = customSettings || {}
+    if (settings.stom == StatisticCategoryEnum.Custom) {
+      columns = customSettings.isc ? getCustomColumns(widget.wmx[0]) : [];
+      comboSelectedStatisticColumns = []
+    } else {
+      // For exisitng dashboard id's will be empty, hence defaulting them and using the same id from here on
+      columns = _.map(realTimeSettings.rc, (column) => { return { ...column, cid: column.cid || getRandom() } })
+      columns.splice(0, 1)
+      comboSelectedStatisticColumns = _.map(columns, (column, i) => {
+        return {
+          id: column.cid,
+          item: {
+            id: column.cisiid
+          },
+          func: {
+            id: column.ciafid
+          },
+          displayFormat: {
+            id: column.cdf
+          },
+          widget: {
+            value: column.cwt
+          },
+          displayName: column.dn ? column.dn : undefined,
+          isDefault: i == 1 ? true : false
+        }
+      })
+    }
+
     return {
-      dataMetrics: widget.ws && widget.ws.srt ? {
-        statisticCategory: widget.ws.stom,
-        displayFormat: widget.ws.srt.rsdfid ? getDisplayFormat(widget.ws.srt.rsdfid, dataMetricsMetadata) : '',
-        group: widget.ws.srt.rsgid ? getSelectedGroup(widget.ws.srt, dataMetricsMetadata) : '',
-        item: widget.ws.srt.rsiid ? getSelectedItem(widget.ws.srt, dataMetricsMetadata) : '',
-        func: widget.ws.srt.rsfid ? getSelectedFunction(widget.ws.srt, dataMetricsMetadata) : '',
-        drillDownOptions: widget.ws.srt.rf,
-        columns: widget.ws.stom == StatisticCategoryEnum.Custom ? widget.ws.sc.isc ? addLevels(widget.wmx[0]) : [] : widget.ws.srt.rc,
-        comboSelectedStatisticColumns: _.map(widget.ws.srt.rc, (eachDataMetrics, i) => {
-          return {
-            id: getRandom(),
-            item: {
-              id: eachDataMetrics.cisiid
-            },
-            func: {
-              id: eachDataMetrics.ciafid
-            },
-            displayFormat: {
-              id: eachDataMetrics.cdf
-            },
-            widget: {
-              value: eachDataMetrics.cwt
-            },
-            displayName: eachDataMetrics.dn ? eachDataMetrics.dn : undefined,
-            isDefault: i == 1 ? true : false
-          }
-        }),
-        query: widget.ws.sc.qry,
-        levels: widget.ws.sc.isc ? addLevels(widget.wmx[0]) : []
+      dataMetrics: settings && realTimeSettings ? {
+        statisticCategory: settings.stom,
+        displayFormat: realTimeSettings.rsdfid ? getDisplayFormat(realTimeSettings.rsdfid, dataMetricsMetadata) : '',
+        group: realTimeSettings.rsgid ? getSelectedGroup(realTimeSettings, dataMetricsMetadata) : '',
+        item: realTimeSettings.rsiid ? getSelectedItem(realTimeSettings, dataMetricsMetadata) : '',
+        func: realTimeSettings.rsfid ? getSelectedFunction(realTimeSettings, dataMetricsMetadata) : '',
+        drillDownOptions: realTimeSettings.rf,
+        columns,
+        comboSelectedStatisticColumns,
+        query: customSettings.qry,
+        // levels: customSettings.isc ? addLevels(widget.wmx[0]) : []
       } :
         {},
       group: {
         isNew: false,
         isEdit: isEdit,
-        isConfigured: widget.ws && widget.ws.sc && widget.ws.sc.isc,
-        selectedDisplayFormat: widget.ws && widget.ws.sc && widget.ws.sc.dfId,
-        filterStoreProcs: widget.ws && widget.ws.sc && widget.ws.sc.prl,
-        selectedStoreProc: widget.ws && widget.ws.sc && widget.ws.sc.sSp ? {
-          label: widget.ws && widget.ws.sc && widget.ws.sc.sSp,
-          value: widget.ws && widget.ws.sc && widget.ws.sc.sSp
+        isConfigured: settings && customSettings && customSettings.isc,
+        selectedDisplayFormat: settings && customSettings && customSettings.dfId,
+        filterStoreProcs: settings && customSettings && customSettings.prl,
+        selectedStoreProc: settings && customSettings && customSettings.sSp ? {
+          label: settings && customSettings && customSettings.sSp,
+          value: settings && customSettings && customSettings.sSp
         } : undefined
       },
       thresholds: mapThresholds(widget.wth)
@@ -710,7 +724,7 @@ function StylesMapper(styles) {
  * To add the levels for combo custom statistics
  * @param {*} columns 
  */
-function addLevels(columns) {
+function getCustomColumns(columns) {
   return _.map(columns, (column, index) => {
     return {
       id: column.wid,
@@ -905,7 +919,7 @@ function textWidgetConfigurationsFromServer(textWidget, dataMetricsMetadata, isE
   }
 }
 function comboWidgetConfigurationsFromServer(widget, dataMetricsMetadata, isEdit) {
-  return {
+  let comboWidget = {
     x: widget.wxp,
     y: widget.wyp,
     width: widget.width,
@@ -913,8 +927,6 @@ function comboWidgetConfigurationsFromServer(widget, dataMetricsMetadata, isEdit
     z: widget.zIndex,
     id: widget.wid,
     widgetType: widget.wt,
-    min: widget.wmin,
-    max: widget.wmax,
     refreshInterval: widget.wri,
     value: 0,
     displayValue: 0,
@@ -941,16 +953,6 @@ function comboWidgetConfigurationsFromServer(widget, dataMetricsMetadata, isEdit
         fontFamily: 'Arial',
         fontSize: '12'
       },
-    rangeValueStyles: widget.wrs ? {
-      color: widget.wrs.sc,
-      fontFamily: widget.wrs.sff,
-      fontSize: widget.wrs.sfs
-    } :
-      {
-        color: rgba(255, 255, 255, 1),
-        fontFamily: 'Arial',
-        fontSize: '12'
-      },
     widgetBody: widget.wb ? {
       backgroundColor: widget.wb.sbc,
       color: widget.wb.sc,
@@ -960,50 +962,15 @@ function comboWidgetConfigurationsFromServer(widget, dataMetricsMetadata, isEdit
       {
         backgroundColor: rgba(255, 255, 255, 1)
       },
-
-
-    segmentColors: widget.wsgc && widget.wsgc.length > 0 ? widget.wsgc : [rgba(255, 0, 0, 1), rgba(255, 232, 0, 1), rgba(0, 255, 0, 1)],
-    barStyles: widget.wbs ? {
-      backgroundColor: widget.wbs.sbc,
-      color: widget.wbs.sc,
-      fontFamily: widget.wbs.sff,
-      fontSize: widget.wbs.sfs
-    } :
-      {
-        backgroundColor: rgba(255, 255, 255, 1)
-      },
-
-    xAxisStyles: widget.wsxs ? {
-      backgroundColor: widget.wsxs.sbc,
-      color: widget.wsxs.sc,
-      fontFamily: widget.wsxs.sff,
-      fontSize: widget.wsxs.sfs
-    } :
-      {
-        backgroundColor: rgba(255, 255, 255, 1)
-      },
-    yAxisStyles: widget.wsys ? {
-      backgroundColor: widget.wsys.sbc,
-      color: widget.wsys.sc,
-      fontFamily: widget.wsys.sff,
-      fontSize: widget.wsys.sfs
-    } :
-      {
-        backgroundColor: rgba(255, 255, 255, 1)
-      },
-    enableMin: widget.wenmn,
-    enableMax: widget.wenmx,
-    enableBarLines: widget.wenbl,
-    useSelectedBarColor: widget.wusbc,
-    showYAxis: widget.wsy,
-    scrollType: getScrollType(widget.twrst),
-    scrollSpeed: widget.twrd,
-    matrix: widget.wt == WidgetTypeEnum.Combo ? convertToMatrix(widget.wmx, widget.ws.srt.rc, widget.ws.srt.rf, widget.wid, widget.ws.stom) : '',
     PictureSelected: widget.wt == WidgetTypeEnum.Picture ? widget.wpsl : '',
     appliedSettings: mapAppliedSettings(widget, isEdit, dataMetricsMetadata),
-    showLabels: widget.sll,
-    showLegends: widget.sld
   };
+  comboWidget = {
+    ...comboWidget,
+    matrix: convertToMatrix(widget.wmx, widget.ws.srt.rc, widget.ws.srt.rf, widget.wid, widget.ws.stom)
+  }
+
+  return comboWidget;
 }
 
 function widgetConfigurationsFromServer(widget, dataMetricsMetadata, isEdit) {
