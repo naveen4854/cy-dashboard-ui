@@ -6,14 +6,16 @@ export default class LabelledToggle extends PureComponent {
 
     render() {
         return (
-            <LabelledControl label={this.props.label}>
-                <ToggleSwitch
-                    className="form-control"
-                    nodes={this.props.nodes}
-                    checkedNode={this.props.checkedNode}
-                    onChange={this.props.onToggleChange}
-                />
-            </LabelledControl>
+            <div className="marginTop10">
+                <LabelledControl label={this.props.label}>
+                    <ToggleSwitch
+                        className="form-control"
+                        nodes={this.props.nodes}
+                        checkedNode={this.props.checkedNode}
+                        onChange={this.props.onToggleChange}
+                    />
+                </LabelledControl>
+            </div>
         )
     }
 }

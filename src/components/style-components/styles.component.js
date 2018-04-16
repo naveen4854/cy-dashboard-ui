@@ -21,6 +21,7 @@ class StylesComponent extends PureComponent {
         super(props);
         this.updateApplyToOptions = this.updateApplyToOptions.bind(this);
         this.updateWidgetStyles = this.updateWidgetStyles.bind(this);
+        this.updateApplyComboStyles = this.updateApplyComboStyles.bind(this);
     }
     updateApplyToOptions(e) {
         this.props.updateApplyToOptions(e);
@@ -39,6 +40,11 @@ class StylesComponent extends PureComponent {
             this.props.updateWidgetStyles();
         }
     }
+    updateApplyComboStyles(e){
+        if (this.props.isComboWidget) {
+            this.props.updateApplyComboStyles(e);
+        }
+    }
 
     render() {
         return (
@@ -46,6 +52,10 @@ class StylesComponent extends PureComponent {
                 {
                     this.props.isComboWidget &&
                     this.renderApplyOptions()
+                }
+                {
+                    this.props.isComboWidget &&
+                    this.renderApplyComboStyles()
                 }
                 {this.renderStyles()}
                 <div className="row ">
@@ -76,6 +86,14 @@ class StylesComponent extends PureComponent {
             onToggleChange={this.updateApplyToOptions}
         />
     }
+    renderApplyComboStyles() {
+        return <LabelledToggle
+            label={this.props.l.t('Apply_Combo_StylesCOLON', 'Apply Combo Styles:')}
+            nodes={Constants.YesNoOptions}
+            checkedNode={this.props.styles.applyComboStyles}
+            onToggleChange={this.updateApplyComboStyles}
+        />
+    }
     renderStyles() {
         switch (this.props.widgetType) {
             case WidgetTypeEnum.Box:
@@ -86,7 +104,6 @@ class StylesComponent extends PureComponent {
             case WidgetTypeEnum.Progress:
                 return (
                     <ProgressBarStyles {...this.props} />
-                    // <div>{this.props.l.t('Sytles_not_present_for_this_widget', 'Sytles not present for this widget')}</div>
                 );
             case WidgetTypeEnum.Speedo:
                 return (

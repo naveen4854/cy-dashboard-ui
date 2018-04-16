@@ -1,5 +1,5 @@
 import { ApplyToOptions, WidgetTypeEnum } from "../../shared/enums";
-import { STYLES_UPDATE_APPLY_OPTION } from "./styles.constants";
+import { STYLES_UPDATE_APPLY_OPTION, STYLES_APPLY_COMBO_STYLES } from "./styles.constants";
 
 export const INITIALIZE_STYLES = "INITIALIZE_STYLES"
 export const UPDATE_STYLE_PROP = "UPDATE_STYLE_PROP"
@@ -241,13 +241,19 @@ export const ACTION_HANDLERS = {
         return Object.assign({}, state, {
             selectedApplyTo: action.applyToOption
         })
-    }
+    },
+    [STYLES_APPLY_COMBO_STYLES]: (state, action) => {
+        return Object.assign({}, state, {
+            applyComboStyles: action.applyComboStyles
+        })
+    },
 }
 
 const initialState = {
     initializeStyles,
     showMessage: false,
-    selectedApplyTo: ApplyToOptions.Cell
+    selectedApplyTo: ApplyToOptions.Cell,
+    applyComboStyles: false
 };
 
 export default function StylesReducer(state = _.cloneDeep(initialState), action) {

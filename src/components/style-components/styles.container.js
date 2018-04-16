@@ -4,7 +4,7 @@ import localize from '../localization/localization.hoc';
 import commonProps from './styles-common-props';
 import * as Reducer from './styles.reducer';
 import { DisplayFormatEnum, PageEnum } from '../../shared/enums';
-import { updateMatrixStyles, updateApplyToOptions } from './styles.actions';
+import { updateMatrixStyles, updateApplyToOptions, updateApplyComboStyles } from './styles.actions';
 
 const mapDispatchToProps = (dispatch) => {
     //let commons = commonProps(dispatch);
@@ -35,7 +35,10 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateApplyToOptions: (applyToOption) => {
             dispatch(updateApplyToOptions(applyToOption));
-        }
+        },
+        updateApplyComboStyles: (applyComboStyles) => {
+            dispatch(updateApplyComboStyles(applyComboStyles));
+        },
     }
 }
 
