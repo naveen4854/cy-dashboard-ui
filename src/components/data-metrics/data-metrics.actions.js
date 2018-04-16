@@ -39,16 +39,17 @@ export function saveComboRealTimeMetrics() {
     }
 }
 
-function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, comboId, currentWidget) {
-    let oldMatrix = currentWidget ? _.flatten(currentWidget.matrix) : null;
-    let oldDrillDownOptions = currentWidget.appliedSettings.dataMetrics.drillDownOptions;
+function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, comboId, currentComboWidget) {
+    let oldMatrix = currentComboWidget ? _.flatten(currentComboWidget.matrix) : null;
+    let oldDrillDownOptions = currentComboWidget.appliedSettings.dataMetrics.drillDownOptions;
     let oldFilters = oldDrillDownOptions ? [...oldDrillDownOptions] : [];
     oldFilters.splice(0, 0, {});
-    let oldColumns = currentWidget.appliedSettings.dataMetrics.comboSelectedStatisticColumns;
+    let oldColumns = currentComboWidget.appliedSettings.dataMetrics.comboSelectedStatisticColumns;
 
     let newFilters = [...filters];
     newFilters.splice(0, 0, {})
-    let previousRowCell = undefined;
+    let previousRow = undefined;
+    let previousCell = undefined;
     return _.map(newFilters, (filter, rowIndex) => {
         let row = _.map(comboSelectedStatisticColumns, (statisticColumn, columnIndex) => {
             let isColumnHeader = rowIndex == 0;
@@ -70,7 +71,7 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
             cell.comboId = comboId;
             cell.columnId = statisticColumn.id;
             cell.rowId = isColumnHeader ? -1 : filter.value + '_' + selectedGroup.id; // using combination because there is chance of same id for unrelated drilldown options
-            
+
             // check if cell exists in old matrix by comparing columnId and rowId
             // if exists apply all its styles/thresholds onto new widget
             // P.S. track the statistic item changes and apply them again and also widgettype
@@ -92,33 +93,29 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
             }
 
             // default styles based on new column or row
-            if (_.find(oldFilters, oldFilter => oldFilter.value == filter.value)) {
+            if (_.find(oldFilters, oldFilter => (oldFilter.value ? oldFilter.value : oldFilter) == filter.value)) {
                 //cell.applyStyles(existingCell);
             } else {
-                if (rowIndex == 0) {
-
+                if (previousRow && previousRow[columnIndex]) {
+                    cell.applyStyles(previousRow[columnIndex]);
                 }
-                else {
-                    if (previousRowCell != undefined) {
-                         cell.applyStyles(previousRowCell);
-                    }
-                }
-                // cell.applyStyles(existingCell);
             }
 
             if (_.find(oldColumns, oldColumn => oldColumn.id == statisticColumn.id)) {
             } else {
                 if (rowIndex != 0) {
-                    //cell.applyCommonStyles(currentWidget);
+                    cell.applyCommonStyles(currentComboWidget);
                 }
-
-
-                // cell.applyCommonStyles(styles);
+                else {
+                    if (previousCell) {
+                        cell.applyCommonStyles(previousCell);
+                    }
+                }
             }
-            previousRowCell = _.cloneDeep(cell);
-            
+            previousCell = _.cloneDeep(cell);
             return cell;
         });
+        previousRow = _.cloneDeep(row);
         return row;
     });
 }
@@ -161,7 +158,7 @@ function getColumnHeader(metric, index, comboId) {
 
 function getColumn(metric) {
     return {
-        id: metric.id,
+        cid: metric.id,
         cisiid: metric && metric.item && metric.item.id,
         ciafid: metric && metric.func && metric.func.id,
         cirob: 0,

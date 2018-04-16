@@ -12,14 +12,12 @@ export function getComboMatrix(inputWidget) {
     let i = 0,
         j = 0;
     let comboMatrixs = [];
-    debugger
     for (i = 0; i < inputWidget.matrix.length; i++) {
         let comboRow = [];
         for (j = 0; j < inputWidget.matrix[i].length; j++) {
             var comboInnerWidget = {};
             let eachWidget = inputWidget.matrix[i][j];
             let thresholds = mapThresholdsToServer(eachWidget);
-            debugger
             comboInnerWidget = {
                 height: eachWidget.height,
                 width: eachWidget.width,
@@ -115,10 +113,8 @@ export function comboWidgetConfigurationsFromServer(widget, dataMetricsMetadata,
         PictureSelected: widget.wt == WidgetTypeEnum.Picture ? widget.wpsl : '',
         appliedSettings: mapAppliedSettings(widget, isEdit, dataMetricsMetadata),
     };
-    debugger
     let columns = comboWidget.appliedSettings.dataMetrics.columns;
     let selectedGroup = comboWidget.appliedSettings.dataMetrics.group;
-    debugger
     comboWidget = {
         ...comboWidget,
         matrix: convertToMatrix(widget.wmx, columns, widget.ws.srt.rf, widget.wid, widget.ws.stom, selectedGroup)
@@ -148,7 +144,6 @@ function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId, se
 
             comboInnerWidget.columnId = columns[j].cid;
             comboInnerWidget.rowId = isColumnHeader ? -1 : filters[i - 1] + '_' + selectedGroup.id; // using combination because there is chance of same id for unrelated drilldown options
-            debugger
             comboInnerWidget = {
                 ...comboInnerWidget,
                 height: eachWidget.height,

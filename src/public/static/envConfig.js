@@ -5,6 +5,7 @@ window.envconfig = {
    apiUrl: "http://localhost:55244/api/",
   //apiUrl: "http://localhost:3006/api/",
   //apiUrl: "http://localhost:5152/api/",
-  retryCount: 1
+  retryCount: 1,
+  dev: true,  
 }
 

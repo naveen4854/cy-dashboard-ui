@@ -12,6 +12,8 @@ import ClockWidgetComponent from '../clock-widget';
 import TextWidgetComponent from '../text-widget';
 import PictureWidgetContainer from '../picture-widget/';
 import ComboWidgetComponent from '../combo-widget';
+const envconfig = require('./static/envconfig');
+
 
 import '../styles.css'
 
@@ -55,7 +57,9 @@ export default class WidgetComponent extends PureComponent {
 
             <div style={{ height: this.props.widget.height, width: this.props.widget.width }}
                 className={classToBeApplied}>
-                <div style={{ position: 'absolute', color: 'black' }}>{this.props.widget.id}</div>
+                {envconfig.dev &&
+                    <div style={{ position: 'absolute', color: 'black' }}>{this.props.widget.id} / {this.props.widget.columnId} / {this.props.widget.rowId}</div>
+                }
                 {
                     (this.props.showIcons) &&
                     <WidgetHeader {...this.props} />
