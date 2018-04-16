@@ -70,7 +70,7 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
             cell.comboId = comboId;
             cell.columnId = statisticColumn.id;
             cell.rowId = isColumnHeader ? -1 : filter.value + '_' + selectedGroup.id; // using combination because there is chance of same id for unrelated drilldown options
-
+            
             // check if cell exists in old matrix by comparing columnId and rowId
             // if exists apply all its styles/thresholds onto new widget
             // P.S. track the statistic item changes and apply them again and also widgettype

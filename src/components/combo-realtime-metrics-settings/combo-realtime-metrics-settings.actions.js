@@ -231,7 +231,7 @@ function mapComboItems(columns, statisticCategory, statisticItems, dataMetricsMe
             }), 'id'), d => d.id == column.cdf)
 
             var comboItem = {
-                id: Date.now() + Math.floor(Math.random() * 10000),
+                id: column.cid || getRandom(),
                 item: itemOption,
                 func: functionOption,
                 isDefault: false,
