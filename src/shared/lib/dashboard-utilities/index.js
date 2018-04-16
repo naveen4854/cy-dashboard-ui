@@ -1,14 +1,15 @@
 import _ from 'lodash';
 import { WidgetTypeEnum, StatisticCategoryEnum, ScrollTypeEnum, PictureStretchEnum, DisplayFormatEnum } from '../../enums';
 
-
 import { Constants } from '../../constants';
 import * as DateZone from '../date-conversion';
 import moment from 'moment';
 import { BoxWidget } from '../../widgets';
 import { rgba } from '../../../utilities';
 import { getRandom } from '../../../utilities/utils';
-
+import { getComboMatrix, comboWidgetConfigurationsFromServer } from './combo-utils';
+import { stylesMapperToServer } from './styles-utils';
+import { mapAppliedSettings } from './settings-utils';
 /**
  * Map widget with metrics
  * @param {*} inputWidget 
@@ -110,7 +111,7 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
       };
       columns = _.filter(columns, c => c.cisiid != column.cisiid);
       columns.splice(0, 0, column);
-      comboMatrix = GetComboMatrix(inputWidget);
+      comboMatrix = getComboMatrix(inputWidget);
 
     } else {
 
@@ -161,10 +162,10 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
     wri: inputWidget.refreshInterval || -1,
     wsgc: inputWidget.widgetType === WidgetTypeEnum.Speedo ? inputWidget.segmentColors : [],
     wth: thresholds,
-    wb: StylesMapperToServer(inputWidget.widgetBody),
-    wvs: StylesMapperToServer(inputWidget.valueStyles),
-    wts: StylesMapperToServer(inputWidget.titleStyles),
-    wrs: StylesMapperToServer(inputWidget.rangeValueStyles),
+    wb: stylesMapperToServer(inputWidget.widgetBody),
+    wvs: stylesMapperToServer(inputWidget.valueStyles),
+    wts: stylesMapperToServer(inputWidget.titleStyles),
+    wrs: stylesMapperToServer(inputWidget.rangeValueStyles),
     ws: {
       // TODO: Need to move it to different function and return appropriate typeofmetric.
       stom: inputWidget && inputWidget.appliedSettings && inputWidget.appliedSettings.dataMetrics && inputWidget.appliedSettings.dataMetrics.statisticCategory,
@@ -197,9 +198,9 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
     wenbl: inputWidget.enableBarLines,
     wusbc: inputWidget.useSelectedBarColor,
     wsy: inputWidget.showYAxis,
-    wbs: StylesMapperToServer(inputWidget.barStyles),
-    wsxs: StylesMapperToServer(inputWidget.xAxisStyles),
-    wsys: StylesMapperToServer(inputWidget.yAxisStyles),
+    wbs: stylesMapperToServer(inputWidget.barStyles),
+    wsxs: stylesMapperToServer(inputWidget.xAxisStyles),
+    wsys: stylesMapperToServer(inputWidget.yAxisStyles),
     twrd: inputWidget.scrollSpeed,
     twrst: inputWidget.scrollType && inputWidget.scrollType.value,
     wsmv: inputWidget.showMaxValueOnWidget,
@@ -212,67 +213,6 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
     isLive: isLive,
     od: inputWidget.previousData
   }
-}
-
-/**
- * generates matrix for given widget
- * @param {*} inputWidget 
- */
-function GetComboMatrix(inputWidget) {
-  let i = 0,
-    j = 0;
-  let comboMatrixs = [];
-  for (i = 0; i < inputWidget.matrix.length; i++) {
-    let comboRow = [];
-    for (j = 0; j < inputWidget.matrix[i].length; j++) {
-      var comboInnerWidget = {};
-      let eachWidget = inputWidget.matrix[i][j];
-      comboInnerWidget = {
-        height: eachWidget.height,
-        width: eachWidget.width,
-        wid: eachWidget.id,
-        cid: eachWidget.comboId,
-        icw: eachWidget.isComboWidget,
-        wt: eachWidget.widgetType,
-        wmax: eachWidget.max,
-        wmin: eachWidget.min,
-        wtl: eachWidget.displayValue,
-        wri: -1,
-        abc: eachWidget.appliedBackgroundColor,
-        wsgc: (eachWidget.widgetType === WidgetTypeEnum.Speedo || eachWidget.widgetType === WidgetTypeEnum.Progress) ? eachWidget.segmentColors : [],
-        wth: MapThresholdsToServer(eachWidget),
-        wb: StylesMapperToServer(eachWidget.widgetBody),
-        wvs: StylesMapperToServer(eachWidget.valueStyles),
-        wts: StylesMapperToServer(eachWidget.titleStyles),
-        wrs: StylesMapperToServer(eachWidget.rangeValueStyles),
-        wsmv: eachWidget.showMaxValueOnWidget,
-        cpac: eachWidget.arcColor,
-        cpaw: eachWidget.arcWidth,
-        fc: eachWidget.column ? eachWidget.column : "",
-        dty: i == 0 && eachWidget.dataType ? eachWidget.dataType : null,
-        df: i == 0 && eachWidget.dateFormat ? eachWidget.dateFormat : null,
-        sz: i == 0 && eachWidget.showZeroValues ? eachWidget.showZeroValues : false,
-        dpid: eachWidget.displayFormatId,
-        tfid: eachWidget.timeFormatId,
-        dtid: eachWidget.dateFormatId,
-        hfid: eachWidget.hoursFormatId,
-
-        bsdc: eachWidget.basedColumn ? {
-          v: eachWidget.basedColumn.value,
-          l: eachWidget.basedColumn.label,
-          t: eachWidget.basedColumn.type
-        } : null,
-        isSummary: eachWidget.isSummary,
-        aggId: eachWidget.aggregateOperationId,
-        isLive: eachWidget.isLive
-        //isSummary:  eachWidget.displayFormatId,
-
-      };
-      comboRow.push(comboInnerWidget);
-    }
-    comboMatrixs.push(comboRow);
-  }
-  return comboMatrixs;
 }
 
 /**
@@ -358,116 +298,6 @@ export function WidgetDataMapper(widget, data) {
   }
 }
 
-/**
- * Map Styles to server obj
- */
-function StylesMapperToServer(styles) {
-  return styles ? {
-    sbc: styles.backgroundColor,
-    sc: styles.color,
-    sff: styles.fontFamily,
-    sfs: styles.fontSize
-  } : {};
-}
-/**
- * Map threshold to server obj
- * @param {*} inputWidget 
- */
-function MapThresholdsToServer(inputWidget) {
-  if (inputWidget.appliedSettings && inputWidget.appliedSettings.thresholds) {
-    let thresholds = _.map(inputWidget.appliedSettings.thresholds, threshold => {
-      return {
-        thv: threshold.levelValue,
-        thc: threshold.color, // TODO: Pass Color appropriately
-        // SoundFilePath: threshold.soundFile, // TODO: Pass sound file appropriately
-        thst: threshold.isContinuous ? 1 : 0, // TODO: Create an enum or have a boolean value for isContinuos
-        thea: threshold.emailTo,
-        thes: threshold.emailSubject,
-        thmn: threshold.smsTo
-      };
-    });
-    return thresholds;
-  }
-}
-
-export function getSelectedGroup(group, metrics) {
-  var selectedGroup = _.find(metrics, {
-    'StatisticGroupId': group.rsgid
-  });
-  if (selectedGroup) {
-    return {
-      id: selectedGroup.StatisticGroupId,
-      label: selectedGroup.StatisticGroup,
-      value: selectedGroup.Id
-    }
-  } else {
-    return {
-      id: group.rsgid,
-      label: 'metrics unavailable'
-    }
-  }
-
-}
-
-export function getSelectedItem(item, metrics) {
-  var selectedItem = _.find(metrics, {
-    'StatisticItemId': item.rsiid
-  });
-  if (selectedItem) {
-    return {
-      id: selectedItem.StatisticItemId,
-      label: selectedItem.StatisticItem,
-      value: selectedItem.Id
-    }
-  } else {
-    return {
-      id: item.rsiid,
-      label: 'metrics unavailable'
-    }
-  }
-
-
-}
-
-export function getSelectedFunction(func, metrics) {
-  var selectedFunc = _.find(metrics, {
-    'StatisticFunctionId': func.rsfid
-  });
-  if (selectedFunc) {
-    return {
-      id: selectedFunc.StatisticFunctionId,
-      label: selectedFunc.StatisticFunction,
-      value: selectedFunc.Id
-    }
-  } else {
-    return {
-      id: func.rsfid,
-      label: 'metrics unavailable'
-    }
-
-  }
-
-}
-
-export function getDisplayFormat(displayFormat, metrics) {
-  var selectedDisplayFormat = _.find(metrics, {
-    'DisplayFormatId': displayFormat
-  });
-  if (selectedDisplayFormat) {
-    return {
-      id: selectedDisplayFormat.DisplayFormatId,
-      label: selectedDisplayFormat.DisplayFormat,
-      value: selectedDisplayFormat.Id
-    }
-  } else {
-    return {
-      id: displayFormat,
-      label: 'metrics unavailable'
-    }
-  }
-
-}
-
 export function getScrollType(scrollType) {
 
   switch (scrollType) {
@@ -514,24 +344,6 @@ export function returnMessages(messages, responseType) {
   });
 }
 
-function mapThresholds(thresholds) {
-  let givenThresholds = _.map(thresholds, (eachThreshold, index) => {
-    let id = Date.now();
-    return {
-      id: id + index,
-      level: index + 1,
-      levelValue: eachThreshold.thv,
-      color: eachThreshold.thc, // TODO: Pass Color appropriately
-      // SoundFilePath: eachThreshold.soundFile, // TODO: Pass sound file appropriately
-      isContinuous: eachThreshold.thst ? true : false, // TODO: Create an enum or have a boolean value for isContinuos
-      emailTo: eachThreshold.thea,
-      emailSubject: eachThreshold.thes,
-      smsTo: eachThreshold.thmn
-    }
-  })
-  return givenThresholds
-}
-
 /**
  * mapping the custom combo headers
  * @param {*} cHeader 
@@ -553,166 +365,11 @@ export function mappingCustomMatrixHeaders(cHeader, column) {
   return { ...cHeader };
 }
 
-
-function mapAppliedSettings(widget, isEdit, dataMetricsMetadata) {
-  {
-    debugger
-    //if(widget.)
-    return {
-      dataMetrics: widget.ws && widget.ws.srt ? {
-        statisticCategory: widget.ws.stom,
-        displayFormat: widget.ws.srt.rsdfid ? getDisplayFormat(widget.ws.srt.rsdfid, dataMetricsMetadata) : '',
-        group: widget.ws.srt.rsgid ? getSelectedGroup(widget.ws.srt, dataMetricsMetadata) : '',
-        item: widget.ws.srt.rsiid ? getSelectedItem(widget.ws.srt, dataMetricsMetadata) : '',
-        func: widget.ws.srt.rsfid ? getSelectedFunction(widget.ws.srt, dataMetricsMetadata) : '',
-        drillDownOptions: widget.ws.srt.rf,
-        columns: widget.ws.stom == StatisticCategoryEnum.Custom ? widget.ws.sc.isc ? addLevels(widget.wmx[0]) : [] : widget.ws.srt.rc,
-        comboSelectedStatisticColumns: _.map(widget.ws.srt.rc, (eachDataMetrics, i) => {
-          return {
-            id: getRandom(),
-            item: {
-              id: eachDataMetrics.cisiid
-            },
-            func: {
-              id: eachDataMetrics.ciafid
-            },
-            displayFormat: {
-              id: eachDataMetrics.cdf
-            },
-            widget: {
-              value: eachDataMetrics.cwt
-            },
-            displayName: eachDataMetrics.dn ? eachDataMetrics.dn : undefined,
-            isDefault: i == 1 ? true : false
-          }
-        }),
-        query: widget.ws.sc.qry,
-        levels: widget.ws.sc.isc ? addLevels(widget.wmx[0]) : []
-      } :
-        {},
-      group: {
-        isNew: false,
-        isEdit: isEdit,
-        isConfigured: widget.ws && widget.ws.sc && widget.ws.sc.isc,
-        selectedDisplayFormat: widget.ws && widget.ws.sc && widget.ws.sc.dfId,
-        filterStoreProcs: widget.ws && widget.ws.sc && widget.ws.sc.prl,
-        selectedStoreProc: widget.ws && widget.ws.sc && widget.ws.sc.sSp ? {
-          label: widget.ws && widget.ws.sc && widget.ws.sc.sSp,
-          value: widget.ws && widget.ws.sc && widget.ws.sc.sSp
-        } : undefined
-      },
-      thresholds: mapThresholds(widget.wth)
-
-    }
-  }
-}
-
-function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId) {
-  let i = 0,
-    j = 0;
-  let comboMatrixs = [];
-  for (i = 0; i < resultMatrix.length; i++) {
-    let comboRow = [];
-    for (j = 0; j < resultMatrix[i].length; j++) {
-      var comboInnerWidget = {};
-      let eachWidget = resultMatrix[i][j];
-      if (eachWidget.wt == WidgetTypeEnum.CircularProgress) {
-        eachWidget.appliedSettings = {};
-        eachWidget.appliedSettings.dataMetrics = {};
-        eachWidget.appliedSettings.dataMetrics.displayFormat = {};
-        eachWidget.appliedSettings.dataMetrics.displayFormat.id = columns[j].cdf;
-      }
-      comboInnerWidget = {
-        height: eachWidget.height,
-        width: eachWidget.width,
-        id: eachWidget.wid,
-        comboId: comboId,
-        widgetType: eachWidget.wt,
-        max: eachWidget.wmax,
-        min: eachWidget.wmin,
-        title: eachWidget.wtl,
-        wri: -1,
-        displayValue: categoryId == StatisticCategoryEnum.RealTime ? i == 0 || j == 0 ? eachWidget.wtl : '--' : i == 0 ? eachWidget.wtl : '--',
-        value: '0',
-        segmentColors: eachWidget.wsgc && eachWidget.wsgc.length > 0 ? eachWidget.wsgc : [rgba(255, 0, 0, 1), rgba(255, 232, 0, 1), rgba(0, 255, 0, 1)],
-        isComboWidget: true,
-        scrollType: ScrollTypeEnum.None,
-        widgetBody: StylesMapper(eachWidget.wb),
-        valueStyles: StylesMapper(eachWidget.wvs),
-        titleStyles: StylesMapper(eachWidget.wts),
-        rangeValueStyles: StylesMapper(eachWidget.wrs),
-        arcColor: eachWidget.cpac ? eachWidget.cpac : rgba(0, 192, 239, 1),
-        arcWidth: eachWidget.cpaw ? eachWidget.cpaw : 15,
-        appliedBackgroundColor: categoryId == StatisticCategoryEnum.Custom && resultMatrix[0][j].abc ? resultMatrix[0][j].abc : StylesMapper(eachWidget.wb).backgroundColor,// categoryId ==  StatisticCategoryEnum.Custom ? GetWidget(WidgetTypeEnum.Box, true, 0).appliedBackgroundColor : StylesMapper(eachWidget.wb).backgroundColor,
-        showMaxValueOnWidget: eachWidget.wsmv,
-        appliedSettings: mapAppliedSettings(eachWidget),
-        dataType: eachWidget.dty,
-        dateFormat: eachWidget.df,
-        showZeroValues: eachWidget.sz,
-        displayFormatId: eachWidget.dpid,
-        dateFormatId: eachWidget.dtid,
-        timeFormatId: eachWidget.tfid,
-        hoursFormatId: eachWidget.hfid,
-        column: eachWidget.fc,
-        showSettings: false,
-        showEditor: false,
-        isColumnHeader: i == 0,
-        isRowHeader: j == 0,
-        hideIcon: categoryId == StatisticCategoryEnum.Custom && i > 0 ? true : false,
-        basedColumn: eachWidget.bsdc ? { value: eachWidget.bsdc.v, label: eachWidget.bsdc.l, type: eachWidget.bsdc.t } : null,
-
-        HideSettings: categoryId == StatisticCategoryEnum.RealTime && j == 0 ? true : false,
-        aggregateOperationId: eachWidget.aggId,
-        isSummary: eachWidget.isSummary
-      };
-      if ((filters && filters.length > 0) || (columns && columns.length > 0)) {
-        if (i === 0) {
-          comboInnerWidget.settings = {
-            item: columns[j + 1] && columns[j + 1].cisiid,
-            cWidgetType: eachWidget.wt,
-            filter: j
-          }
-          comboInnerWidget.isRowrColumn = true;
-        }
-        else if (j === 0) {
-          comboInnerWidget.settings = {
-            filter: filters[i - 1]
-          }
-          comboInnerWidget.isRowrColumn = true;
-        }
-        else {
-          comboInnerWidget.settings = {
-            item: columns[j + 1] && columns[j + 1].cisiid,
-            func: columns[j + 1] && columns[j + 1].ciafid,
-            displayFormat: columns[j + 1] && columns[j + 1].cdf,
-            filter: filters[i - 1]
-
-          }
-          comboInnerWidget.isRowrColumn = false;
-        }
-
-      }
-      comboRow.push(comboInnerWidget);
-    }
-    comboMatrixs.push(comboRow);
-  }
-  return comboMatrixs;
-}
-
-function StylesMapper(styles) {
-  return styles ? {
-    backgroundColor: styles.sbc,
-    color: styles.sc,
-    fontFamily: styles.sff,
-    fontSize: styles.sfs
-  } : {};
-}
-
 /**
  * To add the levels for combo custom statistics
  * @param {*} columns 
  */
-function addLevels(columns) {
+function getCustomColumns(columns) {
   return _.map(columns, (column, index) => {
     return {
       id: column.wid,
@@ -906,109 +563,10 @@ function textWidgetConfigurationsFromServer(textWidget, dataMetricsMetadata, isE
 
   }
 }
-function comboWidgetConfigurationsFromServer(widget, dataMetricsMetadata, isEdit) {
-  return {
-    x: widget.wxp,
-    y: widget.wyp,
-    width: widget.width,
-    height: widget.height,
-    z: widget.zIndex,
-    id: widget.wid,
-    widgetType: widget.wt,
-    min: widget.wmin,
-    max: widget.wmax,
-    refreshInterval: widget.wri,
-    value: 0,
-    displayValue: 0,
-    title: widget.wtl,
-    showMaxValueOnWidget: widget.wsmv,
-    appliedBackgroundColor: widget.wb ? widget.wb.sbc : {},
-    valueStyles: widget.wvs ? {
-      color: widget.wvs.sc,
-      fontFamily: widget.wvs.sff,
-      fontSize: widget.wvs.sfs
-    } :
-      {
-        color: rgba(255, 255, 255, 1),
-        fontFamily: 'Arial',
-        fontSize: '36'
-      },
-    titleStyles: widget.wts ? {
-      color: widget.wts.sc,
-      fontFamily: widget.wts.sff,
-      fontSize: widget.wts.sfs
-    } :
-      {
-        color: rgba(255, 255, 255, 1),
-        fontFamily: 'Arial',
-        fontSize: '12'
-      },
-    rangeValueStyles: widget.wrs ? {
-      color: widget.wrs.sc,
-      fontFamily: widget.wrs.sff,
-      fontSize: widget.wrs.sfs
-    } :
-      {
-        color: rgba(255, 255, 255, 1),
-        fontFamily: 'Arial',
-        fontSize: '12'
-      },
-    widgetBody: widget.wb ? {
-      backgroundColor: widget.wb.sbc,
-      color: widget.wb.sc,
-      fontFamily: widget.wb.sff,
-      fontSize: widget.wb.sfs
-    } :
-      {
-        backgroundColor: rgba(255, 255, 255, 1)
-      },
-
-
-    segmentColors: widget.wsgc && widget.wsgc.length > 0 ? widget.wsgc : [rgba(255, 0, 0, 1), rgba(255, 232, 0, 1), rgba(0, 255, 0, 1)],
-    barStyles: widget.wbs ? {
-      backgroundColor: widget.wbs.sbc,
-      color: widget.wbs.sc,
-      fontFamily: widget.wbs.sff,
-      fontSize: widget.wbs.sfs
-    } :
-      {
-        backgroundColor: rgba(255, 255, 255, 1)
-      },
-
-    xAxisStyles: widget.wsxs ? {
-      backgroundColor: widget.wsxs.sbc,
-      color: widget.wsxs.sc,
-      fontFamily: widget.wsxs.sff,
-      fontSize: widget.wsxs.sfs
-    } :
-      {
-        backgroundColor: rgba(255, 255, 255, 1)
-      },
-    yAxisStyles: widget.wsys ? {
-      backgroundColor: widget.wsys.sbc,
-      color: widget.wsys.sc,
-      fontFamily: widget.wsys.sff,
-      fontSize: widget.wsys.sfs
-    } :
-      {
-        backgroundColor: rgba(255, 255, 255, 1)
-      },
-    enableMin: widget.wenmn,
-    enableMax: widget.wenmx,
-    enableBarLines: widget.wenbl,
-    useSelectedBarColor: widget.wusbc,
-    showYAxis: widget.wsy,
-    scrollType: getScrollType(widget.twrst),
-    scrollSpeed: widget.twrd,
-    matrix: widget.wt == WidgetTypeEnum.Combo ? convertToMatrix(widget.wmx, widget.ws.srt.rc, widget.ws.srt.rf, widget.wid, widget.ws.stom) : '',
-    PictureSelected: widget.wt == WidgetTypeEnum.Picture ? widget.wpsl : '',
-    appliedSettings: mapAppliedSettings(widget, isEdit, dataMetricsMetadata),
-    showLabels: widget.sll,
-    showLegends: widget.sld
-  };
-}
 
 function widgetConfigurationsFromServer(widget, dataMetricsMetadata, isEdit) {
+  let appliedSettings = mapAppliedSettings(widget, isEdit, dataMetricsMetadata)
+
   return {
     x: widget.wxp,
     y: widget.wyp,

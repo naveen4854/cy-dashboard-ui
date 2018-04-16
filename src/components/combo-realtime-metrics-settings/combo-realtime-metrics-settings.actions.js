@@ -202,8 +202,8 @@ export function addDefaultComboStatisticItems(selectedGroup) {
 function mapComboItems(columns, statisticCategory, statisticItems, dataMetricsMetadata, widgetType) {
     let statisticColumns = [];
     _.each(columns, (column, index) => {
-        if (index == 0)
-            return
+        // if (index == 0)
+        //     return
         var itemOption = _.find(statisticItems, m => m.id == column.cisiid)
         if (itemOption) {
             var functionOption = _.find(_.uniqBy(_.map(_.filter(dataMetricsMetadata,
@@ -231,7 +231,7 @@ function mapComboItems(columns, statisticCategory, statisticItems, dataMetricsMe
             }), 'id'), d => d.id == column.cdf)
 
             var comboItem = {
-                id: Date.now() + Math.floor(Math.random() * 10000),
+                id: column.cid || getRandom(),
                 item: itemOption,
                 func: functionOption,
                 isDefault: false,

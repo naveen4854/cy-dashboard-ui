@@ -87,4 +87,11 @@ export class Widget {
     applyStyles(styles) {
         this.applyCommonStyles(styles);
     }
+
+    applyThresholds(thresholds) {
+        this.appliedSettings = {
+            ...this.appliedSettings,
+            thresholds
+        }
+    }
 }

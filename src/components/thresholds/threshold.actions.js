@@ -249,7 +249,7 @@ export function addSelectedLevels() {
             if (statisticCategory == StatisticCategoryEnum.RealTime) {
                 let comboWidget = _.find(getState().dashboard.widgets, (w) => w.id === currentWidget.comboId);
                 let updatedMatrix = _.map(comboWidget.matrix, (row, rowIndex) => {
-                    return _.map((cell, columnIndex) => {
+                    return _.map(row, (cell, columnIndex) => {
                         if (currentWidget.isColumnHeader) {
                             if (cell.columnId == currentWidget.columnId)
                                 return {
