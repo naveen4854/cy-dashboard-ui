@@ -13,11 +13,17 @@ export default class ComboWidget extends Widget {
     comboSelectedStatisticItem = {};
     title = "Combo widget";
     comboSelectedStatisticColumns = [];
-    appliedBackgroundColor = rgba(255, 255, 255, 1);
+    appliedBackgroundColor = rgba(0, 192, 239, 1);
     widgetBody = {
+        backgroundColor: rgba(0, 192, 239, 1),
         fontFamily: 'Arial',
         fontSize: 12,
         color: rgba(0, 0, 0, 1)
+    };
+    valueStyles = {
+        color: rgba(255, 255, 255, 1),
+        fontFamily: 'Arial',
+        fontSize: 12
     };
     matrix = [
         // [new BoxWidget(1, true, true), new BoxWidget(1, true, true), new BoxWidget(1, true, true)],
