@@ -7,7 +7,7 @@ import { STYLES_UPDATE_APPLY_OPTION } from "./styles.constants";
 export function updateMatrixStyles() {
     return (dispatch, getState) => {
         let currentWidget = getState().configurations.widget;
-
+debugger
         let comboId = currentWidget.comboId
         let comboWidget = _.find(getState().dashboard.widgets, (widget) => widget.id == comboId);
         let matrix = comboWidget.matrix;
@@ -42,11 +42,11 @@ export function updateMatrixStyles() {
                 return cell;
             })
         });
-        let updatedWidget = {
+        let updatedComboWidget = {
             ...comboWidget,
             matrix: newMatrix
         }
-        //dispatch(getState().dashboard.updateWidget(updatedWidget));
+        dispatch(getState().dashboard.updateWidget(updatedComboWidget));
         dispatch(getState().configurations.applyWidget(updatedCell));
     }
 }

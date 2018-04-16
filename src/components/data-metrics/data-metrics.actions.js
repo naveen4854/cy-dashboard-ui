@@ -48,7 +48,7 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
 
     let newFilters = [...filters];
     newFilters.splice(0, 0, {})
-
+    let previousRowCell = undefined;
     return _.map(newFilters, (filter, rowIndex) => {
         let row = _.map(comboSelectedStatisticColumns, (statisticColumn, columnIndex) => {
             let isColumnHeader = rowIndex == 0;
@@ -93,15 +93,29 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
 
             // default styles based on new column or row
             if (_.find(oldFilters, oldFilter => oldFilter.value == filter.value)) {
+                //cell.applyStyles(existingCell);
             } else {
+                if (rowIndex == 0) {
+
+                }
+                else {
+                    if (previousRowCell != undefined) {
+                         cell.applyStyles(previousRowCell);
+                    }
+                }
                 // cell.applyStyles(existingCell);
             }
 
             if (_.find(oldColumns, oldColumn => oldColumn.id == statisticColumn.id)) {
             } else {
+                if (rowIndex != 0) {
+                    //cell.applyCommonStyles(currentWidget);
+                }
+
+
                 // cell.applyCommonStyles(styles);
             }
-
+            previousRowCell = _.cloneDeep(cell);
             return cell;
         });
         return row;

@@ -556,6 +556,8 @@ export function mappingCustomMatrixHeaders(cHeader, column) {
 
 function mapAppliedSettings(widget, isEdit, dataMetricsMetadata) {
   {
+    debugger
+    //if(widget.)
     return {
       dataMetrics: widget.ws && widget.ws.srt ? {
         statisticCategory: widget.ws.stom,

@@ -17,19 +17,7 @@ export function AddWidget(widgetType) {
         })
     }
 }
-
-export function UpdateWidget(widget) {
-    return {
-        type: UPDATE_DASHBOARD_WIDGET,
-        widget
-    };
-}
-export function UpdateWidgets(widgets) {
-    return {
-        type: UPDATE_WIDGETS,
-        widgets
-    };
-}
+ 
 export function ToggleSettingsMenu(widget) {
     return (dispatch, getState) => {
         dispatch(getState().configurations.ToggleSettingsMenu(widget))
