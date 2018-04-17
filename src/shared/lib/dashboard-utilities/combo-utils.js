@@ -192,6 +192,7 @@ function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId, se
                 filter: filters[i - 1]
             }
             let appliedSettings = {
+                ...comboInnerWidget.appliedSettings,
                 dataMetrics
             };
 

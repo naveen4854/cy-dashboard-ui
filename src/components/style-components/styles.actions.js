@@ -115,6 +115,7 @@ export function updateApplyComboStyles(applyComboStyles) {
         applyComboStyles
     }
 }
+
 export function updateComboStyles() {
     return (dispatch, getState) => {
         let comboWidget = _.cloneDeep(getState().configurations.widget);
@@ -137,11 +138,11 @@ export function updateComboStyles() {
             })
         });
 
-
         let updatedComboWidget = {
             ...comboWidget,
             matrix: newMatrix
         }
+        
         dispatch(getState().dashboard.updateWidget(updatedComboWidget));
     }
 }

@@ -71,14 +71,18 @@ export function updateDashboardWidget(widget) {
 
 export function applyWidget(widget) {
     return (dispatch, getState) => {
-        dispatch(getState().configurations.updateDashboardWidget(widget));
+        let currentWidget = getState().configurations.widget;
+        if (currentWidget.id == widget.id)
+            dispatch({
+                type: UPDATE_CONFIGURATIONS_WIDGET,
+                widget: widget
+            })
+        dispatch(getState().dashboard.updateWidget(widget));
     }
 }
 
 export function previewWidget(widget) {
     return (dispatch, getState) => {
-        // if (widget.widgetType = WidgetTypeEnum.Combo)
-        //     return;
         dispatch(getState().notificationStore.clearNotifications());
         const widgetData = DashboardUtilities.WidgetMapper(widget, getState().dataMetrics.dataMetricsMetadata);
         widgetService.getWidgetPreviewData(widgetData).then(function (response) {
@@ -89,8 +93,8 @@ export function previewWidget(widget) {
                     if (widgetBody) {
                         widget.appliedBackgroundColor = response.data.wrth && response.data.wrth.thc ? response.data.wrth.thc : widgetBody.backgroundColor;
                     }
-                    dispatch(getState().configurations.updateDashboardWidget(widget));
-                    //TODO: update widget on dashboard
+                    // dispatch(getState().dashboard.updateWidget(widget));
+                    dispatch(getState().configurations.applyWidget(widget));
                 }
             }
         }).catch((error) => {

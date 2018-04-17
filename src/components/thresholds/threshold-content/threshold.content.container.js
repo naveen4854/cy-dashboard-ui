@@ -31,7 +31,8 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
     return {
         threshold: state.threshold,
-        common: state.common
+        common: state.common,
+        displayFormat: state.configurations.widget.appliedSettings.dataMetrics.displayFormat,
     }
 }
 
