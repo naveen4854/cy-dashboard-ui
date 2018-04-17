@@ -39,40 +39,44 @@ export function updateMatrixStyles() {
                 }
                 if (selectedApplyTo == ApplyToOptions.Column && cell.columnId == currentWidget.columnId) {
 
-                    if (applyComboStyles) {
+                    if (rowIndex != 0) {
+                        if (applyComboStyles) {
+                            return {
+                                ...cell,
+                                ...styles,
+                                appliedBackgroundColor: comboWidget.widgetBody.backgroundColor,
+                                widgetBody: comboWidget.widgetBody,
+                                valueStyles: comboWidget.valueStyles,
+                                stylesConfigured: true
+                            }
+                        }
+
                         return {
                             ...cell,
                             ...styles,
-                            appliedBackgroundColor: comboWidget.widgetBody.backgroundColor,
-                            widgetBody: comboWidget.widgetBody,
-                            valueStyles: comboWidget.valueStyles,
+                            appliedBackgroundColor: styles.widgetBody.backgroundColor,
                             stylesConfigured: true
                         }
-                    }
-
-                    return {
-                        ...cell,
-                        ...styles,
-                        appliedBackgroundColor: styles.widgetBody.backgroundColor,
-                        stylesConfigured: true
                     }
                 }
                 if (selectedApplyTo == ApplyToOptions.Row && cell.rowId == currentWidget.rowId) {
-                    if (applyComboStyles) {
+                    if (columnIndex != 0) {
+                        if (applyComboStyles) {
+                            return {
+                                ...cell,
+                                appliedBackgroundColor: comboWidget.widgetBody.backgroundColor,
+                                widgetBody: comboWidget.widgetBody,
+                                valueStyles: comboWidget.valueStyles,
+                                stylesConfigured: true
+                            }
+                        }
                         return {
                             ...cell,
-                            appliedBackgroundColor: comboWidget.widgetBody.backgroundColor,
-                            widgetBody: comboWidget.widgetBody,
-                            valueStyles: comboWidget.valueStyles,
+                            appliedBackgroundColor: styles.widgetBody.backgroundColor,
+                            widgetBody: styles.widgetBody,
+                            valueStyles: styles.valueStyles,
                             stylesConfigured: true
                         }
-                    }
-                    return {
-                        ...cell,
-                        appliedBackgroundColor: styles.widgetBody.backgroundColor,
-                        widgetBody: styles.widgetBody,
-                        valueStyles: styles.valueStyles,
-                        stylesConfigured: true
                     }
                 }
                 return cell;
@@ -129,7 +133,7 @@ export function updateComboStyles() {
                     valueStyles: styles.valueStyles,
                     stylesConfigured: false
                 }
-               // return updatedCell;
+                // return updatedCell;
             })
         });
 
