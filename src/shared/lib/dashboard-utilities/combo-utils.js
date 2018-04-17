@@ -55,8 +55,9 @@ export function getComboMatrix(inputWidget) {
                 } : null,
                 isSummary: eachWidget.isSummary,
                 aggId: eachWidget.aggregateOperationId,
-                isLive: eachWidget.isLive
+                isLive: eachWidget.isLive,
                 //isSummary:  eachWidget.displayFormatId,
+                stylesConfigured: eachWidget.stylesConfigured
 
             };
             comboRow.push(comboInnerWidget);
@@ -186,7 +187,9 @@ function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId, se
 
                 HideSettings: categoryId == StatisticCategoryEnum.RealTime && j == 0 ? true : false,
                 aggregateOperationId: eachWidget.aggId,
-                isSummary: eachWidget.isSummary
+                isSummary: eachWidget.isSummary,
+                stylesConfigured: eachWidget.stylesConfigured
+
             };
             if ((filters && filters.length > 0) || (columns && columns.length > 0)) {
                 if (i === 0) {
