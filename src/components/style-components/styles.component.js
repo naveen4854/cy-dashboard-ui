@@ -37,10 +37,15 @@ class StylesComponent extends PureComponent {
         //     this.props.updateMatrixStylesByRow();
         // }
         else {
-            this.props.updateWidgetStyles();
+            if (this.props.widgetType === WidgetTypeEnum.Combo) {
+                this.props.updateComboStyles();
+            }
+            else {
+                this.props.updateWidgetStyles();
+            }
         }
     }
-    updateApplyComboStyles(e){
+    updateApplyComboStyles(e) {
         if (this.props.isComboWidget) {
             this.props.updateApplyComboStyles(e);
         }

@@ -111,6 +111,10 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
                         cell.applyCommonStyles(previousCell);
                     }
                 }
+                cell = {
+                    ...cell,
+                    stylesConfigured: false
+                }
             }
             previousCell = _.cloneDeep(cell);
             return cell;

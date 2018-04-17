@@ -9,7 +9,7 @@ export default class ComboStyles extends PureComponent {
     constructor(props) {
         super(props);
         this.updateTitle = this.updateTitle.bind(this);
-        this.updateRefreshInterval = this.updateRefreshInterval.bind(this); 
+        this.updateRefreshInterval = this.updateRefreshInterval.bind(this);
         this.updateValueFontStyles = this.updateValueFontStyles.bind(this);
         this.updateBackgroundColor = this.updateBackgroundColor.bind(this);
     }
@@ -17,18 +17,21 @@ export default class ComboStyles extends PureComponent {
 
     updateTitle(e) {
         this.props.updateProp('title', e.target.value);
-    } 
+    }
 
     updateRefreshInterval(e) {
         this.props.updateProp('refreshInterval', e.target.value);
     }
-    updateValueFontStyles(e){
+    updateValueFontStyles(e) {
         this.props.updateProp('valueStyles', e);
     }
-    updateBackgroundColor(e){
+    updateBackgroundColor(e) {
         let widgetBody = { ...this.props.styles.widgetBody, backgroundColor: e };
         this.props.updateProp('widgetBody', widgetBody);
     }
+    // setRefreshInterval(e){
+    //     this.props.updateProp('refreshInterval', this.props.styles.refreshInterval);
+    // }
     render() {
         console.log('this.props bar', this.props)
         //let displayFormatId = this.props.widget.appliedSettings.dataMetrics.displayFormat ? this.props.widget.appliedSettings.dataMetrics.displayFormat.id : displayFormatEnum.Number;
@@ -84,7 +87,13 @@ export default class ComboStyles extends PureComponent {
                         className="form-control"
                         onCustomInputChange={this.updateRefreshInterval}
                     />
-
+                    {/* <button
+                        disabled={this.props.styles.disableSave}
+                        type="button"
+                        className="btn btn-md btn-primary"
+                        onClick={this.setRefreshInterval}>
+                        {this.props.l.t("Set Refresh Interval", "Set Refresh Interval")}
+                    </button> */}
                 </div>
             </div>
         )
