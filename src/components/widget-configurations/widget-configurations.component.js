@@ -31,21 +31,21 @@ export default class WidgetConfigurationsComponent extends PureComponent {
                         <Tabs id="top">
                             {
                                 this.props.configurations.showMetricsTab && <Tab eventKey="first" title={this.props.l.t('Data_Metrics', 'Data Metrics')}>
-                                    <Scrollbars className="calculatedVH">
+                                    <div className="calculatedVH">
                                         <DataMetricsContainer />
-                                    </Scrollbars>
+                                    </div>
                                 </Tab>
                             }
                             <Tab eventKey="se" title={this.props.l.t('Styles', 'Styles')}>
-                                <Scrollbars className="calculatedVH">
+                                <div className="calculatedVH">
                                     <StylesContainer />
-                                </Scrollbars>
+                                </div>
                             </Tab>
                             {
                                 this.props.configurations.showThresholdsTab && <Tab eventKey="t" title={this.props.l.t('Thresholds', 'Thresholds')}>
-                                    <Scrollbars className="calculatedVH">
+                                    <div className="calculatedVH">
                                         <ThresholdTabContainer />
-                                    </Scrollbars>
+                                    </div>
                                 </Tab>
                             }
                         </Tabs>

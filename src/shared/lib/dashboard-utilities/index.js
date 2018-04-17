@@ -659,7 +659,6 @@ function widgetConfigurationsFromServer(widget, dataMetricsMetadata, isEdit) {
     showLabels: widget.sll,
     showLegends: widget.sld,
     appliedSettings: mapAppliedSettings(widget, isEdit, dataMetricsMetadata),
-
   }
 }
 

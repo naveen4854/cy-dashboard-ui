@@ -55,8 +55,9 @@ export function getComboMatrix(inputWidget) {
                 } : null,
                 isSummary: eachWidget.isSummary,
                 aggId: eachWidget.aggregateOperationId,
-                isLive: eachWidget.isLive
+                isLive: eachWidget.isLive,
                 //isSummary:  eachWidget.displayFormatId,
+                stylesConfigured: eachWidget.stylesConfigured
 
             };
             comboRow.push(comboInnerWidget);
@@ -179,7 +180,10 @@ function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId, se
 
                 HideSettings: categoryId == StatisticCategoryEnum.RealTime && j == 0 ? true : false,
                 aggregateOperationId: oldWidget.aggId,
-                isSummary: oldWidget.isSummary
+                isSummary: oldWidget.isSummary,
+                aggregateOperationId: oldWidget.aggId,
+                stylesConfigured: oldWidget.stylesConfigured
+
             };
             let dataMetrics = {
                 item: getSelectedItem(columns[j] && columns[j].cisiid, dataMetricsMetadata),
