@@ -4,6 +4,35 @@ import { utils } from '../../utilities';
 import { ResponseStatusEnum, StatisticCategoryEnum, DisplayFormatEnum, WidgetTypeEnum } from '../../shared/enums';
 import { Constants } from '../../shared/constants';
 import * as ThresholdService from './threshold-service';
+import { thresholdsInitialState } from './threshold.reducer';
+
+export function initializeThresholddata() {
+    return (dispatch, getState) => {
+        let currentWidget = getState().configurations.widget;
+        let selectedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory || StatisticCategoryEnum.RealTime
+        let widgets = getState().dashboard.widgets;
+        let comboWidget = _.find(widgets, wt => wt.id == currentWidget.comboId);
+        let columnOptions = [];// getColumns(currentWidget, comboWidget);
+        let column = getBasedColumn(currentWidget, selectedStatisticCategory, columnOptions);
+        let displayFormat = getDisplayFormat(currentWidget, widgets);
+        let levels = currentWidget.appliedSettings.thresholds;
+        dispatch({
+            type: ThresholdConstants.DEFAULT_THRESHOLD,
+            levels,
+            basedColumn: currentWidget.basedColumn || undefined,
+            column: column || undefined,
+            statisticsCategoryId: selectedStatisticCategory,
+            widgetId: currentWidget.id,
+            dataType: currentWidget.dataType || undefined,
+            columnOptions: columnOptions,
+            widgetType: currentWidget.widgetType,
+            isComboWidget: currentWidget.isComboWidget,
+            displayFormatId: displayFormat,
+            isColumnHeader: currentWidget.isColumnHeader,
+            comboId: currentWidget.comboId
+        })
+    }
+}
 
 export function updateLevel(id, key, value) {
     return (dispatch, getState) => {
@@ -17,7 +46,6 @@ export function updateLevel(id, key, value) {
 
     }
 }
-
 
 export function handleClick(id) {
     return (dispatch, getState) => {
@@ -35,6 +63,7 @@ export function handleClick(id) {
         })
     }
 }
+
 /**
  * This method makes a call to API and shows a success message if notifications sent succesfully, error message if notifications fails.
  * @param {*} threshold 
@@ -127,8 +156,6 @@ export function TestThreshold(threshold, widgetId) {
     }
 }
 
-
-
 export function setIsCopiedForLevel(id) {
 
     return (dispatch, getState) => {
@@ -147,7 +174,6 @@ export function setIsCopiedForLevel(id) {
         })
     }
 }
-
 
 export function pasteThresholdValues(id) {
     return (dispatch, getState) => {
@@ -169,7 +195,6 @@ export function pasteThresholdValues(id) {
     }
 }
 
-
 /**
      * To remove the levels
      * @param {*} id 
@@ -184,33 +209,6 @@ export function removeLevel(id) {
         dispatch({
             type: ThresholdConstants.UPDATE_LEVEL,
             levels: updatedLevels
-        })
-    }
-}
-export function initializeThresholddata() {
-    return (dispatch, getState) => {
-        let currentWidget = getState().configurations.widget;
-        let selectedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory ?
-            currentWidget.appliedSettings.dataMetrics.statisticCategory :
-            StatisticCategoryEnum.RealTime
-        let widgets = getState().dashboard.widgets;
-        let comboWidget = _.find(widgets, wt => wt.id == currentWidget.comboId);
-        let columnOptions = [];// getColumns(currentWidget, comboWidget);
-        let column = getBasedColumn(currentWidget, selectedStatisticCategory, columnOptions);
-        let displayFormat = getDisplayFormat(currentWidget, widgets);
-        dispatch({
-            type: ThresholdConstants.DEFAULT_THRESHOLD,
-            basedColumn: currentWidget.basedColumn || undefined,
-            column: column || undefined,
-            statisticsCategoryId: selectedStatisticCategory,
-            widgetId: currentWidget.id,
-            dataType: currentWidget.dataType || undefined,
-            columnOptions: columnOptions,
-            widgetType: currentWidget.widgetType,
-            isComboWidget: currentWidget.isComboWidget,
-            displayFormatId: displayFormat,
-            isColumnHeader: currentWidget.isColumnHeader,
-            comboId: currentWidget.comboId
         })
     }
 }
@@ -237,13 +235,13 @@ export function updateDisplayFormat(displayFormatId) {
         })
     }
 }
+
 export function addSelectedLevels() {
     return (dispatch, getState) => {
         let threshold = getState().threshold;
         let currentWidget = getState().configurations.widget;
-        let thresholds = {
-            ...threshold.levels,
-        }
+        let thresholds = [...threshold.levels]
+
         let statisticCategory = getState().dataMetrics.statisticCategory;
         if (currentWidget.isComboWidget) {
             if (statisticCategory == StatisticCategoryEnum.RealTime) {
@@ -317,10 +315,6 @@ function getColumnIndex(matrix, widgetId) {
     }
 }
 
-
-
-
-
 /**
    * To get the column options for combo custom statistics
    * @param {*} widget 
@@ -351,7 +345,6 @@ function getColumns(widget, comboWidget) {
     return [];
 }
 
-
 /**
  * 
  * @param {*} props 
@@ -366,7 +359,6 @@ function getBasedColumn(widget, selectedStatisticCategory, columnOptions) {
     }
     return column;
 }
-
 
 /**
    * Responsible to get displayformat for the current widget
@@ -428,8 +420,6 @@ function getDisplayFormat(widget, widgets) {
     }
 }
 
-
-
 /**
    * To get the column index based on widget from matrix
    * @param {*} matrix 
@@ -441,5 +431,16 @@ function getColumnIndex(matrix, widgetId) {
         if (widget.id === widgetId) {
             return columnIndex;
         }
+    }
+}
+
+export function clearThresholds() {
+    return (dispatch, getState) => {
+        let thresholdData = { ...thresholdsInitialState }
+        dispatch({
+            type: ThresholdConstants.CLEAR_THRESHOLD_DATA,
+            thresholdData
+        })
+
     }
 }

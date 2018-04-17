@@ -9,6 +9,7 @@ import { TOGGLE_CONFIGURATIONS_PANEL, UPDATE_CONFIGURATIONS_WIDGET, SET_METRICS_
 export function toggleSettingsMenu(widget) {
     return (dispatch, getState) => {
         dispatch(getState().dataMetrics.clearSelectedDM())
+        dispatch(getState().threshold.clearThresholds())
 
         // if (!widget) {
         //     return dispatch({
@@ -53,7 +54,6 @@ export function toggleSettingsMenu(widget) {
             }
             dispatch(getState().styles.initializeStyles())
             dispatch(getState().threshold.initializeThresholddata())
-            // dispatch(getState().dataMetrics.initi)
         }
     }
 }
