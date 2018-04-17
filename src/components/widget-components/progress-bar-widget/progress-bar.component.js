@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
 import ReactDom from 'react-dom';
+import { Color } from '../../../shared/lib';
 const defaultColor = "rgba(128,128,128,0.15)";
-
+import { utils } from '../../../utilities';
 export default class ProgressBarComponent extends PureComponent {
     constructor(props) {
         super(props);
@@ -56,17 +57,17 @@ export default class ProgressBarComponent extends PureComponent {
             el.removeChild(el.firstChild);
         }
 
-        let progressBarTitle = d3.select(`#progress-bar-title${this.props.id}`).insert("svg").attr("width", this.props.width).attr("height", _.floor(this.props.height * 0.1));
+        let progressBarTitle = d3.select(`#progress-bar-title${this.props.id}`).insert("svg").attr("width", this.props.width).attr("height", _.floor(this.props.titleStyles.fontSize));
 
-        let titleDyposition = _.floor(this.props.height * 0.075);
-
+        let titleDyposition = _.floor(this.props.titleStyles.fontSize * 0.75);
+        let color = Color.ToString(this.props.titleStyles.color);
         let title = progressBarTitle.append("text")
             .attr("class", "gauge-label")
             .attr("text-anchor", "middle")
             .attr("dy", `${titleDyposition}`)
             .attr("dx", `${this.props.width / 2}`)
             .attr("style", `font-size:${this.props.titleStyles.fontSize}; font-family:${this.props.titleStyles.fontFamily};`)
-            .attr("fill", `${this.props.titleStyles.color}`);
+            .attr("fill", `${color}`);
 
         title.text(`${this.props.title}`);
     }
@@ -76,9 +77,13 @@ export default class ProgressBarComponent extends PureComponent {
         while (el.hasChildNodes()) {
             el.removeChild(el.firstChild);
         }
-
-        let barChartHeight = this.props.isComboWidget ? _.floor(this.props.height) : _.floor(this.props.height * 0.9);
-        let eachBarheight = this.props.isComboWidget ? _.floor(this.props.height * 0.81) : _.floor(this.props.height * 0.9 * 0.88);
+        let calHeight = this.props.height - this.props.titleStyles.fontSize;
+        let barChartHeight = this.props.isComboWidget ? _.floor(this.props.height) : _.floor(calHeight);
+        let eachBarheight = this.props.isComboWidget ? _.floor(this.props.height * 0.81) : _.floor(calHeight * 0.88);
+        debugger;
+        console.log('this.props.height', this.props.height);
+        console.log('barChartHeight', barChartHeight);
+        console.log('eachBarheight', eachBarheight);
 
         let data = [];
         for (let i = this.props.barCount; i >= 1; i--) {
@@ -116,7 +121,9 @@ export default class ProgressBarComponent extends PureComponent {
     }
 
     renderFooter(progressBarChart) {
-        let footerdyPosition = _.floor((this.props.isComboWidget ? ((this.props.height * 0.81)) : this.props.height * 0.88 * 0.9) + this.props.rangeValueStyles.fontSize);
+        let footerHeight = this.props.height - this.props.titleStyles.fontSize;
+        console.log(this.props.height);
+        let footerdyPosition = _.floor((this.props.isComboWidget ? ((this.props.height * 0.81)) : footerHeight - footerHeight * 0.060));
         let maxTextLength = this.props.maxText.toString().length;
 
         // let size = this.props.height > this.props.width ?
@@ -127,14 +134,14 @@ export default class ProgressBarComponent extends PureComponent {
 
         let maxTextDx =
             this.props.width * 0.98 - (maxTextLength * this.props.rangeValueStyles.fontSize * 0.6);
-
+        let color = Color.ToString(this.props.rangeValueStyles.color);
         progressBarChart.append("text")
             .attr("class", "gauge-min-label")
             //.attr("text-anchor", "middle")
             .attr("dy", `${footerdyPosition}px`)
             .attr("dx", `0px`)
             .attr("style", `font-size:${this.props.rangeValueStyles.fontSize}px; font-family:${this.props.rangeValueStyles.fontFamily};`)
-            .attr("fill", this.props.rangeValueStyles.color)
+            .attr("fill", `${color}`)
             .text(`${this.props.minText}`);
 
         progressBarChart.append("text")
@@ -143,7 +150,7 @@ export default class ProgressBarComponent extends PureComponent {
             .attr("dy", `${footerdyPosition}px`)
             .attr("dx", `${maxTextDx}px`)
             .attr("style", `font-size:${this.props.rangeValueStyles.fontSize}px; font-family:${this.props.rangeValueStyles.fontFamily};`)
-            .attr("fill", this.props.rangeValueStyles.color)
+            .attr("fill", `${color}`)
             .text(`${this.props.maxText}`);
 
     }
