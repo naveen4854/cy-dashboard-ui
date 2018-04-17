@@ -3,6 +3,7 @@ import { getRandom } from "../../../utilities/utils";
 
 export function mapAppliedSettings(widget, isEdit, dataMetricsMetadata) {
   {
+    //if (widget.isComboWidget)
     let columns, comboSelectedStatisticColumns = []
     let settings = widget.ws || {};
     let realTimeSettings = settings.srt || {}
@@ -13,6 +14,7 @@ export function mapAppliedSettings(widget, isEdit, dataMetricsMetadata) {
     } else {
       // For exisitng dashboard id's will be empty, hence defaulting them and using the same id from here on
       columns = _.map(realTimeSettings.rc, (column) => { return { ...column, cid: column.cid || getRandom() } })
+      // removing the default column got for some cross check 
       columns.splice(0, 1)
       comboSelectedStatisticColumns = _.map(columns, (column, i) => {
         return {
@@ -39,9 +41,9 @@ export function mapAppliedSettings(widget, isEdit, dataMetricsMetadata) {
       dataMetrics: settings && realTimeSettings ? {
         statisticCategory: settings.stom,
         displayFormat: realTimeSettings.rsdfid ? getDisplayFormat(realTimeSettings.rsdfid, dataMetricsMetadata) : '',
-        group: realTimeSettings.rsgid ? getSelectedGroup(realTimeSettings, dataMetricsMetadata) : '',
-        item: realTimeSettings.rsiid ? getSelectedItem(realTimeSettings, dataMetricsMetadata) : '',
-        func: realTimeSettings.rsfid ? getSelectedFunction(realTimeSettings, dataMetricsMetadata) : '',
+        group: realTimeSettings.rsgid ? getSelectedGroup(realTimeSettings.rsgid, dataMetricsMetadata) : '',
+        item: realTimeSettings.rsiid ? getSelectedItem(realTimeSettings.rsiid, dataMetricsMetadata) : '',
+        func: realTimeSettings.rsfid ? getSelectedFunction(realTimeSettings.rsfid, dataMetricsMetadata) : '',
         drillDownOptions: realTimeSettings.rf,
         columns,
         comboSelectedStatisticColumns,
@@ -69,7 +71,7 @@ export function mapAppliedSettings(widget, isEdit, dataMetricsMetadata) {
 
 export function getSelectedGroup(group, metrics) {
   var selectedGroup = _.find(metrics, {
-    'StatisticGroupId': group.rsgid
+    'StatisticGroupId': group
   });
   if (selectedGroup) {
     return {
@@ -79,7 +81,7 @@ export function getSelectedGroup(group, metrics) {
     }
   } else {
     return {
-      id: group.rsgid,
+      id: group,
       label: 'metrics unavailable'
     }
   }
@@ -88,7 +90,7 @@ export function getSelectedGroup(group, metrics) {
 
 export function getSelectedItem(item, metrics) {
   var selectedItem = _.find(metrics, {
-    'StatisticItemId': item.rsiid
+    'StatisticItemId': item
   });
   if (selectedItem) {
     return {
@@ -98,7 +100,7 @@ export function getSelectedItem(item, metrics) {
     }
   } else {
     return {
-      id: item.rsiid,
+      id: item,
       label: 'metrics unavailable'
     }
   }
@@ -108,7 +110,7 @@ export function getSelectedItem(item, metrics) {
 
 export function getSelectedFunction(func, metrics) {
   var selectedFunc = _.find(metrics, {
-    'StatisticFunctionId': func.rsfid
+    'StatisticFunctionId': func
   });
   if (selectedFunc) {
     return {
@@ -118,7 +120,7 @@ export function getSelectedFunction(func, metrics) {
     }
   } else {
     return {
-      id: func.rsfid,
+      id: func,
       label: 'metrics unavailable'
     }
 
