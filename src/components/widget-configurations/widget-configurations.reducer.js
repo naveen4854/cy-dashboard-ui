@@ -137,7 +137,6 @@ const initialState = {
     showThresholdsTab: true,
     showMetricsTab: true,
     toggleSettingsMenu,
-    updateDashboardWidget,
     applyWidget,
     previewWidget,
     updateConfigurationsWidget,
