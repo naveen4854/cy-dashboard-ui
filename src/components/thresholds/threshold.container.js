@@ -5,12 +5,20 @@ import * as ThresholdActions from './threshold.actions';
 
 const mapDispatchToProps = (dispatch) => {
     return {
-
         addLevels: (item) => {
             dispatch(ThresholdActions.addLevels(item))
         },
         addSelectedLevels: () => {
             dispatch(ThresholdActions.addSelectedLevels());
+        },
+        updateBasedColumn: (basedColumn) => {
+            dispatch(ThresholdActions.updateBasedColumn(basedColumn));
+        },
+        updateLevels: (levels) => {
+            dispatch(ThresholdActions.updateLevels(levels));
+        },
+        setBasedOnColumn: (basedColumn) => {
+            dispatch(ThresholdActions.setBasedOnColumn(levels));
         }
     }
 }
@@ -21,7 +29,8 @@ const mapStateToProps = (state) => {
         common: state.common,
         displayFormat: state.configurations.widget.appliedSettings.dataMetrics.displayFormat,
         isComboWidget: state.configurations.widget.isComboWidget,
-        statisticCategory: state.configurations.widget.appliedSettings.dataMetrics.statisticCategory
+        statisticCategory: state.configurations.widget.appliedSettings.dataMetrics.statisticCategory,
+        // basedColumn: state.configurations.widget.appliedSettings.basedColumn
     }
 }
 

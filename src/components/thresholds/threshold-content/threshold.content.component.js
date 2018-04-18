@@ -6,7 +6,7 @@ import ToggleSwitch from "../../toggle-switch";
 import CustomSelect from '../../custom-dropdown';
 import CustomDatePicker from '../../custom-date-picker';
 import MaskedInput from '../../masked-input';
-import { ResponseStatusEnum } from '../../../shared/enums';
+import { ResponseStatusEnum, StatisticCategoryEnum, DisplayFormatEnum } from '../../../shared/enums';
 import { Constants } from '../../../shared/constants'
 import { utils } from '../../../utilities'
 import DurationInput from '../../duration-input';
@@ -339,8 +339,7 @@ export default class ThresholdTabContent extends PureComponent {
     }
 
     renderThresholdInput() {
-        // logic will change with basedOnColumn
-        const displayFormatId = this.props.displayFormat.id;
+        const { displayFormatId } = this.props;
         return (
             <DurationInput
                 displayFormatId={displayFormatId}

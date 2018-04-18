@@ -3,6 +3,12 @@ import { initializeThresholddata, updateDisplayFormat, clearThresholds, loadThre
 
 
 export const ACTION_HANDLERS = {
+    [ThresholdConstants.DEFAULT_THRESHOLD]: (state, action) => {
+        return Object.assign({}, state, {
+            levels: action.levels,
+            basedColumn: action.basedColumn,
+        })
+    },
     [ThresholdConstants.UPDATE_LEVEL]: (state, action) => {
         return Object.assign({}, state, {
             levels: action.levels
@@ -11,12 +17,6 @@ export const ACTION_HANDLERS = {
     [ThresholdConstants.HANDLE_CLICK]: (state, action) => {
         return Object.assign({}, state, {
             levels: action.levels
-        })
-    },
-    [ThresholdConstants.DEFAULT_THRESHOLD]: (state, action) => {
-        return Object.assign({}, state, {
-            levels: action.levels,
-            basedColumn: action.basedColumn,
         })
     },
     [ThresholdConstants.UPDATE_DISPLAY_FORMAT]: (state, action) => {
@@ -31,6 +31,16 @@ export const ACTION_HANDLERS = {
     [ThresholdConstants.UPDATE_THRESHOLD_COLUMN_OPTIONS]: (state, action) => {
         return Object.assign({}, state, {
             columnOptions: action.columnOptions
+        })
+    },
+    [ThresholdConstants.UPDATE_THRESHOLD_BASED_COLUMN]: (state, action) => {
+        return Object.assign({}, state, {
+            basedColumn: action.basedColumn
+        })
+    },
+    [ThresholdConstants.UPDATE_THRESHOLD_LEVELS]: (state, action) => {
+        return Object.assign({}, state, {
+            levels: action.levels
         })
     },
 }
