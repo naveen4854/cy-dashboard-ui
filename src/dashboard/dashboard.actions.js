@@ -210,7 +210,7 @@ export function updateComboMatrix(comboWidgetId, columnIndex, rowIndex, delta) {
 
 export function pullWidget(dashboardId, widgetId, refreshValue) {
     return (dispatch, getState) => {
-        refreshInterval = refreshValue * 1000;
+        let refreshInterval = refreshValue * 1000;
         let setTimeoutId = setTimeout(() => {
 
             dashboardService.viewWidgetData(dashboardId, widgetId, {}).then(response => {
