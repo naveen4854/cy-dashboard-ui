@@ -19,7 +19,8 @@ export default class NewDashboard extends PureComponent {
     componentDidUpdate() {
     }
     goBack() {
-      }
+        this.props.clearRefreshInterval();
+    }
     render() {
         return (
             <div className='background' >

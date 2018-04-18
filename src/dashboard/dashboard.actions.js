@@ -1,5 +1,5 @@
 
-import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, UPDATE_DRAGGABLE, UPDATE_DASHBOARD, UPDATE_SHOW_ICONS } from "./dashboard.constants";
+import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, UPDATE_DRAGGABLE, UPDATE_DASHBOARD, UPDATE_SHOW_ICONS, UPDATE_DASHBOARD_PROPERTY } from "./dashboard.constants";
 import * as dashboardService from './dashboard-service';
 import * as dataMetricsService from '../components/data-metrics/data-metrics-service'
 import { DashboardModeEnum, WidgetTypeEnum } from "../shared/enums";
@@ -208,25 +208,60 @@ export function updateComboMatrix(comboWidgetId, columnIndex, rowIndex, delta) {
     }
 }
 
-export function pullWidget(dashboardId, widgetId, refreshInterval) {
+export function pullWidget(dashboardId, widgetId, refreshValue) {
     return (dispatch, getState) => {
-        refreshInterval = 5 * 1000;
-        let Id = setTimeout(() => {
+        refreshInterval = refreshValue * 1000;
+        let setTimeoutId = setTimeout(() => {
 
-            //console.log("This Widget REFRESH STARTED", dashboardId, widgetId)
-            dashboardService.viewWidgetData(dashboardId, widgetId, {}).then(res => {
-
-                //console.log('logged')
-                let nextRefreshInterval = refreshInterval;
-
+            dashboardService.viewWidgetData(dashboardId, widgetId, {}).then(response => {
+                let widget = _.find(getState().dashboard.widgets, (w) => w.id == widgetId);
+                if (widget) {
+                    DashboardUtilities.WidgetDataMapper(widget, response.data)
+                    const { widgetBody } = widget || {};
+                    if (widgetBody) {
+                        widget.appliedBackgroundColor = response.data.wrth && response.data.wrth.thc ? response.data.wrth.thc : widgetBody.backgroundColor;
+                    }
+                    dispatch(getState().dashboard.updateWidget(widget));
+                }
+                let nextRefreshInterval = refreshInterval; // can be changed based on throttling
                 dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval))
-            })
-                .catch((err) => {
-                    //console.log(err, "Error retrieving this widget data");
+            }).catch((err) => {
+                    let nextRefreshInterval = refreshInterval;
+                    dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval));
+
                 });
         }, refreshInterval);
 
-        console.log('id of refreshintervals ', Id)
+        let refreshingWidgetsArray = getState().dashboard.refreshingWidgets;
+
+        let refreshingWidgetExists = _.find(refreshingWidgetsArray, (each) => each.widgetId == widgetId);
+
+        if (refreshingWidgetExists) {
+            let updatedRefreshingWidgets = _.map(refreshingWidgetsArray, (refreshingWidget) => {
+                if (refreshingWidget.widgetId == widgetId) {
+                    clearInterval(refreshingWidget.id);
+                    return {
+                        ...refreshingWidget,
+                        id: setTimeoutId
+                    }
+                }
+                return refreshingWidget;
+            });
+            dispatch({
+                type: UPDATE_DASHBOARD_PROPERTY,
+                key: 'refreshingWidgets',
+                value: updatedRefreshingWidgets
+            });
+        }
+        else {
+            refreshingWidgetsArray.splice(refreshingWidgetsArray.length, 0, { widgetId: widgetId, id: setTimeoutId })
+            dispatch({
+                type: UPDATE_DASHBOARD_PROPERTY,
+                key: 'refreshingWidgets',
+                value: refreshingWidgetsArray
+            });
+        }
+
     }
 }
 
@@ -242,5 +277,19 @@ export function deleteWidgetAction(widgetId) {
             widgets: updatedWidgets
         });
 
+    }
+}
+
+export function clearRefreshInterval() {
+    return (dispatch, getState) => {
+
+        _.each(getState().dashboard.refreshingWidgets, (refreshIntervalId) => {
+            clearInterval(refreshIntervalId.id);
+        });
+        dispatch({
+            type: UPDATE_DASHBOARD_PROPERTY,
+            key: 'refreshingWidgets',
+            value: []
+        });
     }
 }

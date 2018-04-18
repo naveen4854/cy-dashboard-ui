@@ -81,6 +81,7 @@ const initialState = {
     Id: -1,
     updateShowIcons,
     showIcons: true,
+    refreshingWidgets:[], //{ widgetId: 'i', id:1 }
     pullWidget,
     updateDashboardMode,
     getDashboardById,
