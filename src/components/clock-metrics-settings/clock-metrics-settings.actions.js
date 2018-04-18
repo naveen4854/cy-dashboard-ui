@@ -150,6 +150,6 @@ export function updateWidget() {
                 dataMetrics
             }
         }
-        dispatch(getState().configurations.updateDashboardWidget(updatedWidget));
+        dispatch(getState().configurations.applyWidget(updatedWidget));
     }
 }

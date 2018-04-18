@@ -2,7 +2,7 @@ import { stylesMapperToServer, stylesMapper } from './styles-utils';
 import { mapThresholdsToServer } from './threshold-utils';
 import { WidgetTypeEnum, StatisticCategoryEnum, ScrollTypeEnum } from '../../enums';
 import { rgba } from '../../../utilities';
-import { mapAppliedSettings } from './settings-utils';
+import { mapAppliedSettings, getDisplayFormat, getSelectedItem, getSelectedFunction } from './settings-utils';
 
 /**
  * generates matrix for given widget
@@ -55,8 +55,9 @@ export function getComboMatrix(inputWidget) {
                 } : null,
                 isSummary: eachWidget.isSummary,
                 aggId: eachWidget.aggregateOperationId,
-                isLive: eachWidget.isLive
+                isLive: eachWidget.isLive,
                 //isSummary:  eachWidget.displayFormatId,
+                stylesConfigured: eachWidget.stylesConfigured
 
             };
             comboRow.push(comboInnerWidget);
@@ -117,14 +118,14 @@ export function comboWidgetConfigurationsFromServer(widget, dataMetricsMetadata,
     let selectedGroup = comboWidget.appliedSettings.dataMetrics.group;
     comboWidget = {
         ...comboWidget,
-        matrix: convertToMatrix(widget.wmx, columns, widget.ws.srt.rf, widget.wid, widget.ws.stom, selectedGroup)
+        matrix: convertToMatrix(widget.wmx, columns, widget.ws.srt.rf, widget.wid, widget.ws.stom, selectedGroup, dataMetricsMetadata)
     }
 
     return comboWidget;
 }
 
 
-function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId, selectedGroup) {
+function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId, selectedGroup, dataMetricsMetadata) {
     let i = 0,
         j = 0;
     let comboMatrixs = [];
@@ -132,89 +133,70 @@ function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId, se
         let comboRow = [];
         for (j = 0; j < resultMatrix[i].length; j++) {
             var comboInnerWidget = {};
-            let eachWidget = resultMatrix[i][j];
-            if (eachWidget.wt == WidgetTypeEnum.CircularProgress) {
-                eachWidget.appliedSettings = {};
-                eachWidget.appliedSettings.dataMetrics = {};
-                eachWidget.appliedSettings.dataMetrics.displayFormat = {};
-                eachWidget.appliedSettings.dataMetrics.displayFormat.id = columns[j + 1].cdf;
-            }
+            let oldWidget = resultMatrix[i][j];
             let isColumnHeader = i == 0;
             let isRowHeader = j == 0;
-
             comboInnerWidget.columnId = columns[j].cid;
             comboInnerWidget.rowId = isColumnHeader ? -1 : filters[i - 1] + '_' + selectedGroup.id; // using combination because there is chance of same id for unrelated drilldown options
             comboInnerWidget = {
                 ...comboInnerWidget,
-                height: eachWidget.height,
-                width: eachWidget.width,
-                id: eachWidget.wid,
+                height: oldWidget.height,
+                width: oldWidget.width,
+                id: oldWidget.wid,
                 comboId: comboId,
-                widgetType: eachWidget.wt,
-                max: eachWidget.wmax,
-                min: eachWidget.wmin,
-                title: eachWidget.wtl,
+                widgetType: oldWidget.wt,
+                max: oldWidget.wmax,
+                min: oldWidget.wmin,
+                title: oldWidget.wtl,
                 wri: -1,
-                displayValue: categoryId == StatisticCategoryEnum.RealTime ? i == 0 || j == 0 ? eachWidget.wtl : '--' : i == 0 ? eachWidget.wtl : '--',
+                displayValue: categoryId == StatisticCategoryEnum.RealTime ? i == 0 || j == 0 ? oldWidget.wtl : '--' : i == 0 ? oldWidget.wtl : '--',
                 value: '0',
-                segmentColors: eachWidget.wsgc && eachWidget.wsgc.length > 0 ? eachWidget.wsgc : [rgba(255, 0, 0, 1), rgba(255, 232, 0, 1), rgba(0, 255, 0, 1)],
+                segmentColors: oldWidget.wsgc && oldWidget.wsgc.length > 0 ? oldWidget.wsgc : [rgba(255, 0, 0, 1), rgba(255, 232, 0, 1), rgba(0, 255, 0, 1)],
                 isComboWidget: true,
                 scrollType: ScrollTypeEnum.None,
-                widgetBody: stylesMapper(eachWidget.wb),
-                valueStyles: stylesMapper(eachWidget.wvs),
-                titleStyles: stylesMapper(eachWidget.wts),
-                rangeValueStyles: stylesMapper(eachWidget.wrs),
-                arcColor: eachWidget.cpac ? eachWidget.cpac : rgba(0, 192, 239, 1),
-                arcWidth: eachWidget.cpaw ? eachWidget.cpaw : 15,
-                appliedBackgroundColor: categoryId == StatisticCategoryEnum.Custom && resultMatrix[0][j].abc ? resultMatrix[0][j].abc : stylesMapper(eachWidget.wb).backgroundColor,// categoryId ==  StatisticCategoryEnum.Custom ? GetWidget(WidgetTypeEnum.Box, true, 0).appliedBackgroundColor : StylesMapper(eachWidget.wb).backgroundColor,
-                showMaxValueOnWidget: eachWidget.wsmv,
-                appliedSettings: mapAppliedSettings(eachWidget),
-                dataType: eachWidget.dty,
-                dateFormat: eachWidget.df,
-                showZeroValues: eachWidget.sz,
-                displayFormatId: eachWidget.dpid,
-                dateFormatId: eachWidget.dtid,
-                timeFormatId: eachWidget.tfid,
-                hoursFormatId: eachWidget.hfid,
-                column: eachWidget.fc,
+                widgetBody: stylesMapper(oldWidget.wb),
+                valueStyles: stylesMapper(oldWidget.wvs),
+                titleStyles: stylesMapper(oldWidget.wts),
+                rangeValueStyles: stylesMapper(oldWidget.wrs),
+                arcColor: oldWidget.cpac ? oldWidget.cpac : rgba(0, 192, 239, 1),
+                arcWidth: oldWidget.cpaw ? oldWidget.cpaw : 15,
+                appliedBackgroundColor: categoryId == StatisticCategoryEnum.Custom && resultMatrix[0][j].abc ? resultMatrix[0][j].abc : stylesMapper(oldWidget.wb).backgroundColor,// categoryId ==  StatisticCategoryEnum.Custom ? GetWidget(WidgetTypeEnum.Box, true, 0).appliedBackgroundColor : StylesMapper(eachWidget.wb).backgroundColor,
+                showMaxValueOnWidget: oldWidget.wsmv,
+                appliedSettings: mapAppliedSettings(oldWidget),
+                dataType: oldWidget.dty,
+                dateFormat: oldWidget.df,
+                showZeroValues: oldWidget.sz,
+                displayFormatId: oldWidget.dpid,
+                dateFormatId: oldWidget.dtid,
+                timeFormatId: oldWidget.tfid,
+                hoursFormatId: oldWidget.hfid,
+                column: oldWidget.fc,
                 showSettings: false,
                 showEditor: false,
                 isColumnHeader,
                 isRowHeader,
                 hideIcon: categoryId == StatisticCategoryEnum.Custom && i > 0 ? true : false,
-                basedColumn: eachWidget.bsdc ? { value: eachWidget.bsdc.v, label: eachWidget.bsdc.l, type: eachWidget.bsdc.t } : null,
+                basedColumn: oldWidget.bsdc ? { value: oldWidget.bsdc.v, label: oldWidget.bsdc.l, type: oldWidget.bsdc.t } : null,
 
                 HideSettings: categoryId == StatisticCategoryEnum.RealTime && j == 0 ? true : false,
-                aggregateOperationId: eachWidget.aggId,
-                isSummary: eachWidget.isSummary
+                aggregateOperationId: oldWidget.aggId,
+                isSummary: oldWidget.isSummary,
+                aggregateOperationId: oldWidget.aggId,
+                stylesConfigured: oldWidget.stylesConfigured
+
             };
-            if ((filters && filters.length > 0) || (columns && columns.length > 0)) {
-                if (i === 0) {
-                    comboInnerWidget.settings = {
-                        item: columns[j + 1] && columns[j + 1].cisiid,
-                        cWidgetType: eachWidget.wt,
-                        filter: j
-                    }
-                    comboInnerWidget.isRowrColumn = true;
-                }
-                else if (j === 0) {
-                    comboInnerWidget.settings = {
-                        filter: filters[i - 1]
-                    }
-                    comboInnerWidget.isRowrColumn = true;
-                }
-                else {
-                    comboInnerWidget.settings = {
-                        item: columns[j + 1] && columns[j + 1].cisiid,
-                        func: columns[j + 1] && columns[j + 1].ciafid,
-                        displayFormat: columns[j + 1] && columns[j + 1].cdf,
-                        filter: filters[i - 1]
-
-                    }
-                    comboInnerWidget.isRowrColumn = false;
-                }
-
+            let dataMetrics = {
+                item: getSelectedItem(columns[j] && columns[j].cisiid, dataMetricsMetadata),
+                func: getSelectedFunction(columns[j] && columns[j].ciafid, dataMetricsMetadata),
+                displayFormat: getDisplayFormat(columns[j] && columns[j].cdf, dataMetricsMetadata),//columns[j] && columns[j].cdf,
+                filter: filters[i - 1]
             }
+            let appliedSettings = {
+                ...comboInnerWidget.appliedSettings,
+                dataMetrics
+            };
+
+            comboInnerWidget.appliedSettings = appliedSettings;
             comboRow.push(comboInnerWidget);
         }
         comboMatrixs.push(comboRow);

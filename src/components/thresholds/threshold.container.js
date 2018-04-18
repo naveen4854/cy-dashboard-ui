@@ -10,7 +10,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(ThresholdActions.addLevels(item))
         },
         addSelectedLevels: () => {
-                dispatch(ThresholdActions.addSelectedLevels());
+            dispatch(ThresholdActions.addSelectedLevels());
         }
     }
 }
@@ -18,7 +18,9 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
     return {
         threshold: state.threshold,
-        common: state.common
+        common: state.common,
+        displayFormat: state.configurations.widget.appliedSettings.dataMetrics.displayFormat,
+        // statisticCategory: state.configurations.selectedStatisticCategory
     }
 }
 

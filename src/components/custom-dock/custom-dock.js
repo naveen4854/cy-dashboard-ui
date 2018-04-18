@@ -19,6 +19,7 @@ export default class CustomDock extends PureComponent {
                     background: 'rgb(244, 248, 250)',
                     left: 0,
                     top: 50,
+                    overflow: 'hidden'
                 }}
             >
                 {children}

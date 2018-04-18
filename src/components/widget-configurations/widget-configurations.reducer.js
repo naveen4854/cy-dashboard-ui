@@ -9,6 +9,7 @@ import { TOGGLE_CONFIGURATIONS_PANEL, UPDATE_CONFIGURATIONS_WIDGET, SET_METRICS_
 export function toggleSettingsMenu(widget) {
     return (dispatch, getState) => {
         dispatch(getState().dataMetrics.clearSelectedDM())
+        dispatch(getState().threshold.clearThresholds())
 
         // if (!widget) {
         //     return dispatch({
@@ -53,7 +54,6 @@ export function toggleSettingsMenu(widget) {
             }
             dispatch(getState().styles.initializeStyles())
             dispatch(getState().threshold.initializeThresholddata())
-            // dispatch(getState().dataMetrics.initi)
         }
     }
 }
@@ -71,14 +71,18 @@ export function updateDashboardWidget(widget) {
 
 export function applyWidget(widget) {
     return (dispatch, getState) => {
-        dispatch(getState().configurations.updateDashboardWidget(widget));
+        let currentWidget = getState().configurations.widget;
+        if (currentWidget.id == widget.id)
+            dispatch({
+                type: UPDATE_CONFIGURATIONS_WIDGET,
+                widget: widget
+            })
+        dispatch(getState().dashboard.updateWidget(widget));
     }
 }
 
 export function previewWidget(widget) {
     return (dispatch, getState) => {
-        // if (widget.widgetType = WidgetTypeEnum.Combo)
-        //     return;
         dispatch(getState().notificationStore.clearNotifications());
         const widgetData = DashboardUtilities.WidgetMapper(widget, getState().dataMetrics.dataMetricsMetadata);
         widgetService.getWidgetPreviewData(widgetData).then(function (response) {
@@ -89,8 +93,8 @@ export function previewWidget(widget) {
                     if (widgetBody) {
                         widget.appliedBackgroundColor = response.data.wrth && response.data.wrth.thc ? response.data.wrth.thc : widgetBody.backgroundColor;
                     }
-                    dispatch(getState().configurations.updateDashboardWidget(widget));
-                    //TODO: update widget on dashboard
+                    // dispatch(getState().dashboard.updateWidget(widget));
+                    dispatch(getState().configurations.applyWidget(widget));
                 }
             }
         }).catch((error) => {
@@ -133,7 +137,6 @@ const initialState = {
     showThresholdsTab: true,
     showMetricsTab: true,
     toggleSettingsMenu,
-    updateDashboardWidget,
     applyWidget,
     previewWidget,
     updateConfigurationsWidget,

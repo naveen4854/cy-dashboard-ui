@@ -68,6 +68,15 @@ class DurationInput extends React.Component {
             value={value}
             onChange={(e) => this.props.updatePropOnChange(e.target.value, wKey)} />
         )
+      case (DisplayFormatEnum.Number):
+        return (
+          <input
+            disabled={!enableInput}
+            className="form-control"
+            value={value}
+            type="number"
+            onChange={(e) => this.props.updatePropOnChange(e.target.value, wKey)} />
+        )
       default:
         return (
           <input

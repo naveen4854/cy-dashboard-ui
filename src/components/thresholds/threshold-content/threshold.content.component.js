@@ -168,18 +168,6 @@ export default class ThresholdTabContent extends PureComponent {
         return formatter ? formatter.convert(val) : 0;
     }
 
-    renderThresholdInput() {
-        return (
-            <DurationInput
-                displayFormatId={this.props.displayFormat}
-                value={this.props.levelValue}
-                wKey='levelValue'
-                enableInput={true}
-                updatePropOnChange={this.updateLevel}
-            />
-        )
-    }
-
     handleClick = () => {
         this.props.handleClick(this.props.id);
     }
@@ -350,5 +338,18 @@ export default class ThresholdTabContent extends PureComponent {
         )
     }
 
+    renderThresholdInput() {
+        // logic will change with basedOnColumn
+        const displayFormatId = this.props.displayFormat.id;
+        return (
+            <DurationInput
+                displayFormatId={displayFormatId}
+                value={this.props.levelValue}
+                wKey='levelValue'
+                enableInput={true}
+                updatePropOnChange={this.updateLevel}
+            />
+        )
+    }
 
 }
