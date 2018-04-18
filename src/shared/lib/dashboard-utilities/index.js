@@ -353,6 +353,7 @@ export function mappingCustomMatrixHeaders(cHeader, column) {
   cHeader.displayValue = column.displayName ? column.displayName : column.selectedColumn.label;
   cHeader.column = column.selectedColumn.label;
   cHeader.columnId = column.selectedColumn.value;
+  cHeader.rowId = -1; // setting it to -1
   cHeader.dataType = column.selectedColumn.type;
   cHeader.dateFormat = column.dateFormat && column.dateFormat.type;
   cHeader.showZeroValues = column.showZeroValues;
@@ -466,6 +467,7 @@ function comboResultMapping(widget, data) {
     for (let i = 0; i < data.wrgd.length; i++) {
       let cellList = [];
       for (let j = 0; j < data.wrgd[i].length; j++) {
+        debugger
         let cell = new BoxWidget(true, 0, false);
         let firstRow = widget.matrix[0];
         let colummCheck = firstRow[j];
@@ -492,6 +494,7 @@ function comboResultMapping(widget, data) {
         cell.isComboWidget = true;
         cell.hideIcon = true;
         cell.comboId = widget.id;
+        cell.columnId = colummCheck.columnId;
         cell.valueStyles = _.cloneDeep(oldMatrix[0][j].valueStyles);
         if (colummCheck.isSummary && i == data.wrgd.length - 1) {
           cell.isSummary = colummCheck.isSummary;
