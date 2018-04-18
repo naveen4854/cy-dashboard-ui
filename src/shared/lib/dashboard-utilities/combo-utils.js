@@ -136,8 +136,8 @@ function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId, se
             let oldWidget = resultMatrix[i][j];
             let isColumnHeader = i == 0;
             let isRowHeader = j == 0;
-            comboInnerWidget.columnId = columns[j].cid;
-            comboInnerWidget.rowId = isColumnHeader ? -1 : filters[i - 1] + '_' + selectedGroup.id; // using combination because there is chance of same id for unrelated drilldown options
+            comboInnerWidget.columnId = categoryId == StatisticCategoryEnum.RealTime ? columns[j].cid : columns[j].id;
+            comboInnerWidget.rowId = isColumnHeader || categoryId == StatisticCategoryEnum.Custom ? -1 : filters[i - 1] + '_' + selectedGroup.id; // using combination because there is chance of same id for unrelated drilldown options
             comboInnerWidget = {
                 ...comboInnerWidget,
                 height: oldWidget.height,

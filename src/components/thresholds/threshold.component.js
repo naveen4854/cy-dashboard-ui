@@ -245,7 +245,6 @@ export default class ThresholdTab extends PureComponent {
             lvl.levelValue = this.getDefaultThresholdValue(displayFormatId, lvl.levelValue)
             return lvl;
         })
-        debugger
         this.props.updateBasedColumn(basedColumn);
         this.props.updateLevels(levels)
     }

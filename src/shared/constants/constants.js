@@ -1,7 +1,7 @@
 
 import displayFormatEnum from '../enums/display-format.enum';
 import { utils } from '../../utilities'
-import { ApplyToOptions, PictureStretchEnum } from '../enums';
+import { ApplyToOptions, PictureStretchEnum, StatisticFunction } from '../enums';
 
 export const refreshTabId = 'rt';
 export const tabsList = 'tlst';
@@ -132,4 +132,31 @@ export const ColumnStyleOptions = [
 export const YesNoOptions = [
 	{ label: "Yes", value: true },
 	{ label: "No", value: false }
+];
+
+export const AggregateOperations = [
+	{
+		id: StatisticFunction.Sum,
+		value: StatisticFunction.Sum,
+		label: "Sum",
+
+	},
+	{
+		id: StatisticFunction.Average,
+		value: StatisticFunction.Average,
+		label: "Avg",
+
+	},
+	{
+		id: StatisticFunction.Maximum,
+		value: StatisticFunction.Maximum,
+		label: "Max",
+
+	},
+	{
+		id: StatisticFunction.Minimum,
+		value: StatisticFunction.Minimum,
+		label: "Min",
+
+	}
 ];

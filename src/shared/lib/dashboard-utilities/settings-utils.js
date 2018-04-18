@@ -1,5 +1,6 @@
 import { StatisticCategoryEnum } from "../../enums";
 import { getRandom } from "../../../utilities/utils";
+import { Constants } from '../../constants';
 
 export function mapAppliedSettings(widget, isEdit, dataMetricsMetadata) {
   {
@@ -7,7 +8,7 @@ export function mapAppliedSettings(widget, isEdit, dataMetricsMetadata) {
     let columns, comboSelectedStatisticColumns = []
     let settings = widget.ws || {};
     let realTimeSettings = settings.srt || {}
-    let customSettings = customSettings || {}
+    let customSettings = settings.sc || {}
     if (settings.stom == StatisticCategoryEnum.Custom) {
       columns = customSettings.isc ? getCustomColumns(widget.wmx[0]) : [];
       comboSelectedStatisticColumns = []
@@ -163,4 +164,82 @@ function mapThresholds(thresholds) {
     }
   })
   return givenThresholds
+}
+
+/**
+ * To add the levels for combo custom statistics
+ * @param {*} columns 
+ */
+function getCustomColumns(columns) {
+  return _.map(columns, (column, index) => {
+    return {
+      id: column.wid,
+      level: index + 1,
+      levelValue: null,
+      expanded: true,
+      selectedColumn: {
+        value: column.wid,
+        label: column.fc,
+        type: column.dty
+      },
+      showZeroValues: column.sz,
+      displayFormat: column.dpid,
+      dateFormat: getSelectedDateFormat(column.dtid),
+      displayName: column.wtl == column.fc ? column.fc : column.wtl,
+      hoursFormat: getSelectedHoursFormat(column.hfid),
+      timeFormat: getSelectedTimeFormat(column.tfid),
+      aggregateOperation: getSelectedAggregateFunction(column.aggId),
+      isSummary: column.isSummary
+    }
+  });
+}
+
+/**
+ * To get the selected aggregate function  based on id.
+ * @param {*} aggregateOperationId 
+ */
+function getSelectedAggregateFunction(aggregateOperationId) {
+  var selectedAggregateFunction = _.find(Constants.AggregateOperations, a => a.id == aggregateOperationId);
+  if (selectedAggregateFunction) {
+    return selectedAggregateFunction;
+  } else {
+    return undefined;
+  }
+}
+/**
+ * To get the hours format based on hoursfomratid.
+ * @param {*} hoursFormatId 
+ */
+function getSelectedHoursFormat(hoursFormatId) {
+  var selectedHoursFormat = _.find(Constants.hoursFormat, c => c.id == hoursFormatId);
+  if (selectedHoursFormat) {
+    return selectedHoursFormat;
+  } else {
+    return undefined;
+  }
+}
+/**
+ * To get the selected date format based on dateformat id.
+ * @param {*} dateFormatId 
+ */
+function getSelectedDateFormat(dateFormatId) {
+  var selectedDateFormat = _.find(Constants.dateFormats, c => c.id == dateFormatId);
+  if (selectedDateFormat) {
+    return selectedDateFormat;
+  } else {
+    return undefined;
+  }
+}
+
+/**
+ * To get the selected time format based on time format id.
+ * @param {*} timeFormatId 
+ */
+function getSelectedTimeFormat(timeFormatId) {
+  var selectedTimeFormat = _.find(Constants.customCombotimeFormat, c => c.id == timeFormatId);
+  if (selectedTimeFormat) {
+    return selectedTimeFormat;
+  } else {
+    return undefined;
+  }
 }
