@@ -73,7 +73,7 @@ export function SetGlobals(getGlobals) {
 export function SetMyDashboards(getMyDashboards) {
   return (dispatch, getState) => {
     dispatch({
-      type: UPDATE_GLOBALS,
+      type: UPDATE_MYDASHBOARD,
       myDashboards: getMyDashboards
     });
   }
