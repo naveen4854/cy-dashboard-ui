@@ -96,7 +96,7 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
             if (_.find(oldFilters, oldFilter => (oldFilter.value ? oldFilter.value : oldFilter) == filter.value)) {
                 //cell.applyStyles(existingCell);
             } else {
-                if (previousRow && previousRow[columnIndex]) {
+                if (previousRow && previousRow[columnIndex] && rowIndex > 1) {
                     cell.applyStyles(previousRow[columnIndex]);
                 }
             }
