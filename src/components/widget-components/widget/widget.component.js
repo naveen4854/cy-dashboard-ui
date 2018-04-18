@@ -22,13 +22,17 @@ export default class WidgetComponent extends PureComponent {
     constructor(props) {
         super(props);
         // debugger
-        console.log('constructor ', this.props.widget.refreshInterval)
-        this.props.pullWidgetData(this.props.dashboardId, this.props.widget.id, this.props.widget.refreshInterval)
+        if (this.props.dashboardMode == DashboardModeEnum.View || this.props.dashboardMode == DashboardModeEnum.Slider) {
+            console.log('constructor ', this.props.widget.refreshInterval)
+            this.props.pullWidgetData(this.props.dashboardId, this.props.widget.id, this.props.widget.refreshInterval)
+        }
     }
     componentWillReceiveProps(nextProps) {
-        console.log('receive props')
-        if(this.props.widget.id != nextProps.widget.id)
-        this.props.pullWidgetData(nextProps.dashboardId, nextProps.widget.id,  nextProps.widget.refreshInterval)
+        if (this.props.dashboardMode == DashboardModeEnum.View || this.props.dashboardMode == DashboardModeEnum.Slider) {
+            console.log('receive props')
+            if (this.props.widget.id != nextProps.widget.id)
+                this.props.pullWidgetData(nextProps.dashboardId, nextProps.widget.id, nextProps.widget.refreshInterval)
+        }
     }
     render() {
         let classToBeApplied = 'widget';
