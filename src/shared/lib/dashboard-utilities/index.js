@@ -467,7 +467,6 @@ function comboResultMapping(widget, data) {
     for (let i = 0; i < data.wrgd.length; i++) {
       let cellList = [];
       for (let j = 0; j < data.wrgd[i].length; j++) {
-        debugger
         let cell = new BoxWidget(true, 0, false);
         let firstRow = widget.matrix[0];
         let colummCheck = firstRow[j];

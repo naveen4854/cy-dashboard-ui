@@ -5,31 +5,56 @@ import { ResponseStatusEnum, StatisticCategoryEnum, DisplayFormatEnum, WidgetTyp
 import { Constants } from '../../shared/constants';
 import * as ThresholdService from './threshold-service';
 import { thresholdsInitialState } from './threshold.reducer';
+import * as dataMetricsService from '../data-metrics/data-metrics-service'
 
 export function initializeThresholddata() {
     return (dispatch, getState) => {
         let currentWidget = getState().configurations.widget;
-        let selectedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory || StatisticCategoryEnum.RealTime
-        let widgets = getState().dashboard.widgets;
-        let comboWidget = _.find(widgets, wt => wt.id == currentWidget.comboId);
-        let columnOptions = [];// getColumns(currentWidget, comboWidget);
-        let column = getBasedColumn(currentWidget, selectedStatisticCategory, columnOptions);
-        let displayFormat = getDisplayFormat(currentWidget, widgets);
         let levels = currentWidget.appliedSettings.thresholds;
+        if (currentWidget.isComboWidget) {
+            let comboWidget = _.find(getState().dashboard.widgets, wt => wt.id == currentWidget.comboId);
+            if (comboWidget.appliedSettings.dataMetrics.statisticCategory == StatisticCategoryEnum.Custom) {
+                dispatch(getState().threshold.loadThresholdColumnOptions(comboWidget.appliedSettings.dataMetrics.query));
+            }
+        }
+
         dispatch({
             type: ThresholdConstants.DEFAULT_THRESHOLD,
             levels,
-            basedColumn: currentWidget.basedColumn || undefined,
-            column: column || undefined,
-            statisticsCategoryId: selectedStatisticCategory,
-            widgetId: currentWidget.id,
-            dataType: currentWidget.dataType || undefined,
-            columnOptions: columnOptions,
-            widgetType: currentWidget.widgetType,
-            isComboWidget: currentWidget.isComboWidget,
-            displayFormatId: displayFormat,
-            isColumnHeader: currentWidget.isColumnHeader,
-            comboId: currentWidget.comboId
+            basedColumn: currentWidget.appliedSettings.basedColumn
+        })
+    }
+}
+
+export function loadThresholdColumnOptions(query) {
+    return (dispatch, getState) => {
+        dispatch(getState().notificationStore.clearNotifications());
+        dispatch(getState().spinnerStore.BeginTask());
+        dataMetricsService.validateQuery(query).then((response) => {
+            if (response.data && response.data.Status) {
+                dataMetricsService.loadColumns(query).then(function (response) {
+                    dispatch(getState().spinnerStore.EndTask());
+                    if (response.status === 200) {
+                        let columnOptions = _.map(response.data, (item) => {
+                            return {
+                                label: item.ColumnName,
+                                value: item.Id,
+                                type: item.DataTypeName
+                            }
+                        });
+                        dispatch({
+                            type: ThresholdConstants.UPDATE_THRESHOLD_COLUMN_OPTIONS,
+                            columnOptions
+                        })
+                    }
+                })
+            }
+            else {
+                return dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Error))
+            }
+        }).catch((error) => {
+            dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error));
+            dispatch(getState().spinnerStore.EndTask());
         })
     }
 }

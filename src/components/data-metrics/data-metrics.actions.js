@@ -1,5 +1,5 @@
 import { WidgetData } from "../../shared/lib";
-import { WidgetTypeEnum } from "../../shared/enums";
+import { WidgetTypeEnum, StatisticCategoryEnum } from "../../shared/enums";
 import { mappingCustomMatrixHeaders } from "../../shared/lib/dashboard-utilities";
 
 export function saveComboRealTimeMetrics() {
@@ -59,6 +59,7 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
                 item: statisticColumn.item,
                 func: statisticColumn.func,
                 displayFormat: statisticColumn.displayFormat,
+                statisticCategory: StatisticCategoryEnum.RealTime
             };
 
             let widgetType = isColumnHeader ? WidgetTypeEnum.Box : statisticColumn.widget.value;
@@ -190,15 +191,24 @@ export function saveComboCustomMetricsAction() {
 
             let cellHeader = WidgetData.GetWidget(WidgetTypeEnum.Box, 0, true);
             cellHeader.comboId = currentWidget.id;
+
+            let appliedSettings = {
+                ...cellHeader.appliedSettings,
+                basedColumn: column.selectedColumn,
+                dataMetrics: {
+                    ...cellHeader.appliedSettings.dataMetrics,
+                    statisticCategory: StatisticCategoryEnum.Custom
+                }
+            }
+            cellHeader.applySettings(appliedSettings);
             return mappingCustomMatrixHeaders(cellHeader, column);
         });
 
         newMatrix.splice(0, 0, headers);
-        let statisticCategory = getState().dataMetrics.statisticCategory;
         let dataMetrics = {
             query,
             columns,
-            statisticCategory
+            statisticCategory: StatisticCategoryEnum.Custom
         }
 
         let updatedWidget = {

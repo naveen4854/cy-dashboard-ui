@@ -209,20 +209,21 @@ export default class ThresholdTab extends PureComponent {
      * @param {*} e 
      */
     onColumnChange(e) {
-        let displayFormat = this.getDisplayFormat(e);
-        let levels = _.map(this.state.levels, (lvl) => {
-            lvl.levelValue = this.getDefaultThresholdValue(displayFormat, lvl.levelValue)
-            return lvl
-        })
+        // let displayFormat = this.getDisplayFormat(e);
+        // let levels = _.map(this.state.levels, (lvl) => {
+        //     lvl.levelValue = this.getDefaultThresholdValue(displayFormat, lvl.levelValue)
+        //     return lvl
+        // })
 
-        this.setState({
-            column: e,
-            displayFormat,
-            levels
-        })
+        // this.setState({
+        //     column: e,
+        //     displayFormat,
+        //     levels
+        // })
     }
 
     render() {
+        let { threshold, statisticCategory } = this.props;
         return (
             <div id='tabContentArea' className='margin20'>
                 <div className='row'>
@@ -239,16 +240,17 @@ export default class ThresholdTab extends PureComponent {
                     </div>
                 </div>
 
-                {(this.props.statisticsCategoryId == StatisticCategoryEnum.Custom && this.props.widget.isComboWidget) &&
+                {
+                    this.props.isComboWidget && threshold.basedColumn && statisticCategory == StatisticCategoryEnum.Custom &&
                     <div className="row paddingTop10">
                         <div className="col-xs-6 col-md-5 col-lg-3 col-lg-offset-2 labelContent text-right rtl-text-right">
                             <label className="control-label inline"> {this.props.l.t('Based_on_columnCOLON', 'Based on column:')} </label>
                         </div>
                         <div className='col-xs-6 col-md-5 col-lg-4'>
                             <CustomSelect name="field-group-options form-control"
-                                disabled={!(this.state.levels && this.state.levels.length > 0)}
-                                value={this.props.columnOptions && this.props.columnOptions.length == 1 ? this.props.columnOptions[0] : this.state.column}
-                                options={this.props.columnOptions} placeholder='Select...'
+                                // disabled={!(this.state.levels && this.state.levels.length > 0)}
+                                value={threshold.basedColumn || threshold.columnOptions[0]}
+                                options={threshold.columnOptions} placeholder='Select...'
                                 onChange={(e) => this.onColumnChange(e)} />
                         </div>
                     </div>

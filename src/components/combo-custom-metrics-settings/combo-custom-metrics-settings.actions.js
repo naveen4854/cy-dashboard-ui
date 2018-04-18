@@ -65,6 +65,7 @@ export function loadColumns() {
         //     query: ''
         // })
 
+        //TODO: make one validatequery and loadcolumns functions 
         dispatch(getState().notificationStore.clearNotifications());
         dispatch(getState().spinnerStore.BeginTask());
         dataMetricsService.validateQuery(query).then((response) => {
