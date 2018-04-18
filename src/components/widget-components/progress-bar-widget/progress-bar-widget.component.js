@@ -10,8 +10,8 @@ export default class ProgressBarWidgetComponent extends PureComponent {
         let widgetBody = this.props.widgetBody;
         let widgetBodyStyles = utils.stylesToCss(this.props.appliedBackgroundColor, widgetBody.fontSize, widgetBody.fontFamily, widgetBody.color)
         let valueStyles = utils.stylesObjToCss(this.props.valueStyles)
-        let titleStyles = utils.stylesObjToCss(this.props.titleStyles)
-        let rangeValueStyles = utils.stylesObjToCssSVG(this.props.rangeValueStyles)
+     //   let titleStyles = utils.stylesObjToCss(this.props.titleStyles)
+     //   let rangeValueStyles = utils.stylesObjToCssSVG(this.props.rangeValueStyles)
 
         let displayFormatId = this.props.appliedSettings.dataMetrics.displayFormat ? this.props.appliedSettings.dataMetrics.displayFormat.id : DisplayFormatEnum.Number;
         let formatter = utils.getFormatter(displayFormatId);
@@ -31,8 +31,8 @@ export default class ProgressBarWidgetComponent extends PureComponent {
                     ratio={ratio}
                     interpolateColor={interpolateColor}
                     valueStyles={valueStyles}
-                    titleStyles={titleStyles}
-                    rangeValueStyles={rangeValueStyles}
+                  //  titleStyles={titleStyles}
+                  //  rangeValueStyles={rangeValueStyles}
                     minText={minText}
                     maxText={maxText}
                     barCount={10} />
