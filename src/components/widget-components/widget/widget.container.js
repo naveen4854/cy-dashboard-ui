@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import WidgetComponent from './widget.component';
 import { DashboardModeEnum } from '../../../shared/enums';
 import { pullWidget, toggleSettingsMenu, deleteWidgetAction } from '../../../dashboard/dashboard.actions'
+import { previewWidget } from '../../widget-configurations/widget-configurations.actions';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -15,6 +16,9 @@ const mapDispatchToProps = (dispatch) => {
         deleteWidget: (widgetId) => {
             dispatch(deleteWidgetAction(widgetId))
         },
+        previewWidget: (widget) => {
+            dispatch(previewWidget(widget))
+        }
     }
 }
 

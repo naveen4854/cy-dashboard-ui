@@ -73,7 +73,7 @@ export function SetGlobals(getGlobals) {
 export function SetMyDashboards(getMyDashboards) {
   return (dispatch, getState) => {
     dispatch({
-      type: UPDATE_GLOBALS,
+      type: UPDATE_MYDASHBOARD,
       myDashboards: getMyDashboards
     });
   }
@@ -139,7 +139,7 @@ export function DeleteDashboard(dashboardId) {
     dashboardService.deleteDashboard(dashboardId).then((response) => {
       dispatch(getState().spinnerStore.EndTask());
       if (response.data.Status === true) {
-          dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Success));
+        dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Success));
 
         if (pageStart == pageEnd) {
           dispatch({

@@ -7,7 +7,7 @@ import { WidgetsBarContainer } from '../../components/widgets-bar';
 import DashboardLayoutContainer from '../../components/dashboard-layout';
 import WidgetConfigurationsContainer from '../../components/widget-configurations/';
 
-export default class NewDashboard extends PureComponent {
+export default class ViewDashboardComponent extends PureComponent {
 
     constructor(props) {
         super(props);
@@ -18,8 +18,12 @@ export default class NewDashboard extends PureComponent {
     }
     componentDidUpdate() {
     }
+    componentWillUnmount() {
+        this.goBack();
+    }
     goBack() {
-      }
+        this.props.clearRefreshInterval();
+    }
     render() {
         return (
             <div className='background' >

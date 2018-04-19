@@ -29,20 +29,21 @@ const mapDispatchToProps = (dispatch) => {
         UpdateDashboard: () => {
             dispatch(WidgetsBarActions.UpdateDashboard())
         },
-        DeleteDashboardInHeader: (dashboardId) => {
-            dispatch(WidgetsBarActions.DeleteDashboardInHeader(dashboardId))
+        deleteDashboardInHeader: (dashboardId) => {
+            dispatch(WidgetsBarActions.deleteDashboardInHeader(dashboardId))
         },
-        DeleteConfirmation: (config) => {
-            dispatch(WidgetsBarActions.DeleteConfirmation(config))
+        resetDashboard: () => {
+            dispatch(WidgetsBarActions.resetDashboard())
         },
-        ResetDashboard: () => {
-            dispatch(WidgetsBarActions.ResetDashboard())
+        updateDashboardMode: () => {
+            dispatch(WidgetsBarActions.updateDashboardMode())
+
         }
     }
 }
 
 const mapStateToProps = (state) => {
-    debugger;
+    console.log(state.dashboard.mode);
     return {
         widgetsBar: state.widgetsBar,
         common: state.common,
@@ -50,8 +51,8 @@ const mapStateToProps = (state) => {
         isDefault: state.dashboard.isDefault,
         isGlobal: state.dashboard.isGlobal,
         mode: state.dashboard.mode,
-        dashboardId:state.dashboard.Id,
-        dashboardName:state.dashboard.name
+        dashboardId: state.dashboard.Id,
+        dashboardName: state.dashboard.name
     }
 }
 

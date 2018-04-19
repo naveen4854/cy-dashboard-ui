@@ -9,7 +9,10 @@ import StatisticCategoryEnum from './statistic-category-enum'
 import DisplayFormatEnum from './display-format.enum'
 import PictureStretchEnum from './picture-stretch-enum'
 import ApplyToOptions from './apply-to-options-enum'
+import StatisticFunction from './aggregate-operation-enum';
 
-export { PictureStretchEnum, ResponseStatusEnum, PageEnum, WidgetTypeEnum, SortColumnEnum, 
+export {
+    PictureStretchEnum, ResponseStatusEnum, PageEnum, WidgetTypeEnum, SortColumnEnum,
     SortOrderEnum, ScrollTypeEnum, DashboardModeEnum, StatisticCategoryEnum, DisplayFormatEnum,
-    ApplyToOptions };
+    ApplyToOptions, StatisticFunction
+};

@@ -1,5 +1,5 @@
 
-import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, UPDATE_DRAGGABLE, UPDATE_DASHBOARD, UPDATE_SHOW_ICONS } from "./dashboard.constants";
+import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, UPDATE_DRAGGABLE, UPDATE_DASHBOARD, UPDATE_SHOW_ICONS, UPDATE_DASHBOARD_PROPERTY } from "./dashboard.constants";
 import * as dashboardService from './dashboard-service';
 import * as dataMetricsService from '../components/data-metrics/data-metrics-service'
 import { DashboardModeEnum, WidgetTypeEnum } from "../shared/enums";
@@ -209,25 +209,60 @@ export function updateComboMatrix(comboWidgetId, columnIndex, rowIndex, delta) {
     }
 }
 
-export function pullWidget(dashboardId, widgetId, refreshInterval) {
+export function pullWidget(dashboardId, widgetId, refreshValue) {
     return (dispatch, getState) => {
-        refreshInterval = 5 * 1000;
-        let Id = setTimeout(() => {
+        let refreshInterval = refreshValue * 1000;
 
-            //console.log("This Widget REFRESH STARTED", dashboardId, widgetId)
-            dashboardService.viewWidgetData(dashboardId, widgetId, {}).then(res => {
+        let setTimeoutId = setTimeout(() => {
 
-                //console.log('logged')
+            dashboardService.viewWidgetData(dashboardId, widgetId, {}).then(response => {
+                let widget = _.find(getState().dashboard.widgets, (w) => w.id == widgetId);
+                if (widget) {
+                    let updatedWidget = DashboardUtilities.WidgetDataMapper(widget, response.data)
+                    dispatch(getState().dashboard.updateWidget(updatedWidget));
+                }
+                let nextRefreshInterval = refreshInterval; // can be changed based on throttling
+                if (nextRefreshInterval > 0) {
+                    dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval))
+                }
+            }).catch((err) => {
                 let nextRefreshInterval = refreshInterval;
-
-                dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval))
-            })
-                .catch((err) => {
-                    //console.log(err, "Error retrieving this widget data");
-                });
+                if (nextRefreshInterval > 0) {
+                    dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval));
+                }
+            });
         }, refreshInterval);
 
-        console.log('id of refreshintervals ', Id)
+        let refreshingWidgetsArray = getState().dashboard.refreshingWidgets;
+
+        let refreshingWidgetExists = _.find(refreshingWidgetsArray, (each) => each.widgetId == widgetId);
+
+        if (refreshingWidgetExists) {
+            let updatedRefreshingWidgets = _.map(refreshingWidgetsArray, (refreshingWidget) => {
+                if (refreshingWidget.widgetId == widgetId) {
+                    clearInterval(refreshingWidget.id);
+                    return {
+                        ...refreshingWidget,
+                        id: setTimeoutId
+                    }
+                }
+                return refreshingWidget;
+            });
+            dispatch({
+                type: UPDATE_DASHBOARD_PROPERTY,
+                key: 'refreshingWidgets',
+                value: updatedRefreshingWidgets
+            });
+        }
+        else {
+            refreshingWidgetsArray.splice(refreshingWidgetsArray.length, 0, { widgetId: widgetId, id: setTimeoutId })
+            dispatch({
+                type: UPDATE_DASHBOARD_PROPERTY,
+                key: 'refreshingWidgets',
+                value: refreshingWidgetsArray
+            });
+        }
+
     }
 }
 
@@ -247,30 +282,37 @@ export function deleteWidgetAction(widgetId) {
 }
 export function resetDashboard() {
     return (dispatch, getState) => {
-        dispatch(getState().dashboard.BindDashboardAction(_.cloneDeep(dashboardInitialState)));
+        dispatch(getState().dashboard.updateDashboard(_.cloneDeep(dashboardInitialState)));
     }
-  }
-  export function BindDashboardAction(dashboardData) {
+}
+
+export function deleteDashboard(dashboardId) {
     return (dispatch, getState) => {
-        dispatch({
-            type: UPDATE_DASHBOARD,
-            dashboardData
+        dispatch(getState().spinnerStore.BeginTask());
+        dashboardService.deleteDashboard(dashboardId).then((response) => {
+            dispatch(getState().spinnerStore.EndTask());
+            if (response.data.Status === true) {
+                dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Success));
+
+                dispatch(GetDashboardsList());
+            }
+            else {
+                dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Error))
+            }
         });
     }
-  }
-  export function deleteDashboard(dashboardId) {
+}
+
+export function clearRefreshInterval() {
     return (dispatch, getState) => {
-      dispatch(getState().spinnerStore.BeginTask());
-      dashboardService.deleteDashboard(dashboardId).then((response) => {
-        dispatch(getState().spinnerStore.EndTask());
-        if (response.data.Status === true) {
-            dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Success));
-  
-          dispatch(GetDashboardsList());
-        }
-        else {
-          dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Error))
-        }
-      });
+
+        _.each(getState().dashboard.refreshingWidgets, (refreshIntervalId) => {
+            clearInterval(refreshIntervalId.id);
+        });
+        dispatch({
+            type: UPDATE_DASHBOARD_PROPERTY,
+            key: 'refreshingWidgets',
+            value: []
+        });
     }
-  }
+}

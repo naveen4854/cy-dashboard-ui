@@ -3,7 +3,7 @@ import { WidgetData } from '../shared/lib';
 import { TOGGLE_SETTINGS_PANEL } from '../components/widget-configurations/widget-configurations.reducer';
 
 
-import { updateDashboardMode, getDashboardById, updateWidgets, updateWidget, updateDashboard, updateShowIcons, pullWidget, resetDashboard,BindDashboardAction,deleteDashboard} from './dashboard.actions';
+import { updateDashboardMode, getDashboardById, updateWidgets, updateWidget, updateDashboard, updateShowIcons, pullWidget, resetDashboard,deleteDashboard} from './dashboard.actions';
 import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, ADD_WIDGET, UPDATE_DRAGGABLE, UPDATE_DASHBOARD, UPDATE_SHOW_ICONS, UPDATE_DASHBOARD_PROPERTY } from './dashboard.constants';
 
 
@@ -75,19 +75,19 @@ export const ACTION_HANDLERS = {
 
 export const dashboardInitialState = {
     widgets: [],
-    mode: DashboardModeEnum.Edit,
+    mode: DashboardModeEnum.None,
     disableDrag: false,
     updateDashboard,
     Id: -1,
     updateShowIcons,
     showIcons: true,
+    refreshingWidgets:[], //{ widgetId: 'i', id:1 }
     pullWidget,
     updateDashboardMode,
     getDashboardById,
     updateWidgets,
     updateWidget,
     resetDashboard,
-    BindDashboardAction,
     deleteDashboard
 };
 

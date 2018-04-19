@@ -15,11 +15,11 @@ import ClockMetricsSettingsReducer from '../../components/clock-metrics-settings
 import WidgetsBarReducer from '../../components/widgets-bar/widgets-bar.reducer';
 import ComboRealTimeSettingsReducer from '../../components/combo-realtime-metrics-settings/combo-realtime-metrics-settings.reducer';
 import ComboCustomSettingsReducer from '../../components/combo-custom-metrics-settings/combo-custom-metrics-settings.reducer';
+import { DashboardModeEnum } from '../../shared/enums';
 
 export default (store) => ({
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
-      injectReducer(store, { key: 'dashboard', reducer: DashboardReducer })
       injectReducer(store, { key: 'configurations', reducer: SettingsReducer })
       injectReducer(store, { key: 'styles', reducer: StylesReducer })
       injectReducer(store, { key: 'threshold', reducer: ThresholdReducer })
@@ -30,17 +30,27 @@ export default (store) => ({
       injectReducer(store, { key: 'comboRealTimeSettings', reducer: ComboRealTimeSettingsReducer })
       injectReducer(store, { key: 'comboCustomSettings', reducer: ComboCustomSettingsReducer })
 
-      
+
       cb(null, authenticate(NewDashboardContainer))
     }, 'newdashboard')
   },
   onEnter: (nextState, replace) => {
-    injectReducer(store, { key: 'dataMetrics', reducer: DataMetricsReducer })
-    store.dispatch(store.getState().dataMetrics.loadDataMetricsMetaData(nextState.params.id))
     
+    injectReducer(store, { key: 'dashboard', reducer: DashboardReducer })
+    let dashboardMode = nextState.params.id ? DashboardModeEnum.Edit : DashboardModeEnum.New;// mode == DashboardModeEnum.New || mode == DashboardModeEnum.Edit ? DashboardModeEnum.EditToLive : DashboardModeEnum.View;
+    store.dispatch(store.getState().dashboard.updateDashboardMode(dashboardMode))
+    
+    injectReducer(store, { key: 'dataMetrics', reducer: DataMetricsReducer })
+    store.dispatch((dispatch, getState) => {
+      store.getState().dataMetrics.loadDataMetricsMetaData(nextState.params.id)(dispatch, getState).then((response) => {
+        if (dashboardMode == DashboardModeEnum.Edit)
+          store.dispatch(store.getState().dashboard.getDashboardById(nextState.params.id))
+      })
+    }
+    )
     injectReducer(store, { key: 'clockSettings', reducer: ClockMetricsSettingsReducer })
     store.dispatch(store.getState().clockSettings.setTimeZonesList())
-    
+
     injectReducer(store, { key: 'customSettings', reducer: CustomMetricsSettingsReducer })
     store.dispatch(store.getState().customSettings.getStoredProcedures());
     // load refreshinterval

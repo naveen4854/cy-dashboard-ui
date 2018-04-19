@@ -16,16 +16,17 @@ export default class ThresholdTab extends PureComponent {
         this.validateThresholds = this.validateThresholds.bind(this);
         this.addSelectedLevels = this.addSelectedLevels.bind(this);
         this.addLevels = this.addLevels.bind(this);
+        this.getDisplayFormat = this.getDisplayFormat.bind(this);
 
     }
-
 
     /**
      * To add the selected levels to threshold list and to update the based on column.
      */
     addSelectedLevels() {
         let errors = [];
-        let _displayFormat = this.props.threshold.displayFormatId;
+        let { basedColumn } = this.props.threshold
+        let _displayFormat = this.getDisplayFormat(basedColumn);
         if (!_displayFormat)
             errors.push({ displayMessage: this.props.l.t('Display_format_is_not_set_in_Data_MetricsPERIOD', 'Display format is not set in Data Metrics.') });
 
@@ -53,16 +54,47 @@ export default class ThresholdTab extends PureComponent {
         let invalidLevels = _.filter(this.props.threshold.levels, (level) => _.filter(level.emailTo, (email) => !utils.validateEmail(email.Value)).length > 0);
         return _.map(invalidLevels, (lvl) => { return { displayMessage: `Level ${lvl.level}:${this.props.l.t('Email_is_empty_or_not_in_correct_format', 'Email is empty or not in correct format')}` } });
     }
+
     validateSmsIds() {
         let invalidLevels = _.filter(this.props.threshold.levels, (level) => _.filter(level.smsTo, (email) => !utils.validateSmsNumer(sms.Value)).length > 0);
         return _.map(invalidLevels, (lvl) => { return { displayMessage: `Level ${lvl.level}: ${this.props.l.t('SMS_number_is_not_in_correct_format', 'SMS number is not in correct format')}` } });
     }
+
     /**
      * Responsible to get displayformat for the current widget
      * @param {*} widget 
      * @param {*} basedColumn //required for custom combo
      */
     getDisplayFormat(basedColumn) {
+        const { displayFormat, threshold, statisticCategory, isComboWidget } = this.props;
+        let displayFormatId = DisplayFormatEnum.Text;
+        if (isComboWidget && statisticCategory == StatisticCategoryEnum.Custom) {
+
+            if (_.find(Constants.NumericTypes, (type) => type == basedColumn.type)) {
+                if (basedColumn.displayFormatId == DisplayFormatEnum.Duration) {
+                    let _format = _.find(Constants.customCombotimeFormat, format => format.id == basedColumn.timeFormatId);
+                    return _format ? _format.displayFormatId : DisplayFormatEnum.Duration;
+                }
+                return DisplayFormatEnum.Number;
+            }
+
+            if (_.find(Constants.DateTypes, (type) => type == basedColumn.type))
+                return DisplayFormatEnum.Date_Time;
+
+            if (basedColumn.type == 'boolean')
+                return DisplayFormatEnum.Boolean;
+
+            if (basedColumn.type == 'string')
+                return DisplayFormatEnum.Text;
+
+            return this.props.displayFormat ? this.props.displayFormat.id : DisplayFormatEnum.Text;
+
+        } else {
+            displayFormatId = this.props.displayFormat ? this.props.displayFormat.id : DisplayFormatEnum.Text;
+        }
+
+        return displayFormatId;
+
         // For combo cell widgets
         if (this.props.threshold.isComboWidget) {
             // Combo Custom
@@ -150,19 +182,17 @@ export default class ThresholdTab extends PureComponent {
         return errors
     }
 
-
-
-
     /**
      * To add the levels
      */
     addLevels() {
         var arrayCount = this.props.threshold.levels.length || 0;
         let copiedLevel = _.find(this.props.threshold.levels, (level) => level.isCopied);
+        let { basedColumn } = this.props.threshold
         var item = {
             id: Date.now(),
             level: arrayCount + 1,
-            levelValue: this.getDefaultThresholdValue(this.props.threshold.displayFormat),
+            levelValue: this.getDefaultThresholdValue(this.getDisplayFormat(basedColumn)),
             color: Color.getRandomColor(),
             soundFile: {},
             isContinuous: false,
@@ -206,23 +236,22 @@ export default class ThresholdTab extends PureComponent {
 
     /**
      * To set the selected column for the column option drop down
-     * @param {*} e 
+     * @param {*} basedColumn 
      */
-    onColumnChange(e) {
-        let displayFormat = this.getDisplayFormat(e);
-        let levels = _.map(this.state.levels, (lvl) => {
-            lvl.levelValue = this.getDefaultThresholdValue(displayFormat, lvl.levelValue)
-            return lvl
+    onColumnChange(basedColumn) {
+        //update levels and basedcolumn
+        let displayFormatId = this.getDisplayFormat(basedColumn);
+        let levels = _.map(this.props.threshold.levels, (lvl) => {
+            lvl.levelValue = this.getDefaultThresholdValue(displayFormatId, lvl.levelValue)
+            return lvl;
         })
-
-        this.setState({
-            column: e,
-            displayFormat,
-            levels
-        })
+        this.props.updateBasedColumn(basedColumn);
+        this.props.updateLevels(levels)
     }
 
     render() {
+        let { threshold, statisticCategory } = this.props;
+        let displayFormatId = this.getDisplayFormat(threshold.basedColumn);
         return (
             <div id='tabContentArea' className='margin20'>
                 <div className='row'>
@@ -238,23 +267,23 @@ export default class ThresholdTab extends PureComponent {
                         </button>
                     </div>
                 </div>
-
-                {(this.props.statisticsCategoryId == StatisticCategoryEnum.Custom && this.props.widget.isComboWidget) &&
+                {
+                    this.props.isComboWidget && threshold.basedColumn && statisticCategory == StatisticCategoryEnum.Custom &&
                     <div className="row paddingTop10">
                         <div className="col-xs-6 col-md-5 col-lg-3 col-lg-offset-2 labelContent text-right rtl-text-right">
                             <label className="control-label inline"> {this.props.l.t('Based_on_columnCOLON', 'Based on column:')} </label>
                         </div>
                         <div className='col-xs-6 col-md-5 col-lg-4'>
                             <CustomSelect name="field-group-options form-control"
-                                disabled={!(this.state.levels && this.state.levels.length > 0)}
-                                value={this.props.columnOptions && this.props.columnOptions.length == 1 ? this.props.columnOptions[0] : this.state.column}
-                                options={this.props.columnOptions} placeholder='Select...'
+                                // disabled={!(this.state.levels && this.state.levels.length > 0)}
+                                value={threshold.basedColumn || threshold.columnOptions[0]}
+                                options={threshold.columnOptions} placeholder='Select...'
                                 onChange={(e) => this.onColumnChange(e)} />
                         </div>
                     </div>
                 }
 
-                <ThresholdAccordionContainer />
+                <ThresholdAccordionContainer displayFormatId={displayFormatId} />
             </div>
         )
     }

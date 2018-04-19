@@ -107,6 +107,7 @@ export function saveCustomMetrics(settings) {
     return (dispatch, getState) => {
         dispatch(getState().spinnerStore.BeginTask());
         let updatedQuery = settings.query;
+        //TOOD: use loadColumns
         dataMetricsService.validateQuery(updatedQuery).then((response) => {
             dispatch(getState().spinnerStore.EndTask());
             if (!response.data.Status) {

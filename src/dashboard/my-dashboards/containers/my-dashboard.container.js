@@ -13,9 +13,6 @@ const mapDispatchToProps = (dispatch) => {
         GetDashboardsList: () => {
             dispatch(Reducer.GetDashboardsList());
         },
-        DeleteConfirmation: (config) => {
-            dispatch(Reducer.DeleteConfirmation(config))
-        },
         DeleteDashboard: (dashboardId) => {
             dispatch(Reducer.DeleteDashboard(dashboardId))
         },

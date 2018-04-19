@@ -2,7 +2,8 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import { ModalManager as ModalManager, ModalManager as SaveAsModalManager } from 'react-dynamic-modal';
 import CustomModalPopUp from '../custom-modal-popup';
-import { ResponseStatusEnum } from '../../shared/enums';
+import { ResponseStatusEnum, DashboardModeEnum } from '../../shared/enums';
+import { DefaultDashboardId } from '../../shared/constants/constants';
 
 export default class WidgetsBar extends React.Component {
 	constructor(props) {
@@ -11,12 +12,14 @@ export default class WidgetsBar extends React.Component {
 		this.updateDashboardIsDefault = this.updateDashboardIsDefault.bind(this);
 		this.updateDashboardIsGlobal = this.updateDashboardIsGlobal.bind(this);
 		this.updateDashboardName = this.updateDashboardName.bind(this);
+		this.liveClick = this.liveClick.bind(this);
+		this.deleteClick=this.deleteClick.bind(this);
 	}
 
 
 
 	redirectToFiles() {
-		// this.props.ResetDashboard();
+		// this.props.resetDashboard();
 		browserHistory.push(`/dashboard/mydashboards`)
 	}
 	handleDocks(e) {
@@ -91,43 +94,42 @@ export default class WidgetsBar extends React.Component {
 		this.props.HandleModalPopup(false);
 		this.showEditConfirmation();
 	}
-    deleteDashboard(dashboardId) {
+	deleteDashboard(dashboardId) {
 		if (dashboardId) {
-			this.props.DeleteDashboardInHeader(dashboardId);
+			this.props.deleteDashboardInHeader(dashboardId);
 		}
 	}
-	//2 edit
- 
+
 	showConfirmation() {
-        let notifyMessage = this.props.l.t('Are_you_sure_you_want_to_delete_$dashboardName_dashboard', 'Are you sure you want to delete ${dashboardName} dashboard?', { 'dashboardName': this.props.dashboardName })
-        let buttons = [
-            {
-                text: 'Yes',
-                handler: () => {this.deleteDashboard(this.props.dashboardId); this.props.ResetDashboard();  browserHistory.push(`/dashboard/mydashboards`)}
-            },
-            {
-                text: 'No',
-                handler: () => { }
-            }]
-
-        this.props.common.confirm(notifyMessage, buttons);
-		}
-	//3 
-	showConfirmationInNewDashboard() {
-		let notifyMessage = this.props.l.t('Are_you_sure_you_want_to_discard_the_changes?', 'Are you sure you want to discard the changes?') ;
+		let notifyMessage = this.props.l.t('Are_you_sure_you_want_to_delete_$dashboardName_dashboard', 'Are you sure you want to delete ${dashboardName} dashboard?', { 'dashboardName': this.props.dashboardName })
 		let buttons = [
-            {
-                text: 'Yes',
-                handler: () => {this.props.ResetDashboard(); browserHistory.push(`/dashboard/mydashboards`)}
-            },
-            {
-                text: 'No',
-                handler: () => { }
-            }]
+			{
+				text: 'Yes',
+				handler: () => { this.deleteDashboard(this.props.dashboardId); this.props.resetDashboard(); browserHistory.push(`/dashboard/mydashboards`) }
+			},
+			{
+				text: 'No',
+				handler: () => { }
+			}]
 
-        this.props.common.confirm(notifyMessage, buttons);
-		}
-	
+		this.props.common.confirm(notifyMessage, buttons);
+	}
+
+	showConfirmationInNewDashboard() {
+		let notifyMessage = this.props.l.t('Are_you_sure_you_want_to_discard_the_changes?', 'Are you sure you want to discard the changes?');
+		let buttons = [
+			{
+				text: 'Yes',
+				handler: () => { this.props.resetDashboard(); browserHistory.push(`/dashboard/mydashboards`) }
+			},
+			{
+				text: 'No',
+				handler: () => { }
+			}]
+
+		this.props.common.confirm(notifyMessage, buttons);
+	}
+
 	showEditConfirmation() {
 		const configs = {
 			type: ResponseStatusEnum.Custom,
@@ -163,7 +165,21 @@ export default class WidgetsBar extends React.Component {
 		this.props.widgetsBar.Id ? this.props.UpdateDashboard() : this.props.SaveDashboard();
 
 	}
-	
+
+	liveClick() {
+		this.handleDocks();
+		browserHistory.push(`/dashboard/view/${this.props.dashboardId || DefaultDashboardId}`)
+	}
+	deleteClick() {
+		switch (this.props.mode) {
+			case DashboardModeEnum.New:
+				this.showConfirmationInNewDashboard();
+				break;
+			case DashboardModeEnum.Edit:
+				this.showConfirmation();
+				break;
+		}
+	}
 	render() {
 		let orderedWidgets = _.orderBy(this.props.widgetsBar.widgetList, 'order', 'asc');
 		return (
@@ -194,7 +210,7 @@ export default class WidgetsBar extends React.Component {
 							<i className="tool-icon fa fa-eye" />
 							<span className="tool-title">{this.props.l.t('Preview', 'Preview')}</span>
 						</a> */}
-						<a onClick={() => { this.handleDocks(); this.props.UpdateViewFlag(true); browserHistory.push(`/dashboard/view/${this.props.dashboard.Id || DefaultDashboardId}`) }} className="action-tool pointer" role="button">
+						<a onClick={this.liveClick} className="action-tool pointer" role="button">
 							<i className="tool-icon fa fa-desktop" />
 							<span className="tool-title">{this.props.l.t('Live', 'Live')}</span>
 						</a>
@@ -235,17 +251,7 @@ export default class WidgetsBar extends React.Component {
 								onChange={this.updateDashboardIsGlobal} />
 							<span className="tool-title">{this.props.l.t('Global', 'Global')}</span>
 						</label>
-						<a onClick={() =>{
-							switch(this.props.mode)
-							{
-								 case 3:
-								 this.showConfirmationInNewDashboard();
-								 break;
-								 case 2:
-								 this.showConfirmation();
-								 break;
-							}
-						}} className="action-tool" role="button">
+						<a onClick={this.deleteClick} className="action-tool" role="button">
 							<i className="tool-icon fa fa-trash" />
 							<span className="tool-title">{this.props.l.t('Delete', 'Delete')}</span>
 						</a>

@@ -21,14 +21,31 @@ export default class WidgetComponent extends PureComponent {
 
     constructor(props) {
         super(props);
-        //debugger
-        // console.log('constructor ', this.props.widget.refreshInterval)
-        //this.props.pullWidgetData(this.props.dashboardId, this.props.widget.id, this.props.widget.refreshInterval)
+        // debugger
+        if (this.props.dashboardMode == DashboardModeEnum.View || this.props.dashboardMode == DashboardModeEnum.Slider) {
+            console.log('constructor ', this.props.widget.refreshInterval)
+            if (!this.props.widget.isComboWidget) {
+                this.props.pullWidgetData(this.props.dashboardId, this.props.widget.id, this.props.widget.refreshInterval)
+            }
+        }
+        else if(this.props.dashboardMode == DashboardModeEnum.EditToLive){
+            if (!this.props.widget.isComboWidget) {
+                this.props.previewWidget(this.props.widget)
+            }
+        }
     }
     componentWillReceiveProps(nextProps) {
-        // console.log('receive props')
-        // if(this.props.widget.id != nextProps.widget.id)
-        // this.props.pullWidgetData(nextProps.dashboardId, nextProps.widget.id,  nextProps.widget.refreshInterval)
+        
+        if (this.props.dashboardMode == DashboardModeEnum.View || this.props.dashboardMode == DashboardModeEnum.Slider) {
+            console.log('receive props')
+            if (this.props.widget.id != nextProps.widget.id && !nextProps.widget.isComboWidget)
+                this.props.pullWidgetData(nextProps.dashboardId, nextProps.widget.id, nextProps.widget.refreshInterval)
+        }
+        else if(this.props.dashboardMode == DashboardModeEnum.EditToLive){
+            if ( this.props.widget.id != nextProps.widget.id && !nextProps.widget.isComboWidget) {
+                this.props.previewWidget(nextProps.widget);
+            }
+        }
     }
     render() {
         let classToBeApplied = 'widget';

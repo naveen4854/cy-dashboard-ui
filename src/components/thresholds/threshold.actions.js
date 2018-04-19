@@ -5,31 +5,56 @@ import { ResponseStatusEnum, StatisticCategoryEnum, DisplayFormatEnum, WidgetTyp
 import { Constants } from '../../shared/constants';
 import * as ThresholdService from './threshold-service';
 import { thresholdsInitialState } from './threshold.reducer';
+import * as dataMetricsService from '../data-metrics/data-metrics-service'
 
 export function initializeThresholddata() {
     return (dispatch, getState) => {
         let currentWidget = getState().configurations.widget;
-        let selectedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory || StatisticCategoryEnum.RealTime
-        let widgets = getState().dashboard.widgets;
-        let comboWidget = _.find(widgets, wt => wt.id == currentWidget.comboId);
-        let columnOptions = [];// getColumns(currentWidget, comboWidget);
-        let column = getBasedColumn(currentWidget, selectedStatisticCategory, columnOptions);
-        let displayFormat = getDisplayFormat(currentWidget, widgets);
         let levels = currentWidget.appliedSettings.thresholds;
+        if (currentWidget.isComboWidget) {
+            let comboWidget = _.find(getState().dashboard.widgets, wt => wt.id == currentWidget.comboId);
+            if (comboWidget.appliedSettings.dataMetrics.statisticCategory == StatisticCategoryEnum.Custom) {
+                dispatch(getState().threshold.loadThresholdColumnOptions(comboWidget.appliedSettings.dataMetrics.query));
+            }
+        }
+
         dispatch({
             type: ThresholdConstants.DEFAULT_THRESHOLD,
             levels,
-            basedColumn: currentWidget.basedColumn || undefined,
-            column: column || undefined,
-            statisticsCategoryId: selectedStatisticCategory,
-            widgetId: currentWidget.id,
-            dataType: currentWidget.dataType || undefined,
-            columnOptions: columnOptions,
-            widgetType: currentWidget.widgetType,
-            isComboWidget: currentWidget.isComboWidget,
-            displayFormatId: displayFormat,
-            isColumnHeader: currentWidget.isColumnHeader,
-            comboId: currentWidget.comboId
+            basedColumn: currentWidget.appliedSettings.basedColumn
+        })
+    }
+}
+
+export function loadThresholdColumnOptions(query) {
+    return (dispatch, getState) => {
+        dispatch(getState().notificationStore.clearNotifications());
+        dispatch(getState().spinnerStore.BeginTask());
+        dataMetricsService.validateQuery(query).then((response) => {
+            if (response.data && response.data.Status) {
+                dataMetricsService.loadColumns(query).then(function (response) {
+                    dispatch(getState().spinnerStore.EndTask());
+                    if (response.status === 200) {
+                        let columnOptions = _.map(response.data, (item) => {
+                            return {
+                                label: item.ColumnName,
+                                value: item.Id,
+                                type: item.DataTypeName
+                            }
+                        });
+                        dispatch({
+                            type: ThresholdConstants.UPDATE_THRESHOLD_COLUMN_OPTIONS,
+                            columnOptions
+                        })
+                    }
+                })
+            }
+            else {
+                return dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Error))
+            }
+        }).catch((error) => {
+            dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error));
+            dispatch(getState().spinnerStore.EndTask());
         })
     }
 }
@@ -241,46 +266,50 @@ export function addSelectedLevels() {
         let threshold = getState().threshold;
         let currentWidget = getState().configurations.widget;
         let thresholds = [...threshold.levels]
-
         let statisticCategory = getState().dataMetrics.statisticCategory;
         if (currentWidget.isComboWidget) {
             let updatedComboWidget = {};
             let updatedCell = {};
-            if (statisticCategory == StatisticCategoryEnum.RealTime) {
-                let comboWidget = _.cloneDeep(_.find(getState().dashboard.widgets, (w) => w.id === currentWidget.comboId));
-                let updatedMatrix = _.map(comboWidget.matrix, (row, rowIndex) => {
-                    return _.map(row, (cell, columnIndex) => {
-                        if (currentWidget.isColumnHeader) {
-                            if (cell.columnId == currentWidget.columnId)
-                                return {
-                                    ...cell,
-                                    appliedSettings: {
-                                        ...cell.appliedSettings,
-                                        thresholds
-                                    }
-                                }
-                        }
-
-                        if (currentWidget.id == cell.id) {
-                            updatedCell = {
+            // if (statisticCategory == StatisticCategoryEnum.RealTime) {
+            let comboWidget = _.cloneDeep(_.find(getState().dashboard.widgets, (w) => w.id === currentWidget.comboId));
+            let updatedMatrix = _.map(comboWidget.matrix, (row, rowIndex) => {
+                return _.map(row, (cell, columnIndex) => {
+                    if (currentWidget.isColumnHeader && statisticCategory == StatisticCategoryEnum.RealTime) {
+                        if (cell.columnId == currentWidget.columnId)
+                            return {
                                 ...cell,
                                 appliedSettings: {
                                     ...cell.appliedSettings,
                                     thresholds
                                 }
                             }
-                            return updatedCell;
-                        }
+                    }
 
-                        return cell;
-                    })
+                    if (currentWidget.id == cell.id) {
+                        updatedCell = {
+                            ...cell,
+                            appliedSettings: {
+                                ...cell.appliedSettings,
+                                thresholds,
+                                basedColumn: statisticCategory == StatisticCategoryEnum.RealTime ? undefined : threshold.basedColumn
+                            }
+                        }
+                        return updatedCell;
+                    }
+
+                    return cell;
                 })
-                updatedComboWidget = {
-                    ...comboWidget,
-                    matrix: updatedMatrix
-                }
+            })
+            updatedComboWidget = {
+                ...comboWidget,
+                matrix: updatedMatrix
             }
+            // }
             // else if (threshold.statisticsCategoryId == StatisticCategoryEnum.Custom) {
+
+
+
+
             //     if (threshold.column)
             //         this.props.addBaseColumn(threshold.column, this.props.widget);
             //     dispatch({
@@ -447,5 +476,23 @@ export function clearThresholds() {
             thresholdData
         })
 
+    }
+}
+
+export function updateBasedColumn(basedColumn) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: ThresholdConstants.UPDATE_THRESHOLD_BASED_COLUMN,
+            basedColumn
+        })
+    }
+}
+
+export function updateLevels(levels) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: ThresholdConstants.UPDATE_THRESHOLD_LEVELS,
+            levels
+        })
     }
 }

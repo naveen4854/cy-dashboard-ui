@@ -1,8 +1,14 @@
 import * as  ThresholdConstants from "./threshold.constants";
-import { initializeThresholddata, updateDisplayFormat, clearThresholds } from './threshold.actions'
+import { initializeThresholddata, updateDisplayFormat, clearThresholds, loadThresholdColumnOptions } from './threshold.actions'
 
 
 export const ACTION_HANDLERS = {
+    [ThresholdConstants.DEFAULT_THRESHOLD]: (state, action) => {
+        return Object.assign({}, state, {
+            levels: action.levels,
+            basedColumn: action.basedColumn,
+        })
+    },
     [ThresholdConstants.UPDATE_LEVEL]: (state, action) => {
         return Object.assign({}, state, {
             levels: action.levels
@@ -13,21 +19,6 @@ export const ACTION_HANDLERS = {
             levels: action.levels
         })
     },
-    [ThresholdConstants.DEFAULT_THRESHOLD]: (state, action) => {
-        return Object.assign({}, state, {
-            levels: action.levels,
-            basedColumn: action.basedColumn,
-            column: action.column,
-            statisticsCategoryId: action.statisticsCategoryId,
-            widgetId: action.widgetId,
-            dataType: action.dataType,
-            columnOptions: action.columnOptions,
-            widgetType: action.widgetType,
-            isComboWidget: action.isComboWidget,
-            displayFormatId: action.displayFormatId
-
-        })
-    },
     [ThresholdConstants.UPDATE_DISPLAY_FORMAT]: (state, action) => {
         return Object.assign({}, state, {
             displayFormatId: action.displayFormatId
@@ -36,13 +27,30 @@ export const ACTION_HANDLERS = {
     },
     [ThresholdConstants.CLEAR_THRESHOLD_DATA]: (state, action) => {
         return Object.assign({}, state, action.thresholdData)
-    }
+    },
+    [ThresholdConstants.UPDATE_THRESHOLD_COLUMN_OPTIONS]: (state, action) => {
+        return Object.assign({}, state, {
+            columnOptions: action.columnOptions
+        })
+    },
+    [ThresholdConstants.UPDATE_THRESHOLD_BASED_COLUMN]: (state, action) => {
+        return Object.assign({}, state, {
+            basedColumn: action.basedColumn
+        })
+    },
+    [ThresholdConstants.UPDATE_THRESHOLD_LEVELS]: (state, action) => {
+        return Object.assign({}, state, {
+            levels: action.levels
+        })
+    },
 }
 export const thresholdsInitialState = {
-    initializeThresholddata,
     levels: [],
-    updateDisplayFormat,
-    clearThresholds
+    columnOptions: [],
+    basedColumn: {},
+    clearThresholds,
+    initializeThresholddata,
+    loadThresholdColumnOptions
 };
 export default function ThresholdReducer(state = _.cloneDeep(thresholdsInitialState), action) {
     const handler = ACTION_HANDLERS[action.type];

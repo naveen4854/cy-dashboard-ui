@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { UPDATE_DASHBOARD_WIDGET } from "../../dashboard/dashboard.reducer";
 import { DashboardUtilities } from "../../shared/lib";
 import * as widgetService from './widget-configurations.service';
-import { updateConfigurationsWidget, closeConfigurations } from './widget-configurations.actions'
+import { updateConfigurationsWidget, closeConfigurations, previewWidget } from './widget-configurations.actions'
 import { TOGGLE_CONFIGURATIONS_PANEL, UPDATE_CONFIGURATIONS_WIDGET, SET_METRICS_TAB_VISIBILITY, SET_THRESHOLDS_TAB_VISIBILITY } from "./widget-configurations.constants";
 
 export function toggleSettingsMenu(widget) {
@@ -81,27 +81,7 @@ export function applyWidget(widget) {
     }
 }
 
-export function previewWidget(widget) {
-    return (dispatch, getState) => {
-        dispatch(getState().notificationStore.clearNotifications());
-        const widgetData = DashboardUtilities.WidgetMapper(widget, getState().dataMetrics.dataMetricsMetadata);
-        widgetService.getWidgetPreviewData(widgetData).then(function (response) {
-            if (response.status === 200) {
-                if (widget) {
-                    DashboardUtilities.WidgetDataMapper(widget, response.data)
-                    const { widgetBody } = widget || {};
-                    if (widgetBody) {
-                        widget.appliedBackgroundColor = response.data.wrth && response.data.wrth.thc ? response.data.wrth.thc : widgetBody.backgroundColor;
-                    }
-                    // dispatch(getState().dashboard.updateWidget(widget));
-                    dispatch(getState().configurations.applyWidget(widget));
-                }
-            }
-        }).catch((error) => {
-            dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error));
-        });
-    }
-}
+
 
 export const ACTION_HANDLERS = {
     [TOGGLE_CONFIGURATIONS_PANEL]: (state, action) => {

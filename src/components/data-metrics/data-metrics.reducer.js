@@ -39,11 +39,14 @@ export function loadDataMetricsMetaData(dashboardId) {
         let statisticCategories = getState().dataMetrics.statisticCategories;
         let dataMetricsMetadata = getState().dataMetrics.dataMetricsMetadata;
         if (statisticCategories && statisticCategories.length != 0 && dataMetricsMetadata) {
-            return dispatch(getState().dashboard.getDashboardById(dashboardId))
+             
+            return new Promise(function(resolve, reject) {  
+                resolve();
+             });
         }
 
         dispatch(getState().spinnerStore.BeginTask());
-        dataMetricsService.getStatisticCategories().then(function (response) {
+        return dataMetricsService.getStatisticCategories().then(function (response) {
             return response.data;
         }).then((statisticCategories) => {
             return dataMetricsService.getStatisticGroups().then((response) => {
@@ -57,9 +60,8 @@ export function loadDataMetricsMetaData(dashboardId) {
                     dataMetricsMetadata
                 });
                 dispatch(getState().spinnerStore.EndTask());
+                return 1;
             })
-        }).then((response) => {
-            dispatch(getState().dashboard.getDashboardById(dashboardId))
         }).catch(err => {
             dispatch(getState().spinnerStore.EndTask());
             dispatch(getState().notificationStore.notify('failure to load statistic Metadata, please reload', ResponseStatusEnum.Error))

@@ -94,4 +94,10 @@ export class Widget {
             thresholds
         }
     }
+
+    applySettings(settings) {
+        this.appliedSettings = {
+            ...settings
+        }
+    }
 }

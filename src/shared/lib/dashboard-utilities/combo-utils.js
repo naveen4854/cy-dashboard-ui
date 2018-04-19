@@ -44,14 +44,14 @@ export function getComboMatrix(inputWidget) {
                 df: i == 0 && eachWidget.dateFormat ? eachWidget.dateFormat : null,
                 sz: i == 0 && eachWidget.showZeroValues ? eachWidget.showZeroValues : false,
                 dpid: eachWidget.displayFormatId,
+                // ws: { stom: eachWidget.appliedSettings.dataMetrics.statisticCategory },
                 tfid: eachWidget.timeFormatId,
                 dtid: eachWidget.dateFormatId,
                 hfid: eachWidget.hoursFormatId,
-
-                bsdc: eachWidget.basedColumn ? {
-                    v: eachWidget.basedColumn.value,
-                    l: eachWidget.basedColumn.label,
-                    t: eachWidget.basedColumn.type
+                bsdc: eachWidget.appliedSettings.basedColumn ? {
+                    v: eachWidget.appliedSettings.basedColumn.value,
+                    l: eachWidget.appliedSettings.basedColumn.label,
+                    t: eachWidget.appliedSettings.basedColumn.type
                 } : null,
                 isSummary: eachWidget.isSummary,
                 aggId: eachWidget.aggregateOperationId,
@@ -126,7 +126,6 @@ export function comboWidgetConfigurationsFromServer(widget, dataMetricsMetadata,
 
 
 function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId, selectedGroup, dataMetricsMetadata) {
-    debugger;
     let i = 0,
         j = 0;
     let comboMatrixs = [];
@@ -137,8 +136,8 @@ function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId, se
             let oldWidget = resultMatrix[i][j];
             let isColumnHeader = i == 0;
             let isRowHeader = j == 0;
-            comboInnerWidget.columnId = columns[j].cid;
-            comboInnerWidget.rowId = isColumnHeader ? -1 : filters[i - 1] + '_' + selectedGroup.id; // using combination because there is chance of same id for unrelated drilldown options
+            comboInnerWidget.columnId = categoryId == StatisticCategoryEnum.RealTime ? columns[j].cid : columns[j].id;
+            comboInnerWidget.rowId = isColumnHeader || categoryId == StatisticCategoryEnum.Custom ? -1 : filters[i - 1] + '_' + selectedGroup.id; // using combination because there is chance of same id for unrelated drilldown options
             comboInnerWidget = {
                 ...comboInnerWidget,
                 height: oldWidget.height,
@@ -177,8 +176,6 @@ function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId, se
                 isColumnHeader,
                 isRowHeader,
                 hideIcon: categoryId == StatisticCategoryEnum.Custom && i > 0 ? true : false,
-                basedColumn: oldWidget.bsdc ? { value: oldWidget.bsdc.v, label: oldWidget.bsdc.l, type: oldWidget.bsdc.t } : null,
-
                 HideSettings: categoryId == StatisticCategoryEnum.RealTime && j == 0 ? true : false,
                 aggregateOperationId: oldWidget.aggId,
                 isSummary: oldWidget.isSummary,
@@ -190,10 +187,12 @@ function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId, se
                 item: getSelectedItem(columns[j] && columns[j].cisiid, dataMetricsMetadata),
                 func: getSelectedFunction(columns[j] && columns[j].ciafid, dataMetricsMetadata),
                 displayFormat: getDisplayFormat(columns[j] && columns[j].cdf, dataMetricsMetadata),//columns[j] && columns[j].cdf,
-                filter: filters[i - 1]
+                filter: filters[i - 1],
+                statisticCategory: categoryId
             }
             let appliedSettings = {
                 ...comboInnerWidget.appliedSettings,
+                basedColumn: oldWidget.bsdc ? { value: oldWidget.bsdc.v, label: oldWidget.bsdc.l, type: oldWidget.bsdc.t } : null,
                 dataMetrics
             };
 
