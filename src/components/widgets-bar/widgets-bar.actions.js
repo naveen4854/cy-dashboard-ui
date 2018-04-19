@@ -418,9 +418,9 @@ function MapDashboard(dashboard, getState, isUpdate, name) {
         dn: name,
         dc: undefined,
         // dci: dashboard.category.value, //Commented as no category selection
-        dig: getState.widgetsBar.isGlobal,
-        did: getState.widgetsBar.isDeleted,
-        didf: getState.widgetsBar.isDefault,
+        dig: getState.dashboard.isGlobal,
+        did: getState.dashboard.isDeleted,
+        didf: getState.dashboard.isDefault,
         doi: 1,
         dsd: 0,
         dws: _.map(getState.dashboard.widgets, (widget) => {
@@ -444,5 +444,16 @@ function NavigateToRequiredPage(action, savedDashboardId, dispatch) {
     }
     else {
         browserHistory.push(`/dashboard/edit/${savedDashboardId}`);
+    }
+}
+
+export function ResetDashboard() {
+    return (dispatch, getState) => {
+        dispatch(getState().dashboard.resetDashboard());
+    }
+}
+export function DeleteDashboardInHeader(dashboardId) {
+    return (dispatch, getState) => {
+        dispatch(getState().dashboard.deleteDashboard(dashboardId));
     }
 }

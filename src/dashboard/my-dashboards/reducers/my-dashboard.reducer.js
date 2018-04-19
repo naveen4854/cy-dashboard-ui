@@ -129,6 +129,33 @@ export function testU() {
 //   }
 // }
 
+export function DeleteDashboard(dashboardId) {
+  return (dispatch, getState) => {
+    let s = getState(),
+      pageStart = (s.mydashboard.pageNumber - 1) * s.mydashboard.pageSize + 1,
+      pageEnd = s.mydashboard.totalDashboards,
+      pageNum = s.mydashboard.pageNumber;
+    dispatch(getState().spinnerStore.BeginTask());
+    dashboardService.deleteDashboard(dashboardId).then((response) => {
+      dispatch(getState().spinnerStore.EndTask());
+      if (response.data.Status === true) {
+          dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Success));
+
+        if (pageStart == pageEnd) {
+          dispatch({
+            type: UPDATE_PAGENUMBER,
+            pageNumber: pageNum == 1 ? pageNum : pageNum - 1
+          })
+        }
+        dispatch(GetDashboardsList());
+      }
+      else {
+        dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Error))
+      }
+    });
+  }
+}
+
 export const ACTION_HANDLERS = {
 
   [UPDATE_CATEGORIES]: (state, action) => {
@@ -187,7 +214,7 @@ export const ACTION_HANDLERS = {
   }
 }
 
-const initialState = {
+export const initialState = {
   categories: [],
   category: -1,
   userDashboards: [],
@@ -199,6 +226,7 @@ const initialState = {
   sortColumn: "modifiedTime",
   sortOrder: 1,
   totalDashboards: 0,
+  DeleteDashboard
 };
 
 export default function MyDashboardReducer(state = initialState, action) {

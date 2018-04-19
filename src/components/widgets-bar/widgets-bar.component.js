@@ -91,7 +91,43 @@ export default class WidgetsBar extends React.Component {
 		this.props.HandleModalPopup(false);
 		this.showEditConfirmation();
 	}
+    deleteDashboard(dashboardId) {
+		if (dashboardId) {
+			this.props.DeleteDashboardInHeader(dashboardId);
+		}
+	}
+	//2 edit
+ 
+	showConfirmation() {
+        let notifyMessage = this.props.l.t('Are_you_sure_you_want_to_delete_$dashboardName_dashboard', 'Are you sure you want to delete ${dashboardName} dashboard?', { 'dashboardName': this.props.dashboardName })
+        let buttons = [
+            {
+                text: 'Yes',
+                handler: () => {this.deleteDashboard(this.props.dashboardId); this.props.ResetDashboard();  browserHistory.push(`/dashboard/mydashboards`)}
+            },
+            {
+                text: 'No',
+                handler: () => { }
+            }]
 
+        this.props.common.confirm(notifyMessage, buttons);
+		}
+	//3 
+	showConfirmationInNewDashboard() {
+		let notifyMessage = this.props.l.t('Are_you_sure_you_want_to_discard_the_changes?', 'Are you sure you want to discard the changes?') ;
+		let buttons = [
+            {
+                text: 'Yes',
+                handler: () => {this.props.ResetDashboard(); browserHistory.push(`/dashboard/mydashboards`)}
+            },
+            {
+                text: 'No',
+                handler: () => { }
+            }]
+
+        this.props.common.confirm(notifyMessage, buttons);
+		}
+	
 	showEditConfirmation() {
 		const configs = {
 			type: ResponseStatusEnum.Custom,
@@ -199,7 +235,17 @@ export default class WidgetsBar extends React.Component {
 								onChange={this.updateDashboardIsGlobal} />
 							<span className="tool-title">{this.props.l.t('Global', 'Global')}</span>
 						</label>
-						<a onClick={() => this.state.id ? this.showConfirmation(this.props.newDashboard) : this.showConfirmationInNewDashboard()} className="action-tool" role="button">
+						<a onClick={() =>{
+							switch(this.props.mode)
+							{
+								 case 3:
+								 this.showConfirmationInNewDashboard();
+								 break;
+								 case 2:
+								 this.showConfirmation();
+								 break;
+							}
+						}} className="action-tool" role="button">
 							<i className="tool-icon fa fa-trash" />
 							<span className="tool-title">{this.props.l.t('Delete', 'Delete')}</span>
 						</a>

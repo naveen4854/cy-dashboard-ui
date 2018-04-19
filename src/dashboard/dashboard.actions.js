@@ -4,6 +4,7 @@ import * as dashboardService from './dashboard-service';
 import * as dataMetricsService from '../components/data-metrics/data-metrics-service'
 import { DashboardModeEnum, WidgetTypeEnum } from "../shared/enums";
 import { DashboardUtilities } from "../shared/lib";
+import { dashboardInitialState } from "./dashboard.reducer";
 
 
 export function PreviewActionPicture(dashboardId, widgetid) {
@@ -244,3 +245,32 @@ export function deleteWidgetAction(widgetId) {
 
     }
 }
+export function resetDashboard() {
+    return (dispatch, getState) => {
+        dispatch(getState().dashboard.BindDashboardAction(_.cloneDeep(dashboardInitialState)));
+    }
+  }
+  export function BindDashboardAction(dashboardData) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: UPDATE_DASHBOARD,
+            dashboardData
+        });
+    }
+  }
+  export function deleteDashboard(dashboardId) {
+    return (dispatch, getState) => {
+      dispatch(getState().spinnerStore.BeginTask());
+      dashboardService.deleteDashboard(dashboardId).then((response) => {
+        dispatch(getState().spinnerStore.EndTask());
+        if (response.data.Status === true) {
+            dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Success));
+  
+          dispatch(GetDashboardsList());
+        }
+        else {
+          dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Error))
+        }
+      });
+    }
+  }

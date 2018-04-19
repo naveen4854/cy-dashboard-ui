@@ -3,7 +3,7 @@ import { WidgetData } from '../shared/lib';
 import { TOGGLE_SETTINGS_PANEL } from '../components/widget-configurations/widget-configurations.reducer';
 
 
-import { updateDashboardMode, getDashboardById, updateWidgets, updateWidget, updateDashboard, updateShowIcons, pullWidget } from './dashboard.actions';
+import { updateDashboardMode, getDashboardById, updateWidgets, updateWidget, updateDashboard, updateShowIcons, pullWidget, resetDashboard,BindDashboardAction,deleteDashboard} from './dashboard.actions';
 import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, ADD_WIDGET, UPDATE_DRAGGABLE, UPDATE_DASHBOARD, UPDATE_SHOW_ICONS, UPDATE_DASHBOARD_PROPERTY } from './dashboard.constants';
 
 
@@ -17,7 +17,7 @@ export function AddWidget(widgetType) {
         })
     }
 }
- 
+
 export function ToggleSettingsMenu(widget) {
     return (dispatch, getState) => {
         dispatch(getState().configurations.ToggleSettingsMenu(widget))
@@ -73,7 +73,7 @@ export const ACTION_HANDLERS = {
     },
 }
 
-const initialState = {
+export const dashboardInitialState = {
     widgets: [],
     mode: DashboardModeEnum.Edit,
     disableDrag: false,
@@ -86,9 +86,12 @@ const initialState = {
     getDashboardById,
     updateWidgets,
     updateWidget,
+    resetDashboard,
+    BindDashboardAction,
+    deleteDashboard
 };
 
-export default function DashboardReducer(state = _.cloneDeep(initialState), action) {
+export default function DashboardReducer(state = _.cloneDeep(dashboardInitialState), action) {
     const handler = ACTION_HANDLERS[action.type];
     return handler ? handler(state, action) : state;
 }
