@@ -131,10 +131,10 @@ export function testU() {
 
 export function DeleteDashboard(dashboardId) {
   return (dispatch, getState) => {
-    let s = getState(),
-      pageStart = (s.mydashboard.pageNumber - 1) * s.mydashboard.pageSize + 1,
-      pageEnd = s.mydashboard.totalDashboards,
-      pageNum = s.mydashboard.pageNumber;
+    let mydashboard = getState().mydashboard,
+      pageStart = (mydashboard.pageNumber - 1) * mydashboard.pageSize + 1,
+      pageEnd = mydashboard.totalDashboards,
+      pageNum = mydashboard.pageNumber;
     dispatch(getState().spinnerStore.BeginTask());
     dashboardService.deleteDashboard(dashboardId).then((response) => {
       dispatch(getState().spinnerStore.EndTask());
