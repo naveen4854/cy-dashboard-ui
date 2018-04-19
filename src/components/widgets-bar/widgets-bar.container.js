@@ -28,6 +28,10 @@ const mapDispatchToProps = (dispatch) => {
         },
         UpdateDashboard: () => {
             dispatch(WidgetsBarActions.UpdateDashboard())
+        }, 
+        updateDashboardMode: ()=> {
+            dispatch(WidgetsBarActions.updateDashboardMode())
+            
         }
     }
 }
@@ -38,7 +42,8 @@ const mapStateToProps = (state) => {
         common: state.common,
         name: state.dashboard.name,
         isDefault: state.dashboard.isDefault,
-        isGlobal: state.dashboard.isGlobal
+        isGlobal: state.dashboard.isGlobal,
+        dashboardId: state.dashboard.Id,
     }
 }
 

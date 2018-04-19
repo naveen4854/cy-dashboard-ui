@@ -75,7 +75,7 @@ export const ACTION_HANDLERS = {
 
 const initialState = {
     widgets: [],
-    mode: DashboardModeEnum.Edit,
+    mode: DashboardModeEnum.None,
     disableDrag: false,
     updateDashboard,
     Id: -1,

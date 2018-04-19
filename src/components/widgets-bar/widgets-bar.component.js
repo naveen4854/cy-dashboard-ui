@@ -2,7 +2,8 @@ import React from 'react';
 import { browserHistory } from 'react-router';
 import { ModalManager as ModalManager, ModalManager as SaveAsModalManager } from 'react-dynamic-modal';
 import CustomModalPopUp from '../custom-modal-popup';
-import { ResponseStatusEnum } from '../../shared/enums';
+import { ResponseStatusEnum, DashboardModeEnum } from '../../shared/enums';
+import { DefaultDashboardId } from '../../shared/constants/constants';
 
 export default class WidgetsBar extends React.Component {
 	constructor(props) {
@@ -11,6 +12,7 @@ export default class WidgetsBar extends React.Component {
 		this.updateDashboardIsDefault = this.updateDashboardIsDefault.bind(this);
 		this.updateDashboardIsGlobal = this.updateDashboardIsGlobal.bind(this);
 		this.updateDashboardName = this.updateDashboardName.bind(this);
+		this.liveClick = this.liveClick.bind(this);
 	}
 
 
@@ -127,6 +129,12 @@ export default class WidgetsBar extends React.Component {
 		this.props.widgetsBar.Id ? this.props.UpdateDashboard() : this.props.SaveDashboard();
 
 	}
+
+	liveClick(){
+		this.handleDocks();
+		debugger
+		browserHistory.push(`/dashboard/view/${this.props.dashboardId || DefaultDashboardId}`) 
+	}
 	
 	render() {
 		let orderedWidgets = _.orderBy(this.props.widgetsBar.widgetList, 'order', 'asc');
@@ -158,7 +166,7 @@ export default class WidgetsBar extends React.Component {
 							<i className="tool-icon fa fa-eye" />
 							<span className="tool-title">{this.props.l.t('Preview', 'Preview')}</span>
 						</a> */}
-						<a onClick={() => { this.handleDocks(); this.props.UpdateViewFlag(true); browserHistory.push(`/dashboard/view/${this.props.dashboard.Id || DefaultDashboardId}`) }} className="action-tool pointer" role="button">
+						<a onClick={this.liveClick} className="action-tool pointer" role="button">
 							<i className="tool-icon fa fa-desktop" />
 							<span className="tool-title">{this.props.l.t('Live', 'Live')}</span>
 						</a>

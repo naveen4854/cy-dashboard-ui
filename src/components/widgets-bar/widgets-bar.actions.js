@@ -7,7 +7,7 @@ import { WidgetTypeEnum, ResponseStatusEnum } from "../../shared/enums";
 import { DashboardUtilities } from "../../shared/lib";
 import * as dashboardService from '../../dashboard/dashboard-service';
 import { browserHistory, Router } from 'react-router';
-import {  MODAL_POPUP, SAVE_AS_MODAL_POPUP } from './widgets-bar.constants';
+import { MODAL_POPUP, SAVE_AS_MODAL_POPUP } from './widgets-bar.constants';
 
 export function updateProperty(key, value) {
     return (dispatch, getState) => {
