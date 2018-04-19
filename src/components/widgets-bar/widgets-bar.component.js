@@ -172,7 +172,7 @@ export default class WidgetsBar extends React.Component {
 					</a>
 					<div className="db-actions-left">
 						<a
-							onClick={() => { this.handleDocks(); this.props.widgetsBar.id ? this.props.UpdateDashboard() : this.props.SaveDashboard(); }}
+							onClick={() => { this.handleDocks(); this.props.dashboardId ? this.props.UpdateDashboard() : this.props.SaveDashboard(); }}
 							className="action-tool" role="button">
 							<i className="tool-icon fa fa-floppy-o" />
 							<span className="tool-title">{this.props.l.t('Save', 'Save')}</span>

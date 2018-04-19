@@ -43,7 +43,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state.dashboard.mode);
+
     return {
         widgetsBar: state.widgetsBar,
         common: state.common,
