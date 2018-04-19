@@ -24,13 +24,15 @@ export default class WidgetComponent extends PureComponent {
         // debugger
         if (this.props.dashboardMode == DashboardModeEnum.View || this.props.dashboardMode == DashboardModeEnum.Slider) {
             console.log('constructor ', this.props.widget.refreshInterval)
-            this.props.pullWidgetData(this.props.dashboardId, this.props.widget.id, this.props.widget.refreshInterval)
+            if (!this.props.widget.isComboWidget) {
+                this.props.pullWidgetData(this.props.dashboardId, this.props.widget.id, this.props.widget.refreshInterval)
+            }
         }
     }
     componentWillReceiveProps(nextProps) {
         if (this.props.dashboardMode == DashboardModeEnum.View || this.props.dashboardMode == DashboardModeEnum.Slider) {
             console.log('receive props')
-            if (this.props.widget.id != nextProps.widget.id)
+            if (this.props.widget.id != nextProps.widget.id && !this.props.widget.isComboWidget)
                 this.props.pullWidgetData(nextProps.dashboardId, nextProps.widget.id, nextProps.widget.refreshInterval)
         }
     }

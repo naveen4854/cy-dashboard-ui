@@ -218,84 +218,116 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
 /**
  * map data to widget based on its type
  */
-export function WidgetDataMapper(widget, data) {
-  switch (data.wrt) {
+export function WidgetDataMapper(widget, widgetData) {
+  debugger
+  widget = {
+    ...widget,
+    previousData: widgetData
+  }
+  const { widgetBody } = widget || {};
+  if (widgetBody) {
+    widget = {
+      ...widget,
+      appliedBackgroundColor: widgetData.wrth && widgetData.wrth.thc ? widgetData.wrth.thc : widgetBody.backgroundColor
+    }
+  }
+  switch (widgetData.wrt) {
     case WidgetTypeEnum.Box:
     case WidgetTypeEnum.Progress:
     case WidgetTypeEnum.Speedo:
     case WidgetTypeEnum.CircularProgress:
-      widget.displayValue = _.cloneDeep(data.wrdv);
-      widget.value = _.cloneDeep(data.wrv);
+      return {
+        ...widget,
+        displayValue: widgetData.wrdv,
+        value: widgetData.wrv
+      };
       break;
     case WidgetTypeEnum.Pie:
     case WidgetTypeEnum.Bar:
-      widget.data = _.map(data.wrcc, (d) => {
+      let data = _.map(widgetData.wrcc, (d) => {
         return {
           label: d.l,
           data: d.d
         };
       });
+      return { ...widget, data: data };
       break;
     case WidgetTypeEnum.Picture:
-      widget.picturePath = data.pblob;
-      widget.pictureStretch = data.wps == 1 ? {
+      let pictureStretch = widgetData.wps == 1 ? {
         value: PictureStretchEnum.None,
         label: 'None'
       } : {
           value: PictureStretchEnum.Fill,
           label: 'Fill'
         };
-      widget.title = 'picture';
+
+      return {
+        ...widget,
+        title: 'picture',
+        picturePath: widgetData.pblob,
+        pictureStretch
+      };
+
       break;
     case WidgetTypeEnum.Text:
-      let scrollType = {
+      let scrollType = getScrollType(widgetData);
+      return {
+        ...widget,
+        scrollType,
+        scrollSpeed: widgetData.twrd,
+        displayValue: widgetData.wrdv
+      };
+
+
+      break;
+    case WidgetTypeEnum.Combo:
+      comboResultMapping(widget, widgetData);
+      return _.cloneDeep(widget);
+      break;
+    default:
+      console.log('no ')
+
+    //return widget;
+  }
+}
+
+function getScrollType(data) {
+  let scrollType = {
+    value: ScrollTypeEnum.None,
+    label: 'No Scroll'
+  };
+  switch (data.twrst) {
+    case ScrollTypeEnum.LeftToRight:
+      scrollType = {
+        value: ScrollTypeEnum.LeftToRight,
+        label: 'Left-Right'
+      };
+      break;
+    case ScrollTypeEnum.RightToLeft:
+      scrollType = {
+        value: ScrollTypeEnum.RightToLeft,
+        label: 'Right-Left'
+      };
+      break;
+    case ScrollTypeEnum.TopToBottom:
+      scrollType = {
+        value: ScrollTypeEnum.TopToBottom,
+        label: 'Top-Bottom'
+      };
+      break;
+    case ScrollTypeEnum.BottomToTop:
+      scrollType = {
+        value: ScrollTypeEnum.BottomToTop,
+        label: 'Bottom-Top'
+      };
+      break;
+    default:
+      scrollType = {
         value: ScrollTypeEnum.None,
         label: 'No Scroll'
       };
-      switch (data.twrst) {
-        case ScrollTypeEnum.LeftToRight:
-          scrollType = {
-            value: ScrollTypeEnum.LeftToRight,
-            label: 'Left-Right'
-          };
-          break;
-        case ScrollTypeEnum.RightToLeft:
-          scrollType = {
-            value: ScrollTypeEnum.RightToLeft,
-            label: 'Right-Left'
-          };
-          break;
-        case ScrollTypeEnum.TopToBottom:
-          scrollType = {
-            value: ScrollTypeEnum.TopToBottom,
-            label: 'Top-Bottom'
-          };
-          break;
-        case ScrollTypeEnum.BottomToTop:
-          scrollType = {
-            value: ScrollTypeEnum.BottomToTop,
-            label: 'Bottom-Top'
-          };
-          break;
-        default:
-          scrollType = {
-            value: ScrollTypeEnum.None,
-            label: 'No Scroll'
-          };
-
-      }
-      widget.displayValue = data.wrdv;
-      widget.scrollSpeed = data.twrd;
-      widget.scrollType = scrollType;
-      break;
-    case WidgetTypeEnum.Combo:
-      comboResultMapping(widget, data);
-      break;
-
-
-      widget.previousData = data;
-    //return widget;
   }
+  return scrollType;
 }
 
 export function getScrollType(scrollType) {

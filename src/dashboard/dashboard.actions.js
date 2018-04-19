@@ -211,25 +211,25 @@ export function updateComboMatrix(comboWidgetId, columnIndex, rowIndex, delta) {
 export function pullWidget(dashboardId, widgetId, refreshValue) {
     return (dispatch, getState) => {
         let refreshInterval = refreshValue * 1000;
+
         let setTimeoutId = setTimeout(() => {
 
             dashboardService.viewWidgetData(dashboardId, widgetId, {}).then(response => {
                 let widget = _.find(getState().dashboard.widgets, (w) => w.id == widgetId);
                 if (widget) {
-                    DashboardUtilities.WidgetDataMapper(widget, response.data)
-                    const { widgetBody } = widget || {};
-                    if (widgetBody) {
-                        widget.appliedBackgroundColor = response.data.wrth && response.data.wrth.thc ? response.data.wrth.thc : widgetBody.backgroundColor;
-                    }
-                    dispatch(getState().dashboard.updateWidget(widget));
+                    let updatedWidget = DashboardUtilities.WidgetDataMapper(widget, response.data)
+                    dispatch(getState().dashboard.updateWidget(updatedWidget));
                 }
                 let nextRefreshInterval = refreshInterval; // can be changed based on throttling
-                dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval))
+                if (nextRefreshInterval > 0) {
+                    dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval))
+                }
             }).catch((err) => {
-                    let nextRefreshInterval = refreshInterval;
+                let nextRefreshInterval = refreshInterval;
+                if (nextRefreshInterval > 0) {
                     dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval));
-
-                });
+                }
+            });
         }, refreshInterval);
 
         let refreshingWidgetsArray = getState().dashboard.refreshingWidgets;

@@ -88,13 +88,13 @@ export function previewWidget(widget) {
         widgetService.getWidgetPreviewData(widgetData).then(function (response) {
             if (response.status === 200) {
                 if (widget) {
-                    DashboardUtilities.WidgetDataMapper(widget, response.data)
-                    const { widgetBody } = widget || {};
-                    if (widgetBody) {
-                        widget.appliedBackgroundColor = response.data.wrth && response.data.wrth.thc ? response.data.wrth.thc : widgetBody.backgroundColor;
-                    }
+                    let updatedWidget = DashboardUtilities.WidgetDataMapper(widget, response.data)
+                    // const { widgetBody } = updatedWidget || {};
+                    // if (widgetBody) {
+                    //     updatedWidget.appliedBackgroundColor = response.data.wrth && response.data.wrth.thc ? response.data.wrth.thc : widgetBody.backgroundColor;
+                    // }
                     // dispatch(getState().dashboard.updateWidget(widget));
-                    dispatch(getState().configurations.applyWidget(widget));
+                    dispatch(getState().configurations.applyWidget(updatedWidget));
                 }
             }
         }).catch((error) => {
