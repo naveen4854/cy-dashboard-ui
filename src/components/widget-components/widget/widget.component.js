@@ -23,27 +23,25 @@ export default class WidgetComponent extends PureComponent {
         super(props);
         // debugger
         if (this.props.dashboardMode == DashboardModeEnum.View || this.props.dashboardMode == DashboardModeEnum.Slider) {
-            console.log('constructor ', this.props.widget.refreshInterval)
             if (!this.props.widget.isComboWidget) {
                 this.props.pullWidgetData(this.props.dashboardId, this.props.widget.id, this.props.widget.refreshInterval)
             }
         }
         else if(this.props.dashboardMode == DashboardModeEnum.EditToLive){
             if (!this.props.widget.isComboWidget) {
-                this.props.previewWidget(this.props.widget)
+                this.props.previewWidgetInLive(this.props.widget, this.props.widget.refreshInterval)
             }
         }
     }
     componentWillReceiveProps(nextProps) {
         
         if (this.props.dashboardMode == DashboardModeEnum.View || this.props.dashboardMode == DashboardModeEnum.Slider) {
-            console.log('receive props')
             if (this.props.widget.id != nextProps.widget.id && !nextProps.widget.isComboWidget)
                 this.props.pullWidgetData(nextProps.dashboardId, nextProps.widget.id, nextProps.widget.refreshInterval)
         }
         else if(this.props.dashboardMode == DashboardModeEnum.EditToLive){
             if ( this.props.widget.id != nextProps.widget.id && !nextProps.widget.isComboWidget) {
-                this.props.previewWidget(nextProps.widget);
+                this.props.previewWidgetInLive(nextProps.widget, nextProps.widget.refreshInterval);
             }
         }
     }

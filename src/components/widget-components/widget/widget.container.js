@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import WidgetComponent from './widget.component';
 import { DashboardModeEnum } from '../../../shared/enums';
 import { pullWidget, toggleSettingsMenu, deleteWidgetAction } from '../../../dashboard/dashboard.actions'
-import { previewWidget } from '../../widget-configurations/widget-configurations.actions';
+import { previewWidget, previewWidgetInLive } from '../../widget-configurations/widget-configurations.actions';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -18,7 +18,10 @@ const mapDispatchToProps = (dispatch) => {
         },
         previewWidget: (widget) => {
             dispatch(previewWidget(widget))
-        }
+        },
+        previewWidgetInLive: (widget, refreshInterval) =>{
+            dispatch(previewWidgetInLive(widget, refreshInterval))
+        },
     }
 }
 

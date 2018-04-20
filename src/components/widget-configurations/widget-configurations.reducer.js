@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { UPDATE_DASHBOARD_WIDGET } from "../../dashboard/dashboard.reducer";
 import { DashboardUtilities } from "../../shared/lib";
 import * as widgetService from './widget-configurations.service';
-import { updateConfigurationsWidget, closeConfigurations, previewWidget } from './widget-configurations.actions'
+import { updateConfigurationsWidget, closeConfigurations, previewWidget, previewWidgetInLive } from './widget-configurations.actions'
 import { TOGGLE_CONFIGURATIONS_PANEL, UPDATE_CONFIGURATIONS_WIDGET, SET_METRICS_TAB_VISIBILITY, SET_THRESHOLDS_TAB_VISIBILITY } from "./widget-configurations.constants";
 
 export function toggleSettingsMenu(widget) {
@@ -120,7 +120,8 @@ const initialState = {
     applyWidget,
     previewWidget,
     updateConfigurationsWidget,
-    closeConfigurations
+    closeConfigurations,
+    previewWidgetInLive
 };
 
 export default function WidgetConfigurationsReducer(state = _.cloneDeep(initialState), action) {

@@ -6,10 +6,12 @@ import ViewDashboardContainer from './view-dashboard.container';
 import { DashboardModeEnum } from '../../shared/enums';
 import DataMetricsReducer from '../../components/data-metrics/data-metrics.reducer';
 import DashboardReducer from '../dashboard.reducer';
+import WidgetResultsReducer from '../widget-results/widget-results.reducer';
 
 export default (store) => ({
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
+      injectReducer(store, { key: 'widgetResults', reducer: WidgetResultsReducer })
 
       cb(null, authenticate(ViewDashboardContainer))
     }, 'viewdashboard')

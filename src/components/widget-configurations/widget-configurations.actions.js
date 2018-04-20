@@ -46,3 +46,27 @@ export function previewWidget(widget) {
         });
     }
 }
+
+export function previewWidgetInLive(currentWidget, refreshInterval) {
+    return (dispatch, getState) => {
+        let setTimeoutId = setTimeout(() => {
+            //dispatch(getState().notificationStore.clearNotifications());
+            const widget = DashboardUtilities.WidgetMapper(_.cloneDeep(currentWidget), getState().dataMetrics.dataMetricsMetadata);
+            widgetService.getWidgetPreviewData(widget).then(function (response) {
+                if (response.status === 200) {
+                    if (widget) {
+                        let updatedWidget = DashboardUtilities.WidgetDataMapper(currentWidget, response.data)
+                        dispatch(getState().dashboard.updateWidget(updatedWidget));
+                    }
+                    let nextRefreshInterval = refreshInterval; // can be changed based on throttling
+                    if (nextRefreshInterval > 0) {
+                        dispatch(getState().configurations.previewWidgetInLive(currentWidget, refreshInterval))
+                    }
+                }
+            }).catch((error) => {
+                dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error));
+            });
+        }, refreshInterval * 1000);
+        dispatch(getState().widgetResults.updateRefreshingWidgets(currentWidget.id, setTimeoutId));
+    }
+}

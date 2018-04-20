@@ -214,7 +214,6 @@ export function pullWidget(dashboardId, widgetId, refreshValue) {
         let refreshInterval = refreshValue * 1000;
 
         let setTimeoutId = setTimeout(() => {
-
             dashboardService.viewWidgetData(dashboardId, widgetId, {}).then(response => {
                 let widget = _.find(getState().dashboard.widgets, (w) => w.id == widgetId);
                 if (widget) {
@@ -226,43 +225,14 @@ export function pullWidget(dashboardId, widgetId, refreshValue) {
                     dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval))
                 }
             }).catch((err) => {
-                let nextRefreshInterval = refreshInterval;
-                if (nextRefreshInterval > 0) {
-                    dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval));
-                }
+                // let nextRefreshInterval = refreshInterval;
+                // if (nextRefreshInterval > 0) {
+                //     dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval));
+                // }
             });
         }, refreshInterval);
 
-        let refreshingWidgetsArray = getState().dashboard.refreshingWidgets;
-
-        let refreshingWidgetExists = _.find(refreshingWidgetsArray, (each) => each.widgetId == widgetId);
-
-        if (refreshingWidgetExists) {
-            let updatedRefreshingWidgets = _.map(refreshingWidgetsArray, (refreshingWidget) => {
-                if (refreshingWidget.widgetId == widgetId) {
-                    clearInterval(refreshingWidget.id);
-                    return {
-                        ...refreshingWidget,
-                        id: setTimeoutId
-                    }
-                }
-                return refreshingWidget;
-            });
-            dispatch({
-                type: UPDATE_DASHBOARD_PROPERTY,
-                key: 'refreshingWidgets',
-                value: updatedRefreshingWidgets
-            });
-        }
-        else {
-            refreshingWidgetsArray.splice(refreshingWidgetsArray.length, 0, { widgetId: widgetId, id: setTimeoutId })
-            dispatch({
-                type: UPDATE_DASHBOARD_PROPERTY,
-                key: 'refreshingWidgets',
-                value: refreshingWidgetsArray
-            });
-        }
-
+        dispatch(getState().widgetResults.updateRefreshingWidgets(widgetId, setTimeoutId));
     }
 }
 
