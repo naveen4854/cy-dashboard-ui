@@ -23,19 +23,18 @@ export default class CustomSelect extends React.Component {
         //         debugger
         //         this.props.onChange(nextProps.value);
         //     }
-
-        if (nextProps.options) {
-            if (nextProps.options.length === 1) {
-                this.setState({
-                    value: nextProps.options[0]
-                });
-                // this.props.onChange(nextProps.options[0])
-            } else {
-                this.setState({
-                    value: nextProps.value
-                });
-            }
-        }
+        // if (nextProps.options) {
+        //     if (nextProps.options.length === 1) {
+        //         this.setState({
+        //             value: nextProps.options[0]
+        //         });
+        //         // this.props.onChange(nextProps.options[0])
+        //     } else {
+        //         this.setState({
+        //             value: nextProps.value
+        //         });
+        //     }
+        // }
     }
 
     onChange(e) {
@@ -53,7 +52,7 @@ export default class CustomSelect extends React.Component {
             // debugger
         }
         return (
-            <Select value={selectedValue}
+            <Select value={this.props.options && this.props.options.length == 1 ? this.props.options[0] : selectedValue}
                 placeholder={this.props.placeholder}
                 options={this.props.options}
                 disabled={this.props.options.length == 1 || this.props.disabled}
