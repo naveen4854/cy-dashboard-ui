@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import { browserHistory, Router } from 'react-router';
 import ReactPaginate from 'react-paginate';
-
+import CustomSelect from '../../../components/custom-dropdown';
 import MyDashboardTable from './table';
 import Header from '../../../components/header';
+import { pagesList } from '../../../shared/constants/constants';
 
 export default class MyDashboard extends PureComponent {
 	constructor(props) {
@@ -13,6 +14,7 @@ export default class MyDashboard extends PureComponent {
 		this.onPageClick = this.onPageClick.bind(this);
 		this.test = this.test.bind(this);
 		this.testU = this.testU.bind(this);
+		this.onPageSizeChange = this.onPageSizeChange.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -24,7 +26,7 @@ export default class MyDashboard extends PureComponent {
 	componentWillMount() {
 		this.props.GetDashboardsList();
 	}
-	
+
 	onMyDashboardsChecked(e) {
 		this.props.SetMyDashboardsAndGetDashboardsList(e.target.checked);
 	}
@@ -37,7 +39,7 @@ export default class MyDashboard extends PureComponent {
 		browserHistory.push(`/dashboard/new`);
 	}
 
-	onPageClick(e){
+	onPageClick(e) {
 		this.props.SetPageNumberAndGetDashboardsList(e.selected + 1);
 	}
 
@@ -47,7 +49,11 @@ export default class MyDashboard extends PureComponent {
 	testU() {
 		this.props.testU();
 	}
-	
+	onPageSizeChange(e) {
+		if (e.value)
+			this.props.SetPageSizeAndGetDashboardsList(e.value);
+	}
+
 	render() {
 		const pageStart = (this.props.myDashboard.pageNumber - 1) * this.props.myDashboard.pageSize + 1,
 			pageEnd = this.props.myDashboard.pageNumber * this.props.myDashboard.pageSize,
@@ -100,15 +106,15 @@ export default class MyDashboard extends PureComponent {
 									</div>
 								</div>
 								<div className="row">
-									{/* <div className="col-xs-2 col-sm-3 col-md-4 col-lg-5">
+									<div className="col-xs-2 col-sm-3 col-md-4 col-lg-5">
 										<div className={"pull-left rtl-pull-left"}>
-											<label className=" col-sm-5 col-md-5 text-primary" style={{ "paddingTop": "6px" }}>View</label>
-											<div className="col-sm-7 col-md-7">
-												<CustomSelect name="field-group-options" options={this.pagesList}
+											<label className=" col-sm-4 col-md-4 text-primary" style={{ "paddingTop": "6px" }}>View</label>
+											<div className="col-sm-8 col-md-8">
+												<CustomSelect name="field-group-options" options={pagesList}
 													value={this.props.myDashboard.pageSize} onChange={(e) => this.onPageSizeChange(e)} />
 											</div>
 										</div>
-									</div> */}
+									</div>
 
 									<div className="col-xs-11 col-sm-9 col-md-8 col-lg-7">
 										<div className="col-sm-3 col-md-3">
