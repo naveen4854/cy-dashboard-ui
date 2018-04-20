@@ -91,7 +91,7 @@ export function SetPageNumber(pageNumber) {
 export function SetPageSize(pageSize) {
   return (dispatch, getState) => {
     dispatch({
-      type: UPDATE_PAGENUMBER,
+      type: UPDATE_PAGESIZE,
       pageSize
     });
   }
