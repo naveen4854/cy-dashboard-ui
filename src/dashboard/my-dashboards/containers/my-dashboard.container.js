@@ -45,7 +45,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(Reducer.GetDashboardsList())
         },
         userLogout: () => {
-            dispatch(Reducer.userLogoutAction());
+            dispatch(Reducer.userLogout());
         },
         clearNotifications: () => {
             dispatch(Reducer.ClearNotificationsAction())

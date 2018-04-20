@@ -155,7 +155,7 @@ export function DeleteDashboard(dashboardId) {
     });
   }
 }
-export function userLogoutAction() {
+export function userLogout() {
   return (dispatch, getState) => {
     dispatch(getState().user.logout());
   }
@@ -232,7 +232,7 @@ export const initialState = {
   sortOrder: 1,
   totalDashboards: 0,
   DeleteDashboard,
-  userLogoutAction
+  userLogout
 };
 
 export default function MyDashboardReducer(state = initialState, action) {
