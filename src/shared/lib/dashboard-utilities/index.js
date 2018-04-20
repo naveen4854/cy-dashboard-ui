@@ -47,8 +47,8 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
   } : {};
   let clckStyles = WidgetTypeEnum.Clock == inputWidget.widgetType ? {
     cbs: {
-      cbb: inputWidget.widgetBody.ClockbackgroundColor,
-      cobb: inputWidget.widgetBody.ClockOuterbackgroundColor,
+      cbb: inputWidget.widgetBody.clockbackgroundColor,
+      cobb: inputWidget.widgetBody.clockOuterbackgroundColor,
       cbr: inputWidget.widgetBody.clockRoundingColor
     },
     cns: {
@@ -693,6 +693,7 @@ function clockWidgetConfigurationsFromServer(clockWidget, dataMetricsMetadata, i
     height: clockWidget.height,
     z: clockWidget.zIndex,
     id: clockWidget.wid,
+    title: clockWidget.wtl,
     widgetType: clockWidget.wt,
     value: 0,
     displayValue: 0,
