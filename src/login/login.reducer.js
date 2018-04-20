@@ -5,7 +5,7 @@ import { browserHistory, Router } from 'react-router'
 import * as loginService from './login.service';
 import * as authMan from "../authentication/auth-manager";
 import ResponseStatusEnum from '../shared/enums/response-status-enum';
-import {Constants} from '../shared/constants';
+import { Constants } from '../shared/constants';
 
 export const SAVE_LOGIN = "SAVE_LOGIN";
 export const LOGIN_DETAILS = "LOGIN_DETAILS"
@@ -16,7 +16,7 @@ export const DEFAULT_DASHBOARD_ID = "DEFAULT_DASHBOARD_ID"
 export const USER_LOGOUT = "USER_LOGOUT"
 
 const initialState = {
-  userName: 'naveen',
+  userName: '',
   loggedIn: false,
   userInitalized: false,
   auth: {},

@@ -21,7 +21,7 @@ export const Header = (props) => {
                 <a className="pointer">Logged in as {props.user ? props.user.userName : ''}</a>
               </li>
               <li>
-                <a className="pointer" onClick={props.UserLogout}>Log out</a>
+                <a className="pointer" onClick={props.userLogout}>Log out</a>
               </li>
             </ul>
           </div>

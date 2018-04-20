@@ -38,6 +38,9 @@ const mapDispatchToProps = (dispatch) => {
         updateDashboardMode: () => {
             dispatch(WidgetsBarActions.updateDashboardMode())
 
+        },
+        toggleWidgetBar: (isExpanded) => {
+            dispatch(WidgetsBarActions.toggleWidgetBar(isExpanded))
         }
     }
 }

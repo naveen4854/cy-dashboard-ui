@@ -44,8 +44,8 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(Reducer.SetSortColumnAndOrder(sortColumn, sortOrder))
             dispatch(Reducer.GetDashboardsList())
         },
-        UserLogout: () => {
-            dispatch(Reducer.UserLogoutAction());
+        userLogout: () => {
+            dispatch(Reducer.userLogoutAction());
         },
         clearNotifications: () => {
             dispatch(Reducer.ClearNotificationsAction())
@@ -62,7 +62,9 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
     return {
         myDashboard: state.mydashboard,
-        common: state.common
+        common: state.common,
+        user:state.user
+        
     }
 }
 

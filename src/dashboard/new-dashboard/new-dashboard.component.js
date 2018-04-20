@@ -20,9 +20,7 @@ export default class NewDashboard extends PureComponent {
     render() {
         return (
             <div className='background' >
-                <div>
-                    <WidgetsBarContainer l={this.props.l} AddWidget={this.props.AddWidget} />
-                </div>
+                <WidgetsBarContainer l={this.props.l} AddWidget={this.props.AddWidget} />
                 <div className="row">
                     <div className="col-md-12  col-sm-12  col-xs-12">
                         <DashboardLayoutContainer />

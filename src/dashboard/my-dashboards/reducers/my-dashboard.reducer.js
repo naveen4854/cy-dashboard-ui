@@ -155,6 +155,11 @@ export function DeleteDashboard(dashboardId) {
     });
   }
 }
+export function userLogoutAction() {
+  return (dispatch, getState) => {
+    dispatch(getState().user.logout());
+  }
+}
 
 export const ACTION_HANDLERS = {
 
@@ -226,7 +231,8 @@ export const initialState = {
   sortColumn: "modifiedTime",
   sortOrder: 1,
   totalDashboards: 0,
-  DeleteDashboard
+  DeleteDashboard,
+  userLogoutAction
 };
 
 export default function MyDashboardReducer(state = initialState, action) {

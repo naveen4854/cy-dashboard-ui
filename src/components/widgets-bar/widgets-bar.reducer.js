@@ -1,5 +1,5 @@
 import { widgetList } from '../../shared/constants';
-import { UPDATE_DASHBOARD_PROPERTY, MODAL_POPUP, SAVE_AS_MODAL_POPUP } from './widgets-bar.constants';
+import { UPDATE_DASHBOARD_PROPERTY, MODAL_POPUP, SAVE_AS_MODAL_POPUP, UPDATE_IS_EXPANDED } from './widgets-bar.constants';
 
 
 export const ACTION_HANDLERS = {
@@ -12,13 +12,19 @@ export const ACTION_HANDLERS = {
         return Object.assign({}, state, {
             showSaveAsModalPopup: action.showSaveAsModalPopup
         })
+    },
+    [UPDATE_IS_EXPANDED]: (state, action) => {
+        return Object.assign({}, state, {
+            isExpanded: action.isExpanded
+        })
     }
 }
 const initialState = {
     showModalPopup: false,
     showSaveAsModalPopup: false,
     widgetList: widgetList,
-    fromAction: undefined   
+    fromAction: undefined,
+    isExpanded: false,
 };
 export default function WidgetsBarReducer(state = _.cloneDeep(initialState), action) {
     const handler = ACTION_HANDLERS[action.type];
