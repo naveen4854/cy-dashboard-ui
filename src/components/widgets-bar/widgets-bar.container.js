@@ -37,7 +37,6 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateDashboardMode: () => {
             dispatch(WidgetsBarActions.updateDashboardMode())
-
         }
     }
 }

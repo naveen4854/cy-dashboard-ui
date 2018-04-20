@@ -78,7 +78,7 @@ export const dashboardInitialState = {
     mode: DashboardModeEnum.None,
     disableDrag: false,
     updateDashboard,
-    Id: -1,
+    Id: "new",
     updateShowIcons,
     showIcons: true,
     refreshingWidgets:[], //{ widgetId: 'i', id:1 }

@@ -1,11 +1,14 @@
 
 
 import React, { PureComponent } from 'react';
+import { browserHistory } from 'react-router';
 
 //TODO: change to container
 import { WidgetsBarContainer } from '../../components/widgets-bar';
 import DashboardLayoutContainer from '../../components/dashboard-layout';
 import WidgetConfigurationsContainer from '../../components/widget-configurations/';
+import { DashboardModeEnum } from '../../shared/enums';
+import { DefaultDashboardId } from '../../shared/constants/constants';
 
 export default class ViewDashboardComponent extends PureComponent {
 
@@ -19,10 +22,27 @@ export default class ViewDashboardComponent extends PureComponent {
     componentDidUpdate() {
     }
     componentWillUnmount() {
-        this.goBack();
+        this.props.clearRefreshInterval();
+        // this.goBack();
     }
     goBack() {
-        this.props.clearRefreshInterval();
+        // Navigate to edit page of the dashboard.
+        //this.props.navigate();
+        if (this.props.dashboard.mode == DashboardModeEnum.EditToLive) {
+            if (this.props.dashboard.Id == DefaultDashboardId) {
+                this.props.updateDashboardMode(DashboardModeEnum.New);
+                browserHistory.push(`/dashboard/${DefaultDashboardId}`);
+            }
+            else {
+                this.props.updateDashboardMode(DashboardModeEnum.Edit);
+                browserHistory.push(`/dashboard/edit/${this.props.dashboard.Id}`);
+            }
+        }
+        else {
+            this.props.updateDashboardMode(DashboardModeEnum.None);
+            // Navigate to my files page.
+            browserHistory.push(`/dashboard/mydashboards`);
+        }
     }
     render() {
         return (

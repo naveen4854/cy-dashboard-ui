@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch) => {
         previewWidget: (widget) => {
             dispatch(previewWidget(widget))
         },
-        previewWidgetInLive: (widget, refreshInterval) =>{
+        previewWidgetInLive: (widget, refreshInterval) => {
             dispatch(previewWidgetInLive(widget, refreshInterval))
         },
     }
@@ -29,7 +29,7 @@ const mapStateToProps = (state) => {
     return {
         dashboardMode: state.dashboard.mode,
         dashboardId: state.dashboard.Id,
-        showIcons: state.dashboard.showIcons
+        showIcons: (state.dashboard.mode == DashboardModeEnum.New) || (state.dashboard.mode == DashboardModeEnum.Edit)//state.dashboard.showIcons
     }
 }
 
