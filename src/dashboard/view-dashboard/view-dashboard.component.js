@@ -15,14 +15,24 @@ export default class ViewDashboardComponent extends PureComponent {
     constructor(props) {
         super(props);
         this.goBack = this.goBack.bind(this);
+        this.redirectToEdit = this.redirectToEdit.bind(this);
     }
-
+    redirectToEdit(event) {
+        if (event.keyCode === 27) {
+            browserHistory.push(`/dashboard/edit/${this.props.dashboard.Id}`);
+        }
+    }
     componentWillReceiveProps(nextProps) {
     }
     componentDidUpdate() {
     }
+    componentDidMount() {
+        document.addEventListener("keydown", this.redirectToEdit, false);
+    }
+
     componentWillUnmount() {
         this.props.clearRefreshInterval();
+        document.removeEventListener("keydown", this.redirectToEdit, false);
         // this.goBack();
     }
     goBack() {
