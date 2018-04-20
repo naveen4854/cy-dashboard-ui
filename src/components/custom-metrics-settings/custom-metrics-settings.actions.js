@@ -64,7 +64,6 @@ export function setSelectedStoreProc(selectedStoreProc) {
     return (dispatch, getState) => {
         let storeProcsData = getState().customSettings.storeProcsData;
         let storeProcParams = _.filter(_.cloneDeep(storeProcsData), x => x.ProcedureName == selectedStoreProc.label);
-
         dispatch({
             type: SET_SELECTED_STORED_PROC,
             selectedStoreProc: selectedStoreProc,
@@ -80,20 +79,16 @@ export function setCustomQuery(query) {
     }
 }
 
-export function updateParamValue(value, index) {
+export function updateParamValue(value, i) {
     return (dispatch, getState) => {
         let storeProcParams = getState().customSettings.storeProcParams;
         if (!storeProcParams)
             return
         let updatedStoreProcParams = storeProcParams.map((param, index) => {
-            if (index !== index) {
+            if (i !== index) {
                 return param;
             }
-
-            return {
-                ...param,
-                vl: value
-            };
+            return { ...param, vl: value };
         })
 
         dispatch({
