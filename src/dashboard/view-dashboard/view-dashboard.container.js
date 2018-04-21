@@ -4,7 +4,8 @@ import ViewDashboardComponent from "./view-dashboard.component";
 import localize from "../../components/localization/localization.hoc";
 import { PageEnum } from "../../shared/enums";
 import * as DashboardReducer from '../dashboard.reducer';
-import { clearRefreshInterval, updateDashboardMode } from '../dashboard.actions';
+import { updateDashboardMode } from '../dashboard.actions';
+import {clearRefreshInterval} from '../widget-results/widget-results.actions';
 
 const mapDispatchToProps = (dispatch) => {
     return {

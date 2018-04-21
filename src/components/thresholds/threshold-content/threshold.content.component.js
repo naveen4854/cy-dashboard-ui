@@ -26,7 +26,8 @@ export default class ThresholdTabContent extends PureComponent {
         this.updateLevel = this.updateLevel.bind(this);
         this.getSelectedColor = this.getSelectedColor.bind(this);
         this.addEmailTextbox = this.addEmailTextbox.bind(this);
-        this.addSMSTextbox = this.addSMSTextbox.bind(this);
+        this.updateEmailSubject = this.updateEmailSubject.bind(this);
+        this.addSMSTextbox = this.addSMSTextbox.bind(this); 
     }
 
 
@@ -190,6 +191,11 @@ export default class ThresholdTabContent extends PureComponent {
         this.props.common.confirm(notifyMessage, buttons);
         e.stopPropagation();
     }
+
+    updateEmailSubject(e){
+        this.props.updateLevel(this.props.id, 'emailSubject', e.target.value);
+    }
+
     render() {
         return (
             <div className="accordion">
@@ -268,7 +274,7 @@ export default class ThresholdTabContent extends PureComponent {
                                             <span className="pull-right rtl-pull-right"> {this.props.l.t('Email_subject_COLON', 'Email subject:')} </span>
                                         </div>
                                         <div className="col-xs-7 col-lg-9">
-                                            <input type='text' value={this.props.emailSubject} ref="emailSubject" className="form-control" onChange={this.updateLevel} />
+                                            <input type='text' value={this.props.emailSubject} ref="emailSubject" className="form-control" onChange={this.updateEmailSubject} />
                                         </div>
                                     </div>
                                 </div>

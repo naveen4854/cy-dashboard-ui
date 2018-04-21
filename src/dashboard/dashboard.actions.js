@@ -209,9 +209,9 @@ export function updateComboMatrix(comboWidgetId, columnIndex, rowIndex, delta) {
     }
 }
 
-export function pullWidget(dashboardId, widgetId, refreshValue) {
+export function pullWidget(dashboardId, widgetId, refreshInterval) {
     return (dispatch, getState) => {
-        let refreshInterval = refreshValue * 1000;
+       // let refreshInterval = refreshValue;
 
         let setTimeoutId = setTimeout(() => {
             dashboardService.viewWidgetData(dashboardId, widgetId, {}).then(response => {
@@ -230,8 +230,7 @@ export function pullWidget(dashboardId, widgetId, refreshValue) {
                 //     dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval));
                 // }
             });
-        }, refreshInterval);
-
+        }, refreshInterval * 1000);
         dispatch(getState().widgetResults.updateRefreshingWidgets(widgetId, setTimeoutId));
     }
 }
@@ -273,16 +272,16 @@ export function deleteDashboard(dashboardId) {
     }
 }
 
-export function clearRefreshInterval() {
-    return (dispatch, getState) => {
+// export function clearRefreshInterval() {
+//     return (dispatch, getState) => {
 
-        _.each(getState().dashboard.refreshingWidgets, (refreshIntervalId) => {
-            clearInterval(refreshIntervalId.id);
-        });
-        dispatch({
-            type: UPDATE_DASHBOARD_PROPERTY,
-            key: 'refreshingWidgets',
-            value: []
-        });
-    }
-}
+//         _.each(getState().dashboard.refreshingWidgets, (refreshIntervalId) => {
+//             clearInterval(refreshIntervalId.id);
+//         });
+//         dispatch({
+//             type: UPDATE_DASHBOARD_PROPERTY,
+//             key: 'refreshingWidgets',
+//             value: []
+//         });
+//     }
+// }

@@ -26,9 +26,22 @@ export function updateRefreshingWidgets(widgetId, setTimeoutId) {
         else {
             refreshingWidgetsArray.splice(refreshingWidgetsArray.length, 0, { widgetId: widgetId, id: setTimeoutId })
             dispatch({
-                type: UPDATE_DASHBOARD_PROPERTY,
+                type: UPDATE_REFRESHING_WIDGETS,
                 refreshingWidgets: refreshingWidgetsArray
             });
         }
+    }
+}
+
+export function clearRefreshInterval() {
+    return (dispatch, getState) => {
+
+        _.each(getState().widgetResults.refreshingWidgets, (refreshIntervalId) => {
+            clearInterval(refreshIntervalId.id);
+        });
+        dispatch({
+            type: UPDATE_REFRESHING_WIDGETS,
+            refreshingWidgets: []
+        });
     }
 }
