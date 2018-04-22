@@ -35,17 +35,22 @@ export default (store) => ({
     }, 'newdashboard')
   },
   onEnter: (nextState, replace) => {
-    
+
     injectReducer(store, { key: 'dashboard', reducer: DashboardReducer })
     let dashboardMode = nextState.params.id ? DashboardModeEnum.Edit : DashboardModeEnum.New;// mode == DashboardModeEnum.New || mode == DashboardModeEnum.Edit ? DashboardModeEnum.EditToLive : DashboardModeEnum.View;
+    if (dashboardMode == DashboardModeEnum.New && store.getState().dashboard.mode != DashboardModeEnum.EditToLive) {
+      store.dispatch(store.getState().dashboard.resetDashboard())
+    }
     store.dispatch(store.getState().dashboard.updateDashboardMode(dashboardMode))
-    
+
     injectReducer(store, { key: 'dataMetrics', reducer: DataMetricsReducer })
     store.dispatch((dispatch, getState) => {
       store.getState().dataMetrics.loadDataMetricsMetaData(nextState.params.id)(dispatch, getState).then((response) => {
-        if (dashboardMode == DashboardModeEnum.Edit)
+        if (dashboardMode == DashboardModeEnum.Edit) {
           store.dispatch(store.getState().dashboard.getDashboardById(nextState.params.id))
+        }
       })
+
     }
     )
     injectReducer(store, { key: 'clockSettings', reducer: ClockMetricsSettingsReducer })
