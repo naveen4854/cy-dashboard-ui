@@ -28,7 +28,7 @@ export default class AppComponent extends PureComponent {
             if (event.key === Constants.setNewRt) {
                 this.props.setRefreshToken();
                 
-                if (!event.oldValue)
+                if (!event.oldValue && event.newValue)
                     this.props.defaultRedirection();
 
                 if (!event.newValue)

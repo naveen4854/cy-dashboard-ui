@@ -178,7 +178,7 @@ export function setPingTimeout(timeDiff) {
     }
 }
 
-export function clearRefreshTokenTimeoutś() {
+export function clearRefreshTokenTimeout() {
     return (dispatch, getState) => {
         clearTimeout(getState().user.tokenRefTimeOutId)
         dispatch({
