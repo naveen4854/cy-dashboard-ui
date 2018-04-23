@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import AppComponent from './app.component';
 import * as LocalizationReducer from '../components/localization/localization.reducer';
 import * as AppReducer from './app.reducer';
-import { UPDATE_REF_TOKEN_TIMEOUT_ID } from '../login/login.reducer';
+import { UPDATE_REF_TOKEN_TIMEOUT_ID, UPDATE_PING_TOKEN_TIMEOUT_ID } from '../login/login.reducer';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -29,6 +29,12 @@ const mapDispatchToProps = (dispatch) => {
             dispatch({
                 type: UPDATE_REF_TOKEN_TIMEOUT_ID,
                 tokenRefTimeOutId: -1
+            })
+        },
+        clearPingTimeout: () => {
+            dispatch({
+                type: UPDATE_PING_TOKEN_TIMEOUT_ID,
+                pingRefTimeOutId: -1
             })
         }
     }

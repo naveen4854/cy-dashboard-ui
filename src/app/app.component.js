@@ -8,6 +8,7 @@ import '../public/assets/vendors/bootstrap/css/bootstrap.min.css';
 import '../public/assets/styles/cx-bones.css';
 import '../public/assets/styles/cx-skin-default.css';
 import '../public/assets/styles/cx-main.css';
+import * as authMan from "../authentication/auth-manager";
 
 import NotificationContainer from '../components/notifications/notification.container';
 import SpinnerContainer from '../components/spinner/spinner.container';
@@ -19,6 +20,8 @@ export default class AppComponent extends PureComponent {
     }
 
     componentWillMount() {
+        authMan.setAuthTokenRefreshInitialized(false);
+
         window.addEventListener("beforeunload", (event) => {
             this.props.removeFromTabsList();
             this.props.triggerRefreshFromOtherTab();
@@ -34,11 +37,12 @@ export default class AppComponent extends PureComponent {
             if (event.key === Constants.cleartimeout) {
                 if (this.props.app.currentTabId != localStorage.getItem(Constants.refreshTabId))
                     this.props.cleartimeout();
+                this.props.clearPingTimeout();
             }
         });
         this.props.setTabId();
 
-        let culture = "en-AU";
+        let culture = navigator.language;
         //let culture = navigator.language;
         this.props.GetLocalizationData(culture);
     }

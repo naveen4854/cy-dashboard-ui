@@ -44,6 +44,7 @@ const ApiUrl = {
   LOCALE_GENERATE : baseUrl + 'localization/generate',
   LOCALE_NORMALIZE : baseUrl + 'localization/normalize',
   LOGOUT_URL: baseUrl + 'Account/logout',
+  PING_URL: baseUrl + 'Account/ping',
   TEST_THRESHOLD: baseUrl + "dashboard/TestThreshold",
   DEFAULT_REFRESHINTERVAL: baseUrl + "dashboard/DefaultRefreshInterval",
   DEFAULT_DASHBOARD: baseUrl + "account/defaultDashboard",

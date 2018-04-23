@@ -134,10 +134,16 @@ function handleUnAuthWithRetry(error) {
                 auth: res ? res.data : {},
                 loggedIn: true,
                 userInitalized: true,
-                tokenRefTimeOutId: -1
-            });
+                //tokenRefTimeOutId: -1
+            }); 
+            dispatch({
+              type: UPDATE_REF_TOKEN_TIMEOUT_ID,
+              tokenRefTimeOutId: -1
+            })
             let nextTimeDiff = getState().user.expiresIn * 1000;
             dispatch(getState().user.setTokenRefreshTimeout(nextTimeDiff))
+            dispatch(getState().user.ping(Constants.oneMinute))
+            
         }).catch((err) => {
             dispatch(getState().user.logout())
             dispatch(getState().notificationStore.clearNotifications());

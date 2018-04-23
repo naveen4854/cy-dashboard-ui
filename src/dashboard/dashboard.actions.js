@@ -225,10 +225,10 @@ export function pullWidget(dashboardId, widgetId, refreshInterval) {
                     dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval))
                 }
             }).catch((err) => {
-                // let nextRefreshInterval = refreshInterval;
-                // if (nextRefreshInterval > 0) {
-                //     dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval));
-                // }
+                let nextRefreshInterval = refreshInterval;
+                if (nextRefreshInterval > 0) {
+                    dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval));
+                }
             });
         }, refreshInterval * 1000);
         dispatch(getState().widgetResults.updateRefreshingWidgets(widgetId, setTimeoutId));

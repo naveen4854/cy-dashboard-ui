@@ -14,6 +14,7 @@ export const TEST = "UPDATE_PING1TEST1"
 export const UPDATE_REF_TOKEN_TIMEOUT_ID = "UPDATE_REF_TOKEN_TIMEOUT_ID"
 export const DEFAULT_DASHBOARD_ID = "DEFAULT_DASHBOARD_ID"
 export const USER_LOGOUT = "USER_LOGOUT"
+export const UPDATE_PING_TOKEN_TIMEOUT_ID = "UPDATE_PING_TOKEN_TIMEOUT_ID"
 
 const initialState = {
   userName: '',
@@ -35,7 +36,8 @@ const initialState = {
   setTokenRefreshTimeout,
   defaultDashboardId: -1,
   defaultRedirection,
-  initializeUserFromCache
+  initializeUserFromCache,
+  ping
 };
 
 export function login(loginDetails) {
@@ -56,8 +58,16 @@ export function login(loginDetails) {
           auth: response.data,
           loggedIn: true,
           userInitalized: true,
-          tokenRefTimeOutId: -1
+          //tokenRefTimeOutId: -1,
         });
+        dispatch({
+          type: UPDATE_PING_TOKEN_TIMEOUT_ID,
+          pingRefTimeOutId: -1
+        });
+        dispatch({
+          type: UPDATE_REF_TOKEN_TIMEOUT_ID,
+          tokenRefTimeOutId: -1
+        })
 
         console.log("SETTING REFRESH TOKEN TRIGGERFROM NEW LOGIN")
         dispatch({
@@ -65,6 +75,7 @@ export function login(loginDetails) {
         });
         let nextTimeDiff = getState().user.expiresIn * 1000;
         dispatch(getState().user.setTokenRefreshTimeout(nextTimeDiff));
+        dispatch(getState().user.ping(1));
         dispatch(getState().user.defaultRedirection());
       })
       .catch((error) => {
@@ -81,6 +92,14 @@ export function initializeUserFromCache(userData) {
       auth: userData,
       userInitalized: true,
       loggedIn: userData ? true : false,
+      //tokenRefTimeOutId: -1,
+    });
+    dispatch({
+      type: UPDATE_PING_TOKEN_TIMEOUT_ID,
+      pingRefTimeOutId: -1
+    });
+    dispatch({
+      type: UPDATE_REF_TOKEN_TIMEOUT_ID,
       tokenRefTimeOutId: -1
     })
   }
@@ -94,8 +113,38 @@ export function InitiatePing() {
   }
 }
 
+export function ping(timeDiff) {
+  return (dispatch, getState) => {
+    let user = getState().user;
+
+    if (user.pingRefTimeOutId != -1 && getState().app.currentTabId != localStorage.getItem('rt'))
+      return
+
+    let pingTimeoutId = setTimeout(() => {
+      console.log("PING STARTED for user.nic ", user.nic)
+      loginService.ping(user.nic).then(res => {
+
+        let nextTimeDiff = Constants.oneMinute //1000 * 60;
+        dispatch(getState().user.ping(nextTimeDiff))
+      })
+        .catch((err) => {
+          dispatch(getState().notificationStore.clearNotifications());
+          dispatch(getState().notificationStore.notify(err.response.data.Messages, ResponseStatusEnum.Error, true));
+          dispatch(getState().user.ping(Constants.pingFailureTimeMinute))
+          //dispatch(getState().user.logout())
+        });
+    }, timeDiff);
+
+    dispatch({
+      type: UPDATE_PING_TOKEN_TIMEOUT_ID,
+      pingRefTimeOutId: pingTimeoutId
+    })
+  }
+}
+
 export function setTokenRefreshTimeout(timeDiff) {
   return (dispatch, getState) => {
+    return
     let user = getState().user;
 
     if (!user.refreshToken || isNaN(timeDiff)) {
@@ -104,10 +153,10 @@ export function setTokenRefreshTimeout(timeDiff) {
         type: Constants.USER_LOGOUT
       })
     }
-    if (user.tokenRefTimeOutId != -1)
+    if (user.tokenRefTimeOutId != -1 && getState().app.currentTabId != localStorage.getItem('rt'))
       return
 
-    let Id = setTimeout(() => {
+    let tokenSetTimeoutId = setTimeout(() => {
       let refToken = user.refreshToken;
       console.log("TOKEN REFRESH STARTED", refToken)
       loginService.refreshToken(refToken, user.nic).then(res => {
@@ -117,23 +166,27 @@ export function setTokenRefreshTimeout(timeDiff) {
           auth: res ? res.data : {},
           loggedIn: true,
           userInitalized: true,
-          tokenRefTimeOutId: -1
-        });
+          //tokenRefTimeOutId: -1
+        });;
+        // dispatch({
+        //   type: UPDATE_REF_TOKEN_TIMEOUT_ID,
+        //   tokenRefTimeOutId: -1
+        // })
         console.log(res, "TOKEN REFRESH DONE");
         let nextTimeDiff = getState().user.expiresIn * 1000;
         console.log("TOKEN REFRESH timeout SET FOR: " + nextTimeDiff, getState().user.expiresOn);
         dispatch(getState().user.setTokenRefreshTimeout(nextTimeDiff))
-      })
-        .catch((err) => {
-          dispatch(getState().notificationStore.clearNotifications());
-          dispatch(getState().notificationStore.notify(err.response.data.Messages, ResponseStatusEnum.Error, true));
-          dispatch(getState().user.logout())
-        });
+      }).catch((err) => {
+        dispatch(getState().notificationStore.clearNotifications());
+        dispatch(getState().notificationStore.notify(err.response.data.Messages, ResponseStatusEnum.Error, true));
+        dispatch(getState().user.setTokenRefreshTimeout(Constants.refreshFailureTimeMinute));
+        //dispatch(getState().user.logout())
+      });
     }, timeDiff);
 
     dispatch({
       type: UPDATE_REF_TOKEN_TIMEOUT_ID,
-      tokenRefTimeOutId: Id
+      tokenRefTimeOutId: tokenSetTimeoutId
     })
   }
 }
@@ -147,6 +200,7 @@ export function logout() {
       localStorage.removeItem(Constants.refreshTabId)
       localStorage.removeItem(Constants.setNewRt)
       clearTimeout(getState().user.tokenRefTimeOutId)
+      clearTimeout(getState().user.pingRefTimeOutId);
       dispatch({
         type: USER_LOGOUT
       })
@@ -188,7 +242,8 @@ export const ACTION_HANDLERS = {
       issuedOn: auth['.issued'],
       loggedIn: action.loggedIn,
       userInitalized: action.userInitalized,
-      tokenRefTimeOutId: action.tokenRefTimeOutId
+      //tokenRefTimeOutId: action.tokenRefTimeOutId,
+      //pingRefTimeOutId: action.pingRefTimeOutId
     })
   },
   [TEST]: (state, action) => {
@@ -213,7 +268,13 @@ export const ACTION_HANDLERS = {
     return Object.assign({}, state, {
       defaultDashboardId: action.defaultDashboardId
     })
-  }
+  },
+  [UPDATE_PING_TOKEN_TIMEOUT_ID]: (state, action) => {
+    clearTimeout(state.pingRefTimeOutId)
+    return Object.assign({}, state, {
+      pingRefTimeOutId: action.pingRefTimeOutId
+    })
+  },
 }
 
 export default function LoginFormReducer(state = initialState, action) {
