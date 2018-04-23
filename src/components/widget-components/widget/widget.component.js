@@ -27,20 +27,20 @@ export default class WidgetComponent extends PureComponent {
                 this.props.pullWidgetData(this.props.dashboardId, this.props.widget.id, this.props.widget.refreshInterval)
             }
         }
-        else if(this.props.dashboardMode == DashboardModeEnum.EditToLive){
+        else if (this.props.dashboardMode == DashboardModeEnum.EditToLive) {
             if (!this.props.widget.isComboWidget) {
                 this.props.previewWidgetInLive(this.props.widget, this.props.widget.refreshInterval)
             }
         }
     }
     componentWillReceiveProps(nextProps) {
-        
+
         if (this.props.dashboardMode == DashboardModeEnum.View || this.props.dashboardMode == DashboardModeEnum.Slider) {
             if (this.props.widget.id != nextProps.widget.id && !nextProps.widget.isComboWidget)
                 this.props.pullWidgetData(nextProps.dashboardId, nextProps.widget.id, nextProps.widget.refreshInterval)
         }
-        else if(this.props.dashboardMode == DashboardModeEnum.EditToLive){
-            if ( this.props.widget.id != nextProps.widget.id && !nextProps.widget.isComboWidget) {
+        else if (this.props.dashboardMode == DashboardModeEnum.EditToLive) {
+            if (this.props.widget.id != nextProps.widget.id && !nextProps.widget.isComboWidget) {
                 this.props.previewWidgetInLive(nextProps.widget, nextProps.widget.refreshInterval);
             }
         }
@@ -61,7 +61,7 @@ export default class WidgetComponent extends PureComponent {
                 break;
         }
 
-        if (this.props.widget.highlight) {
+        if (this.props.widget.id == this.props.WidgetIdforHighlight) {
             classToBeApplied += ' highlight ';
             if (this.props.widget.isComboWidget) {
                 classToBeApplied += ' zoom-widget ';
