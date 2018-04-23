@@ -158,43 +158,6 @@ export function defaultRedirection() {
     }
 }
 
-export function setPingTimeout(timeDiff) {
-    return (dispatch, getState) => {
-        let user = getState().user;
-
-        if (user.tokenRefTimeOutId != -1)
-            return
-
-        let Id = setTimeout(() => {
-            let refToken = user.refreshToken;
-            console.log("TOKEN REFRESH STARTED", refToken)
-            loginService.refreshToken(refToken, user.nic).then(res => {
-                localStorage.setItem(Constants.auth, JSON.stringify(res ? res.data : {}));
-                dispatch({
-                    type: SAVE_LOGIN,
-                    auth: res ? res.data : {},
-                    loggedIn: true,
-                    userInitalized: true,
-                    tokenRefTimeOutId: -1
-                });
-                console.log(res, "TOKEN REFRESH DONE");
-                let nextTimeDiff = getState().user.expiresIn * 1000;
-                console.log("TOKEN REFRESH timeout SET FOR: " + nextTimeDiff, getState().user.expiresOn);
-                dispatch(getState().user.setTokenRefreshTimeout(nextTimeDiff))
-            }).catch((err) => {
-                dispatch(getState().notificationStore.clearNotifications());
-                dispatch(getState().notificationStore.notify(err.response.data.Messages, ResponseStatusEnum.Error, true));
-                dispatch(getState().user.logout())
-            });
-        }, timeDiff);
-
-        dispatch({
-            type: UPDATE_REF_TOKEN_TIMEOUT_ID,
-            tokenRefTimeOutId: Id
-        })
-    }
-}
-
 export function clearRefreshTokenTimeout() {
     return (dispatch, getState) => {
         clearTimeout(getState().user.tokenRefTimeOutId)
@@ -232,8 +195,8 @@ export function ping(timeDiff) {
           .catch((err) => {
             dispatch(getState().notificationStore.clearNotifications());
             dispatch(getState().notificationStore.notify(err.response.data.Messages, ResponseStatusEnum.Error, true));
-            dispatch(getState().user.ping(Constants.pingFailureTimeMinute))
-            //dispatch(getState().user.logout())
+            //dispatch(getState().user.ping(Constants.pingFailureTimeMinute))
+            dispatch(getState().user.logout())
           });
       }, timeDiff);
   
