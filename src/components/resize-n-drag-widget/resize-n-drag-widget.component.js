@@ -35,15 +35,16 @@ export default class RndWidgetComponent extends PureComponent {
 
     render() {
         const { widget, mode } = this.props;
+        let disableDrag = this.props.mode == DashboardModeEnum.View || this.props.mode == DashboardModeEnum.EditToLive
         let enableResizingValue = {
-            bottom: !this.props.static,
-            bottomLeft: !this.props.static,
-            bottomRight: !this.props.static,
-            left: !this.props.static,
-            right: !this.props.static,
-            top: !this.props.static,
-            topLeft: !this.props.static,
-            topRight: !this.props.static,
+            bottom: !disableDrag,
+            bottomLeft: !disableDrag,
+            bottomRight: !disableDrag,
+            left: !disableDrag,
+            right: !disableDrag,
+            top: !disableDrag,
+            topLeft: !disableDrag,
+            topRight: !disableDrag,
         };
         let resizeHandleClasses = {
             bottomRight: "bottomRight",
@@ -51,7 +52,6 @@ export default class RndWidgetComponent extends PureComponent {
             topLeft: "topLeft",
             topRight: "topRight"
         };
-        let disableDrag = this.props.mode != DashboardModeEnum.Edit && this.props.mode != DashboardModeEnum.New;
         return (
             <Rnd
                 default={{ x: widget.x, y: widget.y, width: widget.width, height: widget.height }}

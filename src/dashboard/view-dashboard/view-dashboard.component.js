@@ -62,7 +62,7 @@ export default class ViewDashboardComponent extends PureComponent {
                     <div onClick={this.goBack} id="corner-triangle" className="pointer">
                         <div className="corner-triangle-text text-capitalize">
                             <a target="_blank">
-                                <i className="fa fa-angle-down fa-rotate-50" aria-hidden="true"></i>
+                                <i className="fa fa-angle-down fa-rotate-45" aria-hidden="true"></i>
                             </a>
                         </div>
                     </div>
