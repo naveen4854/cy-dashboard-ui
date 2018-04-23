@@ -74,10 +74,10 @@ export default class Notification extends PureComponent {
         }
     }
 
-    toastrOptions = (func, timeOut, removeOnHover, showCloseButton) => {
+    toastrOptions = (func, timeOut, removeOnHover, showCloseButton, position = 'top') => {
         return {
             timeOut,
-            position: this.props.notification.isRtl ? "top-left" : "top-right",
+            position: this.props.notification.isRtl ? `${position}-left` : `${position}-right`,
             showCloseButton,
             removeOnHover,
             component: (
@@ -95,7 +95,7 @@ export default class Notification extends PureComponent {
     addError() {
         if (this.props.notification.messages.length == 0)
             return
-        toastr.error('Please fix below errors', this.toastrOptions(this.renderNotifications, 3000, false, true))
+        toastr.error('Please fix below errors', this.toastrOptions(this.renderNotifications, 3000, false, true, 'bottom'))
     }
 
     addWarning() {

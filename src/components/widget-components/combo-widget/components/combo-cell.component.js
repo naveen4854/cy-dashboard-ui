@@ -21,11 +21,11 @@ export default class ComboCellComponent extends PureComponent {
             topLeft: "topLeft",
             topRight: "topRight"
         }
-        const { cell, rowIndex, columnIndex } = this.props
+        const { cell, rowIndex, columnIndex } = this.props;
         return (
             <td>
                 <div className="cell" style={{ height: cell.height, width: cell.width }}>{
-                    rowIndex == 0 || columnIndex == 0 ?
+                   (rowIndex == 0 || columnIndex == 0) ?
                         <ResizableWidgetContainer cell={cell} columnIndex={columnIndex} rowIndex={rowIndex} />
                         :
                         <WidgetContainer key={cell.id}
