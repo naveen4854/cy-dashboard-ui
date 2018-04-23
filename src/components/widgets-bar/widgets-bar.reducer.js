@@ -1,5 +1,5 @@
 import { widgetList } from '../../shared/constants';
-import { UPDATE_DASHBOARD_PROPERTY, MODAL_POPUP, SAVE_AS_MODAL_POPUP, UPDATE_IS_EXPANDED } from './widgets-bar.constants';
+import { UPDATE_DASHBOARD_PROPERTY, MODAL_POPUP, SAVE_AS_MODAL_POPUP, UPDATE_IS_EXPANDED, UPDATE_ACTION } from './widgets-bar.constants';
 
 
 export const ACTION_HANDLERS = {
@@ -17,6 +17,11 @@ export const ACTION_HANDLERS = {
         return Object.assign({}, state, {
             isExpanded: action.isExpanded
         })
+    },
+    [UPDATE_ACTION]: (state, action) => {
+        return Object.assign({}, state, {
+            fromAction: action.fromAction
+        });
     }
 }
 const initialState = {

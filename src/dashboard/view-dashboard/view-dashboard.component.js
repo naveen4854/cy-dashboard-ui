@@ -20,7 +20,7 @@ export default class ViewDashboardComponent extends PureComponent {
     redirectToEdit(event) {
         if (event.keyCode === 27) {
             //browserHistory.push(`/dashboard/edit/${this.props.dashboard.Id}`);
-            goBack(); 
+            this.goBack();
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -41,7 +41,7 @@ export default class ViewDashboardComponent extends PureComponent {
         //this.props.navigate();
         if (this.props.dashboard.mode == DashboardModeEnum.EditToLive) {
             if (this.props.dashboard.Id == DefaultDashboardId) {
-               // this.props.updateDashboardMode(DashboardModeEnum.New);
+                // this.props.updateDashboardMode(DashboardModeEnum.New);
                 browserHistory.push(`/dashboard/${DefaultDashboardId}`);
             }
             else {
@@ -62,7 +62,7 @@ export default class ViewDashboardComponent extends PureComponent {
                     <div onClick={this.goBack} id="corner-triangle" className="pointer">
                         <div className="corner-triangle-text text-capitalize">
                             <a target="_blank">
-                                <i className="fa fa-angle-down fa-rotate-45" aria-hidden="true"></i>
+                                <i className="fa fa-angle-down fa-rotate-50" aria-hidden="true"></i>
                             </a>
                         </div>
                     </div>
