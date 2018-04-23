@@ -45,7 +45,8 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
     let oldFilters = oldDrillDownOptions ? [...oldDrillDownOptions] : [];
     oldFilters.splice(0, 0, {});
     let oldColumns = currentComboWidget.appliedSettings.dataMetrics.comboSelectedStatisticColumns;
-
+    let height = currentComboWidget.height;
+    let width = currentComboWidget.width;
     let newFilters = [...filters];
     newFilters.splice(0, 0, {})
     let previousRow = undefined;

@@ -26,13 +26,13 @@ export default class ThresholdTab extends PureComponent {
     addSelectedLevels() {
         let errors = [];
         let { basedColumn } = this.props.threshold
-        let _displayFormat = this.getDisplayFormat(basedColumn);
-        if (!_displayFormat)
+        let displayFormat = this.getDisplayFormat(basedColumn);
+        if (displayFormat == DisplayFormatEnum.NOT_DEFINED)
             errors.push({ displayMessage: this.props.l.t('Display_format_is_not_set_in_Data_MetricsPERIOD', 'Display format is not set in Data Metrics.') });
 
         errors = errors.concat(this.validateEmailIds());
 
-        let thresholdErrors = this.validateThresholds(this.props.threshold.levels, _displayFormat)
+        let thresholdErrors = this.validateThresholds(this.props.threshold.levels, displayFormat)
         if (thresholdErrors)
             errors = errors.concat(thresholdErrors);
 
@@ -67,7 +67,7 @@ export default class ThresholdTab extends PureComponent {
      */
     getDisplayFormat(basedColumn) {
         const { displayFormat, threshold, statisticCategory, isComboWidget } = this.props;
-        let displayFormatId = DisplayFormatEnum.Text;
+        let displayFormatId = DisplayFormatEnum.NOT_DEFINED;
         if (isComboWidget && statisticCategory == StatisticCategoryEnum.Custom) {
 
             if (_.find(Constants.NumericTypes, (type) => type == basedColumn.type)) {
@@ -87,10 +87,10 @@ export default class ThresholdTab extends PureComponent {
             if (basedColumn.type == 'string')
                 return DisplayFormatEnum.Text;
 
-            return this.props.displayFormat ? this.props.displayFormat.id : DisplayFormatEnum.Text;
+            return this.props.displayFormat ? this.props.displayFormat.id : DisplayFormatEnum.NOT_DEFINED;
 
         } else {
-            displayFormatId = this.props.displayFormat ? this.props.displayFormat.id : DisplayFormatEnum.Text;
+            displayFormatId = this.props.displayFormat ? this.props.displayFormat.id : DisplayFormatEnum.NOT_DEFINED;
         }
 
         return displayFormatId;
