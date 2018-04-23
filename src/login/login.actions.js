@@ -1,7 +1,7 @@
 import { push, replace } from 'react-router-redux'
 import { browserHistory, Router } from 'react-router'
 
-import { INITIATE_PING, SAVE_LOGIN, UPDATE_REF_TOKEN_TIMEOUT_ID, USER_LOGOUT, DEFAULT_DASHBOARD_ID } from "./login.reducer";
+import { INITIATE_PING, SAVE_LOGIN, UPDATE_REF_TOKEN_TIMEOUT_ID, USER_LOGOUT, DEFAULT_DASHBOARD_ID, UPDATE_PING_TOKEN_TIMEOUT_ID } from "./login.reducer";
 import { Constants } from "../shared/constants";
 import * as loginService from './login.service';
 import * as authMan from "../authentication/auth-manager";
@@ -74,7 +74,7 @@ export function initializeUserFromCache(userData) {
 
 export function setTokenRefreshTimeout(timeDiff) {
     return (dispatch, getState) => {
-        return
+        // return
         let user = getState().user;
 
         if (!user.refreshToken || isNaN(timeDiff)) {
@@ -83,7 +83,8 @@ export function setTokenRefreshTimeout(timeDiff) {
                 type: Constants.USER_LOGOUT
             })
         }
-        if (user.tokenRefTimeOutId != -1 && getState().app.currentTabId != localStorage.getItem('rt'))
+        // && getState().app.currentTabId != localStorage.getItem('rt')
+        if (user.tokenRefTimeOutId != -1)
             return
 
         let tokenSetTimeoutId = setTimeout(() => {
@@ -96,12 +97,12 @@ export function setTokenRefreshTimeout(timeDiff) {
                     auth: res ? res.data : {},
                     loggedIn: true,
                     userInitalized: true,
-                    //tokenRefTimeOutId: -1
+                    tokenRefTimeOutId: -1
                 });;
-                // dispatch({
-                //   type: UPDATE_REF_TOKEN_TIMEOUT_ID,
-                //   tokenRefTimeOutId: -1
-                // })
+                dispatch({
+                  type: UPDATE_REF_TOKEN_TIMEOUT_ID,
+                  tokenRefTimeOutId: -1
+                })
                 console.log(res, "TOKEN REFRESH DONE");
                 let nextTimeDiff = getState().user.expiresIn * 1000;
                 console.log("TOKEN REFRESH timeout SET FOR: " + nextTimeDiff, getState().user.expiresOn);
@@ -200,6 +201,16 @@ export function clearRefreshTokenTimeout() {
         dispatch({
             type: UPDATE_REF_TOKEN_TIMEOUT_ID,
             tokenRefTimeOutId: -1
+        })
+    }
+}
+
+export function clearPingTimeout() {
+    return (dispatch, getState) => {
+        clearTimeout(getState().user.pingRefTimeOutId)
+        dispatch({
+            type: UPDATE_PING_TOKEN_TIMEOUT_ID,
+            pingRefTimeOutId: -1
         })
     }
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { push, replace } from 'react-router-redux'
 import { browserHistory, Router } from 'react-router'
 
-import { setTokenRefreshTimeout, defaultRedirection, initializeUserFromCache, logout, clearRefreshTokenTimeout } from './login.actions';
+import { setTokenRefreshTimeout, defaultRedirection, initializeUserFromCache, logout, clearRefreshTokenTimeout, ping } from './login.actions';
 
 export const SAVE_LOGIN = "SAVE_LOGIN";
 export const LOGIN_DETAILS = "LOGIN_DETAILS"
@@ -77,7 +77,8 @@ const initialState = {
   defaultRedirection,
   logout,
   initializeUserFromCache,
-  clearRefreshTokenTimeout
+  clearRefreshTokenTimeout,
+  ping
 };
 
 export default function LoginFormReducer(state = initialState, action) {

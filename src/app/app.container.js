@@ -4,7 +4,7 @@ import AppComponent from './app.component';
 import * as LocalizationReducer from '../components/localization/localization.reducer';
 import * as AppReducer from './app.reducer';
 import { UPDATE_REF_TOKEN_TIMEOUT_ID, UPDATE_PING_TOKEN_TIMEOUT_ID } from '../login/login.reducer';
-import { clearRefreshTokenTimeout, defaultRedirection } from '../login/login.actions';
+import { clearRefreshTokenTimeout, defaultRedirection, clearPingTimeout } from '../login/login.actions';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -30,10 +30,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(clearRefreshTokenTimeout())
         },
         clearPingTimeout: () => {
-            dispatch({
-                type: UPDATE_PING_TOKEN_TIMEOUT_ID,
-                pingRefTimeOutId: -1
-            })
+            dispatch(clearPingTimeout())
         },
         defaultRedirection: () => {
             dispatch(defaultRedirection())
