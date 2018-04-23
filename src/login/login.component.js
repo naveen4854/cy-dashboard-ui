@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { dispatch } from 'react'
 import { browserHistory, Router } from 'react-router'
+import * as authMan from '../authentication/auth-manager'
 
 import LogoImg from 'public/images/Login_01.png'
 
@@ -9,6 +10,12 @@ class LoginComponent extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.login = this.login.bind(this);
+	}
+
+	componentWillMount() {
+		if (authMan.isAuthenticated()) {
+			this.props.defaultRedirection()
+		}
 	}
 
 	componentDidMount() {

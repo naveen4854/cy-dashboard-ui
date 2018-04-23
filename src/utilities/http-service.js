@@ -110,10 +110,7 @@ function handleUnAuthWithRetry(error) {
         let rt = localStorage.getItem(Constants.refreshTabId);
         if (currentTabId == rt) {
             clearTimeout(getState().user.tokenRefTimeOutId)
-            dispatch({
-                type: UPDATE_REF_TOKEN_TIMEOUT_ID,
-                tokenRefTimeOutId: -1
-            })
+            dispatch(getState().user.clearRefreshTokenTimeouts())
         } else {
             //clear other tabs refreshtimeout id
             localStorage.setItem(Constants.cleartimeout, Date.parse(new Date()));
