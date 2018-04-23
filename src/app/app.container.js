@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import AppComponent from './app.component';
 import * as LocalizationReducer from '../components/localization/localization.reducer';
 import * as AppReducer from './app.reducer';
-import { UPDATE_REF_TOKEN_TIMEOUT_ID } from '../login/login.reducer';
-import { clearRefreshTokenTimeout, defaultRedirection } from '../login/login.actions';
+import { UPDATE_REF_TOKEN_TIMEOUT_ID, UPDATE_PING_TOKEN_TIMEOUT_ID } from '../login/login.reducer';
+import { clearRefreshTokenTimeout, defaultRedirection, clearPingTimeout } from '../login/login.actions';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -28,6 +28,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         cleartimeout: () => {
             dispatch(clearRefreshTokenTimeout())
+        },
+        clearPingTimeout: () => {
+            dispatch(clearPingTimeout())
         },
         defaultRedirection: () => {
             dispatch(defaultRedirection())

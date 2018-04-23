@@ -28,6 +28,18 @@ export function refreshToken(refresh_token, nic) {
   return service.axiosPost(ApiUrl.AUTH_TOKEN, params, config);
 }
 
+export function ping(nic) {
+  let params = new URLSearchParams();
+  var authDetails = authMan.getAuth();
+  params.append('Nic', nic);
+
+  let config = {
+    // __isRetryRequest: true
+  }
+  let getURL = `${ApiUrl.PING_URL}/${nic}/1`;
+  return service.axiosGet(getURL);
+}
+
 export function getDefaultDashboard() {
   return service.axiosGet(ApiUrl.DEFAULT_DASHBOARD);
 }
