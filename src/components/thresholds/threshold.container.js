@@ -24,7 +24,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
-    debugger;
     let threshold = state.threshold;
     threshold.statisticItems=state.comboRealTimeSettings.statisticItems;
     threshold.functionOptions=state.comboRealTimeSettings.functionOptions;
