@@ -4,30 +4,15 @@ import { UPDATE_DASHBOARD_WIDGET } from "../../dashboard/dashboard.reducer";
 import { DashboardUtilities } from "../../shared/lib";
 import * as widgetService from './widget-configurations.service';
 import { updateConfigurationsWidget, closeConfigurations, previewWidget, previewWidgetInLive } from './widget-configurations.actions'
-import { TOGGLE_CONFIGURATIONS_PANEL, UPDATE_CONFIGURATIONS_WIDGET, SET_METRICS_TAB_VISIBILITY, SET_THRESHOLDS_TAB_VISIBILITY } from "./widget-configurations.constants";
+import { TOGGLE_CONFIGURATIONS_PANEL, UPDATE_CONFIGURATIONS_WIDGET, SET_METRICS_TAB_VISIBILITY, SET_THRESHOLDS_TAB_VISIBILITY, CLEAR_CONFIGURATIONS } from "./widget-configurations.constants";
 
 export function toggleSettingsMenu(widget) {
     return (dispatch, getState) => {
         dispatch(getState().dataMetrics.clearSelectedDM())
         dispatch(getState().threshold.clearThresholds())
-
-        // if (!widget) {
-        //     return dispatch({
-        //         type: TOGGLE_CONFIGURATIONS_PANEL,
-        //         showPanel: false,
-        //         widget: {}
-        //     })
-        // }
-
+        //todo -clear styles.
         let currentWidget = _.cloneDeep(widget);
-        let showPanel = !(getState().configurations.showPanel && getState().configurations.widgetId == currentWidget.id)
-        dispatch({
-            type: TOGGLE_CONFIGURATIONS_PANEL,
-            widget: currentWidget,
-            widgetId: currentWidget.id,
-            widgetType: currentWidget.widgetType,
-            showPanel
-        })
+        let showPanel = currentWidget && !(getState().configurations.showPanel && getState().configurations.widgetId == currentWidget.id)
 
         let showMetricsTab = !(currentWidget.isComboWidget || currentWidget.widgetType == WidgetTypeEnum.Picture
             || currentWidget.widgetType == WidgetTypeEnum.Text);
@@ -35,9 +20,16 @@ export function toggleSettingsMenu(widget) {
             || currentWidget.widgetType == WidgetTypeEnum.Text
             || currentWidget.widgetType == WidgetTypeEnum.Pie
             || currentWidget.widgetType == WidgetTypeEnum.Bar
-            || currentWidget.widgetType==WidgetTypeEnum.Combo);
+            || currentWidget.widgetType == WidgetTypeEnum.Combo);
 
         if (showPanel) {
+            dispatch({
+                type: TOGGLE_CONFIGURATIONS_PANEL,
+                widget: currentWidget,
+                widgetId: currentWidget.id,
+                widgetType: currentWidget.widgetType,
+                showPanel
+            })
             dispatch({
                 type: SET_THRESHOLDS_TAB_VISIBILITY,
                 showThresholdsTab
@@ -55,6 +47,13 @@ export function toggleSettingsMenu(widget) {
             }
             dispatch(getState().styles.initializeStyles())
             dispatch(getState().threshold.initializeThresholddata())
+        }
+        else {
+            let initialState = configurationsInitialState;
+            dispatch({
+                type: CLEAR_CONFIGURATIONS,
+                configurations: configurationsInitialState
+            })
         }
     }
 }
@@ -107,10 +106,13 @@ export const ACTION_HANDLERS = {
         return Object.assign({}, state, {
             showThresholdsTab: action.showThresholdsTab
         })
-    }
+    },
+    [CLEAR_CONFIGURATIONS]: (state, action) => {
+        return Object.assign({}, state, action.configurations)
+    },
 }
 
-const initialState = {
+const configurationsInitialState = {
     widget: {},
     widgetId: -1,
     widgetType: WidgetTypeEnum.Box,
@@ -125,7 +127,7 @@ const initialState = {
     previewWidgetInLive
 };
 
-export default function WidgetConfigurationsReducer(state = _.cloneDeep(initialState), action) {
+export default function WidgetConfigurationsReducer(state = _.cloneDeep(configurationsInitialState), action) {
     const handler = ACTION_HANDLERS[action.type];
     return handler ? handler(state, action) : state;
 }

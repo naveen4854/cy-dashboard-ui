@@ -26,10 +26,11 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
+    let dashboardMode=state.dashboard.mode
     return {
-        dashboardMode: state.dashboard.mode,
+        dashboardMode,
         dashboardId: state.dashboard.Id,
-        WidgetIdforHighlight: state.configurations.widget.id,
+        WidgetIdforHighlight:(dashboardMode==DashboardModeEnum.New || dashboardMode==DashboardModeEnum.Edit)?state.configurations.widget.id:-1,
         showIcons: (state.dashboard.mode == DashboardModeEnum.New) || (state.dashboard.mode == DashboardModeEnum.Edit)//state.dashboard.showIcons
     }
 }
