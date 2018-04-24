@@ -5,7 +5,7 @@ import { closeConfigurations } from './widget-configurations.actions';
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        closeConfigurations: (closePanel) => {
+        closeConfigurations: () => {
             dispatch(closeConfigurations());
         }
     }

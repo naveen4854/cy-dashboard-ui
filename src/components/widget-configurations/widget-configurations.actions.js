@@ -14,14 +14,9 @@ export function updateConfigurationsWidget(updatedWidget) {
     }
 }
 
-export function closeConfigurations(closePanel = true) {
+export function closeConfigurations() {
     return (dispatch, getState) => {
-        dispatch(getState().dataMetrics.clearSelectedDM())
-        return dispatch({
-            type: TOGGLE_CONFIGURATIONS_PANEL,
-            showPanel: !closePanel,
-            widget: {}
-        })
+        dispatch(getState().configurations.toggleSettingsMenu())
     }
 }
 

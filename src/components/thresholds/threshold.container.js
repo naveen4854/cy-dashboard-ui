@@ -24,12 +24,17 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
+    let threshold = state.threshold;
+    threshold.statisticItems=state.comboRealTimeSettings.statisticItems;
+    threshold.functionOptions=state.comboRealTimeSettings.functionOptions;
+    threshold.displayFormatOptions=state.comboRealTimeSettings.displayFormatOptions;
     return {
-        threshold: state.threshold,
+        threshold: threshold,
         common: state.common,
         displayFormat: state.configurations.widget.appliedSettings.dataMetrics.displayFormat,
         isComboWidget: state.configurations.widget.isComboWidget,
         statisticCategory: state.configurations.widget.appliedSettings.dataMetrics.statisticCategory,
+        comboRealTimeSettings: state.comboRealTimeSettings
         // basedColumn: state.configurations.widget.appliedSettings.basedColumn
     }
 }
