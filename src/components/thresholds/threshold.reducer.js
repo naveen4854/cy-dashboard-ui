@@ -50,7 +50,10 @@ export const thresholdsInitialState = {
     basedColumn: {},
     clearThresholds,
     initializeThresholddata,
-    loadThresholdColumnOptions
+    loadThresholdColumnOptions,
+    statisticItems: [],
+    functionOptions: [],
+    displayFormatOptions: [],
 };
 export default function ThresholdReducer(state = _.cloneDeep(thresholdsInitialState), action) {
     const handler = ACTION_HANDLERS[action.type];
