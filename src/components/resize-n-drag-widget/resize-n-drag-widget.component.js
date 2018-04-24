@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import Rnd from 'react-rnd';
 import WidgetContainer from '../widget-components';
+import { DashboardModeEnum } from '../../shared/enums';
 
 export default class RndWidgetComponent extends PureComponent {
     constructor(props) {
@@ -13,32 +14,37 @@ export default class RndWidgetComponent extends PureComponent {
     }
 
     onResizeStop(e, direction, ref, delta, position) {
-        this.props.updateWidgetSize(ref.offsetWidth, ref.offsetHeight, this.props.widget)
+        if (this.props.mode == DashboardModeEnum.Edit || this.props.mode == DashboardModeEnum.New)
+            this.props.updateWidgetSize(ref.offsetWidth, ref.offsetHeight, this.props.widget)
     }
 
     onResizeStart(e, direction, ref, delta, position) {
-        this.props.updateWidgetZIndex(this.props.widget);
+        if (this.props.mode == DashboardModeEnum.Edit || this.props.mode == DashboardModeEnum.New)
+            this.props.updateWidgetZIndex(this.props.widget);
     }
 
     onDragStop(e, position) {
-        this.props.updateWidgetPosition(position.x, position.y, this.props.widget);
+        if (this.props.mode == DashboardModeEnum.Edit || this.props.mode == DashboardModeEnum.New)
+            this.props.updateWidgetPosition(position.x, position.y, this.props.widget);
     }
 
     onDragStart(e, position) {
-        this.props.updateWidgetZIndex(this.props.widget);
+        if (this.props.mode == DashboardModeEnum.Edit || this.props.mode == DashboardModeEnum.New)
+            this.props.updateWidgetZIndex(this.props.widget);
     }
 
     render() {
         const { widget, mode } = this.props;
+        let disableDrag = this.props.mode == DashboardModeEnum.View || this.props.mode == DashboardModeEnum.EditToLive
         let enableResizingValue = {
-            bottom: !this.props.static,
-            bottomLeft: !this.props.static,
-            bottomRight: !this.props.static,
-            left: !this.props.static,
-            right: !this.props.static,
-            top: !this.props.static,
-            topLeft: !this.props.static,
-            topRight: !this.props.static,
+            bottom: !disableDrag,
+            bottomLeft: !disableDrag,
+            bottomRight: !disableDrag,
+            left: !disableDrag,
+            right: !disableDrag,
+            top: !disableDrag,
+            topLeft: !disableDrag,
+            topRight: !disableDrag,
         };
         let resizeHandleClasses = {
             bottomRight: "bottomRight",
@@ -54,7 +60,7 @@ export default class RndWidgetComponent extends PureComponent {
                 onDragStop={this.onDragStop}
                 onDragStart={this.onDragStart}
                 resizeHandleClasses={resizeHandleClasses}
-                disableDragging={this.props.disableDrag}
+                disableDragging={disableDrag}
                 enableResizing={enableResizingValue}
                 z={widget.z}
                 bounds='.dashboard-layout'

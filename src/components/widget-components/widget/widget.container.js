@@ -29,6 +29,7 @@ const mapStateToProps = (state) => {
     return {
         dashboardMode: state.dashboard.mode,
         dashboardId: state.dashboard.Id,
+        WidgetIdforHighlight: state.configurations.widget.id,
         showIcons: (state.dashboard.mode == DashboardModeEnum.New) || (state.dashboard.mode == DashboardModeEnum.Edit)//state.dashboard.showIcons
     }
 }

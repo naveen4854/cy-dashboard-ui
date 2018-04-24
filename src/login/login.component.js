@@ -13,7 +13,7 @@ class LoginComponent extends PureComponent {
 	}
 
 	componentWillMount() {
-		if (authMan.isAuthenticated()) {
+		if (this.props.user.loggedIn) {
 			this.props.defaultRedirection()
 		}
 	}

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { UPDATE_WIDGETS } from "../../dashboard/dashboard.reducer";
+import { UPDATE_WIDGETS, dashboardInitialState } from "../../dashboard/dashboard.reducer";
 import { UPDATE_DASHBOARD, UPDATE_DASHBOARD_PROPERTY } from '../../dashboard/dashboard.constants';
 
 import { TOGGLE_CONFIGURATIONS_PANEL } from "../widget-configurations/widget-configurations.constants";
@@ -7,7 +7,7 @@ import { WidgetTypeEnum, ResponseStatusEnum } from "../../shared/enums";
 import { DashboardUtilities } from "../../shared/lib";
 import * as dashboardService from '../../dashboard/dashboard-service';
 import { browserHistory, Router } from 'react-router';
-import { MODAL_POPUP, SAVE_AS_MODAL_POPUP, UPDATE_IS_EXPANDED } from './widgets-bar.constants';
+import { MODAL_POPUP, SAVE_AS_MODAL_POPUP, UPDATE_IS_EXPANDED, UPDATE_ACTION } from './widgets-bar.constants';
 
 export function updateProperty(key, value) {
     return (dispatch, getState) => {
@@ -438,7 +438,7 @@ function NavigateToRequiredPage(action, savedDashboardId, dispatch) {
         });
         dispatch({
             type: UPDATE_DASHBOARD,
-            dashboardData: _.cloneDeep(initialState)
+            dashboardData: _.cloneDeep(dashboardInitialState)
         });
         browserHistory.push(`/dashboard/mydashboards`);
     }

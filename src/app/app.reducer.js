@@ -32,8 +32,12 @@ export function setTabId() {
         if (tabsList.length == 1 && user.loggedIn) {
             localStorage.setItem(Constants.refreshTabId, JSON.stringify(currentTabId));
             localStorage.setItem(Constants.setNewRt, JSON.stringify(currentTabId));
-            dispatch(user.setTokenRefreshTimeout(0));
+            // dispatch(user.setTokenRefreshTimeout(0));
+            // dispatch(user.ping(Constants.oneMinute));
         }
+        // if(user.loggedIn){
+        //     dispatch(user.defaultRedirection());
+        // }
     }
 }
 
@@ -74,6 +78,7 @@ export function setRefreshToken() {
         let user = getState().user;
         if (currentTabId == localStorage.getItem(Constants.refreshTabId) && user.loggedIn) {
             dispatch(user.setTokenRefreshTimeout(0));
+            dispatch(user.ping(0));
         }
     }
 }

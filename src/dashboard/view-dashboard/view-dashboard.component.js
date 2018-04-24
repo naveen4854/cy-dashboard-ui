@@ -20,7 +20,7 @@ export default class ViewDashboardComponent extends PureComponent {
     redirectToEdit(event) {
         if (event.keyCode === 27) {
             //browserHistory.push(`/dashboard/edit/${this.props.dashboard.Id}`);
-            goBack(); 
+            this.goBack();
         }
     }
     componentWillReceiveProps(nextProps) {
@@ -41,7 +41,7 @@ export default class ViewDashboardComponent extends PureComponent {
         //this.props.navigate();
         if (this.props.dashboard.mode == DashboardModeEnum.EditToLive) {
             if (this.props.dashboard.Id == DefaultDashboardId) {
-               // this.props.updateDashboardMode(DashboardModeEnum.New);
+                // this.props.updateDashboardMode(DashboardModeEnum.New);
                 browserHistory.push(`/dashboard/${DefaultDashboardId}`);
             }
             else {

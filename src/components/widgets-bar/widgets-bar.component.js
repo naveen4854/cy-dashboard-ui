@@ -101,15 +101,6 @@ export default class WidgetsBar extends React.Component {
 	}
 
 	showEditConfirmation() {
-		const configs = {
-			type: ResponseStatusEnum.Custom,
-			messages: [],
-			func: {
-				onOk: () => { },
-				onCancel: () => { },
-				onSaveAndExit: () => { this.saveAndExitClick() }
-			}
-		}
 		let notifyMessage = this.props.l.t('Are_you_sure_you_want_to_discard_the_changes', 'Are you sure you want to discard the changes?')
 		let buttons = [
 			{
@@ -132,7 +123,7 @@ export default class WidgetsBar extends React.Component {
 	saveAndExitClick() {
 		this.handleDocks();
 		this.props.UpdateProperty("fromAction", 'Save_and_exit');
-		this.props.widgetsBar.Id ? this.props.UpdateDashboard() : this.props.SaveDashboard();
+		this.props.dashboardId ? this.props.UpdateDashboard() : this.props.SaveDashboard();
 
 	}
 

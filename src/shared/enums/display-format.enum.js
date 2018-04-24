@@ -8,6 +8,7 @@ const DisplayFormat = {
     Boolean: 6,
     Date_Time: 7,
     MM_SS: 8,
-    Duration: 9
+    Duration: 9,
+    NOT_DEFINED: 10
 }
 export default DisplayFormat;

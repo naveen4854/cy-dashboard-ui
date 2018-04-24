@@ -34,7 +34,8 @@ export function toggleSettingsMenu(widget) {
         let showThresholdsTab = !(currentWidget.widgetType == WidgetTypeEnum.Picture
             || currentWidget.widgetType == WidgetTypeEnum.Text
             || currentWidget.widgetType == WidgetTypeEnum.Pie
-            || currentWidget.widgetType == WidgetTypeEnum.Bar);
+            || currentWidget.widgetType == WidgetTypeEnum.Bar
+            || currentWidget.widgetType==WidgetTypeEnum.Combo);
 
         if (showPanel) {
             dispatch({

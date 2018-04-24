@@ -58,10 +58,12 @@ export default function authenticate(Component, options) {
 
   const mapDispatchToProps = (dispatch) => {
     return {
-      initiatePing: () => {
-        dispatch(LoginReducer.InitiatePing())
-        dispatch(LoginReducer.setTokenRefreshTimeout(0))
-      },
+      // initiatePing: () => {
+      //   console.log('called this initiate ping');
+      //   dispatch(LoginReducer.InitiatePing())
+      //   dispatch(LoginReducer.setTokenRefreshTimeout(0))
+      //   dispatch(LoginReducer.ping(0))
+      // },
       initializeUserFromCache: (userData) => {
         dispatch(LoginReducer.initializeUserFromCache(userData))
       }
