@@ -14,9 +14,9 @@ export function toggleSettingsMenu(widget) {
         let currentWidget = _.cloneDeep(widget);
         let showPanel = currentWidget && !(getState().configurations.showPanel && getState().configurations.widgetId == currentWidget.id)
 
-        let showMetricsTab = !(currentWidget.isComboWidget || currentWidget.widgetType == WidgetTypeEnum.Picture
+        let showMetricsTab = currentWidget && !(currentWidget.isComboWidget || currentWidget.widgetType == WidgetTypeEnum.Picture
             || currentWidget.widgetType == WidgetTypeEnum.Text);
-        let showThresholdsTab = !(currentWidget.widgetType == WidgetTypeEnum.Picture
+        let showThresholdsTab = currentWidget && !(currentWidget.widgetType == WidgetTypeEnum.Picture
             || currentWidget.widgetType == WidgetTypeEnum.Text
             || currentWidget.widgetType == WidgetTypeEnum.Pie
             || currentWidget.widgetType == WidgetTypeEnum.Bar
