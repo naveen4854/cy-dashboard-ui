@@ -71,7 +71,7 @@ class StylesComponent extends PureComponent {
                             type="button"
                             className="btn btn-md btn-primary"
                             onClick={this.updateWidgetStyles}>
-                            {this.props.l.t("Save", "Save")}
+                            {this.props.l.t("Apply", "Apply")}
                         </button>
 
                     </div>

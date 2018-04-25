@@ -20,7 +20,8 @@ export function toggleSettingsMenu(widget) {
             || currentWidget.widgetType == WidgetTypeEnum.Text
             || currentWidget.widgetType == WidgetTypeEnum.Pie
             || currentWidget.widgetType == WidgetTypeEnum.Bar
-            || currentWidget.widgetType == WidgetTypeEnum.Combo);
+            || currentWidget.widgetType == WidgetTypeEnum.Combo
+            || currentWidget.widgetType == WidgetTypeEnum.Clock);
 
         if (showPanel) {
             dispatch({

@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react'
 
 import ToggleSwitch from '../toggle-switch';
 import CustomSelect from '../custom-dropdown';
-import {Constants} from '../../shared/constants';
-import {DateZone} from '../../shared/lib';
+import { Constants } from '../../shared/constants';
+import { DateZone } from '../../shared/lib';
 
 export default class ClockMetricsSettingsComponent extends PureComponent {
     render() {
@@ -153,7 +153,7 @@ export default class ClockMetricsSettingsComponent extends PureComponent {
                                 disabled={this.props.clockSettings.selectedTimeZoneItem ? false : true}
                                 type="button"
                                 className=" btn btn-sm btn btn-primary btn-block "
-                                onClick={this.props.updateWidgetSettings}>{this.props.l.t("Preview", "Preview")}
+                                onClick={this.props.updateWidgetSettings}>{this.props.l.t("Apply", "Apply")}
                             </button>
                         </div>
                     </div>
