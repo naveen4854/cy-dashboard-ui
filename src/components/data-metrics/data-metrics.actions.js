@@ -45,8 +45,17 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
     let oldFilters = oldDrillDownOptions ? [...oldDrillDownOptions] : [];
     oldFilters.splice(0, 0, {});
     let oldColumns = currentComboWidget.appliedSettings.dataMetrics.comboSelectedStatisticColumns;
+
+    //let eachCellWidth = width / comboSelectedStatisticColumns.length;
+    // let eachCellHeight = height / ((filters.length - 1 > 0) ? (filters.length - 1) : 1);
     let height = currentComboWidget.height;
-    let width = currentComboWidget.width;
+    let headerHeight = 50;
+    let remainingHeight = height - headerHeight;
+    let eachCellHeight = _.floor(remainingHeight / (filters.length > 0 ? filters.length  :1));
+    let eachCellWidth = currentComboWidget.width / comboSelectedStatisticColumns.length;
+    let adjustedHeaderHeight = height - (filters.length * eachCellHeight);
+
+    debugger
     let newFilters = [...filters];
     newFilters.splice(0, 0, {})
     let previousRow = undefined;
@@ -119,7 +128,11 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
                 }
             }
             previousCell = _.cloneDeep(cell);
-            return cell;
+            return {
+                ...cell,
+                width: eachCellWidth,
+                height: isColumnHeader ? adjustedHeaderHeight : eachCellHeight
+            };
         });
         previousRow = _.cloneDeep(row);
         return row;
