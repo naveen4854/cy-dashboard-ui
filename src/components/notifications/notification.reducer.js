@@ -13,6 +13,8 @@ const CLEAR_NOTIFICATIONS = "CLEAR_NOTIFICATIONS";
  */
 export function notify(messages, errorType, persistMessage) {
   return (dispatch, getState) => {
+    if (!messages)
+      return
     let msgArr = []
     if (messages.constructor === Array)
       msgArr = msgArr.concat(messages);

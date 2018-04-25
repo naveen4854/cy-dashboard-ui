@@ -8,52 +8,56 @@ export default class CustomSelect extends React.Component {
         super(props);
         this.onChange = this.onChange.bind(this)
         this.state = {
-            value: props.value,
+            onChangeFromEvent: false
         };
         if (props.value !== undefined && !_.isEqual(props.value, {})) {
             this.props.onChange(props.value);
         }
+        else if (props.options && props.options.length == 1) {
+            this.props.onChange(props.options[0]);
+        }
     }
 
     componentWillReceiveProps(nextProps) {
-        //TODO: work on this to stop double change trigger 
-        // this causes double onchange..but not having this doesnt trigger default on change, hence checking value to undefined
-        //      if ((_.isEqual(this.props.value, {}) || this.props.value == undefined) && ( !_.isEqual(this.props.value, {}) || nextProps.value !== undefined) &&  (!_.isEqual(this.props.value, nextProps.value))) {
-        //   // if (nextProps.value !== undefined &&  !_.isEqual(nextProps.value, {}) && this.props.value !== nextProps.value) {
-        //         debugger
-        //         this.props.onChange(nextProps.value);
-        //     }
-        // if (nextProps.options) {
-        //     if (nextProps.options.length === 1) {
-        //         this.setState({
-        //             value: nextProps.options[0]
-        //         });
-        //         // this.props.onChange(nextProps.options[0])
-        //     } else {
-        //         this.setState({
-        //             value: nextProps.value
-        //         });
-        //     }
-        // }
+        debugger
+        if (!this.state.onChangeFromEvent && this.props.value != nextProps.value) {
+            this.props.onChange(nextProps.value)
+            this.setState({
+                onChangeFromEvent: false
+            })
+        }
+        if (!this.state.onChangeFromEvent && nextProps.options && nextProps.options.length == 1 && this.props.value != nextProps.value) {
+            this.props.onChange(nextProps.options[0]);
+            this.setState({
+                onChangeFromEvent: false
+            })
+        }
     }
 
     onChange(e) {
-        this.props.onChange(e)
+        debugger
+        this.setState({
+            onChangeFromEvent: true
+        }, function () {
+            this.props.onChange(e);
+            this.setState({
+                onChangeFromEvent: false
+            })
+        });
+
     }
 
     render() {
-
         let selectedValue = this.props.value;
         if (selectedValue && !selectedValue.value) {
             selectedValue = _.find(this.props.options, { 'value': this.props.value }) || {};
         }
-
-        // if (this.props.options.length === 1) {
-        //     // debugger
-        // }
+        // if (_.isEqual(this.props.value, {}))
+        //     selectedValue = undefined
+        // console.log(this.props.placeholder)
         return (
             <Select value={this.props.options && this.props.options.length == 1 ? this.props.options[0] : selectedValue}
-                placeholder={this.props.placeholder}
+                // placeholder={this.props.placeholder}
                 options={this.props.options}
                 disabled={this.props.options && this.props.options.length == 1 || this.props.disabled}
                 onChange={this.onChange} />
