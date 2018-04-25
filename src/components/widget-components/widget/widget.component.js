@@ -69,24 +69,28 @@ export default class WidgetComponent extends PureComponent {
         }
 
         return (
-
-            <div style={{ height: this.props.widget.height, width: this.props.widget.width }}
-                className={classToBeApplied}>
-                {envconfig.dev &&
-                    <div style={{ position: 'absolute', color: 'black' }}>{this.props.widget.id} / {this.props.widget.columnId} / {this.props.widget.rowId}</div>
-                }
+            <div className="widget-wrapper" style={{ height: this.props.widget.height, width: this.props.widget.width + 25 }} >
                 {
                     (this.props.showIcons) &&
                     <WidgetHeader {...this.props} />
                 }
-                {
-                    this.renderContent()
-                }
-            </div>
+                <div style={{ height: this.props.widget.height, width: this.props.widget.width }}
+                    className={classToBeApplied}>
+                    {
+                        envconfig.dev &&
+                        <div style={{ position: 'absolute', color: 'black' }}>
+                            {this.props.widget.id} / {this.props.widget.columnId} / {this.props.widget.rowId}
+                        </div>
+                    }
+                    {
+                        this.renderWidget()
+                    }
+                </div>
+            </ div>
         )
     }
 
-    renderContent() {
+    renderWidget() {
         switch (this.props.widget.widgetType) {
             case WidgetTypeEnum.Box:
                 return (

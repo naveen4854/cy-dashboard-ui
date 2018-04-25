@@ -6,7 +6,7 @@ import './styles.css';
 export default class ComboWidgetComponent extends PureComponent {
     render() {
         return (
-            <div style={{ paddingTop: '25px' }}>
+            <div>
                 <table>
                     <tbody>
                         {this.renderMatrix()}
