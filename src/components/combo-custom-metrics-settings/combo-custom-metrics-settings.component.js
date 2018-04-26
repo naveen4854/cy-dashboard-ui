@@ -54,7 +54,7 @@ export default class ComboCustomMetricsSettingsComponent extends PureComponent {
                     </div>
                     <div className="row">
                         {
-                            comboCustomSettings.query &&
+                            comboCustomSettings.query && comboCustomSettings.hideConfigureColumn &&
                             <ComboCustomColumnsComponent {...this.props} />
                         }
                     </div>

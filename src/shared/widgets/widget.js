@@ -27,7 +27,7 @@ export class Widget {
     showIcons = true;
 
     title = this.isComboWidget ? '' : "<< Not Configured >>";
-    refreshInterval = '';
+    refreshInterval = 0;
 
     appliedSettings = {
         filters: [],
@@ -99,5 +99,9 @@ export class Widget {
         this.appliedSettings = {
             ...settings
         }
+    }
+
+    applyRefreshInterval(interval) {
+        this.refreshInterval = interval
     }
 }

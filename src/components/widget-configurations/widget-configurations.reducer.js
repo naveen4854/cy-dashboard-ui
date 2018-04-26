@@ -3,8 +3,8 @@ import _ from 'lodash';
 import { UPDATE_DASHBOARD_WIDGET } from "../../dashboard/dashboard.reducer";
 import { DashboardUtilities } from "../../shared/lib";
 import * as widgetService from './widget-configurations.service';
-import { updateConfigurationsWidget, closeConfigurations, previewWidget, previewWidgetInLive } from './widget-configurations.actions'
-import { TOGGLE_CONFIGURATIONS_PANEL, UPDATE_CONFIGURATIONS_WIDGET, SET_METRICS_TAB_VISIBILITY, SET_THRESHOLDS_TAB_VISIBILITY, CLEAR_CONFIGURATIONS } from "./widget-configurations.constants";
+import { updateConfigurationsWidget, closeConfigurations, previewWidget, previewWidgetInLive, getDefaultRefreshInterval } from './widget-configurations.actions'
+import { TOGGLE_CONFIGURATIONS_PANEL, UPDATE_CONFIGURATIONS_WIDGET, SET_METRICS_TAB_VISIBILITY, SET_THRESHOLDS_TAB_VISIBILITY, CLEAR_CONFIGURATIONS, DEFAULT_REFRESH_INTERVAL } from "./widget-configurations.constants";
 
 export function toggleSettingsMenu(widget) {
     return (dispatch, getState) => {
@@ -111,6 +111,9 @@ export const ACTION_HANDLERS = {
     [CLEAR_CONFIGURATIONS]: (state, action) => {
         return Object.assign({}, state, action.configurations)
     },
+    [DEFAULT_REFRESH_INTERVAL]: (state, action) => {
+        return Object.assign({}, state, { defaultRefreshInterval: action.interval })
+    },
 }
 
 const configurationsInitialState = {
@@ -120,12 +123,14 @@ const configurationsInitialState = {
     showPanel: false,
     showThresholdsTab: true,
     showMetricsTab: true,
+    defaultRefreshInterval: 5,
     toggleSettingsMenu,
     applyWidget,
     previewWidget,
     updateConfigurationsWidget,
     closeConfigurations,
-    previewWidgetInLive
+    previewWidgetInLive,
+    getDefaultRefreshInterval
 };
 
 export default function WidgetConfigurationsReducer(state = _.cloneDeep(configurationsInitialState), action) {

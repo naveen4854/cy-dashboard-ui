@@ -16,7 +16,9 @@ export const ACTION_HANDLERS = {
     },
     [UPDATE_COMBO_CUSTOM_COLUMN_OPTIONS]: (state, action) => {
         return Object.assign({}, state, {
-            columnOptions: action.columnOptions
+            columnOptions: action.columnOptions,
+            columns: action.columns,
+            hideConfigureColumn: action.hideConfigureColumn
         })
     },
     [UPDATE_COMBO_CUSTOM_DISPLAY_FORMATS]: (state, action) => {
@@ -52,9 +54,10 @@ export const comboCustomInitialState = {
     columns: [],
     displayFormatOptions: [],
     addColumnExpanded: true,
+    hideConfigureColumn: false,
     initiateComboCustomSettings,
     loadColumns,
-    clearComboCustomSettings
+    clearComboCustomSettings,
 };
 
 export default function ComboCustomSettingsReducer(state = _.cloneDeep(comboCustomInitialState), action) {

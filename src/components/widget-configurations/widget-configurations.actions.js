@@ -1,7 +1,8 @@
-import { UPDATE_CONFIGURATIONS_WIDGET, TOGGLE_CONFIGURATIONS_PANEL } from "./widget-configurations.constants";
+import { UPDATE_CONFIGURATIONS_WIDGET, TOGGLE_CONFIGURATIONS_PANEL, DEFAULT_REFRESH_INTERVAL } from "./widget-configurations.constants";
 import { DashboardUtilities } from "../../shared/lib";
 import { ResponseStatusEnum } from "../../shared/enums";
 import * as widgetService from './widget-configurations.service';
+import * as dashboardService from '../../dashboard/dashboard-service';
 
 export function updateConfigurationsWidget(updatedWidget) {
     return (dispatch, getState) => {
@@ -63,5 +64,16 @@ export function previewWidgetInLive(currentWidget, refreshInterval) {
             });
         }, refreshInterval * 1000);
         dispatch(getState().widgetResults.updateRefreshingWidgets(currentWidget.id, setTimeoutId));
+    }
+}
+
+export function getDefaultRefreshInterval() {
+    return (dispatch, getState) => {
+        dashboardService.getDefaultRefreshInterval().then((response) => {
+            dispatch({
+                type: DEFAULT_REFRESH_INTERVAL,
+                interval : response.data
+            })
+        });
     }
 }
