@@ -14,14 +14,14 @@ export function initiateCustomMetricsSettings() {
             dispatch(getState().customSettings.getStoredProcedures());
 
         let appliedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory
-        if (appliedStatisticCategory == StatisticCategoryEnum.Custom)
+        if (appliedStatisticCategory == StatisticCategoryEnum.Custom) {
             dispatch({
                 type: DEFAULT_CUSTOM_METRICS,
-                selectedGroup: currentWidget.appliedSettings.dataMetrics.selectedGroup || {},
+                selectedStoreProc: currentWidget.appliedSettings.dataMetrics.selectedStoreProc || {},
                 query: currentWidget.appliedSettings.dataMetrics.query || {},
-                displayFormat: currentWidget.appliedSettings.dataMetrics.displayFormat || {},
-                selectedDisplayFormat: currentWidget.appliedSettings.dataMetrics.displayFormat || {}
+                filterStoreProcs: currentWidget.appliedSettings.dataMetrics.filterStoreProcs || []
             })
+        }
     }
 }
 
@@ -100,6 +100,7 @@ export function updateParamValue(value, i) {
 
 export function saveCustomMetrics(settings) {
     return (dispatch, getState) => {
+        debugger
         dispatch(getState().spinnerStore.BeginTask());
         let updatedQuery = settings.query;
         //TOOD: use loadColumns
@@ -127,6 +128,7 @@ export function saveCustomMetrics(settings) {
                 })
             }
         }).catch((error) => {
+            debugger
             dispatch(getState().spinnerStore.EndTask());
             dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error));
         })
