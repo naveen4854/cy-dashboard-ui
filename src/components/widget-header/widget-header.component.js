@@ -26,7 +26,7 @@ export default class WidgetHeader extends PureComponent {
             !this.props.widget.hideIcon && <div className={classToBeApplied} style={styles}>
                 <div className="widget-heading-icons-section">
                     <i className="widget-heading-icon fa fa-wrench"
-                        onClick={this.props.toggleSettingsMenu} />
+                        onClick={this.toggleSettingsMenu} />
                     {
                         !this.props.widget.isComboWidget &&
                         <i className="widget-heading-icon fa fa-trash-o" onClick={this.deleteWidget} />
