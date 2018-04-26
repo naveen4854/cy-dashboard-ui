@@ -1,5 +1,6 @@
 import { initiateRealTimeSettings } from './real-time-settings.actions'
 import { clearRealTimeSettings } from './real-time-settings.actions'
+import { saveRealTimeMetrics } from './real-time-settings.actions'
 
 export const DEFAULT_REALTIME_METRICS = "DEFAULT_REALTIME_METRICS"
 export const UPDATE_REALTIME_METRICS = "UPDATE_REALTIME_METRICS"
@@ -55,7 +56,7 @@ export const ACTION_HANDLERS = {
     [SET_REALTIME_ITEM]: (state, action) => {
         return Object.assign({}, state, {
             selectedItem: action.selectedItem,
-             drillDownOptions: []
+            drillDownOptions: []
         })
     },
     [UPDATE_REALTIME_FUNCTIONS]: (state, action) => {
@@ -120,7 +121,8 @@ export const realTimeSettingsinitialState = {
     drillDownDefaulted: false,
     openDrillDown: false,
     initiateRealTimeSettings,
-    clearRealTimeSettings
+    clearRealTimeSettings,
+    saveRealTimeMetrics
 };
 
 export default function RealTimeSettingsReducer(state = _.cloneDeep(realTimeSettingsinitialState), action) {

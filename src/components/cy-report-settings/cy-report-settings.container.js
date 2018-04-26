@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(CyReportSettingsActions.setSelectedDisplayFormatAction(selectedDisplayFormat));
         },
         saveMetrics: (dataMetrics) => {
-            dispatch(CyReportSettingsActions.SaveCyReportMetrics(dataMetrics));
+            dispatch(CyReportSettingsActions.saveCyReportMetrics(dataMetrics));
         }
     }
 }

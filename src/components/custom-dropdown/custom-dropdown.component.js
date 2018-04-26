@@ -19,7 +19,6 @@ export default class CustomSelect extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        debugger
         if (!this.state.onChangeFromEvent && this.props.value != nextProps.value) {
             this.props.onChange(nextProps.value)
             this.setState({
@@ -35,7 +34,6 @@ export default class CustomSelect extends React.Component {
     }
 
     onChange(e) {
-        debugger
         this.setState({
             onChangeFromEvent: true
         }, function () {

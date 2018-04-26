@@ -55,7 +55,6 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
     let eachCellWidth = currentComboWidget.width / comboSelectedStatisticColumns.length;
     let adjustedHeaderHeight = height - (filters.length * eachCellHeight);
 
-    debugger
     let newFilters = [...filters];
     newFilters.splice(0, 0, {})
     let previousRow = undefined;

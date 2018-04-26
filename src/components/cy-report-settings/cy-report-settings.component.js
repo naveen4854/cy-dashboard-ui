@@ -31,26 +31,12 @@ export default class CyReportSettingsComponent extends PureComponent {
             this.props.setSelectedDisplayFormat(displayFormat)
     }
 
-    saveDataMetrics() {
-        this.props.saveMetrics(
-            {
-                id: Date.now(),
-                desc: '',
-                group: _.cloneDeep(this.props.cyReportSettings.selectedGroup),
-                item: _.cloneDeep(this.props.cyReportSettings.selectedItem),
-                func: _.cloneDeep(this.props.cyReportSettings.selectedFunction),
-                displayFormat: _.cloneDeep(this.props.cyReportSettings.selectedDisplayFormat),
-                statisticCategory: _.cloneDeep(this.props.cyReportSettings.statisticCategory),
-                drillDownOptions: _.cloneDeep(this.props.cyReportSettings.drillDownOptions)
-            }
-        );
-    }
 
     render() {
         const { cyReportSettings } = this.props;
         const enableSetButton = cyReportSettings.selectedDisplayFormat.id ? true : false
         return (
-            <div id="cyReportSettings">
+            <div id="cyReportSettings" >
                 <div className="row">
                     <div className="col-xs-12 col-md-4 col-lg-4 metrics-label-sm metrics-label rtl-metrics-label-sm ">
                         <label>{this.props.l.t('Statistic_GroupCOLON', 'Statistic Group:')} </label>
@@ -121,13 +107,6 @@ export default class CyReportSettingsComponent extends PureComponent {
                             placeholder='Select...'
                             options={this.props.cyReportSettings.displayFormatOptions}
                             onChange={this.onDisplayFormatChange} />
-                    </div>
-                </div>
-                <div className="row ">
-                    <div className="col-xs-4 col-xs-offset-4 col-sm-6  col-sm-offset-3 col-md-4 col-md-offset-4">
-                        <div>
-                            <button disabled={!enableSetButton} type="button" onClick={() => this.saveDataMetrics()} className=" btn btn-md btn-primary btn-block" >{this.props.l.t('Apply', 'Apply')}</button>
-                        </div>
                     </div>
                 </div>
             </div>

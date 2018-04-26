@@ -46,23 +46,10 @@ export default class CustomMetricsSettingsComponent extends PureComponent {
         this.props.setCustomQuery(query)
     }
 
-    saveQuery() {
-        this.props.saveCustomMetrics({
-            selectedStoreProc: this.props.customSettings.selectedStoreProc,
-            query: this.props.customSettings.query,
-            filterStoreProcs: this.props.customSettings.storeProcParams
-        })
-        // if (this.props.widget.appliedSettings.thresholds && this.props.widget.appliedSettings.thresholds.length > 0) {
-        //     this.props.showNotifications({
-        //         type: ResponseStatusEnum.Warning,
-        //         messages: [{ displayMessage: this.props.l.t('All_the_previously_set_thresholds_will_not_work_if_the_data_metrics_are_changedPERIOD', 'All the previously set thresholds will not work if the data metrics are changed.') }]
-        //     });
-        // }
-    }
 
     render() {
         return (
-            <div id="customStatistics">
+            <div id="customStatistics" >
                 <div className="row">
                     <div className="col-xs-12 col-md-4 col-lg-4 metrics-label-sm metrics-label rtl-metrics-label-sm ">
                         <label>{this.props.l.t('Stored_ProcedureCOLON', 'Stored Procedure:')}</label>
@@ -135,16 +122,6 @@ export default class CustomMetricsSettingsComponent extends PureComponent {
                         </div>
                     </div>
 
-                </div>
-                <div className="row">
-                    <div className="col-xs-5 col-xs-offset-3 col-sm-6  col-sm-offset-4 col-md-4 col-md-offset-4">
-                        <button
-                            disabled={(this.props.customSettings.query == '')}
-                            type="button" className=" btn btn-md btn-primary btn-block"
-                            onClick={this.saveQuery.bind(this)} >
-                            {this.props.l.t('Save_Query', 'Save Query')}
-                        </button>
-                    </div>
                 </div>
             </div>
 

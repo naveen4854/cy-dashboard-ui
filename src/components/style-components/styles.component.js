@@ -54,17 +54,8 @@ class StylesComponent extends PureComponent {
     render() {
         return (
             <div>
-                {
-                    this.props.isComboWidget &&
-                    this.renderApplyOptions()
-                }
-                {
-                    this.props.isComboWidget &&
-                    this.renderApplyComboStyles()
-                }
-                {this.renderStyles()}
-                <div className="row ">
-                    <div className="col-xs-4 col-xs-offset-4 col-sm-7  col-sm-offset-7 col-md-5 col-md-offset-5 marginTop10">
+                <div className=" row ">
+                    <div className="col-xs-11 pull-left rtl-pull-right text-right rtl-text-right" style={{ marginTop: '10px' }} >
 
                         <button
                             disabled={this.props.styles.disableSave}
@@ -73,8 +64,19 @@ class StylesComponent extends PureComponent {
                             onClick={this.updateWidgetStyles}>
                             {this.props.l.t("Apply", "Apply")}
                         </button>
-
                     </div>
+                </div>
+                <div className="calculatedVH" >
+                    {
+                        this.props.isComboWidget &&
+                        this.renderApplyOptions()
+                    }
+                    {
+                        this.props.isComboWidget &&
+                        this.renderApplyComboStyles()
+                    }
+                    {this.renderStyles()}
+
                 </div>
             </div>
         )

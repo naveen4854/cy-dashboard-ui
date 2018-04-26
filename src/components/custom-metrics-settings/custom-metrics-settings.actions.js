@@ -100,6 +100,11 @@ export function updateParamValue(value, i) {
 
 export function saveCustomMetrics(settings) {
     return (dispatch, getState) => {
+        let settings = {
+            selectedStoreProc: getState().customSettings.selectedStoreProc,
+            query: getState().customSettings.query,
+            filterStoreProcs: getState().customSettings.storeProcParams
+        }
         dispatch(getState().spinnerStore.BeginTask());
         let updatedQuery = settings.query;
         //TOOD: use loadColumns

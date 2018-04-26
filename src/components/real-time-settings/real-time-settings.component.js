@@ -46,20 +46,6 @@ export default class RealTimeSettingsComponent extends PureComponent {
             this.props.setSelectedDisplayFormat(displayFormat)
     }
 
-    saveDataMetrics() {
-        this.props.saveMetrics(
-            {
-                id: Date.now(),
-                desc: '',
-                group: _.cloneDeep(this.props.realTimeSettings.selectedGroup),
-                item: _.cloneDeep(this.props.realTimeSettings.selectedItem),
-                func: _.cloneDeep(this.props.realTimeSettings.selectedFunction),
-                displayFormat: _.cloneDeep(this.props.realTimeSettings.selectedDisplayFormat),
-                statisticCategory: _.cloneDeep(this.props.realTimeSettings.statisticCategory),
-                drillDownOptions: _.cloneDeep(this.props.realTimeSettings.drillDownOptions)
-            }
-        );
-    }
 
     toggleDrillDown() {
         this.props.toggleDrillDown();
@@ -69,7 +55,7 @@ export default class RealTimeSettingsComponent extends PureComponent {
         const { realTimeSettings } = this.props;
         const enableSetButton = realTimeSettings.selectedDisplayFormat.id ? true : false
         return (
-            <div id="realTimeSettings">
+            <div id="realTimeSettings" >
                 <div className="row">
                     <div className="col-xs-12 col-md-4 col-lg-4 metrics-label-sm metrics-label rtl-metrics-label-sm ">
                         <label>{this.props.l.t('Statistic_GroupCOLON', 'Statistic Group:')} </label>
@@ -137,13 +123,6 @@ export default class RealTimeSettingsComponent extends PureComponent {
                             placeholder='Select...'
                             options={this.props.realTimeSettings.displayFormatOptions}
                             onChange={this.onDisplayFormatChange} />
-                    </div>
-                </div>
-                <div className="row ">
-                    <div className="col-xs-4 col-xs-offset-4 col-sm-6  col-sm-offset-3 col-md-4 col-md-offset-4">
-                        <div>
-                            <button disabled={!enableSetButton} type="button" onClick={() => this.saveDataMetrics()} className=" btn btn-md btn-primary btn-block" >{this.props.l.t('Apply', 'Apply')}</button>
-                        </div>
                     </div>
                 </div>
             </div>

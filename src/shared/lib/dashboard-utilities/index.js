@@ -186,9 +186,9 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
       sc: inputWidget && inputWidget.appliedSettings && inputWidget.appliedSettings.dataMetrics && StatisticCategoryEnum.Custom == inputWidget.appliedSettings.dataMetrics.statisticCategory ? {
         qry: inputWidget.appliedSettings.dataMetrics.query,
         isc: inputWidget.widgetType == WidgetTypeEnum.Combo && inputWidget.appliedSettings.dataMetrics.columns.length > 0,
-        dfId: inputWidget.appliedSettings.dataMetrics.selectedDisplayFormat,
-        sSp: inputWidget.appliedSettings.group.selectedStoreProc ? inputWidget.appliedSettings.group.selectedStoreProc.label : undefined,
-        prl: inputWidget.appliedSettings.group.selectedStoreProc && inputWidget.appliedSettings.group.selectedStoreProc.value != 'Select Custom Query' ? inputWidget.appliedSettings.dataMetrics.filterStoreProcs : []
+        dfId: inputWidget.appliedSettings.dataMetrics.displayFormat ? inputWidget.appliedSettings.dataMetrics.displayFormat.id : DisplayFormatEnum.Text,
+        sSp: inputWidget.appliedSettings.dataMetrics.selectedStoreProc ? inputWidget.appliedSettings.dataMetrics.selectedStoreProc.label : undefined,
+        prl: inputWidget.appliedSettings.dataMetrics.selectedStoreProc && inputWidget.appliedSettings.dataMetrics.selectedStoreProc.value != 'Select Custom Query' ? inputWidget.appliedSettings.dataMetrics.filterStoreProcs : []
       } : {},
     },
     cs: clckSettings,

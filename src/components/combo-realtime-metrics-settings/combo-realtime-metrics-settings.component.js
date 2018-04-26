@@ -99,11 +99,11 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
         const { comboRealTimeSettings } = this.props;
         return (
             <div id="comboRealTimeSettings">
-                <div className="row">
+                <div className="row" style={{ marginTop: "10px" }}>
                     <div className="col-xs-12 col-md-4 col-lg-4 metrics-label-sm metrics-label rtl-metrics-label-sm ">
                         <label>{this.props.l.t('Statistic_GroupCOLON', 'Statistic Group:')} </label>
                     </div>
-                    <div className="col-xs-9 col-sm-7 col-md-6 col-lg-5">
+                    <div className="col-xs-9 col-sm-7 col-md-6 col-lg-5" >
                         <CustomSelect name="field-group-options"
                             value={comboRealTimeSettings.selectedGroup}
                             placeholder='Select...'
@@ -155,17 +155,6 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
                         </div>
                     </div>
 
-                </div>
-                <div className="row">
-                    <div className=" col-md-offset-10  col-md-4 col-sm-offset-6 col-sm-6">
-                        <button
-                            //  disabled={!this.state.enableSetButton} 
-                            type="button"
-                            onClick={this.applyComboRealTimeMetrics}
-                            className=" btn btn-primary" >
-                            {this.props.l.t('Apply', 'Apply')}
-                        </button>
-                    </div>
                 </div>
             </div>
         )
