@@ -8,6 +8,13 @@ export const UPDATE_PARAMS = 'UPDATE_PARAMS';
 export const CLEAR_SELECTED_CUSTOM_SETTINGS = 'CLEAR_SELECTED_CUSTOM_SETTINGS';
 
 export const ACTION_HANDLERS = {
+    [DEFAULT_CUSTOM_METRICS]: (state, action) => {
+        return Object.assign({}, state, {
+            selectedStoreProc: action.selectedStoreProc,
+            query: action.query,
+            filterStoreProcs: action.filterStoreProcs
+        })
+    },
     [UPDATE_CUSTOM_METRICS_SP_DATA]: (state, action) => {
         return Object.assign({}, state, {
             storeProcOptions: action.storeProcOptions,

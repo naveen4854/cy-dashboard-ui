@@ -521,7 +521,7 @@ function textWidgetConfigurationsFromServer(textWidget, dataMetricsMetadata, isE
 
 function widgetConfigurationsFromServer(widget, dataMetricsMetadata, isEdit) {
   let appliedSettings = mapAppliedSettings(widget, isEdit, dataMetricsMetadata)
-
+debugger
   return {
     x: widget.wxp,
     y: widget.wyp,

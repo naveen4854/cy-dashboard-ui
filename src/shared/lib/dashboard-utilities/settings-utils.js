@@ -50,6 +50,12 @@ export function mapAppliedSettings(widget, isEdit, dataMetricsMetadata) {
         comboSelectedStatisticColumns,
         query: customSettings.qry,
         // levels: customSettings.isc ? addLevels(widget.wmx[0]) : []
+        isConfigured: settings && customSettings && customSettings.isc,
+        filterStoreProcs: settings && customSettings && customSettings.prl,
+        selectedStoreProc: settings && customSettings && customSettings.sSp ? {
+          label: settings && customSettings && customSettings.sSp,
+          value: settings && customSettings && customSettings.sSp
+        } : undefined
       } :
         {},
       group: {
@@ -168,28 +174,28 @@ function mapThresholds(thresholds) {
 
 /**
  * To add the levels for combo custom statistics
- * @param {*} columns 
+ * @param {*} customHeaderWidgets 
  */
-function getCustomColumns(columns) {
-  return _.map(columns, (column, index) => {
+function getCustomColumns(customHeaderWidgets) {
+  return _.map(customHeaderWidgets, (headerWidget, index) => {
     return {
-      id: column.wid,
+      id: headerWidget.wid,
       level: index + 1,
       levelValue: null,
       expanded: true,
       selectedColumn: {
-        value: column.wid,
-        label: column.fc,
-        type: column.dty
+        value: headerWidget.wid,
+        label: headerWidget.fc,
+        type: headerWidget.dty
       },
-      showZeroValues: column.sz,
-      displayFormat: column.dpid,
-      dateFormat: getSelectedDateFormat(column.dtid),
-      displayName: column.wtl == column.fc ? column.fc : column.wtl,
-      hoursFormat: getSelectedHoursFormat(column.hfid),
-      timeFormat: getSelectedTimeFormat(column.tfid),
-      aggregateOperation: getSelectedAggregateFunction(column.aggId),
-      isSummary: column.isSummary
+      showZeroValues: headerWidget.sz,
+      displayFormat: headerWidget.dpid,
+      dateFormat: getSelectedDateFormat(headerWidget.dtid),
+      displayName: headerWidget.wtl == headerWidget.fc ? headerWidget.fc : headerWidget.wtl,
+      hoursFormat: getSelectedHoursFormat(headerWidget.hfid),
+      timeFormat: getSelectedTimeFormat(headerWidget.tfid),
+      aggregateOperation: getSelectedAggregateFunction(headerWidget.aggId),
+      isSummary: headerWidget.isSummary
     }
   });
 }
