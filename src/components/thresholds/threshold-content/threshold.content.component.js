@@ -67,7 +67,7 @@ export default class ThresholdTabContent extends PureComponent {
         }
         else {
             let level = _.find(this.props.threshold.levels, (level) => level.id === this.props.id);
-            this.props.TestThreshold(level, this.props.threshold.widgetId)
+            this.props.TestThreshold(level, this.props.widgetId)
         }
     }
 

@@ -106,8 +106,8 @@ export function TestThreshold(threshold, widgetId) {
             for (let eachWidget of widgets) {
                 if (eachWidget && eachWidget.matrix) {
                     for (let comboRow of eachWidget.matrix) {
-                        widget = _.find(comboRow, (comboRowwidget) => comboRowwidget.id === widgetId);
-                        if (widget) {
+                        let cell = _.find(comboRow, (comboRowwidget) => comboRowwidget.id === widgetId);
+                        if (cell) {
                             widget = eachWidget;
                             break; // once we find the appropriate combo widget, stop searching.
                         }
