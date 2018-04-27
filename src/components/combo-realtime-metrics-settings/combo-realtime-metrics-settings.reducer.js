@@ -91,7 +91,7 @@ export const ACTION_HANDLERS = {
     [UPDATE_COMBO_REALTIME_TOGGLE_ADD]: (state, action) => {
         return Object.assign({}, state, {
             toggleAddEdit: action.toggleAddEdit,
-           
+
         })
     },
     [SET_COMBO_REALTIME_STATISTIC_COLUMNS]: (state, action) => {
@@ -121,7 +121,6 @@ export const ACTION_HANDLERS = {
         return Object.assign({}, state, { ...action.comboRealTimeSettings })
     },
     [COMBO_REALTIME_SET_SELECTED_COLUMN]: (state, action) => {
-        debugger;
         return Object.assign({}, state, {
             selectedItem: action.comboSelectedStatisticColumn.item,
             selectedFunction: action.comboSelectedStatisticColumn.func,
