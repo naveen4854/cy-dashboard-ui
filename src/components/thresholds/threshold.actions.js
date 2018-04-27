@@ -99,22 +99,14 @@ export function TestThreshold(threshold, widgetId) {
         let widgets = getState().dashboard.widgets;
         dispatch(getState().spinnerStore.BeginTask());
         dispatch(getState().notificationStore.clearNotifications());
-        let widget = _.find(widgets, (widget) => widget.id === widgetId);
-
-        if (!widget) { // Below condition is to see if selected widget is within combo
-
-            for (let eachWidget of widgets) {
-                if (eachWidget && eachWidget.matrix) {
-                    for (let comboRow of eachWidget.matrix) {
-                        let cell = _.find(comboRow, (comboRowwidget) => comboRowwidget.id === widgetId);
-                        if (cell) {
-                            widget = eachWidget;
-                            break; // once we find the appropriate combo widget, stop searching.
-                        }
-                    };
-                }
-            };
+        let widget = getState().configurations.widget;
+        let title = "";
+        if (widget.isComboWidget) {
+            let comboWidget = _.find(widgets, (w) => w.id === widget.comboId);
+            title = comboWidget.title;
         }
+        else
+            title = widget.title;
 
         let mappedThreshold = {
             thv: threshold.levelValue,
@@ -127,7 +119,7 @@ export function TestThreshold(threshold, widgetId) {
         };
         let inputThreshold = {
             ti: mappedThreshold,
-            tiwt: widget.widgetType == WidgetTypeEnum.Combo ? "Combo Widget" : widget.title, // As of now since combo is not having title, we are just sending title as combo widget.
+            tiwt: title, // As of now since combo is not having title, we are just sending title as combo widget.
             tidn: 'Test' //we should pass dashboard name.                 getState().newdashboard.name
         }
         ThresholdService.testThreshold(inputThreshold).then((response) => {
