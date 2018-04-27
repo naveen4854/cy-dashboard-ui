@@ -40,9 +40,7 @@ class StylesComponent extends PureComponent {
             if (this.props.widgetType === WidgetTypeEnum.Combo) {
                 this.props.updateComboStyles();
             }
-            else {
-                this.props.updateWidgetStyles();
-            }
+            this.props.updateWidgetStyles();
         }
     }
     updateApplyComboStyles(e) {
