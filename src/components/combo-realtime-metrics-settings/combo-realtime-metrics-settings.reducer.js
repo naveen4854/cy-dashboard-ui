@@ -38,7 +38,13 @@ export const ACTION_HANDLERS = {
 
     [SET_COMBO_REALTIME_STATISTIC_ITEM]: (state, action) => {
         return Object.assign({}, state, {
-            selectedItem: action.selectedItem
+            selectedItem: action.selectedItem,
+            selectedFunction: {},
+            functionOptions: [],
+            displayFormatOptions: [],
+            selectedDisplayFormat: {},
+            applicableWidgets: [],
+            selectedWidget: {},
         })
     },
     [UPDATE_COMBO_REALTIME_FUNCTIONS]: (state, action) => {
@@ -48,7 +54,11 @@ export const ACTION_HANDLERS = {
     },
     [UPDATE_COMBO_REALTIME_SELECTED_FUNCTION]: (state, action) => {
         return Object.assign({}, state, {
-            selectedFunction: action.selectedFunction
+            selectedFunction: action.selectedFunction,
+            displayFormatOptions: [],
+            selectedDisplayFormat: {},
+            applicableWidgets: [],
+            selectedWidget: {},
         })
     },
     [UPDATE_COMBO_REALTIME_DISPLAY_FORMATS]: (state, action) => {
@@ -58,7 +68,9 @@ export const ACTION_HANDLERS = {
     },
     [UPDATE_COMBO_REALTIME_SELECTED_DISPLAY_FORMAT]: (state, action) => {
         return Object.assign({}, state, {
-            selectedDisplayFormat: action.selectedDisplayFormat
+            selectedDisplayFormat: action.selectedDisplayFormat,
+            applicableWidgets: [],
+            selectedWidget: {},
         })
     },
     [UPDATE_COMBO_REALTIME_APPLICABLE_WIDGETS]: (state, action) => {
@@ -78,7 +90,8 @@ export const ACTION_HANDLERS = {
     },
     [UPDATE_COMBO_REALTIME_TOGGLE_ADD]: (state, action) => {
         return Object.assign({}, state, {
-            toggleAddEdit: action.toggleAddEdit
+            toggleAddEdit: action.toggleAddEdit,
+           
         })
     },
     [SET_COMBO_REALTIME_STATISTIC_COLUMNS]: (state, action) => {
@@ -93,6 +106,9 @@ export const ACTION_HANDLERS = {
             selectedFunction: action.selectedFunction,
             selectedDisplayFormat: action.selectedDisplayFormat,
             selectedWidget: action.selectedWidget,
+            functionOptions: action.functionOptions,
+            applicableWidgets: action.applicableWidgets,
+            displayFormatOptions: action.displayFormatOptions
         })
     },
     [DEFAULT_COMBO_REALTIME_METRICS]: (state, action) => {
@@ -105,6 +121,7 @@ export const ACTION_HANDLERS = {
         return Object.assign({}, state, { ...action.comboRealTimeSettings })
     },
     [COMBO_REALTIME_SET_SELECTED_COLUMN]: (state, action) => {
+        debugger;
         return Object.assign({}, state, {
             selectedItem: action.comboSelectedStatisticColumn.item,
             selectedFunction: action.comboSelectedStatisticColumn.func,
