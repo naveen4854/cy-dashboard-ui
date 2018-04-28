@@ -1,6 +1,7 @@
 import { WidgetData } from "../../shared/lib";
 import { WidgetTypeEnum, StatisticCategoryEnum } from "../../shared/enums";
 import { mappingCustomMatrixHeaders } from "../../shared/lib/dashboard-utilities";
+import { defaultComboHeaderHeight } from "../../shared/constants/constants";
 
 export function saveComboRealTimeMetrics() {
     return (dispatch, getState) => {
@@ -49,9 +50,9 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
     //let eachCellWidth = width / comboSelectedStatisticColumns.length;
     // let eachCellHeight = height / ((filters.length - 1 > 0) ? (filters.length - 1) : 1);
     let height = currentComboWidget.height;
-    let headerHeight = 50;
+    let headerHeight = defaultComboHeaderHeight;
     let remainingHeight = height - headerHeight;
-    let eachCellHeight = _.floor(remainingHeight / (filters.length > 0 ? filters.length  :1));
+    let eachCellHeight = _.floor(remainingHeight / (filters.length > 0 ? filters.length : 1));
     let eachCellWidth = currentComboWidget.width / comboSelectedStatisticColumns.length;
     let adjustedHeaderHeight = height - (filters.length * eachCellHeight);
 

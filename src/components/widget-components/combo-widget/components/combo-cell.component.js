@@ -25,13 +25,13 @@ export default class ComboCellComponent extends PureComponent {
         return (
             <td>
                 <div className="cell" style={{ height: cell.height, width: cell.width }}>{
-                   (rowIndex == 0 || columnIndex == 0) ?
+                    false && (rowIndex == 0 || columnIndex == 0) ?
                         <ResizableWidgetContainer cell={cell} columnIndex={columnIndex} rowIndex={rowIndex} />
                         :
                         <WidgetContainer key={cell.id}
                             // mode={this.props.dashboard.mode}
                             widget={cell}
-                            // toggleSettingsMenu={this.props.toggleSettingsMenu}
+                        // toggleSettingsMenu={this.props.toggleSettingsMenu}
                         />
                 }
                 </div>

@@ -11,6 +11,7 @@ export const cleartimeout = 'cleartimeout';
 export const oneMinute = 60000
 export const pingFailureTimeMinute = 60000
 export const refreshFailureTimeMinute = 60000
+export const defaultComboHeaderHeight = 25
 
 
 export const pagesList = [
