@@ -45,6 +45,7 @@ export const ACTION_HANDLERS = {
             selectedDisplayFormat: {},
             applicableWidgets: [],
             selectedWidget: {},
+            displayName: ''
         })
     },
     [UPDATE_COMBO_REALTIME_FUNCTIONS]: (state, action) => {
