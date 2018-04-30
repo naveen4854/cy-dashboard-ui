@@ -140,7 +140,10 @@ export function updateComboStyles() {
 
         let updatedComboWidget = {
             ...comboWidget,
-            matrix: newMatrix
+            matrix: newMatrix,
+            appliedBackgroundColor: styles.widgetBody.backgroundColor,
+            widgetBody: styles.widgetBody,
+            valueStyles: styles.valueStyles
         }
         
         dispatch(getState().dashboard.updateWidget(updatedComboWidget));
