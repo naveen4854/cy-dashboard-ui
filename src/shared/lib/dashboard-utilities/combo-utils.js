@@ -3,6 +3,7 @@ import { mapThresholdsToServer } from './threshold-utils';
 import { WidgetTypeEnum, StatisticCategoryEnum, ScrollTypeEnum } from '../../enums';
 import { rgba } from '../../../utilities';
 import { mapAppliedSettings, getDisplayFormat, getSelectedItem, getSelectedFunction } from './settings-utils';
+import { defaultComboHeaderHeight } from '../../constants/constants';
 
 /**
  * generates matrix for given widget
@@ -114,18 +115,29 @@ export function comboWidgetConfigurationsFromServer(widget, dataMetricsMetadata,
         PictureSelected: widget.wt == WidgetTypeEnum.Picture ? widget.wpsl : '',
         appliedSettings: mapAppliedSettings(widget, isEdit, dataMetricsMetadata),
     };
+
     let columns = comboWidget.appliedSettings.dataMetrics.columns;
     let selectedGroup = comboWidget.appliedSettings.dataMetrics.group;
+    let filters = widget.ws.srt.rf;
+
+    let height = comboWidget.height;
+    let headerHeight = defaultComboHeaderHeight;
+    let remainingHeight = height - headerHeight;
+    let eachCellHeight = _.floor(remainingHeight / (filters.length > 0 ? filters.length : 1));
+    let eachCellWidth = comboWidget.width / columns.length;
+    let adjustedHeaderHeight = height - (filters.length * eachCellHeight);
+
+    let measures = { eachCellHeight, eachCellWidth, adjustedHeaderHeight }
     comboWidget = {
         ...comboWidget,
-        matrix: convertToMatrix(widget.wmx, columns, widget.ws.srt.rf, widget.wid, widget.ws.stom, selectedGroup, dataMetricsMetadata)
+        matrix: convertToMatrix(widget.wmx, columns, filters, widget.wid, widget.ws.stom, selectedGroup, dataMetricsMetadata, measures)
     }
 
     return comboWidget;
 }
 
 
-function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId, selectedGroup, dataMetricsMetadata) {
+function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId, selectedGroup, dataMetricsMetadata, measures) {
     let i = 0,
         j = 0;
     let comboMatrixs = [];
@@ -140,8 +152,8 @@ function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId, se
             comboInnerWidget.rowId = isColumnHeader || categoryId == StatisticCategoryEnum.Custom ? -1 : filters[i - 1] + '_' + selectedGroup.id; // using combination because there is chance of same id for unrelated drilldown options
             comboInnerWidget = {
                 ...comboInnerWidget,
-                height: oldWidget.height,
-                width: oldWidget.width,
+                height: oldWidget.height == 0 ? isColumnHeader ? measures.adjustedHeaderHeight : measures.eachCellHeight : oldWidget.height,
+                width: oldWidget.width == 0 ? measures.eachCellWidth : oldWidget.width,
                 id: oldWidget.wid,
                 comboId: comboId,
                 widgetType: oldWidget.wt,

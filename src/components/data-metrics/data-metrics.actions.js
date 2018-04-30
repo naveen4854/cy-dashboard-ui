@@ -1,6 +1,7 @@
 import { WidgetData } from "../../shared/lib";
 import { WidgetTypeEnum, StatisticCategoryEnum } from "../../shared/enums";
 import { mappingCustomMatrixHeaders } from "../../shared/lib/dashboard-utilities";
+import { defaultComboHeaderHeight } from "../../shared/constants/constants";
 
 export function saveComboRealTimeMetrics() {
     return (dispatch, getState) => {
@@ -49,9 +50,9 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
     //let eachCellWidth = width / comboSelectedStatisticColumns.length;
     // let eachCellHeight = height / ((filters.length - 1 > 0) ? (filters.length - 1) : 1);
     let height = currentComboWidget.height;
-    let headerHeight = 50;
+    let headerHeight = defaultComboHeaderHeight;
     let remainingHeight = height - headerHeight;
-    let eachCellHeight = _.floor(remainingHeight / (filters.length > 0 ? filters.length  :1));
+    let eachCellHeight = _.floor(remainingHeight / (filters.length > 0 ? filters.length : 1));
     let eachCellWidth = currentComboWidget.width / comboSelectedStatisticColumns.length;
     let adjustedHeaderHeight = height - (filters.length * eachCellHeight);
 
@@ -191,10 +192,11 @@ export function saveComboCustomMetricsAction() {
     return (dispatch, getState) => {
         dispatch(getState().notificationStore.clearNotifications());
         let columns = getState().comboCustomSettings.columns;
-        let currentWidget = getState().configurations.widget;
+        let currentComboWidget = getState().configurations.widget;
         let query = getState().comboCustomSettings.query;
-        let existedMatrix = currentWidget ? currentWidget.matrix : [];
+        let existedMatrix = currentComboWidget ? currentComboWidget.matrix : [];
         let existingHeaders = existedMatrix[0];
+        //PS each cell height and width are calculated in comboResultMapping
 
         let newMatrix = [];
         let headers = _.map(columns, (column) => {
@@ -203,7 +205,7 @@ export function saveComboCustomMetricsAction() {
                 return mappingCustomMatrixHeaders(existingHeader, column);
 
             let cellHeader = WidgetData.GetWidget(WidgetTypeEnum.Box, 0, true);
-            cellHeader.comboId = currentWidget.id;
+            cellHeader.comboId = currentComboWidget.id;
 
             let appliedSettings = {
                 ...cellHeader.appliedSettings,
@@ -225,10 +227,10 @@ export function saveComboCustomMetricsAction() {
         }
 
         let updatedWidget = {
-            ...currentWidget,
+            ...currentComboWidget,
             matrix: newMatrix,
             appliedSettings: {
-                ...currentWidget.appliedSettings,
+                ...currentComboWidget.appliedSettings,
                 dataMetrics
             }
         }

@@ -11,7 +11,7 @@ export const createRoutes = (store) => (
         {
             path: '/login',
             indexRoute: LoginPage(store),
-            childRoutes: []
+            childRoutes: [] 
         },
         {
             path: '/dashboard',

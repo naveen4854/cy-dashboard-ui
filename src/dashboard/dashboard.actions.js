@@ -118,7 +118,21 @@ export function updateWidgetSize(width, height, currentWidget) {
     return (dispatch, getState) => {
         let allWidgets = getState().dashboard.widgets;
 
-        let updatedWidget = { ...currentWidget, width, height };
+        let updatedWidget = undefined;
+        if (currentWidget.widgetType == WidgetTypeEnum.Combo) {
+            let newMatrix = _.map(currentWidget.matrix, (row) => {
+                return _.map(row, (cell) => {
+                    return {
+                        ...cell,
+                        height: cell.height / currentWidget.height * height,
+                        width: cell.width / currentWidget.width * width
+                    }
+                })
+            })
+            updatedWidget = { ...currentWidget, matrix: newMatrix }
+        }
+         updatedWidget = { ...updatedWidget, width, height };
+
         let updatedWidgets = _.map(allWidgets, (widget) => {
             if (widget.id == currentWidget.id)
                 return updatedWidget
@@ -211,7 +225,7 @@ export function updateComboMatrix(comboWidgetId, columnIndex, rowIndex, delta) {
 
 export function pullWidget(dashboardId, widgetId, refreshInterval) {
     return (dispatch, getState) => {
-       // let refreshInterval = refreshValue;
+        // let refreshInterval = refreshValue;
 
         let setTimeoutId = setTimeout(() => {
             dashboardService.viewWidgetData(dashboardId, widgetId, {}).then(response => {
