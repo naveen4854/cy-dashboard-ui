@@ -48,6 +48,7 @@ export function previewWidgetInLive(currentWidget, refreshInterval) {
         let setTimeoutId = setTimeout(() => {
             //dispatch(getState().notificationStore.clearNotifications());
             const widget = DashboardUtilities.WidgetMapper(_.cloneDeep(currentWidget), getState().dataMetrics.dataMetricsMetadata);
+            widget.isLive = true;
             widgetService.getWidgetPreviewData(widget).then(function (response) {
                 if (response.status === 200) {
                     if (widget) {
@@ -72,7 +73,7 @@ export function getDefaultRefreshInterval() {
         dashboardService.getDefaultRefreshInterval().then((response) => {
             dispatch({
                 type: DEFAULT_REFRESH_INTERVAL,
-                interval : response.data
+                interval: response.data
             })
         });
     }
