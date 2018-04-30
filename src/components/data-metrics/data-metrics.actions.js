@@ -76,7 +76,7 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
             let cell = WidgetData.GetWidget(widgetType, 0, true, isColumnHeader, isRowHeader);
             if (columnIndex != 0 && rowIndex != 0)
                 cell.setDataMetrics(dataMetrics);
-            else
+            if (isColumnHeader || isRowHeader)
                 cell.displayValue = filter.label || statisticColumn.displayName;
 
             cell.comboId = comboId;
