@@ -7,7 +7,7 @@ import { store } from '../main'
 import ResponseStatusEnum from '../shared/enums/response-status-enum';
 import { SAVE_LOGIN, UPDATE_REF_TOKEN_TIMEOUT_ID } from '../login/login.reducer';
 import * as loginService from '../login/login.service';
-import { Constants } from '../shared/constants';
+import { Constants, ApiUrl } from '../shared/constants';
 import * as authMan from '../authentication/auth-manager';
 
 const envconfig = require('./static/envconfig');
@@ -44,6 +44,9 @@ export function axiosGet(url, queryString = null) {
  */
 axios.interceptors.request.use(
     (config) => {
+        if (config.url.includes(ApiUrl.PING_URL)) {
+            config.isPingRequest = true;
+        }
         if (config.__isRetryRequest)
             console.log("retry :" + (config.retryCount + 1))
 
@@ -98,7 +101,7 @@ function handleNetworkError(error) {
  * @param {*} error 
  */
 function handleUnAuthWithRetry(error) {
-    if (error.config && error.config.__isRetryRequest)
+    if (error.config && (error.config.__isRetryRequest || error.config.isPingRequest))
         return store.dispatch((dispatch, getState) => {
             dispatch(getState().notificationStore.notify(['Permission Denied'], ResponseStatusEnum.Error));
             dispatch(getState().user.logout());
@@ -132,15 +135,15 @@ function handleUnAuthWithRetry(error) {
                 loggedIn: true,
                 userInitalized: true,
                 //tokenRefTimeOutId: -1
-            }); 
+            });
             dispatch({
-              type: UPDATE_REF_TOKEN_TIMEOUT_ID,
-              tokenRefTimeOutId: -1
+                type: UPDATE_REF_TOKEN_TIMEOUT_ID,
+                tokenRefTimeOutId: -1
             })
             let nextTimeDiff = getState().user.expiresIn * 1000;
             dispatch(getState().user.setTokenRefreshTimeout(nextTimeDiff))
-            dispatch(getState().user.ping(Constants.oneMinute))
-            
+            //dispatch(getState().user.ping(Constants.oneMinute))
+
         }).catch((err) => {
             dispatch(getState().user.logout())
             dispatch(getState().notificationStore.clearNotifications());
