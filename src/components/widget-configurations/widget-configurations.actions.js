@@ -49,11 +49,16 @@ export function previewWidgetInLive(currentWidgetId, refreshInterval) {
             //dispatch(getState().notificationStore.clearNotifications());
             let currentWidget = _.find(getState().dashboard.widgets, (e) => e.id == currentWidgetId);
             const widget = DashboardUtilities.WidgetMapper(_.cloneDeep(currentWidget), getState().dataMetrics.dataMetricsMetadata);
+             let dashboardId = getState().dashboard.Id;
             widget.isLive = true;
-            widgetService.getWidgetPreviewData(widget).then(function (response) {
+            widgetService.getWidgetPreviewData(widget, dashboardId).then(function (response) {
                 if (response.status === 200) {
                     if (widget) {
                         let updatedWidget = DashboardUtilities.WidgetDataMapper(currentWidget, response.data)
+                        updatedWidget = {
+                            ...updatedWidget,
+                            previousData: response.data
+                          }
                         dispatch(getState().dashboard.updateWidget(updatedWidget));
                     }
                     let nextRefreshInterval = currentWidget.refreshInterval; // can be changed based on throttling

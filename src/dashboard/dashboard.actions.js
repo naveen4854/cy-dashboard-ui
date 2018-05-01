@@ -230,6 +230,10 @@ export function pullWidget(dashboardId, widgetId, refreshInterval) {
                 let widget = _.find(getState().dashboard.widgets, (w) => w.id == widgetId);
                 if (widget) {
                     let updatedWidget = DashboardUtilities.WidgetDataMapper(widget, response.data)
+                    updatedWidget = {
+                        ...updatedWidget,
+                        previousData:  response.data
+                    }
                     dispatch(getState().dashboard.updateWidget(updatedWidget));
                 }
                 let nextRefreshInterval = refreshInterval; // can be changed based on throttling

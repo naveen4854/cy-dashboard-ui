@@ -219,10 +219,10 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
  * map data to widget based on its type
  */
 export function WidgetDataMapper(widget, widgetData) {
-  widget = {
-    ...widget,
-    previousData: widgetData
-  }
+  // widget = {
+  //   ...widget,
+  //   previousData: widgetData
+  // }
   const { widgetBody } = widget || {};
   if (widgetBody) {
     widget = {
