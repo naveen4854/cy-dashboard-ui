@@ -29,7 +29,7 @@ export default class WidgetComponent extends PureComponent {
         }
         else if (this.props.dashboardMode == DashboardModeEnum.EditToLive) {
             if (!this.props.widget.isComboWidget) {
-                this.props.previewWidgetInLive(this.props.widget, this.props.widget.refreshInterval)
+                this.props.previewWidgetInLive(this.props.widget.id, 0)
             }
         }
     }
@@ -41,7 +41,7 @@ export default class WidgetComponent extends PureComponent {
         }
         else if (this.props.dashboardMode == DashboardModeEnum.EditToLive) {
             if (this.props.widget.id != nextProps.widget.id && !nextProps.widget.isComboWidget) {
-                this.props.previewWidgetInLive(nextProps.widget, nextProps.widget.refreshInterval);
+                this.props.previewWidgetInLive(nextProps.widget.id, 0);
             }
         }
     }
