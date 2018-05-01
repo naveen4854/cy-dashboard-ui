@@ -41,7 +41,8 @@ export function getDashboardById(dashboardId) {
     return (dispatch, getState) => {
         let dataMetricsMetadata = getState().dataMetrics.dataMetricsMetadata;
         let isEditMode = getState().dashboard.mode == DashboardModeEnum.Edit ? true : false;
-        if (dashboardId)
+        let currentDashboardId = getState().dashboard.Id;
+        if (dashboardId && dashboardId != currentDashboardId)
             dashboardService.getDashboardById(dashboardId, isEditMode).then((response) => {
                 let dashboard = response.data;
                 const dashboardData = DashboardUtilities.mapDashboardFromServer(dashboard, dataMetricsMetadata, true);
