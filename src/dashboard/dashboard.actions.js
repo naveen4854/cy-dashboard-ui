@@ -117,10 +117,9 @@ export function updateWidgetPosition(x, y, currentWidget) {
 export function updateWidgetSize(width, height, currentWidget) {
     return (dispatch, getState) => {
         let allWidgets = getState().dashboard.widgets;
-
-        let updatedWidget = undefined;
-        if (currentWidget.widgetType == WidgetTypeEnum.Combo) {
-            let newMatrix = _.map(currentWidget.matrix, (row) => {
+        let newMatrix = [];
+        if (currentWidget.widgetType == WidgetTypeEnum.Combo)
+            newMatrix = _.map(currentWidget.matrix, (row) => {
                 return _.map(row, (cell) => {
                     return {
                         ...cell,
@@ -129,10 +128,8 @@ export function updateWidgetSize(width, height, currentWidget) {
                     }
                 })
             })
-            updatedWidget = { ...currentWidget, matrix: newMatrix }
-        }
-         updatedWidget = { ...updatedWidget, width, height };
 
+        let updatedWidget = { ...currentWidget, matrix: newMatrix, width, height };
         let updatedWidgets = _.map(allWidgets, (widget) => {
             if (widget.id == currentWidget.id)
                 return updatedWidget

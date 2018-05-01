@@ -19,7 +19,7 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
   let thresholds = [];
   let drillDownData = {};
   let comboMatrix = [];
-
+  
   if (inputWidget.appliedSettings) {
     thresholds = _.map(inputWidget.appliedSettings.thresholds, threshold => {
       return {
@@ -525,7 +525,6 @@ function textWidgetConfigurationsFromServer(textWidget, dataMetricsMetadata, isE
 
 function widgetConfigurationsFromServer(widget, dataMetricsMetadata, isEdit) {
   let appliedSettings = mapAppliedSettings(widget, isEdit, dataMetricsMetadata)
-  debugger
   return {
     x: widget.wxp,
     y: widget.wyp,

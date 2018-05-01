@@ -132,7 +132,6 @@ export function saveCustomMetrics(settings) {
                 })
             }
         }).catch((error) => {
-            debugger
             dispatch(getState().spinnerStore.EndTask());
             dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error));
         })
