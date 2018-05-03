@@ -52,6 +52,7 @@ export default class ViewDashboardComponent extends PureComponent {
         else {
             this.props.updateDashboardMode(DashboardModeEnum.None);
             // Navigate to my files page.
+            this.props.resetDashboard();
             browserHistory.push(`/dashboard/mydashboards`);
         }
     }

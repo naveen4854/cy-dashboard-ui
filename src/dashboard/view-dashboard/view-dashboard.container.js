@@ -5,7 +5,7 @@ import localize from "../../components/localization/localization.hoc";
 import { PageEnum } from "../../shared/enums";
 import * as DashboardReducer from '../dashboard.reducer';
 import { updateDashboardMode } from '../dashboard.actions';
-import {clearRefreshInterval} from '../widget-results/widget-results.actions';
+import { clearRefreshInterval } from '../widget-results/widget-results.actions';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -17,6 +17,11 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateDashboardMode: (mode) => {
             dispatch(updateDashboardMode(mode))
+        },
+        resetDashboard: () => {
+            dispatch((dispatch, getState) => {
+                dispatch(getState().dashboard.resetDashboard());
+            })
         }
     }
 }
