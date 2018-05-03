@@ -180,6 +180,7 @@ export function clearPingTimeout() {
 
 export function ping(timeDiff) {
     return (dispatch, getState) => {
+        return;
       let user = getState().user;
   
       if (user.pingRefTimeOutId != -1 && getState().app.currentTabId != localStorage.getItem('rt'))

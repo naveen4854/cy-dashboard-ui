@@ -91,6 +91,7 @@ export default class WidgetComponent extends PureComponent {
     }
 
     renderWidget() {
+        debugger;
         switch (this.props.widget.widgetType) {
             case WidgetTypeEnum.Box:
                 return (

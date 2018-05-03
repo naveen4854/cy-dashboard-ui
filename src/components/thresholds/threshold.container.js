@@ -19,17 +19,23 @@ const mapDispatchToProps = (dispatch) => {
         },
         setBasedOnColumn: (basedColumn) => {
             dispatch(ThresholdActions.setBasedOnColumn(levels));
+        },
+        setStatisticItem: (item) => {
+            dispatch(ThresholdActions.setStatisticItem(item));
+        },
+        setStatisticFunction: (func) => {
+            dispatch(ThresholdActions.setStatisticFunction(func));
+        },
+        setDisplayFormat: (displayFormat) => {
+            dispatch(ThresholdActions.setDisplayFormat(displayFormat));
         }
+
     }
 }
 
 const mapStateToProps = (state) => {
-    let threshold = state.threshold;
-    threshold.statisticItems=state.comboRealTimeSettings.statisticItems;
-    threshold.functionOptions=state.comboRealTimeSettings.functionOptions;
-    threshold.displayFormatOptions=state.comboRealTimeSettings.displayFormatOptions;
     return {
-        threshold: threshold,
+        threshold: state.threshold,
         common: state.common,
         displayFormat: state.configurations.widget.appliedSettings.dataMetrics.displayFormat,
         isComboWidget: state.configurations.widget.isComboWidget,

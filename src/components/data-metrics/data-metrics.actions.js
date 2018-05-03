@@ -51,11 +51,9 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
     let height = currentComboWidget.height;
     let headerHeight = 50;
     let remainingHeight = height - headerHeight;
-    let eachCellHeight = _.floor(remainingHeight / (filters.length > 0 ? filters.length  :1));
+    let eachCellHeight = _.floor(remainingHeight / (filters.length > 0 ? filters.length : 1));
     let eachCellWidth = currentComboWidget.width / comboSelectedStatisticColumns.length;
     let adjustedHeaderHeight = height - (filters.length * eachCellHeight);
-
-    debugger
     let newFilters = [...filters];
     newFilters.splice(0, 0, {})
     let previousRow = undefined;
@@ -74,8 +72,7 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
 
             let widgetType = isColumnHeader ? WidgetTypeEnum.Box : statisticColumn.widget.value;
             let cell = WidgetData.GetWidget(widgetType, 0, true, isColumnHeader, isRowHeader);
-            if (columnIndex != 0 && rowIndex != 0)
-                cell.setDataMetrics(dataMetrics);
+            cell.setDataMetrics(dataMetrics);
             if (isColumnHeader || isRowHeader)
                 cell.displayValue = filter.label || statisticColumn.displayName;
 
@@ -196,9 +193,9 @@ export function saveComboCustomMetricsAction() {
         let query = getState().comboCustomSettings.query;
         let existedMatrix = currentWidget ? currentWidget.matrix : [];
         let existingHeaders = existedMatrix[0];
-
         let newMatrix = [];
         let headers = _.map(columns, (column) => {
+
             let existingHeader = _.find(existingHeaders, (header) => header.columnId == column.selectedColumn.value)
             if (existingHeader)
                 return mappingCustomMatrixHeaders(existingHeader, column);
@@ -212,7 +209,8 @@ export function saveComboCustomMetricsAction() {
                 dataMetrics: {
                     ...cellHeader.appliedSettings.dataMetrics,
                     statisticCategory: StatisticCategoryEnum.Custom
-                }
+                },
+                basedColumnDisplayFormat: column.displayFormat
             }
             cellHeader.applySettings(appliedSettings);
             return mappingCustomMatrixHeaders(cellHeader, column);

@@ -9,6 +9,7 @@ import { Constants } from '../../shared/constants';
 import { utils } from '../../utilities';
 import { StatisticCategoryEnum, ResponseStatusEnum, DisplayFormatEnum } from '../../shared/enums';
 
+
 export default class ThresholdTab extends PureComponent {
     constructor(props) {
         super(props);
@@ -17,7 +18,9 @@ export default class ThresholdTab extends PureComponent {
         this.addSelectedLevels = this.addSelectedLevels.bind(this);
         this.addLevels = this.addLevels.bind(this);
         this.getDisplayFormat = this.getDisplayFormat.bind(this);
-
+        this.onDisplayFormatChange = this.onDisplayFormatChange.bind(this);
+        this.onStatisticItemChange = this.onStatisticItemChange.bind(this);
+        this.onStatisticFunctionChange = this.onStatisticFunctionChange.bind(this);
     }
 
     /**
@@ -26,13 +29,13 @@ export default class ThresholdTab extends PureComponent {
     addSelectedLevels() {
         let errors = [];
         let { basedColumn } = this.props.threshold
-        let displayFormat = this.getDisplayFormat(basedColumn);
-        if (displayFormat == DisplayFormatEnum.NOT_DEFINED)
+        let _displayFormat = this.getDisplayFormat(basedColumn);
+        if (!_displayFormat)
             errors.push({ displayMessage: this.props.l.t('Display_format_is_not_set_in_Data_MetricsPERIOD', 'Display format is not set in Data Metrics.') });
 
         errors = errors.concat(this.validateEmailIds());
 
-        let thresholdErrors = this.validateThresholds(this.props.threshold.levels, displayFormat)
+        let thresholdErrors = this.validateThresholds(this.props.threshold.levels, _displayFormat)
         if (thresholdErrors)
             errors = errors.concat(thresholdErrors);
 
@@ -67,7 +70,7 @@ export default class ThresholdTab extends PureComponent {
      */
     getDisplayFormat(basedColumn) {
         const { displayFormat, threshold, statisticCategory, isComboWidget } = this.props;
-        let displayFormatId = DisplayFormatEnum.NOT_DEFINED;
+        let displayFormatId = DisplayFormatEnum.Text;
         if (isComboWidget && statisticCategory == StatisticCategoryEnum.Custom) {
 
             if (_.find(Constants.NumericTypes, (type) => type == basedColumn.type)) {
@@ -87,10 +90,13 @@ export default class ThresholdTab extends PureComponent {
             if (basedColumn.type == 'string')
                 return DisplayFormatEnum.Text;
 
-            return this.props.displayFormat ? this.props.displayFormat.id : DisplayFormatEnum.NOT_DEFINED;
+            return this.props.displayFormat ? this.props.displayFormat.id : DisplayFormatEnum.Text;
 
-        } else {
-            displayFormatId = this.props.displayFormat ? this.props.displayFormat.id : DisplayFormatEnum.NOT_DEFINED;
+        } else if (isComboWidget && statisticCategory == StatisticCategoryEnum.RealTime) {
+            return this.props.threshold.displayFormat.id;
+        }
+        else {
+            displayFormatId = this.props.displayFormat ? this.props.displayFormat.id : DisplayFormatEnum.Text;
         }
 
         return displayFormatId;
@@ -248,9 +254,20 @@ export default class ThresholdTab extends PureComponent {
         this.props.updateBasedColumn(basedColumn);
         this.props.updateLevels(levels)
     }
-
+    onStatisticItemChange(item) {
+        if (item)
+            this.props.setStatisticItem(item);
+    }
+    onStatisticFunctionChange(func) {
+        this.props.setStatisticFunction(func);
+    }
+    onDisplayFormatChange(displayFormat) {
+        
+        this.props.setDisplayFormat(displayFormat);
+    }
     render() {
         let { threshold, statisticCategory } = this.props;
+        debugger;
         let displayFormatId = this.getDisplayFormat(threshold.basedColumn);
         return (
             <div id='tabContentArea' className='margin20'>
@@ -267,79 +284,111 @@ export default class ThresholdTab extends PureComponent {
                         </button>
                     </div>
                 </div>
-                {
-                    this.props.isComboWidget && threshold.basedColumn && statisticCategory == StatisticCategoryEnum.Custom ?
-                        <div className="row paddingTop10">
-                            <div className="col-xs-6 col-md-5 col-lg-3 col-lg-offset-2 labelContent text-right rtl-text-right">
-                                <label className="control-label inline"> {this.props.l.t('Based_on_columnCOLON', 'Based on column:')} </label>
-                            </div>
-                            <div className='col-xs-6 col-md-5 col-lg-4'>
-                                <CustomSelect name="field-group-options form-control"
-                                    // disabled={!(this.state.levels && this.state.levels.length > 0)}
-                                    value={threshold.basedColumn || threshold.columnOptions[0]}
                                     options={threshold.columnOptions} placeholder='Select...'
-                                    onChange={(e) => this.onColumnChange(e)} />
-                            </div>
-                        </div> : <fieldset><legend>Based on column</legend>
-                            <div className="row">
-                                <div className="col-md-4">
-                                    <div className="form-group">
-                                        <label>{this.props.l.t('Statistic_Item', 'Statistic Item')}</label>
+                <div className="calculatedVH">
+                    {this.props.isComboWidget &&
+                        <div>
+                            {
+
+
+                                (this.props.isComboWidget && threshold.basedColumn && statisticCategory == StatisticCategoryEnum.Custom) ?
+                                    <div className="row paddingTop10">
+                                        <div className="col-md-4 col-md-offset-2">
+                                            <div className="form-group">
+                                                <label className="control-label inline"> {this.props.l.t('Based_on_columnCOLON', 'Based on column:')} </label>
+                                                <div className="row">
+                                                    <div className="col-md-10 col-lg-12">
+                                                        <CustomSelect name="field-group-options form-control"
+                                                            value={threshold.basedColumn || threshold.columnOptions[0]}
+                                                            options={threshold.columnOptions} placeholder='Select...'
+                                                            onChange={(e) => this.onColumnChange(e)} />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div className="col-md-4">
+                                            <div className="form-group">
+                                                <label className="control-label inline"> {this.props.l.t('Display_Format', 'Display Format')} </label>
+                                                <div className="row">
+                                                    <div className="col-md-10 col-lg-12">
+                                                        <CustomSelect name="field-group-options form-control"
+                                                            value={threshold.displayFormat || threshold.displayFormatOptions[0]}
+                                                            options={threshold.displayFormatOptions} placeholder='Select...'
+                                                            onChange={(e) => this.onDisplayFormatChange(e)} />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div> : <fieldset><legend>Based on column</legend>
                                         <div className="row">
-                                            <div className="col-md-10 col-lg-12">
-                                                <CustomSelect name="field-item-options"
-                                                    placeholder='Select...'
-                                                    // value={comboRealTimeSettings.selectedItem}
-                                                    // onChange={this.onStatisticItemChange}
-                                                    options={this.props.statisticItems}
-                                                />
+                                            <div className="col-md-4">
+                                                <div className="form-group">
+                                                    <label>{this.props.l.t('Statistic_Item', 'Statistic Item')}</label>
+                                                    <div className="row">
+                                                        <div className="col-md-10 col-lg-12">
+                                                            <CustomSelect name="field-item-options"
+                                                                placeholder='Select...'
+                                                                value={this.props.threshold.item}
+                                                                onChange={this.onStatisticItemChange}
+                                                                options={this.props.threshold.statisticItems}
+                                                            />
+
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                             </div>
-                                        </div>
-                                    </div>
+                                            <div className="col-md-4">
+                                                <div className="form-group">
+                                                    <label>{this.props.l.t('Aggregate_Function', 'Aggregate Function')}</label>
+                                                    <div className="row">
+                                                        <div className="col-md-10 col-lg-12">
+                                                            <CustomSelect name="field-function-options"
 
-                                </div>
-                                <div className="col-md-4">
-                                    <div className="form-group">
-                                        <label>{this.props.l.t('Aggregate_Function', 'Aggregate Function')}</label>
-                                        <div className="row">
-                                            <div className="col-md-10 col-lg-12">
-                                                <CustomSelect name="field-function-options"
-                                                    // disabled={comboRealTimeSettings.columnIsDefault}
-                                                    // value={comboRealTimeSettings.selectedFunction}
-                                                    placeholder='Select...'
-                                                    options={this.props.functionOptions}
-                                                // onChange={this.onFunctionChange}
-                                                />
+                                                                value={this.props.threshold.func}
+                                                                placeholder='Select...'
+                                                                options={this.props.threshold.functionOptions}
+                                                                onChange={this.onStatisticFunctionChange}
+                                                            />
 
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-md-4">
+                                                <div className="form-group">
+                                                    <label>{this.props.l.t('Display_Format', 'Display Format')}</label>
+                                                    <div className="row">
+                                                        <div className="col-md-10 col-lg-12">
+                                                            <CustomSelect name="field-display-format-options"
+                                                                value={this.props.threshold.displayFormat}
+                                                                placeholder='Select...'
+                                                                options={this.props.threshold.displayFormatOptions}
+                                                                onChange={this.onDisplayFormatChange}
+                                                            />
+
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-4">
-                                    <div className="form-group">
-                                        <label>{this.props.l.t('Display_Format', 'Display Format')}</label>
-                                        <div className="row">
-                                            <div className="col-md-10 col-lg-12">
-                                                <CustomSelect name="field-display-format-options"
-                                                    // value={comboRealTimeSettings.selectedDisplayFormat}
-                                                    placeholder='Select...'
-                                                    options={this.props.displayFormatOptions}
-                                                // onChange={this.onDisplayFormatChange}
-                                                />
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                    </fieldset>
 
-                        </fieldset>
-
+                            }
+                        </div>
+                    }
+                    <ThresholdAccordionContainer displayFormatId={displayFormatId} />
+                </div>
                 }
-
-                <ThresholdAccordionContainer displayFormatId={displayFormatId} />
-            </div>
+                </div>
         )
     }
 }
