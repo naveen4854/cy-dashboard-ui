@@ -224,10 +224,10 @@ export function updateComboMatrix(comboWidgetId, columnIndex, rowIndex, delta) {
 export function pullWidget(dashboardId, widgetId, refreshInterval) {
     return (dispatch, getState) => {
         // let refreshInterval = refreshValue;
+        let widget = _.find(getState().dashboard.widgets, (w) => w.id == widgetId);
 
         let setTimeoutId = setTimeout(() => {
             dashboardService.viewWidgetData(dashboardId, widgetId, {}).then(response => {
-                let widget = _.find(getState().dashboard.widgets, (w) => w.id == widgetId);
                 if (widget) {
                     let updatedWidget = DashboardUtilities.WidgetDataMapper(widget, response.data)
                     updatedWidget = {
@@ -236,12 +236,12 @@ export function pullWidget(dashboardId, widgetId, refreshInterval) {
                     }
                     dispatch(getState().dashboard.updateWidget(updatedWidget));
                 }
-                let nextRefreshInterval = refreshInterval; // can be changed based on throttling
+                let nextRefreshInterval = widget.refreshInterval; // can be changed based on throttling
                 if (nextRefreshInterval > 0) {
                     dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval))
                 }
             }).catch((err) => {
-                let nextRefreshInterval = refreshInterval;
+                let nextRefreshInterval = widget.refreshInterval;
                 if (nextRefreshInterval > 0) {
                     dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval));
                 }

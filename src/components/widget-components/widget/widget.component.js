@@ -23,7 +23,7 @@ export default class WidgetComponent extends PureComponent {
         super(props);
         if (this.props.dashboardMode == DashboardModeEnum.View || this.props.dashboardMode == DashboardModeEnum.Slider) {
             if (!this.props.widget.isComboWidget) {
-                this.props.pullWidgetData(this.props.dashboardId, this.props.widget.id, this.props.widget.refreshInterval)
+                this.props.pullWidgetData(this.props.dashboardId, this.props.widget.id, 0)
             }
         }
         else if (this.props.dashboardMode == DashboardModeEnum.EditToLive) {
@@ -36,7 +36,7 @@ export default class WidgetComponent extends PureComponent {
 
         if (this.props.dashboardMode == DashboardModeEnum.View || this.props.dashboardMode == DashboardModeEnum.Slider) {
             if (this.props.widget.id != nextProps.widget.id && !nextProps.widget.isComboWidget)
-                this.props.pullWidgetData(nextProps.dashboardId, nextProps.widget.id, nextProps.widget.refreshInterval)
+                this.props.pullWidgetData(nextProps.dashboardId, 0)
         }
         else if (this.props.dashboardMode == DashboardModeEnum.EditToLive) {
             if (this.props.widget.id != nextProps.widget.id && !nextProps.widget.isComboWidget) {
