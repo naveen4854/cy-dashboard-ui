@@ -40,7 +40,7 @@ export default class ViewDashboardComponent extends PureComponent {
         // Navigate to edit page of the dashboard.
         //this.props.navigate();
         if (this.props.dashboard.mode == DashboardModeEnum.EditToLive) {
-            if (this.props.dashboard.Id == DefaultDashboardId) {
+            if (!this.props.dashboard.Id || this.props.dashboard.Id == DefaultDashboardId) {
                 // this.props.updateDashboardMode(DashboardModeEnum.New);
                 browserHistory.push(`/dashboard/${DefaultDashboardId}`);
             }
