@@ -4,7 +4,7 @@ import authenticate from '../../authentication/authenticated.hoc';
 
 import NewDashboardContainer from './new-dashboard.container';
 import DashboardReducer from '../dashboard.reducer';
-import SettingsReducer from '../../components/widget-configurations/widget-configurations.reducer';
+import ConfigurationsReducer from '../../components/widget-configurations/widget-configurations.reducer';
 import StylesReducer from '../../components/style-components/styles.reducer';
 import ThresholdReducer from '../../components/thresholds/threshold.reducer';
 import RealTimeSettingsReducer from '../../components/real-time-settings/real-time-settings.reducer';
@@ -20,13 +20,11 @@ import { DashboardModeEnum } from '../../shared/enums';
 export default (store) => ({
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
-      injectReducer(store, { key: 'configurations', reducer: SettingsReducer })
       injectReducer(store, { key: 'styles', reducer: StylesReducer })
       injectReducer(store, { key: 'threshold', reducer: ThresholdReducer })
       injectReducer(store, { key: 'realTimeSettings', reducer: RealTimeSettingsReducer })
       injectReducer(store, { key: 'cyReportSettings', reducer: CyReportSettingsReducer })
       injectReducer(store, { key: 'widgetsBar', reducer: WidgetsBarReducer })
-      // injectReducer(store, { key: 'comboSettings', reducer: ComboSettingsMetricsReducer })
       injectReducer(store, { key: 'comboRealTimeSettings', reducer: ComboRealTimeSettingsReducer })
       injectReducer(store, { key: 'comboCustomSettings', reducer: ComboCustomSettingsReducer })
 
@@ -58,7 +56,10 @@ export default (store) => ({
 
     injectReducer(store, { key: 'customSettings', reducer: CustomMetricsSettingsReducer })
     store.dispatch(store.getState().customSettings.getStoredProcedures());
-    // load refreshinterval
+    
+    injectReducer(store, { key: 'configurations', reducer: ConfigurationsReducer })
+    store.dispatch(store.getState().configurations.getDefaultRefreshInterval());
+    
   },
 })
 

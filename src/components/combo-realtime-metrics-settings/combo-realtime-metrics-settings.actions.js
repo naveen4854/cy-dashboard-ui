@@ -398,7 +398,10 @@ export function toggleAddEdit(toggleAddEdit) {
             selectedDisplayFormat: {},
             selectedWidget: {},
             selectedColumnId: -1,
-            columnIsDefault: false
+            columnIsDefault: false,
+            functionOptions: [],
+            applicableWidgets: [],
+            displayFormatOptions: []
         });
         dispatch({
             type: UPDATE_COMBO_REALTIME_TOGGLE_ADD,

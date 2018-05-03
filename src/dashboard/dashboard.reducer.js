@@ -11,6 +11,7 @@ export function AddWidget(widgetType) {
     return (dispatch, getState) => {
         let widgets = getState().dashboard.widgets;
         let widget = WidgetData.GetWidget(widgetType, widgets.length + 1)
+        widget.applyRefreshInterval(getState().configurations.defaultRefreshInterval)
         dispatch({
             type: ADD_WIDGET,
             widget

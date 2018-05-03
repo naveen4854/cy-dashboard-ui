@@ -24,7 +24,7 @@ export function initiateCyReportSettings() {
                 groupOptions: _grpOptions
             });
         }
-        
+
         let appliedStatisticCategory = currentWidget.appliedSettings.dataMetrics.statisticCategory
         if (appliedStatisticCategory == StatisticCategoryEnum.CyReport)
             dispatch({
@@ -144,8 +144,17 @@ export function setSelectedDisplayFormatAction(selectedDisplayFormat) {
     }
 }
 
-export function SaveCyReportMetrics(dataMetrics) {
+export function saveCyReportMetrics(dataMetrics) {
     return (dispatch, getState) => {
+        let dataMetrics = {
+            id: Date.now(),
+            desc: '',
+            group: getState().cyReportSettings.selectedGroup,
+            item: getState().cyReportSettings.selectedItem,
+            func: getState().cyReportSettings.selectedFunction,
+            displayFormat: getState().cyReportSettings.selectedDisplayFormat,
+            drillDownOptions: getState().cyReportSettings.drillDownOptions
+        }
         dispatch(getState().dataMetrics.saveDataMetrics(dataMetrics));
         dispatch(getState().realTimeSettings.clearRealTimeSettings());
         dispatch(getState().customSettings.clearCustomSettings());

@@ -54,19 +54,9 @@ export default class ComboCustomMetricsSettingsComponent extends PureComponent {
                     </div>
                     <div className="row">
                         {
-                            comboCustomSettings.query &&
+                            comboCustomSettings.query && comboCustomSettings.hideConfigureColumn &&
                             <ComboCustomColumnsComponent {...this.props} />
                         }
-                    </div>
-                    <div className="row">
-                        <div className=" col-md-offset-10  col-md-4 col-sm-offset-6 col-sm-6">
-                            <button type="button"
-                                disabled={!comboCustomSettings.columns.length > 0}
-                                className=" btn btn-primary"
-                                onClick={this.saveDataMetrics} >
-                                {this.props.l.t('Apply', 'Apply')}
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>

@@ -100,8 +100,8 @@ export function setTokenRefreshTimeout(timeDiff) {
                     tokenRefTimeOutId: -1
                 });;
                 dispatch({
-                  type: UPDATE_REF_TOKEN_TIMEOUT_ID,
-                  tokenRefTimeOutId: -1
+                    type: UPDATE_REF_TOKEN_TIMEOUT_ID,
+                    tokenRefTimeOutId: -1
                 })
                 console.log(res, "TOKEN REFRESH DONE");
                 let nextTimeDiff = getState().user.expiresIn * 1000;
@@ -142,6 +142,8 @@ export function logout() {
 
 export function defaultRedirection() {
     return (dispatch, getState) => {
+        // return browserHistory.push('/dashboard/mydashboards');
+
         dispatch(getState().spinnerStore.BeginTask());
         loginService.getDefaultDashboard()
             .then(res => {
@@ -180,31 +182,30 @@ export function clearPingTimeout() {
 
 export function ping(timeDiff) {
     return (dispatch, getState) => {
-        return;
-      let user = getState().user;
-  
-      if (user.pingRefTimeOutId != -1 && getState().app.currentTabId != localStorage.getItem('rt'))
         return
-  
-      let pingTimeoutId = setTimeout(() => {
-        console.log("PING STARTED for user.nic ", user.nic)
-        loginService.ping(user.nic).then(res => {
-  
-          let nextTimeDiff = Constants.oneMinute //1000 * 60;
-          dispatch(getState().user.ping(nextTimeDiff))
+        let user = getState().user;
+
+        if (user.pingRefTimeOutId != -1 && getState().app.currentTabId != localStorage.getItem('rt'))
+            return
+
+        let pingTimeoutId = setTimeout(() => {
+            console.log("PING STARTED for user.nic ", user.nic)
+            loginService.ping(user.nic).then(res => {
+
+                let nextTimeDiff = Constants.oneMinute //1000 * 60;
+                dispatch(getState().user.ping(nextTimeDiff))
+            })
+                .catch((err) => {
+                    dispatch(getState().notificationStore.clearNotifications());
+                    dispatch(getState().notificationStore.notify(err.response.data.Messages, ResponseStatusEnum.Error, true));
+                    //dispatch(getState().user.ping(Constants.pingFailureTimeMinute))
+                    dispatch(getState().user.logout())
+                });
+        }, timeDiff);
+
+        dispatch({
+            type: UPDATE_PING_TOKEN_TIMEOUT_ID,
+            pingRefTimeOutId: pingTimeoutId
         })
-          .catch((err) => {
-            dispatch(getState().notificationStore.clearNotifications());
-            dispatch(getState().notificationStore.notify(err.response.data.Messages, ResponseStatusEnum.Error, true));
-            //dispatch(getState().user.ping(Constants.pingFailureTimeMinute))
-            dispatch(getState().user.logout())
-          });
-      }, timeDiff);
-  
-      dispatch({
-        type: UPDATE_PING_TOKEN_TIMEOUT_ID,
-        pingRefTimeOutId: pingTimeoutId
-      })
     }
-  }
-  
+}

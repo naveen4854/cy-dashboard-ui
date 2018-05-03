@@ -35,6 +35,7 @@ const mapStateToProps = (state) => {
         displayFormat: state.configurations.widget.appliedSettings.dataMetrics.displayFormat,
         isComboWidget: state.configurations.widget.isComboWidget,
         statisticCategory: state.configurations.widget.appliedSettings.dataMetrics.statisticCategory,
+        widgetId:state.configurations.widgetId
     }
 }
 

@@ -1,4 +1,4 @@
-import { getStoredProcedures, initiateCustomMetricsSettings, clearCustomSettings } from './custom-metrics-settings.actions';
+import { getStoredProcedures, initiateCustomMetricsSettings, clearCustomSettings, saveCustomMetrics } from './custom-metrics-settings.actions';
 
 export const DEFAULT_CUSTOM_METRICS = 'DEFAULT_CUSTOM_METRICS';
 export const UPDATE_CUSTOM_METRICS_SP_DATA = 'UPDATE_CUSTOM_METRICS_SP_DATA';
@@ -50,7 +50,8 @@ export const customSettingsInitialState = {
     query: '',
     getStoredProcedures,
     initiateCustomMetricsSettings,
-    clearCustomSettings
+    clearCustomSettings,
+    saveCustomMetrics
 };
 
 export default function CustomMetricsSettingsReducer(state = _.cloneDeep(customSettingsInitialState), action) {

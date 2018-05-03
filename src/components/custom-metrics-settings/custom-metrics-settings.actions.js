@@ -100,7 +100,11 @@ export function updateParamValue(value, i) {
 
 export function saveCustomMetrics(settings) {
     return (dispatch, getState) => {
-        debugger
+        let settings = {
+            selectedStoreProc: getState().customSettings.selectedStoreProc,
+            query: getState().customSettings.query,
+            filterStoreProcs: getState().customSettings.storeProcParams
+        }
         dispatch(getState().spinnerStore.BeginTask());
         let updatedQuery = settings.query;
         //TOOD: use loadColumns
@@ -128,7 +132,6 @@ export function saveCustomMetrics(settings) {
                 })
             }
         }).catch((error) => {
-            debugger
             dispatch(getState().spinnerStore.EndTask());
             dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error));
         })

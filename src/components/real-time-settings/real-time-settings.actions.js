@@ -218,8 +218,17 @@ export function setDrillDownDefaulted(value) {
     }
 }
 
-export function SaveRealTimeMetrics(dataMetrics) {
+export function saveRealTimeMetrics(dataMetrics) {
     return (dispatch, getState) => {
+        let dataMetrics = {
+            id: Date.now(),
+            desc: '',
+            group: getState().realTimeSettings.selectedGroup,
+            item: getState().realTimeSettings.selectedItem,
+            func: getState().realTimeSettings.selectedFunction,
+            displayFormat: getState().realTimeSettings.selectedDisplayFormat,
+            drillDownOptions: getState().realTimeSettings.drillDownOptions
+        }
         dispatch(getState().dataMetrics.saveDataMetrics(dataMetrics));
         dispatch(getState().cyReportSettings.clearCyReportSettings());
         dispatch(getState().customSettings.clearCustomSettings());

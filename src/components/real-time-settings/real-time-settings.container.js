@@ -27,7 +27,7 @@ const mapDispatchToProps = (dispatch) => {
             }
         },
         saveMetrics: (dataMetrics) => {
-            dispatch(RealTimeSettingsActions.SaveRealTimeMetrics(dataMetrics));
+            dispatch(RealTimeSettingsActions.saveRealTimeMetrics(dataMetrics));
         },
         getDrillDownMetaData: (selectedItem) => {
             if (selectedItem) {

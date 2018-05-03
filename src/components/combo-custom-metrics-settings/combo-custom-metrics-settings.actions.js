@@ -37,10 +37,10 @@ export function initiateComboCustomSettings() {
             dispatch({
                 type: DEFAULT_COMBO_CUSTOM_METRICS,
                 query: datametrics.query || '',
-                columns: datametrics.columns || [],
+                columns: datametrics.columns || []
             })
 
-            dispatch(getState().comboCustomSettings.loadColumns())
+            dispatch(getState().comboCustomSettings.loadColumns(datametrics.columns))
         }
     }
 }
@@ -52,7 +52,7 @@ export function updateCustomQuery(query) {
     }
 }
 
-export function loadColumns() {
+export function loadColumns(defaultColumns) {
     return (dispatch, getState) => {
         let query = getState().comboCustomSettings.query;
         if (!query)
@@ -81,9 +81,12 @@ export function loadColumns() {
                             }
                         });
 
+                        let columns = defaultColumns || [];
                         dispatch({
                             type: UPDATE_COMBO_CUSTOM_COLUMN_OPTIONS,
-                            columnOptions
+                            columnOptions,
+                            columns,
+                            hideConfigureColumn: true
                         })
                     }
                 })

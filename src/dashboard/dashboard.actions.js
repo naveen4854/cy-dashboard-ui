@@ -41,7 +41,8 @@ export function getDashboardById(dashboardId) {
     return (dispatch, getState) => {
         let dataMetricsMetadata = getState().dataMetrics.dataMetricsMetadata;
         let isEditMode = getState().dashboard.mode == DashboardModeEnum.Edit ? true : false;
-        if (dashboardId)
+        let currentDashboardId = getState().dashboard.Id;
+        if (dashboardId && dashboardId != currentDashboardId)
             dashboardService.getDashboardById(dashboardId, isEditMode).then((response) => {
                 let dashboard = response.data;
                 const dashboardData = DashboardUtilities.mapDashboardFromServer(dashboard, dataMetricsMetadata, true);
@@ -117,8 +118,19 @@ export function updateWidgetPosition(x, y, currentWidget) {
 export function updateWidgetSize(width, height, currentWidget) {
     return (dispatch, getState) => {
         let allWidgets = getState().dashboard.widgets;
+        let newMatrix = [];
+        if (currentWidget.widgetType == WidgetTypeEnum.Combo)
+            newMatrix = _.map(currentWidget.matrix, (row) => {
+                return _.map(row, (cell) => {
+                    return {
+                        ...cell,
+                        height: cell.height / currentWidget.height * height,
+                        width: cell.width / currentWidget.width * width
+                    }
+                })
+            })
 
-        let updatedWidget = { ...currentWidget, width, height };
+        let updatedWidget = { ...currentWidget, matrix: newMatrix, width, height };
         let updatedWidgets = _.map(allWidgets, (widget) => {
             if (widget.id == currentWidget.id)
                 return updatedWidget
@@ -211,21 +223,25 @@ export function updateComboMatrix(comboWidgetId, columnIndex, rowIndex, delta) {
 
 export function pullWidget(dashboardId, widgetId, refreshInterval) {
     return (dispatch, getState) => {
-       // let refreshInterval = refreshValue;
+        // let refreshInterval = refreshValue;
+        let widget = _.find(getState().dashboard.widgets, (w) => w.id == widgetId);
 
         let setTimeoutId = setTimeout(() => {
             dashboardService.viewWidgetData(dashboardId, widgetId, {}).then(response => {
-                let widget = _.find(getState().dashboard.widgets, (w) => w.id == widgetId);
                 if (widget) {
                     let updatedWidget = DashboardUtilities.WidgetDataMapper(widget, response.data)
+                    updatedWidget = {
+                        ...updatedWidget,
+                        previousData:  response.data
+                    }
                     dispatch(getState().dashboard.updateWidget(updatedWidget));
                 }
-                let nextRefreshInterval = refreshInterval; // can be changed based on throttling
+                let nextRefreshInterval = widget.refreshInterval; // can be changed based on throttling
                 if (nextRefreshInterval > 0) {
                     dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval))
                 }
             }).catch((err) => {
-                let nextRefreshInterval = refreshInterval;
+                let nextRefreshInterval = widget.refreshInterval;
                 if (nextRefreshInterval > 0) {
                     dispatch(getState().dashboard.pullWidget(dashboardId, widgetId, nextRefreshInterval));
                 }

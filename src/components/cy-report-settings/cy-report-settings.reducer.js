@@ -1,4 +1,5 @@
 import { initiateCyReportSettings, clearCyReportSettings } from './cy-report-settings.actions'
+import { saveCyReportMetrics } from './cy-report-settings.actions'
 
 export const SET_CYREPORT_STATISTIC_GROUPS = 'SET_CYREPORT_STATISTIC_GROUPS';
 export const UPDATE_CYREPORT_SELECTED_GROUP = 'UPDATE_CYREPORT_SELECTED_GROUP';
@@ -89,7 +90,9 @@ export const cyReportInitialState = {
     selectedFunction: {},
     selectedDisplayFormat: {},
     initiateCyReportSettings,
-    clearCyReportSettings
+    clearCyReportSettings,
+    saveCyReportMetrics
+
 };
 
 export default function CyReportSettingsReducer(state = _.cloneDeep(cyReportInitialState), action) {

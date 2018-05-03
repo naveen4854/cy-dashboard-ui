@@ -10,6 +10,19 @@ export default class ClockMetricsSettingsComponent extends PureComponent {
         return (
             <div className="col-xs-12 editorContent">
                 <div className="col-xs-12">
+                    <div className="row">
+                        <div className="col-xs-2 pull-right rtl-pull-right text-right rtl-text-right" style={{ marginTop: '10px' }}>
+                            <button
+                                disabled={this.props.clockSettings.selectedTimeZoneItem ? false : true}
+                                type="button"
+                                className=" btn btn-sm btn btn-primary btn-block "
+                                onClick={this.props.updateWidgetSettings}>{this.props.l.t("Apply", "Apply")}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="col-xs-12" >
                     <div className="form-group">
                         <div className="row">
                             <div className="col-xs-12 col-md-4 col-lg-4 metrics-label-sm metrics-label rtl-metrics-label-sm ">
@@ -143,18 +156,6 @@ export default class ClockMetricsSettingsComponent extends PureComponent {
                             <div className="col-xs-9 col-sm-7 col-md-6 col-lg-5">
                                 <input type="text" className="form-control" value={this.props.clockSettings.tzoneText || ""} onChange={(e) => this.props.setTimeZonelabel(e.target.value)} />
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-xs-12">
-                    <div className="row">
-                        <div className="col-xs-4 col-xs-offset-4 col-sm-6  col-sm-offset-3 col-md-4 col-md-offset-4">
-                            <button
-                                disabled={this.props.clockSettings.selectedTimeZoneItem ? false : true}
-                                type="button"
-                                className=" btn btn-sm btn btn-primary btn-block "
-                                onClick={this.props.updateWidgetSettings}>{this.props.l.t("Apply", "Apply")}
-                            </button>
                         </div>
                     </div>
                 </div>

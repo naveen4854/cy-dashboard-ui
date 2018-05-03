@@ -3,13 +3,10 @@ import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 
 import moment from 'moment'
 import momentLocaliser from 'react-widgets-moment'
+import 'react-widgets/dist/css/react-widgets.css'
 
-
-
-//  import './styles.css'
-// var DatePicker = require("react-bootstrap-date-picker");
-// var DatePicker = require('react-bootstrap-datetimepicker');
 momentLocaliser(moment)
+
 export default class CustomDatePicker extends PureComponent {
     constructor(props) {
         super(props);
@@ -17,6 +14,8 @@ export default class CustomDatePicker extends PureComponent {
         this.state = {
             value: this.props.value && !isNaN(Date.parse(this.props.value)) ? new Date(this.props.value) : new Date()
         }
+
+        this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(value, formattedValue) {

@@ -19,7 +19,7 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
   let thresholds = [];
   let drillDownData = {};
   let comboMatrix = [];
-
+  
   if (inputWidget.appliedSettings) {
     thresholds = _.map(inputWidget.appliedSettings.thresholds, threshold => {
       return {
@@ -219,10 +219,10 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
  * map data to widget based on its type
  */
 export function WidgetDataMapper(widget, widgetData) {
-  widget = {
-    ...widget,
-    previousData: widgetData
-  }
+  // widget = {
+  //   ...widget,
+  //   previousData: widgetData
+  // }
   const { widgetBody } = widget || {};
   if (widgetBody) {
     widget = {
@@ -422,6 +422,10 @@ function comboResultMapping(widget, data) {
       for (let j = 0; j < data.wrgd[i].length; j++) {
         let cell = new BoxWidget(true, 0, false);
         let firstRow = widget.matrix[0];
+        firstRow[j].height = widget.height / (data.wrgd.length + 1)
+        firstRow[j].width = widget.width / (data.wrgd[i].length)
+        cell.height = firstRow[j].height
+        cell.width = firstRow[j].width
         let colummCheck = firstRow[j];
         let filterColumns = _.map(firstRow, row => row.column);
         if (Constants.DateTypes.indexOf(colummCheck.dataType) == 1 && (colummCheck.dateFormat || colummCheck.timeFormatId)) {
@@ -521,7 +525,6 @@ function textWidgetConfigurationsFromServer(textWidget, dataMetricsMetadata, isE
 
 function widgetConfigurationsFromServer(widget, dataMetricsMetadata, isEdit) {
   let appliedSettings = mapAppliedSettings(widget, isEdit, dataMetricsMetadata)
-debugger
   return {
     x: widget.wxp,
     y: widget.wyp,

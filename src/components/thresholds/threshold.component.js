@@ -284,12 +284,11 @@ export default class ThresholdTab extends PureComponent {
                         </button>
                     </div>
                 </div>
+
                 <div className="calculatedVH">
                     {this.props.isComboWidget &&
                         <div>
                             {
-
-
                                 (this.props.isComboWidget && threshold.basedColumn && statisticCategory == StatisticCategoryEnum.Custom) ?
                                     <div className="row paddingTop10">
                                         <div className="col-md-4 col-md-offset-2">
