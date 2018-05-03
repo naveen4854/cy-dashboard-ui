@@ -284,7 +284,6 @@ export default class ThresholdTab extends PureComponent {
                         </button>
                     </div>
                 </div>
-                                    options={threshold.columnOptions} placeholder='Select...'
                 <div className="calculatedVH">
                     {this.props.isComboWidget &&
                         <div>
