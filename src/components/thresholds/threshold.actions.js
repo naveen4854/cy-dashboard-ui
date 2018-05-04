@@ -183,7 +183,7 @@ export function TestThreshold(threshold, widgetId) {
         let inputThreshold = {
             ti: mappedThreshold,
             tiwt: title, // As of now since combo is not having title, we are just sending title as combo widget.
-            tidn: 'Test' //we should pass dashboard name.                 getState().newdashboard.name
+            tidn: getState().dashboard.name //we should pass dashboard name.                 getState().newdashboard.name
         }
         ThresholdService.testThreshold(inputThreshold).then((response) => {
             dispatch(getState().spinnerStore.EndTask());
