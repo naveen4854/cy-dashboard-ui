@@ -22,6 +22,7 @@ export const ACTION_HANDLERS = {
         return Object.assign({}, state, {
             selectedDrilldownOptions: action.selectedDrilldownOptions,
             drillDownOptions: action.drillDownOptions,
+            comboRTDefaulted: action.comboRTDefaulted
         })
     },
     [SET_COMBO_SELECTED_STATISTIC_ITEMS]: (state, action) => {
