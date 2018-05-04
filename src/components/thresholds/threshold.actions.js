@@ -182,7 +182,7 @@ export function TestThreshold(threshold, widgetId) {
         };
         let inputThreshold = {
             ti: mappedThreshold,
-            tiwt: title, // As of now since combo is not having title, we are just sending title as combo widget.
+            tiwt: title,
             tidn: getState().dashboard.name
         }
         ThresholdService.testThreshold(inputThreshold).then((response) => {
