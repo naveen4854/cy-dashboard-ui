@@ -69,28 +69,11 @@ export default class ThresholdTab extends PureComponent {
      * @param {*} basedColumn //required for custom combo
      */
     getDisplayFormat(basedColumn) {
+        debugger;
         const { displayFormat, threshold, statisticCategory, isComboWidget } = this.props;
         let displayFormatId = DisplayFormatEnum.Text;
         if (isComboWidget && statisticCategory == StatisticCategoryEnum.Custom) {
-
-            if (_.find(Constants.NumericTypes, (type) => type == basedColumn.type)) {
-                if (basedColumn.displayFormatId == DisplayFormatEnum.Duration) {
-                    let _format = _.find(Constants.customCombotimeFormat, format => format.id == basedColumn.timeFormatId);
-                    return _format ? _format.displayFormatId : DisplayFormatEnum.Duration;
-                }
-                return DisplayFormatEnum.Number;
-            }
-
-            if (_.find(Constants.DateTypes, (type) => type == basedColumn.type))
-                return DisplayFormatEnum.Date_Time;
-
-            if (basedColumn.type == 'boolean')
-                return DisplayFormatEnum.Boolean;
-
-            if (basedColumn.type == 'string')
-                return DisplayFormatEnum.Text;
-
-            return this.props.displayFormat ? this.props.displayFormat.id : DisplayFormatEnum.Text;
+            return this.props.threshold.displayFormat ? this.props.threshold.displayFormat.id : DisplayFormatEnum.Text;
 
         } else if (isComboWidget && statisticCategory == StatisticCategoryEnum.RealTime) {
             return this.props.threshold.displayFormat.id;
@@ -105,23 +88,6 @@ export default class ThresholdTab extends PureComponent {
         if (this.props.threshold.isComboWidget) {
             // Combo Custom
             if (this.props.threshold.column && this.props.threshold.column != "") {
-                if (_.find(Constants.NumericTypes, (type) => type == basedColumn.type)) {
-                    if (basedColumn.displayFormatId == DisplayFormatEnum.Duration) {
-                        let _format = _.find(Constants.customCombotimeFormat, format => format.id == basedColumn.timeFormatId);
-                        return _format ? _format.displayFormatId : DisplayFormatEnum.Duration;
-                    }
-                    return DisplayFormatEnum.Number;
-                }
-
-                if (_.find(Constants.DateTypes, (type) => type == basedColumn.type))
-                    return DisplayFormatEnum.Date_Time;
-
-                if (basedColumn.type == 'boolean')
-                    return DisplayFormatEnum.Boolean;
-
-                if (basedColumn.type == 'string')
-                    return DisplayFormatEnum.Text;
-
                 return this.props.threshold.displayFormatId;
             }
 
@@ -262,7 +228,7 @@ export default class ThresholdTab extends PureComponent {
         this.props.setStatisticFunction(func);
     }
     onDisplayFormatChange(displayFormat) {
-        
+
         this.props.setDisplayFormat(displayFormat);
     }
     render() {
