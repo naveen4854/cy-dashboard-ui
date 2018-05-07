@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import _ from 'lodash';
-import {PictureStretchEnum} from '../../../shared/enums';
+import { PictureStretchEnum } from '../../../shared/enums';
 
 export default class PictureWidgetComponent extends PureComponent {
     constructor(props) {
@@ -8,6 +8,7 @@ export default class PictureWidgetComponent extends PureComponent {
     }
     componentWillMount() {
         if (this.props.dashboardId && this.props.appliedSettings.group && this.props.appliedSettings.group.isEdit && !this.props.file) {
+            debugger;
             this.props.PreviewActionPicture(this.props.dashboardId, this.props.id);
         }
     }

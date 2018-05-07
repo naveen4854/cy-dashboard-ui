@@ -1,5 +1,6 @@
 import { ApplyToOptions, WidgetTypeEnum } from "../../shared/enums";
 import { STYLES_UPDATE_APPLY_OPTION, STYLES_APPLY_COMBO_STYLES } from "./styles.constants";
+import { rgba } from "../../utilities";
 
 export const INITIALIZE_STYLES = "INITIALIZE_STYLES"
 export const UPDATE_STYLE_PROP = "UPDATE_STYLE_PROP"
@@ -134,7 +135,7 @@ export function updateWidgetStyles() {
             picturePath: styles.picturePath,
             pictureStretch: styles.pictureStretch,
             refreshInterval: styles.refreshInterval,
-            appliedBackgroundColor: styles.widgetBody.backgroundColor
+            appliedBackgroundColor: styles.widgetBody ? styles.widgetBody.backgroundColor : rgba(255, 255, 255, 1)
         }
         dispatch(getState().configurations.applyWidget(updatedWidget));
     }

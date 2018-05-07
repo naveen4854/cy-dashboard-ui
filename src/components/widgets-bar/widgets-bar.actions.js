@@ -362,15 +362,15 @@ export function HandleModalPopup(showModalPopup) {
  * @param {*} getState 
  */
 function DashboardPictureSave(widget, key, len, dashboardId, dispatch, getState, isBlobLoaded, widgetMediaStorageInput) {
-
-    if (!isBlobLoaded) {
+//https://www.youtube.com/watch?v=gWzciYX4kM4
+    if (true) {
         let blobData = [];
         let mediaStorageInput = {};
         mediaStorageInput.did = dashboardId;
         let reader = new FileReader();
         let file = widget.file;
         let UniqueId = widget.UniqueId;
-
+        debugger
         reader.readAsDataURL(file);
         reader.onload = (upload) => {
             let value = upload.target.result;
@@ -386,6 +386,7 @@ function DashboardPictureSave(widget, key, len, dashboardId, dispatch, getState,
         }
     }
     else {
+        debugger
         DashboardPictureAPI(widgetMediaStorageInput, key, len, dispatch, getState);
     }
 }
@@ -393,12 +394,11 @@ function DashboardPictureSave(widget, key, len, dashboardId, dispatch, getState,
 function DashboardPictureAPI(mediaStorageInput, key, len, dispatch, getState) {
     dispatch(getState().spinnerStore.BeginTask());
 
+    debugger
     dashboardService.pictureSave(mediaStorageInput).then(function (response) {
         if (key == len - 1) {
-
             dispatch(getState().spinnerStore.EndAllTasks());
             NavigateToRequiredPage(getState().dashboard.fromAction, mediaStorageInput.did, dispatch);
-
         }
     }).catch((err) => {
         dispatch(getState().spinnerStore.EndAllTasks());

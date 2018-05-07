@@ -12,6 +12,9 @@ export function initializeThresholddata() {
     return (dispatch, getState) => {
         let currentWidget = getState().configurations.widget;
 
+        if (currentWidget.widgetType == WidgetTypeEnum.Clock || currentWidget.widgetType == WidgetTypeEnum.Picture)
+            return
+
         let threshold = { ...getState().threshold };
         let levels = currentWidget.appliedSettings.thresholds;
         if (currentWidget.isComboWidget) {
@@ -40,10 +43,9 @@ export function initializeThresholddata() {
 
                             dispatch(getState().threshold.loadCustomComboDisplayFormat(result));
                             if (!displayFormat.label) {
-                                
+
                                 displayFormat.label = _.find(result, b => b.id == displayFormat.id).label || undefined;
                             }
-                            debugger;
                             dispatch(getState().threshold.setDisplayFormat(displayFormat));
                         }
                     });
@@ -460,7 +462,7 @@ export function setStatisticFunction(func) {
     }
 }
 export function setDisplayFormat(displayFormat) {
-    
+
     return (dispatch, getState) => {
         dispatch({
             type: ThresholdConstants.UPDATE_REALTIME_DISPLAYFORMAT,

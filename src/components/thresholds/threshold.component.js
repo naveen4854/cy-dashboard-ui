@@ -69,7 +69,6 @@ export default class ThresholdTab extends PureComponent {
      * @param {*} basedColumn //required for custom combo
      */
     getDisplayFormat(basedColumn) {
-        debugger;
         const { displayFormat, threshold, statisticCategory, isComboWidget } = this.props;
         let displayFormatId = DisplayFormatEnum.Text;
         if (isComboWidget && statisticCategory == StatisticCategoryEnum.Custom) {
@@ -233,7 +232,6 @@ export default class ThresholdTab extends PureComponent {
     }
     render() {
         let { threshold, statisticCategory } = this.props;
-        debugger;
         let displayFormatId = this.getDisplayFormat(threshold.basedColumn);
         return (
             <div id='tabContentArea' className='margin20'>

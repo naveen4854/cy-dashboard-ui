@@ -39,10 +39,10 @@ export function loadDataMetricsMetaData(dashboardId) {
         let statisticCategories = getState().dataMetrics.statisticCategories;
         let dataMetricsMetadata = getState().dataMetrics.dataMetricsMetadata;
         if (statisticCategories && statisticCategories.length != 0 && dataMetricsMetadata) {
-             
-            return new Promise(function(resolve, reject) {  
+
+            return new Promise(function (resolve, reject) {
                 resolve();
-             });
+            });
         }
 
         dispatch(getState().spinnerStore.BeginTask());
@@ -73,7 +73,7 @@ export function initializeStatisticMetadata() {
     return (dispatch, getState) => {
         let currentWidget = _.cloneDeep(getState().configurations.widget);
 
-        if (currentWidget.widgetType == WidgetTypeEnum.Clock)
+        if (currentWidget.widgetType == WidgetTypeEnum.Clock || currentWidget.widgetType == WidgetTypeEnum.Picture)
             return
 
         let statisticCategories = getState().dataMetrics.statisticCategories;
