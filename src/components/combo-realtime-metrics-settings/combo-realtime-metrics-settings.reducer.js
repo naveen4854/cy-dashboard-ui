@@ -109,7 +109,8 @@ export const ACTION_HANDLERS = {
             selectedWidget: action.selectedWidget,
             functionOptions: action.functionOptions,
             applicableWidgets: action.applicableWidgets,
-            displayFormatOptions: action.displayFormatOptions
+            displayFormatOptions: action.displayFormatOptions,
+            selectedColumnId: action.selectedColumnId
         })
     },
     [DEFAULT_COMBO_REALTIME_METRICS]: (state, action) => {
