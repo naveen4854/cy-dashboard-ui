@@ -30,7 +30,7 @@ class DragAndDropComboFilters extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    
+
     let _columns = this.getColumns(nextProps.columns);
     let _rows = this.getRows(nextProps.rows);
 
@@ -42,14 +42,14 @@ class DragAndDropComboFilters extends React.Component {
 
   getRows(data) {
     return data ? data.map((row) => {
-      return Object.assign({}, row,
+      return row ? Object.assign({}, row,
         {
-          id: row.value+row.checked,
+          id: row.value + row.checked,
           value: row.value,
-          rowId: row.value+row.checked,
+          rowId: row.value + row.checked,
           checked: row.checked,
           label: row.label
-        })
+        }) : {}
     }) : []
   }
 
@@ -79,8 +79,8 @@ class DragAndDropComboFilters extends React.Component {
     clsArr.push(row.checked ? 'list-item-selected' : 'list-item');
 
     return {
-      rowId: row.value+row.checked,
-      id: row.value+row.checked,
+      rowId: row.value + row.checked,
+      id: row.value + row.checked,
       value: row.value,
       checked: row.checked,
       label: row.label,

@@ -19,7 +19,7 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
   let thresholds = [];
   let drillDownData = {};
   let comboMatrix = [];
-
+  
   if (inputWidget.appliedSettings) {
     thresholds = _.map(inputWidget.appliedSettings.thresholds, threshold => {
       return {
@@ -219,10 +219,10 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
  * map data to widget based on its type
  */
 export function WidgetDataMapper(widget, widgetData) {
-  widget = {
-    ...widget,
-    previousData: widgetData
-  }
+  // widget = {
+  //   ...widget,
+  //   previousData: widgetData
+  // }
   const { widgetBody } = widget || {};
   if (widgetBody) {
     widget = {

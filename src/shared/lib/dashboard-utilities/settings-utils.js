@@ -37,8 +37,13 @@ export function mapAppliedSettings(widget, isEdit, dataMetricsMetadata) {
         }
       })
     }
-
     return {
+      basedReal: widget.bsrl && {
+        itemId: widget.bsrl.rsiid,
+        funcId: widget.bsrl.rsfid,
+        dsId: widget.bsrl.rsdfid,
+        itemName: widget.bsrl.nm
+      },
       dataMetrics: settings && realTimeSettings ? {
         statisticCategory: settings.stom,
         displayFormat: realTimeSettings.rsdfid ? getDisplayFormat(realTimeSettings.rsdfid, dataMetricsMetadata) : '',
@@ -136,6 +141,7 @@ export function getSelectedFunction(func, metrics) {
 }
 
 export function getDisplayFormat(displayFormat, metrics) {
+
   var selectedDisplayFormat = _.find(metrics, {
     'DisplayFormatId': displayFormat
   });

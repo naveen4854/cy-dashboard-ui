@@ -52,15 +52,33 @@ export function getComboMatrix(inputWidget) {
                 bsdc: eachWidget.appliedSettings.basedColumn ? {
                     v: eachWidget.appliedSettings.basedColumn.value,
                     l: eachWidget.appliedSettings.basedColumn.label,
-                    t: eachWidget.appliedSettings.basedColumn.type
+                    t: eachWidget.appliedSettings.basedColumn.type,
+                    did: eachWidget.appliedSettings.basedColumnDisplayFormat.id
+                } : null,
+                bsrl: eachWidget.appliedSettings.basedReal ? {
+                    rsiid: eachWidget.appliedSettings.basedReal.itemId,
+                    rsfid: eachWidget.appliedSettings.basedReal.funcId,
+                    rsdfid: eachWidget.appliedSettings.basedReal.dsId,
+                    nm: eachWidget.appliedSettings.basedReal.itemName
                 } : null,
                 isSummary: eachWidget.isSummary,
                 aggId: eachWidget.aggregateOperationId,
                 isLive: eachWidget.isLive,
                 //isSummary:  eachWidget.displayFormatId,
-                stylesConfigured: eachWidget.stylesConfigured
+                stylesConfigured: eachWidget.stylesConfigured,
+                ws: {
+                    srt: eachWidget && eachWidget.appliedSettings && eachWidget.appliedSettings.dataMetrics ? {
+                        rsgid: eachWidget.appliedSettings.dataMetrics.group ? eachWidget.appliedSettings.dataMetrics.group.id : null,
+                        rsiid: eachWidget.appliedSettings.dataMetrics.item ? eachWidget.appliedSettings.dataMetrics.item.id : null,
+                        rsfid: eachWidget.appliedSettings.dataMetrics.func ? eachWidget.appliedSettings.dataMetrics.func.id : null,
+                        rsdfid: eachWidget.appliedSettings.dataMetrics.displayFormat ? eachWidget.appliedSettings.dataMetrics.displayFormat.id : null,
+
+
+                    } : {},
+                }
 
             };
+
             comboRow.push(comboInnerWidget);
         }
         comboMatrixs.push(comboRow);
@@ -132,7 +150,7 @@ export function comboWidgetConfigurationsFromServer(widget, dataMetricsMetadata,
         ...comboWidget,
         matrix: convertToMatrix(widget.wmx, columns, filters, widget.wid, widget.ws.stom, selectedGroup, dataMetricsMetadata, measures)
     }
-
+    debugger;
     return comboWidget;
 }
 
@@ -202,12 +220,13 @@ function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId, se
                 filter: filters[i - 1],
                 statisticCategory: categoryId
             }
+
             let appliedSettings = {
                 ...comboInnerWidget.appliedSettings,
                 basedColumn: oldWidget.bsdc ? { value: oldWidget.bsdc.v, label: oldWidget.bsdc.l, type: oldWidget.bsdc.t } : null,
+                basedColumnDisplayFormat: oldWidget.bsdc ? { id: oldWidget.bsdc.did, label: undefined, value: oldWidget.bsdc.did } : null,
                 dataMetrics
             };
-
             comboInnerWidget.appliedSettings = appliedSettings;
             comboRow.push(comboInnerWidget);
         }

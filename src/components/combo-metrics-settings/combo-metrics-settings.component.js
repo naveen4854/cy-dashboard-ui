@@ -30,6 +30,7 @@ export default class ComboMetricsSettingsComponent extends PureComponent {
                             //  disabled={!this.state.enableSetButton} 
                             type="button"
                             onClick={this.saveComboMetrics}
+                            disabled={!this.props.enableSave}
                             className=" btn btn-primary" >
                             {this.props.l.t('Apply', 'Apply')}
                         </button>

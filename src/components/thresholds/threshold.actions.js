@@ -6,15 +6,69 @@ import { Constants } from '../../shared/constants';
 import * as ThresholdService from './threshold-service';
 import { thresholdsInitialState } from './threshold.reducer';
 import * as dataMetricsService from '../data-metrics/data-metrics-service'
+import { getSelectedItem, getSelectedFunction, getDisplayFormat as getDisplayFormatSetting } from '../../shared/lib/dashboard-utilities/settings-utils';
 
 export function initializeThresholddata() {
     return (dispatch, getState) => {
         let currentWidget = getState().configurations.widget;
+
+        let threshold = { ...getState().threshold };
         let levels = currentWidget.appliedSettings.thresholds;
         if (currentWidget.isComboWidget) {
             let comboWidget = _.find(getState().dashboard.widgets, wt => wt.id == currentWidget.comboId);
             if (comboWidget.appliedSettings.dataMetrics.statisticCategory == StatisticCategoryEnum.Custom) {
+                let resultColumn = _.find(comboWidget.appliedSettings.dataMetrics.columns, y => _.trim(y.selectedColumn.label) == _.trim(currentWidget.column))
+                let displayFormat = currentWidget.appliedSettings.basedColumnDisplayFormat ? currentWidget.appliedSettings.basedColumnDisplayFormat : resultColumn.displayFormat;
                 dispatch(getState().threshold.loadThresholdColumnOptions(comboWidget.appliedSettings.dataMetrics.query));
+                if (getState().comboCustomSettings.displayFormatOptions.length > 0) {
+                    dispatch(getState().threshold.loadCustomComboDisplayFormat(getState().comboCustomSettings.displayFormatOptions));
+                    if (!displayFormat.label) {
+                        displayFormat.label = _.find(getState().comboCustomSettings.displayFormatOptions, m => m.id == displayFormat.id).label || undefined;
+                    }
+                    dispatch(getState().threshold.setDisplayFormat(displayFormat));
+                } else {
+                    dataMetricsService.getDisplayformats(StatisticCategoryEnum.Custom).then(function (response) {
+                        if (response.status === 200) {
+
+                            var result = _.map(response.data, (item) => {
+                                return {
+                                    value: item.DisplayFormatId,
+                                    id: item.DisplayFormatId,
+                                    label: item.DisplayFormatName
+                                }
+                            })
+
+                            dispatch(getState().threshold.loadCustomComboDisplayFormat(result));
+                            if (!displayFormat.label) {
+                                
+                                displayFormat.label = _.find(result, b => b.id == displayFormat.id).label || undefined;
+                            }
+                            debugger;
+                            dispatch(getState().threshold.setDisplayFormat(displayFormat));
+                        }
+                    });
+                }
+
+            }
+            else {
+                let metricsData = { ...getState().dataMetrics.dataMetricsMetadata };
+                if (currentWidget.appliedSettings.basedReal) {
+                    threshold.item = getSelectedItem(currentWidget.appliedSettings.basedReal.itemId, metricsData);
+                    threshold.func = getSelectedFunction(currentWidget.appliedSettings.basedReal.funcId, metricsData);
+                    threshold.displayFormat = getDisplayFormatSetting(currentWidget.appliedSettings.basedReal.dsId, metricsData);
+                }
+                let item = threshold.item ? threshold.item : { ...currentWidget.appliedSettings.dataMetrics.item };
+                let func = threshold.func ? threshold.func : { ...currentWidget.appliedSettings.dataMetrics.func };
+                let displayFormat = threshold.displayFormat ? threshold.displayFormat : { ...currentWidget.appliedSettings.dataMetrics.displayFormat }
+
+                let statisticItems = setStatisticItems(currentWidget, metricsData, comboWidget.appliedSettings.dataMetrics.group);
+                let statisticFuncs = setStatisticFunctions(currentWidget, metricsData, item);
+                let displayFormats = setDisplayFormats(currentWidget, metricsData, func, item);
+                let realTime = { item: item, func: func, displayFormat: displayFormat, statisticItems: statisticItems, statisticFuncs: statisticFuncs, displayFormats: displayFormats }
+                dispatch({
+                    type: ThresholdConstants.UPDATE_REALTIME_BASED_COLUMN,
+                    realTime
+                });
             }
         }
 
@@ -22,6 +76,15 @@ export function initializeThresholddata() {
             type: ThresholdConstants.DEFAULT_THRESHOLD,
             levels,
             basedColumn: currentWidget.appliedSettings.basedColumn
+        })
+    }
+}
+
+export function loadCustomComboDisplayFormat(displayFormatOptions) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: ThresholdConstants.UPDATE_DISPOPTIONS,
+            displayFormats: displayFormatOptions
         })
     }
 }
@@ -119,8 +182,8 @@ export function TestThreshold(threshold, widgetId) {
         };
         let inputThreshold = {
             ti: mappedThreshold,
-            tiwt: title, // As of now since combo is not having title, we are just sending title as combo widget.
-            tidn: 'Test' //we should pass dashboard name.                 getState().newdashboard.name
+            tiwt: title,
+            tidn: getState().dashboard.name
         }
         ThresholdService.testThreshold(inputThreshold).then((response) => {
             dispatch(getState().spinnerStore.EndTask());
@@ -262,17 +325,20 @@ export function addSelectedLevels() {
         if (currentWidget.isComboWidget) {
             let updatedComboWidget = {};
             let updatedCell = {};
+            let basedReal = statisticCategory == StatisticCategoryEnum.RealTime ? { itemId: threshold.item.id, funcId: threshold.func.id, dsId: threshold.displayFormat.id, itemName: threshold.item.label } : undefined
             // if (statisticCategory == StatisticCategoryEnum.RealTime) {
             let comboWidget = _.cloneDeep(_.find(getState().dashboard.widgets, (w) => w.id === currentWidget.comboId));
             let updatedMatrix = _.map(comboWidget.matrix, (row, rowIndex) => {
                 return _.map(row, (cell, columnIndex) => {
                     if (currentWidget.isColumnHeader && statisticCategory == StatisticCategoryEnum.RealTime) {
+
                         if (cell.columnId == currentWidget.columnId)
                             return {
                                 ...cell,
                                 appliedSettings: {
                                     ...cell.appliedSettings,
-                                    thresholds
+                                    thresholds,
+                                    basedReal
                                 }
                             }
                     }
@@ -283,7 +349,9 @@ export function addSelectedLevels() {
                             appliedSettings: {
                                 ...cell.appliedSettings,
                                 thresholds,
-                                basedColumn: statisticCategory == StatisticCategoryEnum.RealTime ? undefined : threshold.basedColumn
+                                basedColumn: statisticCategory == StatisticCategoryEnum.RealTime ? undefined : threshold.basedColumn,
+                                basedReal: statisticCategory == StatisticCategoryEnum.RealTime ? basedReal : threshold.basedColumn,
+                                basedColumnDisplayFormat: statisticCategory == StatisticCategoryEnum.RealTime ? undefined : threshold.displayFormat,
                             }
                         }
                         return updatedCell;
@@ -326,6 +394,81 @@ export function addSelectedLevels() {
         }
     }
 }
+
+
+export function clearThresholds() {
+    return (dispatch, getState) => {
+        let thresholdData = { ...thresholdsInitialState }
+        dispatch({
+            type: ThresholdConstants.CLEAR_THRESHOLD_DATA,
+            thresholdData
+        })
+
+    }
+}
+
+export function updateBasedColumn(basedColumn) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: ThresholdConstants.UPDATE_THRESHOLD_BASED_COLUMN,
+            basedColumn
+        })
+    }
+}
+
+export function updateLevels(levels) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: ThresholdConstants.UPDATE_THRESHOLD_LEVELS,
+            levels
+        })
+    }
+}
+
+export function setStatisticItem(item) {
+    return (dispatch, getState) => {
+
+        let currentWidget = getState().configurations.widget;
+        let metricsData = { ...getState().dataMetrics.dataMetricsMetadata };
+        let statisticFuncs = setStatisticFunctions(currentWidget, metricsData, item);
+        dispatch({
+            type: ThresholdConstants.UPDATE_FUNCOPTIONS,
+            statisticFuncs
+        })
+        dispatch({
+            type: ThresholdConstants.UPDATE_STATISTICITEM,
+            item
+        });
+
+    }
+}
+export function setStatisticFunction(func) {
+
+    return (dispatch, getState) => {
+        let currentWidget = getState().configurations.widget;
+        let metricsData = { ...getState().dataMetrics.dataMetricsMetadata };
+        let displayFormats = setDisplayFormats(currentWidget, metricsData, func, getState().threshold.item);
+        dispatch({
+            type: ThresholdConstants.UPDATE_DISPOPTIONS,
+            displayFormats
+        })
+        dispatch({
+            type: ThresholdConstants.UPDATE_STATISTICFUNC,
+            func
+        })
+
+    }
+}
+export function setDisplayFormat(displayFormat) {
+    
+    return (dispatch, getState) => {
+        dispatch({
+            type: ThresholdConstants.UPDATE_REALTIME_DISPLAYFORMAT,
+            displayFormat
+        })
+    }
+}
+
 
 /**
   * To get the column index based on widget from matrix
@@ -460,31 +603,47 @@ function getColumnIndex(matrix, widgetId) {
     }
 }
 
-export function clearThresholds() {
-    return (dispatch, getState) => {
-        let thresholdData = { ...thresholdsInitialState }
-        dispatch({
-            type: ThresholdConstants.CLEAR_THRESHOLD_DATA,
-            thresholdData
-        })
-
-    }
+function setStatisticItems(currentWidget, allData, selectedGroup) {
+    return _.uniqBy(_.map(_.filter(allData,
+        metric => metric.StatisticGroupId === selectedGroup.id &&
+            metric.StatisticCategory === StatisticCategoryEnum.RealTime &&
+            metric.WidgetType === currentWidget.widgetType && !metric.IsFilterId),
+        item => {
+            return {
+                id: item.StatisticItemId,
+                label: item.StatisticItem,
+                value: item.Id
+            }
+        }), 'id');
 }
 
-export function updateBasedColumn(basedColumn) {
-    return (dispatch, getState) => {
-        dispatch({
-            type: ThresholdConstants.UPDATE_THRESHOLD_BASED_COLUMN,
-            basedColumn
-        })
-    }
+function setStatisticFunctions(currentWidget, allData, selectedItem) {
+    return _.uniqBy(_.map(_.filter(allData,
+        metric =>
+            metric.StatisticItemId === selectedItem.id &&
+            metric.StatisticCategory === StatisticCategoryEnum.RealTime &&
+            metric.WidgetType === currentWidget.widgetType),
+        item => {
+            return {
+                id: item.StatisticFunctionId,
+                label: item.StatisticFunction,
+                value: item.Id
+            }
+        }), 'id');
 }
 
-export function updateLevels(levels) {
-    return (dispatch, getState) => {
-        dispatch({
-            type: ThresholdConstants.UPDATE_THRESHOLD_LEVELS,
-            levels
-        })
-    }
+function setDisplayFormats(currentWidget, allData, selectedFunction, selectedItem) {
+    return _.uniqBy(_.map(_.filter(allData, metric =>
+        (metric.StatisticItemId === selectedItem.id &&
+            metric.StatisticCategory === StatisticCategoryEnum.RealTime &&
+            metric.StatisticFunctionId === selectedFunction.id && metric.WidgetType === currentWidget.widgetType)
+    ), item => {
+        return {
+            id: item.DisplayFormatId,
+            label: item.DisplayFormat,
+            value: item.Id
+        }
+    }), 'id')
 }
+
+

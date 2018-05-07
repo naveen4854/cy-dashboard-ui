@@ -111,23 +111,23 @@ export function getComboDrillDownMetaData(selectedGroup) {
                 let selectedDrilldownOptions = []
 
                 //if (isEqual) {
-                selectedDrilldownOptions = _.map(currentWidget.appliedSettings.dataMetrics.drillDownOptions, function (option, i) {
+                _.forEach(currentWidget.appliedSettings.dataMetrics.drillDownOptions, function (option, i) {
                     let selectedValue = _.find(drillDownOptions, { 'value': option.value ? option.value : option });
                     if (selectedValue) {
                         selectedValue.checked = false;
-                        return selectedValue;
+                        selectedDrilldownOptions.push(selectedValue);
                     }
                 })
                 // }
                 // else {
                 //  selectedDrilldownOptions = [];
                 // }
-
                 //selectedWidget.appliedSettings.group.isEdit = false;
                 dispatch({
                     type: UPDATE_COMBO_DRILL_DOWN_METADATA,
                     drillDownOptions: finalDrillDownOptions,
-                    selectedDrilldownOptions: selectedDrilldownOptions
+                    selectedDrilldownOptions: selectedDrilldownOptions,
+                    comboRTDefaulted: false
                 });
             }
         });

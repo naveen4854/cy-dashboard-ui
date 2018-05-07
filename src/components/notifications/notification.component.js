@@ -19,7 +19,6 @@ export default class Notification extends PureComponent {
 
     // componentWillReceiveProps(nextProps) {
     //     // if (nextProps.notification.id > 0) {
-    //     // debugger
     //     //     this.messageTypes();
     //     // }
     // }

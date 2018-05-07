@@ -18,7 +18,7 @@ export const Header = (props) => {
           <div id="navbar" className="navbar-collapse collapse" aria-expanded="false">
             <ul className={props.l.isRtl ? "nav navbar-nav navbar-left" : "nav navbar-nav navbar-right"}>
               <li>
-                <a className="pointer">Logged in as {props.user ? props.user.userName : ''}</a>
+                <a>Logged in as {props.user ? props.user.userName : ''}</a>
               </li>
               <li>
                 <a className="pointer" onClick={props.userLogout}>Log out</a>
