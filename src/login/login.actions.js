@@ -182,7 +182,6 @@ export function clearPingTimeout() {
 
 export function ping(timeDiff) {
     return (dispatch, getState) => {
-        return
         let user = getState().user;
 
         if (user.pingRefTimeOutId != -1 && getState().app.currentTabId != localStorage.getItem('rt'))
@@ -198,8 +197,8 @@ export function ping(timeDiff) {
                 .catch((err) => {
                     dispatch(getState().notificationStore.clearNotifications());
                     dispatch(getState().notificationStore.notify(err.response.data.Messages, ResponseStatusEnum.Error, true));
-                    //dispatch(getState().user.ping(Constants.pingFailureTimeMinute))
-                    dispatch(getState().user.logout())
+                    dispatch(getState().user.ping(Constants.pingFailureTimeMinute))
+                    // dispatch(getState().user.logout())
                 });
         }, timeDiff);
 
