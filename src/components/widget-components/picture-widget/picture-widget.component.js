@@ -7,10 +7,6 @@ export default class PictureWidgetComponent extends PureComponent {
         super(props);
     }
     componentWillMount() {
-        if (this.props.dashboardId && this.props.appliedSettings.group && this.props.appliedSettings.group.isEdit && !this.props.file) {
-            debugger;
-            this.props.PreviewActionPicture(this.props.dashboardId, this.props.id);
-        }
     }
     componentWillReceiveProps(nextProps) {
     }

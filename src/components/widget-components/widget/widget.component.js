@@ -32,8 +32,8 @@ export default class WidgetComponent extends PureComponent {
             }
         } else if (this.props.dashboardMode == DashboardModeEnum.Edit) {
             if (this.props.widget.widgetType == WidgetTypeEnum.Picture) {
-                // debugger
-                // this.props.pullWidgetData(this.props.dashboardId, this.props.widget.id, 0)
+                if (!this.props.widget.picturePath || this.props.widget.picturePath == '')
+                    this.props.pullWidgetData(this.props.dashboardId, this.props.widget.id, 0)
             }
         }
     }
