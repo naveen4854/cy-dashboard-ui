@@ -93,7 +93,6 @@ export function initializeStyles() {
 
 export function updateWidgetStyles() {
     return (dispatch, getState) => {
-
         let currentWidget = getState().configurations.widget;
         let styles = getState().styles;
         let title = currentWidget.widgetType === WidgetTypeEnum.Clock ? currentWidget.title : styles.title;
@@ -134,7 +133,8 @@ export function updateWidgetStyles() {
             picturePath: styles.picturePath,
             pictureStretch: styles.pictureStretch,
             refreshInterval: styles.refreshInterval,
-            appliedBackgroundColor: styles.widgetBody.backgroundColor
+            appliedBackgroundColor: styles.widgetBody.backgroundColor,
+            file: currentWidget.widgetType == WidgetTypeEnum.Picture ? styles.file : undefined
         }
         dispatch(getState().configurations.applyWidget(updatedWidget));
     }
@@ -182,11 +182,17 @@ export function onSelectingPicture(key) {
                 key: 'showMessage',
                 value: false
             });
+            dispatch({
+                type: UPDATE_STYLE_PROP,
+                key: 'file',
+                value: key[0]
+            });
             return dispatch({
                 type: UPDATE_STYLE_PROP,
                 key: 'disableSave',
                 value: false
             });
+
         }
     }
 }
