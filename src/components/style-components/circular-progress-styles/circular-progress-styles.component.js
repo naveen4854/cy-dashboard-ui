@@ -107,10 +107,24 @@ export default class CircularProgressStyles extends PureComponent {
                         key="valueStyles"
                     //updateKey='titleStyles'
                     />
-
+                    <LabelledInput
+                        label={this.props.l.t('Arc_width', 'Arc width:')}
+                        value={this.props.styles.arcWidth}
+                        className="form-control"
+                        onCustomInputChange={this.updateArcWidth}
+                    />
+                    <LabelledColorPicker
+                        label={this.props.l.t('Arc_colorCOLON', 'Arc color:')}
+                        //updateKey='backgroundColor'
+                        ColorId="arcColor"
+                        ColorKey="arcColor"
+                        value={this.props.styles.arcColor}
+                        // className="form-control"
+                        updateColor={this.updateArcColor}
+                    />
                     {(this.props.styles.selectedApplyTo != ApplyToOptions.Row) &&
                         <div>
-                            <LabelledInput
+                            {/* <LabelledInput
                                 label={this.props.l.t('Arc_width', 'Arc width:')}
                                 value={this.props.styles.arcWidth}
                                 className="form-control"
@@ -124,8 +138,8 @@ export default class CircularProgressStyles extends PureComponent {
                                 value={this.props.styles.arcColor}
                                 // className="form-control"
                                 updateColor={this.updateArcColor}
-                            />
-                             <hr className='grouping-border'/>
+                            /> */}
+                            <hr className='grouping-border' />
                             <LabelledDurationInput
                                 label={this.props.l.t('MinCOLON', 'Min:')}
                                 displayFormatId={this.props.displayFormatId}
