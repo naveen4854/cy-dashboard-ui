@@ -363,7 +363,7 @@ export function HandleModalPopup(showModalPopup) {
  */
 function DashboardPictureSave(widget, key, len, dashboardId, dispatch, getState, isBlobLoaded, widgetMediaStorageInput) {
 //https://www.youtube.com/watch?v=gWzciYX4kM4
-    if (true) {
+    if (!isBlobLoaded) {
         let blobData = [];
         let mediaStorageInput = {};
         mediaStorageInput.did = dashboardId;
