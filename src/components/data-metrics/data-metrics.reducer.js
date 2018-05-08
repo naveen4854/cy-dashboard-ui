@@ -73,7 +73,7 @@ export function initializeStatisticMetadata() {
     return (dispatch, getState) => {
         let currentWidget = _.cloneDeep(getState().configurations.widget);
 
-        if (currentWidget.widgetType == WidgetTypeEnum.Clock || currentWidget.widgetType == WidgetTypeEnum.Picture)
+        if (currentWidget.widgetType == WidgetTypeEnum.Clock || currentWidget.widgetType == WidgetTypeEnum.Picture || currentWidget.widgetType == WidgetTypeEnum.Text)
             return
 
         let statisticCategories = getState().dataMetrics.statisticCategories;

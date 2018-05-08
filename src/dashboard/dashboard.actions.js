@@ -227,6 +227,8 @@ export function pullWidget(dashboardId, widgetId, refreshInterval) {
     return (dispatch, getState) => {
         // let refreshInterval = refreshValue;
         let widget = _.find(getState().dashboard.widgets, (w) => w.id == widgetId);
+        if (widget.widgetType == WidgetTypeEnum.Text)
+            return
 
         let setTimeoutId = setTimeout(() => {
             dashboardService.viewWidgetData(dashboardId, widgetId, {}).then(response => {
@@ -249,7 +251,8 @@ export function pullWidget(dashboardId, widgetId, refreshInterval) {
                 }
             });
         }, refreshInterval * 1000);
-        if (widget.widgetType == WidgetTypeEnum.Clock || widget.widgetType == WidgetTypeEnum.Picture)
+
+        if (widget.widgetType == WidgetTypeEnum.Clock || widget.widgetType == WidgetTypeEnum.Picture || widget.widgetType == WidgetTypeEnum.Text)
             return
         dispatch(getState().widgetResults.updateRefreshingWidgets(widgetId, setTimeoutId));
     }
