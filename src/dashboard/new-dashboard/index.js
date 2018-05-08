@@ -28,7 +28,6 @@ export default (store) => ({
       injectReducer(store, { key: 'comboRealTimeSettings', reducer: ComboRealTimeSettingsReducer })
       injectReducer(store, { key: 'comboCustomSettings', reducer: ComboCustomSettingsReducer })
 
-
       cb(null, authenticate(NewDashboardContainer))
     }, 'newdashboard')
   },
@@ -43,23 +42,23 @@ export default (store) => ({
 
     injectReducer(store, { key: 'dataMetrics', reducer: DataMetricsReducer })
     store.dispatch((dispatch, getState) => {
-      store.getState().dataMetrics.loadDataMetricsMetaData(nextState.params.id)(dispatch, getState).then((response) => {
-        if (dashboardMode == DashboardModeEnum.Edit) {
-          store.dispatch(store.getState().dashboard.getDashboardById(nextState.params.id))
-        }
-      })
+      store.getState().dataMetrics.loadDataMetricsMetaData(nextState.params.id)(dispatch, getState)
+        .then((response) => {
+          if (dashboardMode == DashboardModeEnum.Edit) {
+            store.dispatch(store.getState().dashboard.getDashboardById(nextState.params.id))
+          }
+        })
+    });
 
-    }
-    )
     injectReducer(store, { key: 'clockSettings', reducer: ClockMetricsSettingsReducer })
     store.dispatch(store.getState().clockSettings.setTimeZonesList())
 
     injectReducer(store, { key: 'customSettings', reducer: CustomMetricsSettingsReducer })
     store.dispatch(store.getState().customSettings.getStoredProcedures());
-    
+
     injectReducer(store, { key: 'configurations', reducer: ConfigurationsReducer })
     store.dispatch(store.getState().configurations.getDefaultRefreshInterval());
-    
+
   },
 })
 

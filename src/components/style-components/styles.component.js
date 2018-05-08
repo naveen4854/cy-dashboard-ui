@@ -27,23 +27,13 @@ class StylesComponent extends PureComponent {
         this.props.updateApplyToOptions(e);
     }
     updateWidgetStyles() {
-        if (this.props.isComboWidget) {
-            this.props.updateMatrixStyles();
-        }
-        // if (this.props.isColumnHeader) {
-        //     this.props.updateMatrixStylesByColumn();
-        // }
-        // else if (this.props.isRowHeader) {
-        //     this.props.updateMatrixStylesByRow();
-        // }
-        else {
-            if (this.props.widgetType === WidgetTypeEnum.Combo) {
-                this.props.updateComboStyles();
-            }
-            else{
-            this.props.updateWidgetStyles();
-            }
-        }
+        if (this.props.isComboWidget)
+            return this.props.updateMatrixStyles();
+
+        if (this.props.widgetType === WidgetTypeEnum.Combo)
+            return this.props.updateComboStyles();
+
+        return this.props.updateWidgetStyles();
     }
     updateApplyComboStyles(e) {
         if (this.props.isComboWidget) {

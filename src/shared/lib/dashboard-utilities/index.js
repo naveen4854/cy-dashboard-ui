@@ -19,7 +19,7 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
   let thresholds = [];
   let drillDownData = {};
   let comboMatrix = [];
-  
+
   if (inputWidget.appliedSettings) {
     thresholds = _.map(inputWidget.appliedSettings.thresholds, threshold => {
       return {
@@ -34,7 +34,7 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
     });
   }
   let columns = [];
-  let metrics = inputWidget.appliedSettings.dataMetrics;
+  let metrics = inputWidget.appliedSettings ? inputWidget.appliedSettings.dataMetrics : {};
   let clckSettings = WidgetTypeEnum.Clock == inputWidget.widgetType ? {
     ia: metrics.isAnalog,
     tid: metrics.timezoneid,
@@ -504,7 +504,10 @@ function pictureWidgetConfigurationsFromServer(pictureWidget, dataMetricsMetadat
     z: pictureWidget.zIndex,
     id: pictureWidget.wid,
     widgetType: pictureWidget.wt,
-    PictureSelected: pictureWidget.wpsl
+    pictureSelected: pictureWidget.wpsl,
+    pictureStretch: pictureWidget.wps == 1 ?
+      { value: PictureStretchEnum.None, label: 'None' } :
+      { value: PictureStretchEnum.Fill, label: 'Fill' }
   }
 }
 function textWidgetConfigurationsFromServer(textWidget, dataMetricsMetadata, isEdit) {

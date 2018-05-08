@@ -8,9 +8,9 @@ export default class DashboardLayoutComponent extends PureComponent {
         return (
             <div dir="ltr" className="dashboard-layout">
                 {
-                    _.map(this.props.widgets, widget =>
+                    _.map(this.props.widgets, (widget, i) =>
                         <RndWidgetComponent
-                            key={widget.id}
+                            key={i}
                             widget={widget}
                         />
                     )

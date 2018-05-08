@@ -27,6 +27,10 @@ export function initiateCustomMetricsSettings() {
 
 export function getStoredProcedures() {
     return (dispatch, getState) => {
+        let currentStoreProcsData = getState().customSettings.storeProcsData;
+        if (currentStoreProcsData && currentStoreProcsData.length > 0)
+            return;
+
         dispatch(getState().spinnerStore.BeginTask());
         dataMetricsService.getStoreProcs().then(function (response) {
             var storeProcsData = response.data;

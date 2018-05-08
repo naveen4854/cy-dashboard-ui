@@ -130,7 +130,7 @@ export function comboWidgetConfigurationsFromServer(widget, dataMetricsMetadata,
             {
                 backgroundColor: rgba(255, 255, 255, 1)
             },
-        PictureSelected: widget.wt == WidgetTypeEnum.Picture ? widget.wpsl : '',
+        pictureSelected: widget.wt == WidgetTypeEnum.Picture ? widget.wpsl : '',
         appliedSettings: mapAppliedSettings(widget, isEdit, dataMetricsMetadata),
     };
 
@@ -150,7 +150,6 @@ export function comboWidgetConfigurationsFromServer(widget, dataMetricsMetadata,
         ...comboWidget,
         matrix: convertToMatrix(widget.wmx, columns, filters, widget.wid, widget.ws.stom, selectedGroup, dataMetricsMetadata, measures)
     }
-    debugger;
     return comboWidget;
 }
 

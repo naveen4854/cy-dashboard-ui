@@ -27,8 +27,13 @@ export default class WidgetComponent extends PureComponent {
             }
         }
         else if (this.props.dashboardMode == DashboardModeEnum.EditToLive) {
-            if (!this.props.widget.isComboWidget) {
+            if (!this.props.widget.isComboWidget && this.props.widget.widgetType != WidgetTypeEnum.Picture) {
                 this.props.previewWidgetInLive(this.props.widget.id, 0)
+            }
+        } else if (this.props.dashboardMode == DashboardModeEnum.Edit) {
+            if (this.props.widget.widgetType == WidgetTypeEnum.Picture) {
+                if (!this.props.widget.picturePath || this.props.widget.picturePath == '')
+                    this.props.pullWidgetData(this.props.dashboardId, this.props.widget.id, 0)
             }
         }
     }

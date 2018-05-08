@@ -9,7 +9,9 @@ import { dashboardInitialState } from "./dashboard.reducer";
 
 export function PreviewActionPicture(dashboardId, widgetid) {
     return (dispatch, getState) => {
+        debugger
         dashboardService.viewWidgetData(dashboardId, widgetid).then((response) => {
+            debugger
             if (response.status === 200) {
                 //TODO: find a better way
                 // const widget = _.find(getState().newdashboard.widgets, widget => widget.id === widgetid);
@@ -232,7 +234,7 @@ export function pullWidget(dashboardId, widgetId, refreshInterval) {
                     let updatedWidget = DashboardUtilities.WidgetDataMapper(widget, response.data)
                     updatedWidget = {
                         ...updatedWidget,
-                        previousData:  response.data
+                        previousData: response.data
                     }
                     dispatch(getState().dashboard.updateWidget(updatedWidget));
                 }
@@ -247,6 +249,8 @@ export function pullWidget(dashboardId, widgetId, refreshInterval) {
                 }
             });
         }, refreshInterval * 1000);
+        if (widget.widgetType == WidgetTypeEnum.Clock || widget.widgetType == WidgetTypeEnum.Picture)
+            return
         dispatch(getState().widgetResults.updateRefreshingWidgets(widgetId, setTimeoutId));
     }
 }
