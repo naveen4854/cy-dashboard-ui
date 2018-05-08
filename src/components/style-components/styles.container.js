@@ -48,7 +48,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
     return {
         styles: state.styles,
-        displayFormatId: state.configurations.widget.widgetType == WidgetTypeEnum.Picture ? DisplayFormatEnum.Number : state.configurations.widget.appliedSettings.dataMetrics.displayFormat ?
+        displayFormatId: state.configurations.widget.widgetType == WidgetTypeEnum.Picture || state.configurations.widget.widgetType == WidgetTypeEnum.Text ? DisplayFormatEnum.Number : state.configurations.widget.appliedSettings.dataMetrics.displayFormat ?
             state.configurations.widget.appliedSettings.dataMetrics.displayFormat.id :
             DisplayFormatEnum.Number,
         isAnalog: state.configurations.widget.widgetType == WidgetTypeEnum.Clock ? state.configurations.widget.appliedSettings.dataMetrics.isAnalog : -1,

@@ -9,6 +9,7 @@ export default class TextStyles extends PureComponent {
 
     constructor(props) {
         super(props);
+        debugger;
         this.updateTitle = this.updateTitle.bind(this);
         this.updateTitleFontStyles = this.updateTitleFontStyles.bind(this);
         this.updateScrollSpeed = this.updateScrollSpeed.bind(this);
@@ -51,7 +52,7 @@ export default class TextStyles extends PureComponent {
                         label={this.props.l.t('Scroll_TypeCOLON', 'Scroll Type:')}
                         // updateKey='backgroundColor'
                         placeholder='Select...'
-                        value={this.props.scrollType}
+                        value={this.props.styles.scrollType}
                         // className="form-control"
                         onChange={this.onScrollTypeChange}
                         options={scrollType}

@@ -12,7 +12,7 @@ export function initializeThresholddata() {
     return (dispatch, getState) => {
         let currentWidget = getState().configurations.widget;
 
-        if (currentWidget.widgetType == WidgetTypeEnum.Clock || currentWidget.widgetType == WidgetTypeEnum.Picture)
+        if (currentWidget.widgetType == WidgetTypeEnum.Clock || currentWidget.widgetType == WidgetTypeEnum.Picture || currentWidget.widgetType == WidgetTypeEnum.Text)
             return
 
         let threshold = { ...getState().threshold };

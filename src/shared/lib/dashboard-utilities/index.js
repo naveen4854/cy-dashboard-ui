@@ -8,7 +8,7 @@ import { BoxWidget } from '../../widgets';
 import { rgba } from '../../../utilities';
 import { getRandom } from '../../../utilities/utils';
 import { getComboMatrix, comboWidgetConfigurationsFromServer } from './combo-utils';
-import { stylesMapperToServer } from './styles-utils';
+import { stylesMapperToServer, stylesMapper } from './styles-utils';
 import { mapAppliedSettings } from './settings-utils';
 /**
  * Map widget with metrics
@@ -251,7 +251,7 @@ export function WidgetDataMapper(widget, widgetData) {
       });
       return { ...widget, data: data };
       break;
-    case WidgetTypeEnum.Picture:
+    case WidgetTypeEnum.Picture:             
       let pictureStretch = widgetData.wps == 1 ? {
         value: PictureStretchEnum.None,
         label: 'None'
@@ -522,6 +522,7 @@ function textWidgetConfigurationsFromServer(textWidget, dataMetricsMetadata, isE
     scrollType: getScrollType(textWidget.twrst),
     scrollSpeed: textWidget.twrd,
     title: textWidget.wtl,
+    titleStyles:stylesMapper(textWidget.wts)
 
   }
 }
