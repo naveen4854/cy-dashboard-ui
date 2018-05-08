@@ -9,9 +9,9 @@ import { dashboardInitialState } from "./dashboard.reducer";
 
 export function PreviewActionPicture(dashboardId, widgetid) {
     return (dispatch, getState) => {
-        debugger
+
         dashboardService.viewWidgetData(dashboardId, widgetid).then((response) => {
-            debugger
+
             if (response.status === 200) {
                 //TODO: find a better way
                 // const widget = _.find(getState().newdashboard.widgets, widget => widget.id === widgetid);

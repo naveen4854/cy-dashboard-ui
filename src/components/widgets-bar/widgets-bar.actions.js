@@ -362,7 +362,7 @@ export function HandleModalPopup(showModalPopup) {
  * @param {*} getState 
  */
 function DashboardPictureSave(widget, key, len, dashboardId, dispatch, getState, isBlobLoaded, widgetMediaStorageInput) {
-//https://www.youtube.com/watch?v=gWzciYX4kM4
+    //https://www.youtube.com/watch?v=gWzciYX4kM4
     if (!isBlobLoaded) {
         let blobData = [];
         let mediaStorageInput = {};
@@ -370,7 +370,6 @@ function DashboardPictureSave(widget, key, len, dashboardId, dispatch, getState,
         let reader = new FileReader();
         let file = widget.file;
         let UniqueId = widget.UniqueId;
-        debugger
         reader.readAsDataURL(file);
         reader.onload = (upload) => {
             let value = upload.target.result;
@@ -386,7 +385,6 @@ function DashboardPictureSave(widget, key, len, dashboardId, dispatch, getState,
         }
     }
     else {
-        debugger
         DashboardPictureAPI(widgetMediaStorageInput, key, len, dispatch, getState);
     }
 }
@@ -394,7 +392,6 @@ function DashboardPictureSave(widget, key, len, dashboardId, dispatch, getState,
 function DashboardPictureAPI(mediaStorageInput, key, len, dispatch, getState) {
     dispatch(getState().spinnerStore.BeginTask());
 
-    debugger
     dashboardService.pictureSave(mediaStorageInput).then(function (response) {
         if (key == len - 1) {
             dispatch(getState().spinnerStore.EndAllTasks());
