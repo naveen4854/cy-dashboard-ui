@@ -193,6 +193,8 @@ export function WidgetMapper(inputWidget, dataMetricsMetadata, isLive) {
     },
     cs: clckSettings,
     css: clckStyles,
+    cpac: inputWidget.arcColor,
+    cpaw: inputWidget.arcWidth,
     wenmn: inputWidget.enableMin,
     wenmx: inputWidget.enableMax,
     wenbl: inputWidget.enableBarLines,

@@ -66,13 +66,13 @@ class CircularArc extends PureComponent {
             .attr('fill-opacity', 0.5)
 
             .attr('d', arc.endAngle(twoPi));
-//console.log(' ac color ',this.props.arcColor )
+        //console.log(' ac color ',this.props.arcColor )
 
         var foreground = meter.append('path')
             .attr('class', 'foreground')
-            .attr('fill', Color.ToString( this.props.arcColor),)
+            .attr('fill', Color.ToString(this.props.arcColor), )
             .attr('fill-opacity', 1)
-            .attr('stroke',Color.ToString( this.props.arcColor),)
+            .attr('stroke', Color.ToString(this.props.arcColor), )
             .attr('stroke-opacity', 1)
         var numberText = meter.append('text');
 
