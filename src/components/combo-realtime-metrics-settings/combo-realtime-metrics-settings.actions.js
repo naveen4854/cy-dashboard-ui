@@ -262,18 +262,21 @@ export function setSatisticItem(selectedItem) {
     return (dispatch, getState) => {
         if (!selectedItem)
             return
-
+        let currentDisplayName = getState().comboRealTimeSettings.displayName;
         dispatch({
             type: SET_COMBO_REALTIME_STATISTIC_ITEM,
             selectedItem
         });
+        let dn = '';
+        if (getState().comboRealTimeSettings.selectedColumnId == -1)
+            dn = selectedItem.label;
+        else
+            dn = currentDisplayName;
 
-        let dn = getState().comboRealTimeSettings.displayName;
         dispatch({
             type: UPDATE_COMBO_REALTIME_DISPLAYNAME,
-            displayName: dn != '' ? dn : selectedItem.label
+            displayName: selectedItem.label
         })
-
     }
 }
 
