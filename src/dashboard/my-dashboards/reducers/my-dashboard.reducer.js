@@ -202,7 +202,6 @@ export const ACTION_HANDLERS = {
     })
   },
   [UPDATE_PAGENUMBER]: (state, action) => {
-    debugger;
     return Object.assign({}, state, {
       pageNumber: action.pageNumber
     });
