@@ -74,9 +74,9 @@ export default class ComboCustomAccordion extends PureComponent {
         this.props.updateCustomComboColumn(column);
     }
     render() {
-        console.log(this.props ," this props in column accordion")
         let { column } = this.props;
         let index = this.props.index + 1;
+        let displayFormat = column.displayFormat && !_.isEqual(column.displayFormat, {}) ? column.displayFormat.value ? column.displayFormat.value : column.displayFormat : this.props.displayFormatOptions[1]
         return (
             <div className="accordion">
                 <div className="accordion-header" onClick={this.toggleColumnClick}>
@@ -110,7 +110,7 @@ export default class ComboCustomAccordion extends PureComponent {
                                     <span> {this.props.l.t('TypeCOLON', 'Type:')} </span>
                                     <div className="col-md-11 col-sm-7">
                                         <CustomSelect name="field-group-options"
-                                            value={column.displayFormat}
+                                            value={displayFormat}
                                             options={this.props.displayFormatOptions}
                                             placeholder='Select...'
                                             onChange={this.onTypeChange} />

@@ -253,7 +253,7 @@ export function WidgetDataMapper(widget, widgetData) {
       });
       return { ...widget, data: data };
       break;
-    case WidgetTypeEnum.Picture:             
+    case WidgetTypeEnum.Picture:
       let pictureStretch = widgetData.wps == 1 ? {
         value: PictureStretchEnum.None,
         label: 'None'
@@ -433,7 +433,7 @@ function comboResultMapping(widget, data) {
         if (Constants.DateTypes.indexOf(colummCheck.dataType) == 1 && (colummCheck.dateFormat || colummCheck.timeFormatId)) {
           let dateTime = new Date(data.wrgd[i][j].gddv);
           let dateTimeData = DateZone.getDateBasedOnFormats(dateTime, widget.matrix[0][j].dateFormat);
-          if (colummCheck.timeFormatId) {
+          if (colummCheck.timeFormatId && colummCheck.timeFormatId > 0) {
             let timeData = DateZone.timeFormat(dateTime, colummCheck.timeFormatId, colummCheck.hoursFormatId);
             dateTimeData = colummCheck.displayFormatId == DisplayFormatEnum.Date_Time ? dateTimeData + ' ' + timeData : timeData;
           }
@@ -524,7 +524,7 @@ function textWidgetConfigurationsFromServer(textWidget, dataMetricsMetadata, isE
     scrollType: getScrollType(textWidget.twrst),
     scrollSpeed: textWidget.twrd,
     title: textWidget.wtl,
-    titleStyles:stylesMapper(textWidget.wts)
+    titleStyles: stylesMapper(textWidget.wts)
 
   }
 }
