@@ -64,7 +64,6 @@ export const ACTION_HANDLERS = {
         })
     },
     [UPDATE_DASHBOARD]: (state, action) => {
-        debugger;
         return Object.assign({}, state, action.dashboard, { updatedTime: new Date().getTime(), lastSaveTime: new Date().getTime() });
     },
     [UPDATE_SHOW_ICONS]: (state, action) => {
