@@ -64,7 +64,7 @@ export function loadDataMetricsMetaData(dashboardId) {
             })
         }).catch(err => {
             dispatch(getState().spinnerStore.EndTask());
-            dispatch(getState().notificationStore.notify('failure to load statistic Metadata, please reload', ResponseStatusEnum.Error))
+            // dispatch(getState().notificationStore.notify('failure to load statistic Metadata, please reload', ResponseStatusEnum.Error))
         })
     }
 }

@@ -45,7 +45,7 @@ export const ACTION_HANDLERS = {
             }
             return widget;
         })
-        return Object.assign({}, state, { widgets });
+        return Object.assign({}, state, { widgets, updatedTime: new Date().getTime() });
     },
     [UPDATE_DASHBOARD_MODE]: (state, action) => {
         return Object.assign({}, state, {
@@ -64,7 +64,8 @@ export const ACTION_HANDLERS = {
         })
     },
     [UPDATE_DASHBOARD]: (state, action) => {
-        return Object.assign({}, state, action.dashboard);
+        debugger;
+        return Object.assign({}, state, action.dashboard, { updatedTime: new Date().getTime(), lastSaveTime: new Date().getTime() });
     },
     [UPDATE_SHOW_ICONS]: (state, action) => {
         return Object.assign({}, state, {
@@ -79,7 +80,7 @@ export const dashboardInitialState = {
     mode: DashboardModeEnum.None,
     disableDrag: false,
     updateDashboard,
-    Id:undefined,
+    Id: undefined,
     updateShowIcons,
     showIcons: true,
     refreshingWidgets: [], //{ widgetId: 'i', id:1 }
@@ -93,7 +94,9 @@ export const dashboardInitialState = {
     updateWidgets,
     updateWidget,
     resetDashboard,
-    deleteDashboard
+    deleteDashboard,
+    lastSaveTime: 0,
+    updatedTime: 0,
 };
 
 export default function DashboardReducer(state = _.cloneDeep(dashboardInitialState), action) {

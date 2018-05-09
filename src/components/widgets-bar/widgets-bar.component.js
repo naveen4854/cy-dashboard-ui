@@ -92,6 +92,9 @@ export default class WidgetsBar extends React.Component {
 	onFilesClick() {
 		ModalManager.close();
 		this.props.HandleModalPopup(false);
+		if (this.props.lastSaveTime >= this.props.updatedTime) {
+			return this.redirectToFiles();
+		}
 		this.showEditConfirmation();
 	}
 	deleteDashboard(dashboardId) {

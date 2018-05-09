@@ -59,7 +59,7 @@ export function getStoredProcedures() {
             dispatch(getState().spinnerStore.EndTask());
         }).catch((err) => {
             dispatch(getState().spinnerStore.EndTask());
-            dispatch(getState().notificationStore.notify('couldnt load storedprocs', ResponseStatusEnum.Error))
+            // dispatch(getState().notificationStore.notify('couldnt load storedprocs', ResponseStatusEnum.Error))
         })
     }
 }
