@@ -94,7 +94,7 @@ export default class Notification extends PureComponent {
     addError() {
         if (this.props.notification.messages.length == 0)
             return
-        toastr.error('Please fix below errors', this.toastrOptions(this.renderNotifications, 3000, false, true, 'bottom'))
+        toastr.error('Please fix below errors', this.toastrOptions(this.renderNotifications, 0, false, true, 'bottom'))
     }
 
     addWarning() {
