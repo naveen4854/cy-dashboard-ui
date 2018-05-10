@@ -8,7 +8,8 @@ export default class CustomSelect extends React.Component {
         super(props);
         this.onChange = this.onChange.bind(this)
         this.state = {
-            onChangeFromEvent: false
+            onChangeFromEvent: false,
+
         };
         if (props.value !== undefined && !_.isEqual(props.value, {})) {
             this.props.onChange(props.value);
@@ -22,13 +23,15 @@ export default class CustomSelect extends React.Component {
         if (!this.state.onChangeFromEvent && this.props.value != nextProps.value) {
             this.props.onChange(nextProps.value)
             this.setState({
-                onChangeFromEvent: false
+                onChangeFromEvent: false,
+
             })
         }
         if (!this.state.onChangeFromEvent && nextProps.options && nextProps.options.length == 1 && this.props.value != nextProps.value) {
             this.props.onChange(nextProps.options[0]);
             this.setState({
-                onChangeFromEvent: false
+                onChangeFromEvent: false,
+
             })
         }
     }
@@ -46,17 +49,17 @@ export default class CustomSelect extends React.Component {
     }
 
     render() {
-        let selectedValue = this.props.value;
+        let selectedValue = Object.keys(this.props.value).length == 0 ? undefined : this.props.value;
         if (selectedValue && !selectedValue.value) {
             selectedValue = _.find(this.props.options, { 'value': this.props.value }) || {};
         }
         // if (_.isEqual(this.props.value, {}))
         //     selectedValue = undefined
         // console.log(this.props.placeholder)
+
         return (
             <Select
                 value={this.props.options && this.props.options.length == 1 ? this.props.options[0] : selectedValue}
-                // placeholder={this.props.placeholder}
                 options={this.props.options}
                 isDisabled={(this.props.options && this.props.options.length == 1) || this.props.disabled}
                 onChange={this.onChange} />
