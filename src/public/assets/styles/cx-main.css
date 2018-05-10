@@ -960,3 +960,10 @@ hr.grouping-border
   background-color: white;
     color: #0077A3;
 }
+
+.threshold-fieldset{
+  margin-top: 2%;
+}
+.threshold-legend{
+font-size: 16px;
+}
