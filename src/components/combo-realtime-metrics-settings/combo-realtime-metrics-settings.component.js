@@ -166,8 +166,8 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
         // if (!comboRealTimeSettings.drillDownOptions) {
         //     this.props.getComboDrillDownMetaData(comboRealTimeSettings.selectedGroup, this.props.widget.id);
         // }
-
         return (
+
             <div>
                 <div className="row">
                     <div className="metrics-label col-md-4">
@@ -195,7 +195,7 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
 
     renderAddEditBox() {
         const { comboRealTimeSettings } = this.props;
-
+        let isSaveDisabled = (comboRealTimeSettings.selectedItem && Object.keys(comboRealTimeSettings.selectedItem).length != 0) && (comboRealTimeSettings.selectedWidget && Object.keys(comboRealTimeSettings.selectedWidget).length != 0) && (comboRealTimeSettings.selectedDisplayFormat && Object.keys(comboRealTimeSettings.selectedDisplayFormat).length != 0) && (comboRealTimeSettings.selectedFunction && Object.keys(comboRealTimeSettings.selectedFunction).length != 0) && (comboRealTimeSettings.displayName && _.trim(comboRealTimeSettings.displayName) != '');
         return (
             <div >
                 <div className="row">
@@ -300,9 +300,10 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
                                             {
                                                 // !comboRealTimeSettings.toggleAddEdit &&
                                                 <button
-                                                    // disabled={!comboRealTimeSettings.enableAddItemButton || _.isEmpty(comboRealTimeSettings.displayName)} 
+                                                    disabled={!isSaveDisabled}
                                                     type="submit" className="btn btn-primary"
                                                     onClick={this.addComboStatisticItem} >
+
                                                     {this.props.l.t('Save_Item', 'Save Item')}
                                                 </button>
                                             }
