@@ -76,7 +76,10 @@ export default class ComboCustomAccordion extends PureComponent {
     render() {
         let { column } = this.props;
         let index = this.props.index + 1;
-        let displayFormat = column.displayFormat && !_.isEqual(column.displayFormat, {}) ? column.displayFormat.value ? column.displayFormat.value : column.displayFormat : this.props.displayFormatOptions[1]
+        //let displayFormat = column.displayFormat && !_.isEqual(column.displayFormat, {}) ? column.displayFormat.value ? column.displayFormat.value : column.displayFormat : this.props.displayFormatOptions[1]
+        
+        let displayFormat =   _.find(this.props.displayFormatOptions, (dfo) => dfo.id == ( column.displayFormat.id || column.displayFormat));
+
         return (
             <div className="accordion">
                 <div className="accordion-header" onClick={this.toggleColumnClick}>

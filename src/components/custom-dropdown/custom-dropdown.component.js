@@ -49,14 +49,10 @@ export default class CustomSelect extends React.Component {
     }
 
     render() {
-        let selectedValue = Object.keys(this.props.value).length == 0 ? undefined : this.props.value;
+        let selectedValue = this.props.value && Object.keys(this.props.value).length == 0 ? undefined : this.props.value;
         if (selectedValue && !selectedValue.value) {
             selectedValue = _.find(this.props.options, { 'value': this.props.value }) || {};
         }
-        // if (_.isEqual(this.props.value, {}))
-        //     selectedValue = undefined
-        // console.log(this.props.placeholder)
-
         return (
             <Select
                 value={this.props.options && this.props.options.length == 1 ? this.props.options[0] : selectedValue}
