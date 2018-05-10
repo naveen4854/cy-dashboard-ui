@@ -16,12 +16,13 @@ export function toggleSettingsMenu(widget) {
 
         let showMetricsTab = currentWidget && !(currentWidget.isComboWidget || currentWidget.widgetType == WidgetTypeEnum.Picture
             || currentWidget.widgetType == WidgetTypeEnum.Text);
+
         let showThresholdsTab = currentWidget && !(currentWidget.widgetType == WidgetTypeEnum.Picture
             || currentWidget.widgetType == WidgetTypeEnum.Text
             || currentWidget.widgetType == WidgetTypeEnum.Pie
             || currentWidget.widgetType == WidgetTypeEnum.Bar
             || currentWidget.widgetType == WidgetTypeEnum.Combo
-            || currentWidget.widgetType == WidgetTypeEnum.Clock);
+            || currentWidget.widgetType == WidgetTypeEnum.Clock) && !(currentWidget.isRowHeader);
 
         if (showPanel) {
             dispatch({

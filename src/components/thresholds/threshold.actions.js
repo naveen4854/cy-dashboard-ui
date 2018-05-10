@@ -7,6 +7,7 @@ import * as ThresholdService from './threshold-service';
 import { thresholdsInitialState } from './threshold.reducer';
 import * as dataMetricsService from '../data-metrics/data-metrics-service'
 import { getSelectedItem, getSelectedFunction, getDisplayFormat as getDisplayFormatSetting } from '../../shared/lib/dashboard-utilities/settings-utils';
+import { isObject } from 'util';
 
 export function initializeThresholddata() {
     return (dispatch, getState) => {
@@ -22,13 +23,14 @@ export function initializeThresholddata() {
             if (comboWidget.appliedSettings.dataMetrics.statisticCategory == StatisticCategoryEnum.Custom) {
                 let resultColumn = _.find(comboWidget.appliedSettings.dataMetrics.columns, y => _.trim(y.selectedColumn.label) == _.trim(currentWidget.column))
                 let displayFormat = currentWidget.appliedSettings.basedColumnDisplayFormat ? currentWidget.appliedSettings.basedColumnDisplayFormat : resultColumn.displayFormat;
+                let displayFormatObj = isObject(displayFormat) ? displayFormat : { value: displayFormat, id: displayFormat, label: '' };
                 dispatch(getState().threshold.loadThresholdColumnOptions(comboWidget.appliedSettings.dataMetrics.query));
                 if (getState().comboCustomSettings.displayFormatOptions.length > 0) {
                     dispatch(getState().threshold.loadCustomComboDisplayFormat(getState().comboCustomSettings.displayFormatOptions));
-                    if (!displayFormat.label) {
-                        displayFormat.label = _.find(getState().comboCustomSettings.displayFormatOptions, m => m.id == displayFormat.id).label || undefined;
+                    if (!displayFormatObj.label) {
+                        displayFormatObj.label = _.find(getState().comboCustomSettings.displayFormatOptions, m => m.id == displayFormatObj.id).label || undefined;
                     }
-                    dispatch(getState().threshold.setDisplayFormat(displayFormat));
+                    dispatch(getState().threshold.setDisplayFormat(displayFormatObj));
                 } else {
                     dataMetricsService.getDisplayformats(StatisticCategoryEnum.Custom).then(function (response) {
                         if (response.status === 200) {
@@ -42,11 +44,11 @@ export function initializeThresholddata() {
                             })
 
                             dispatch(getState().threshold.loadCustomComboDisplayFormat(result));
-                            if (!displayFormat.label) {
+                            if (!displayFormatObj.label) {
 
-                                displayFormat.label = _.find(result, b => b.id == displayFormat.id).label || undefined;
+                                displayFormatObj.label = _.find(result, b => b.id == displayFormatObj.id).label || undefined;
                             }
-                            dispatch(getState().threshold.setDisplayFormat(displayFormat));
+                            dispatch(getState().threshold.setDisplayFormat(displayFormatObj));
                         }
                     });
                 }
