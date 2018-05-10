@@ -5,6 +5,8 @@ import CustomSelect from '../../../components/custom-dropdown';
 import MyDashboardTable from './table';
 import Header from '../../../components/header';
 import { pagesList } from '../../../shared/constants/constants';
+import CustomDock from '../../../components/custom-dock';
+import { Tab, Tabs } from 'react-bootstrap';
 
 export default class MyDashboard extends PureComponent {
 	constructor(props) {
@@ -12,8 +14,6 @@ export default class MyDashboard extends PureComponent {
 		this.onMyDashboardsChecked = this.onMyDashboardsChecked.bind(this);
 		this.onglobalsChecked = this.onglobalsChecked.bind(this);
 		this.onPageClick = this.onPageClick.bind(this);
-		this.test = this.test.bind(this);
-		this.testU = this.testU.bind(this);
 		this.onPageSizeChange = this.onPageSizeChange.bind(this);
 	}
 
@@ -42,13 +42,6 @@ export default class MyDashboard extends PureComponent {
 	onPageClick(e) {
 		this.props.SetPageNumberAndGetDashboardsList(e.selected + 1);
 	}
-
-	test() {
-		this.props.test();
-	}
-	testU() {
-		this.props.testU();
-	}
 	onPageSizeChange(e) {
 		if (e.value)
 			this.props.SetPageSizeAndGetDashboardsList(e.value);
@@ -59,8 +52,7 @@ export default class MyDashboard extends PureComponent {
 			pageEnd = this.props.myDashboard.pageNumber * this.props.myDashboard.pageSize,
 			totalRows = this.props.myDashboard.totalDashboards
 		return (
-			<div>
-				<Header title="Files" {...this.props} />
+			<div >
 				<div className="my-files">
 					<div className="page-toolbar">
 						<div className="action-tool form-check ">
@@ -83,19 +75,10 @@ export default class MyDashboard extends PureComponent {
 								/>
 							</label>
 						</div>
-						{/* <div className="col-md-3 col-sm-3">
-								<CustomSelect name="field-group-options" options={this.state.myDashboard.categories}
-									value={this.props.myDashboard.selectedCategory} onChange={(e) => this.onCategoryChange(e)} />
-							</div> */}
-						<div onClick={this.addDashboardClick} className="action-tool bg-skyblue pointer">
+						<div onClick={this.addDashboardClick} className="action-tool  pointer">
 							<a><i className="fa fa-plus" aria-hidden="true"></i> Add dashboard</a>
 						</div>
-						{/* <div onClick={this.test} className="action-tool bg-skyblue pointer">
-							<a><i className="fa fa-plus" aria-hidden="true"></i> test</a>
-						</div>
-						<div onClick={this.testU} className="action-tool bg-skyblue pointer">
-							<a><i className="fa fa-plus" aria-hidden="true"></i> testU</a>
-						</div> */}
+
 					</div>
 					{(this.props.myDashboard && this.props.myDashboard.userDashboards && this.props.myDashboard.userDashboards.length > 0) &&
 						<div className="my-files-table-outer-container">

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import * as Reducer from '../reducers/my-dashboard.reducer';
 
-import MyDashboard from '../components/my-dashboard.component'
+import MySliderList from '../components/my-slider.component'
 import localize from '../../../components/localization/localization.hoc';
 import { PageEnum } from '../../../shared/enums';
 
@@ -49,23 +49,18 @@ const mapDispatchToProps = (dispatch) => {
         },
         clearNotifications: () => {
             dispatch(Reducer.ClearNotificationsAction())
-        },
-        test: () => {
-            dispatch(Reducer.test())
-        },
-        testU: () => {
-            dispatch(Reducer.testU())
         }
+      
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        myDashboard: state.mydashboard,
+        mySlider: state.mydashboard,
         common: state.common,
         user:state.user
         
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(localize(MyDashboard, PageEnum.MY_DASHBOARD))
+export default connect(mapStateToProps, mapDispatchToProps)(localize(MySliderList, PageEnum.MY_DASHBOARD))

@@ -60,7 +60,49 @@ export function GetDashboardsList() {
     });
   }
 }
+export function GetSlidersList() {
+  return (dispatch, getState) => {
+    dispatch(getState().spinnerStore.BeginTask());
+    debugger;
+    let state = getState();
+    let
+     
+      pageNumber = state.mydashboard.sliderPageNumber,
+      pageSize = state.mydashboard.sliderPageSize,
+      globals = state.mydashboard.sliderGlobals,
+      myDashboards = state.mydashboard.mySliders,
+      sortColumn = state.mydashboard.sliderSortColumn,
+      sortingOrder = state.mydashboard.sliderSortOrder == 0 ? 'asc' : 'desc';
 
+    dashboardService.getDashboardsByCategory(categoryId, myDashboards, globals, pageNumber, pageSize, sortColumn, sortingOrder).then((response) => {
+      if (response.status === 200) {
+        let _userDashboards = _.map(response.data, (d) => {
+          return {
+            DashboardName: d.udn,
+            ModifiedDate: d.udim,
+            DashboardId: d.udid,
+            IsGlobal: d.udig,
+            IsOwner: d.udio,
+            IsDeleted: d.udid,
+            CategoryId: d.udcid
+          };
+        });
+        let _totalDashboards = response.data[0] ? response.data[0].udtr : 0;
+        let _totalPages = Math.ceil(_totalDashboards / pageSize);
+        dispatch(getState().spinnerStore.EndTask());
+        dispatch({
+          type: GET_DASHBOARDS_LIST,
+          userDashboards: _userDashboards,
+          totalPages: _totalPages,
+          totalDashboards: _totalDashboards
+        });
+      }
+
+    }).catch((err) => {
+      dispatch(getState().spinnerStore.EndTask());
+    });
+  }
+}
 export function SetGlobals(getGlobals) {
   return (dispatch, getState) => {
     dispatch({
@@ -122,6 +164,7 @@ export function testU() {
     })
   }
 }
+
 // export function ViewDashboard() {
 //   return (dispatch, getState) => {
 //    // Dispatch mode of dashboard from here.
@@ -228,9 +271,18 @@ export const initialState = {
   globals: false,
   pageNumber: 1,
   pageSize: 10,
+  userSliders: [],
+  sliderTotalPages: 0,
+  mySliders: true,
+  sliderGlobals: false,
+  sliderPageNumber: 1,
+  sliderPageSize: 10,
   sortColumn: "modifiedTime",
+  sliderSortColumn: "modifiedTime",
   sortOrder: 1,
+  sliderSortOrder: 1,
   totalDashboards: 0,
+  totalSliders: 0,
   DeleteDashboard,
   userLogout
 };
