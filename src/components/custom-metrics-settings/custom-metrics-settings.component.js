@@ -57,7 +57,7 @@ export default class CustomMetricsSettingsComponent extends PureComponent {
                     <div className="col-xs-9 col-sm-7 col-md-6 col-lg-5">
                         <CustomSelect
                             name="field-group-options"
-                            value={this.props.customSettings.selectedStoreProc}
+                            value={this.props.customSettings.selectedStoreProc && Object.keys(this.props.customSettings.selectedStoreProc).length > 0 ? this.props.customSettings.selectedStoreProc : this.props.customSettings.storeProcOptions[0]}
                             placeholder='Select...'
                             options={this.props.customSettings.storeProcOptions}
                             onChange={(e) => this.setSelectedStoreProc(e)} />
