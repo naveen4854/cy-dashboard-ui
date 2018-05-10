@@ -37,7 +37,7 @@ export default class DataMetricsSettingsComponent extends PureComponent {
                 <div className="col-xs-12">
                     <div className="col-xs-2 pull-right rtl-pull-right text-right rtl-text-right" style={{ marginTop: '10px' }}>
                         <div>
-                            <button type="button" onClick={() => this.saveDataMetrics()} className=" btn btn-md btn-primary btn-block" >{this.props.l.t('Apply', 'Apply')}</button>
+                            <button type="button" disabled={this.props.isDiabledApply} onClick={() => this.saveDataMetrics()} className=" btn btn-md btn-primary btn-block" >{this.props.l.t('Apply', 'Apply')}</button>
                         </div>
                     </div>
                 </div>
