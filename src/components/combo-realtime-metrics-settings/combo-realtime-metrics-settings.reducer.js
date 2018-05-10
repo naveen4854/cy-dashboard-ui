@@ -93,7 +93,6 @@ export const ACTION_HANDLERS = {
     [UPDATE_COMBO_REALTIME_TOGGLE_ADD]: (state, action) => {
         return Object.assign({}, state, {
             toggleAddEdit: action.toggleAddEdit,
-
         })
     },
     [SET_COMBO_REALTIME_STATISTIC_COLUMNS]: (state, action) => {
@@ -111,7 +110,8 @@ export const ACTION_HANDLERS = {
             functionOptions: action.functionOptions,
             applicableWidgets: action.applicableWidgets,
             displayFormatOptions: action.displayFormatOptions,
-            selectedColumnId: action.selectedColumnId
+            selectedColumnId: action.selectedColumnId,
+            columnIsDefault: action.columnIsDefault
         })
     },
     [DEFAULT_COMBO_REALTIME_METRICS]: (state, action) => {
