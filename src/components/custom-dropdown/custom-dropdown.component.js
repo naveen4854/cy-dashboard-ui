@@ -54,10 +54,11 @@ export default class CustomSelect extends React.Component {
         //     selectedValue = undefined
         // console.log(this.props.placeholder)
         return (
-            <Select value={this.props.options && this.props.options.length == 1 ? this.props.options[0] : selectedValue}
+            <Select
+                value={this.props.options && this.props.options.length == 1 ? this.props.options[0] : selectedValue}
                 // placeholder={this.props.placeholder}
                 options={this.props.options}
-                disabled={this.props.options && this.props.options.length == 1 || this.props.disabled}
+                isDisabled={(this.props.options && this.props.options.length == 1) || this.props.disabled}
                 onChange={this.onChange} />
         );
     }
