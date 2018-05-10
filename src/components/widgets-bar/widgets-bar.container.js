@@ -20,9 +20,9 @@ const mapDispatchToProps = (dispatch) => {
         HandleSaveAsPopUp: (showSaveAsPopup) => {
             dispatch(WidgetsBarActions.HandleSaveAsPopUpAction(showSaveAsPopup))
         },
-        SaveAsPopUpAction: (showSaveAsPopup) => {
-            dispatch(WidgetsBarActions.HandleSaveAsPopUpAction(showSaveAsPopup))
-        },
+        // SaveAsPopUpAction: (showSaveAsPopup) => {
+        //     dispatch(WidgetsBarActions.HandleSaveAsPopUpAction(showSaveAsPopup))
+        // },
         SaveAsDashboard: () => {
             dispatch(WidgetsBarActions.SaveDashboard());
         },
@@ -54,7 +54,9 @@ const mapStateToProps = (state) => {
         isGlobal: state.dashboard.isGlobal,
         mode: state.dashboard.mode,
         dashboardId: state.dashboard.Id,
-        dashboardName: state.dashboard.name
+        dashboardName: state.dashboard.name,
+        lastSaveTime: state.dashboard.lastSaveTime,
+        updatedTime: state.dashboard.updatedTime
     }
 }
 

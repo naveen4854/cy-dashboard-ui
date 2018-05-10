@@ -132,10 +132,16 @@ export function SetPageNumber(pageNumber) {
 
 export function SetPageSize(pageSize) {
   return (dispatch, getState) => {
+    let mydashboard = getState().mydashboard,
+      reqPagesize = pageSize,
+      currentPage = mydashboard.pageNumber,
+      totalDashboards = mydashboard.totalDashboards,
+      setCurrentPage = reqPagesize * currentPage > totalDashboards ? Math.ceil(totalDashboards / reqPagesize) : currentPage;
     dispatch({
       type: UPDATE_PAGESIZE,
       pageSize
     });
+    dispatch(SetPageNumber(setCurrentPage));
   }
 }
 

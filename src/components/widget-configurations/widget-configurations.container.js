@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import WidgetConfigurationsComponent from './widget-configurations.component';
 import localize from '../localization/localization.hoc';
 import { closeConfigurations } from './widget-configurations.actions';
+import { PageEnum } from '../../shared/enums';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -17,4 +18,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(localize(WidgetConfigurationsComponent))
+export default connect(mapStateToProps, mapDispatchToProps)(localize(WidgetConfigurationsComponent, PageEnum.DATA_METRICS))

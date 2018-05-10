@@ -9,7 +9,6 @@ export default class TextStyles extends PureComponent {
 
     constructor(props) {
         super(props);
-        debugger;
         this.updateTitle = this.updateTitle.bind(this);
         this.updateTitleFontStyles = this.updateTitleFontStyles.bind(this);
         this.updateScrollSpeed = this.updateScrollSpeed.bind(this);
