@@ -488,7 +488,7 @@ export function updatedComboStatisticColumn() {
             displayFormat: comboRealTimeSettings.selectedDisplayFormat,
             widget: comboRealTimeSettings.selectedWidget,
             displayName: comboRealTimeSettings.displayName,
-            isDefault: comboRealTimeSettings.isDefault
+            isDefault: comboRealTimeSettings.columnIsDefault
         }
 
         let updatedColumns = _.map(getState().comboRealTimeSettings.comboSelectedStatisticColumns, (column) => {
