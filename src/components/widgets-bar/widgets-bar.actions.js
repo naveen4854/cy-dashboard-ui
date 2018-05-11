@@ -418,7 +418,6 @@ function MapDashboard(dashboard, getState, isUpdate, name) {
 }
 
 function NavigateToRequiredPage(action, savedDashboardId, dispatch) {
-    debugger
     if (action == 'Save_and_exit') {
         dispatch({
             type: UPDATE_ACTION,

@@ -16,6 +16,7 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
         { name: 'Edit', property: 'Edit' },
         { name: 'Delete', property: 'Delete' },
     ]
+
     constructor(props) {
         super(props);
         this.onStatisticGroupChange = this.onStatisticGroupChange.bind(this);
@@ -34,6 +35,13 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
         this.onRowOrderChanged = this.onRowOrderChanged.bind(this);
         this.toggleDrillDown = this.toggleDrillDown.bind(this);
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.comboRealTimeSettings.editTriggered) {
+            this.props.setEditColumnValues();
+        }
+    }
+
     onStatisticGroupChange(statisticGroup) {
         if (!statisticGroup.id)
             return;
@@ -77,28 +85,24 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
     applyComboRealTimeMetrics() {
         this.props.applyComboRealTimeMetrics();
     }
-    deleteSelectedItem(e, comboSelectedStatisticItem) {
+    deleteSelectedItem(e, comboSelectedStatisticColumn) {
         // if (!this.state.isEditMode) {
-        this.props.removeComboStatisticItems(comboSelectedStatisticItem);
+        this.props.removeComboStatisticItems(comboSelectedStatisticColumn);
         // }
     }
-    editSelectedItem(e, comboSelectedStatisticItem) {
-        debugger
-        if (this.props.comboRealTimeSettings.selectedColumnId == comboSelectedStatisticItem.id)
+    editSelectedItem(e, comboSelectedStatisticColumn) {
+        if (this.props.comboRealTimeSettings.selectedColumnId == comboSelectedStatisticColumn.id)
             return
-        this.props.toggleAddEdit(true);
-        this.props.editComboSelectedColumn(comboSelectedStatisticItem);
-
-        // this.props.showNotifications({
-        //     type: ResponseStatusEnum.Warning,
-        //     messages: [{ displayMessage: 'All the previously set thresholds will not work if the display format or statistic function is changed.' }]
-        // });
+            debugger
+        this.props.clearEditColumn(comboSelectedStatisticColumn);
+        // this.props.editComboSelectedColumn(comboSelectedStatisticColumn);
     }
     onRowOrderChanged(comboSelectedStatisticColumns) {
         this.props.updateComboSelectedStatisticColumns(comboSelectedStatisticColumns);
     }
 
     render() {
+        debugger
         const { comboRealTimeSettings } = this.props;
         return (
             <div id="comboRealTimeSettings">

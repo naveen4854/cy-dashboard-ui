@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import ComboRealTimeMetricsSettingsComponent from './combo-realtime-metrics-settings.component';
 import localize from '../localization/localization.hoc';
 import * as Actions from './combo-realtime-metrics-settings.actions'
+import { SET_EDIT_COLUMN } from './combo-realtime-metrics-settings.constants';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -66,6 +67,23 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateComboSelectedStatisticColumns: (comboSelectedStatisticColumns) => {
             dispatch(Actions.updateComboSelectedStatisticColumns(comboSelectedStatisticColumns));
+        },
+        clearEditColumn: (comboSelectedStatisticColumn) => {
+            if (!comboSelectedStatisticColumn)
+                return
+
+            dispatch(Actions.toggleAddEdit(true));
+            dispatch({ type: 'edit_triggered', editTriggered: true, comboSelectedStatisticColumn })
+        },
+        setEditColumnValues: () => {
+            dispatch((dispatch, getState) => {
+                let comboSelectedStatisticColumn = getState().comboRealTimeSettings.comboSelectedStatisticColumn;
+                return dispatch({
+                    type: SET_EDIT_COLUMN,
+                    editTriggered: false,
+                    comboSelectedStatisticColumn
+                })
+            })
         }
     }
 }
