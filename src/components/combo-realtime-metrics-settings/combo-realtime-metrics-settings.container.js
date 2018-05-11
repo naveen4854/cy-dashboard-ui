@@ -15,6 +15,7 @@ const mapDispatchToProps = (dispatch) => {
                 dispatch(Actions.getComboDrillDownMetaData(selectedGroup));
                 dispatch(Actions.addDefaultComboStatisticItems(selectedGroup));
                 dispatch(Actions.toggleDrillDown(true));
+                dispatch(Actions.toggleAddEdit(false));
             }
         },
         setItemAndGetFunctions: (selectedItem) => {
