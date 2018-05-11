@@ -151,7 +151,7 @@ export const ACTION_HANDLERS = {
         })
     },
     [SET_EDIT_COLUMN]: (state, action) => {
-        return Object.assign({}, state, {
+            return Object.assign({}, state, {
             editTriggered: action.editTriggered,
             comboSelectedStatisticColumn: {},
             selectedItem: action.comboSelectedStatisticColumn.item,
