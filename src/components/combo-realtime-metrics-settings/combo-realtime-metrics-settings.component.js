@@ -86,14 +86,13 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
         this.props.applyComboRealTimeMetrics();
     }
     deleteSelectedItem(e, comboSelectedStatisticColumn) {
-        // if (!this.state.isEditMode) {
+        if (comboSelectedStatisticColumn.isDefault)
+            return
         this.props.removeComboStatisticItems(comboSelectedStatisticColumn);
-        // }
     }
     editSelectedItem(e, comboSelectedStatisticColumn) {
         if (this.props.comboRealTimeSettings.selectedColumnId == comboSelectedStatisticColumn.id)
             return
-            debugger
         this.props.clearEditColumn(comboSelectedStatisticColumn);
         // this.props.editComboSelectedColumn(comboSelectedStatisticColumn);
     }
@@ -102,7 +101,6 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
     }
 
     render() {
-        debugger
         const { comboRealTimeSettings } = this.props;
         return (
             <div id="comboRealTimeSettings">

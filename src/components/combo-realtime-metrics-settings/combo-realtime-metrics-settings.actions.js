@@ -234,7 +234,7 @@ function mapComboItems(columns, statisticCategory, statisticItems, dataMetricsMe
                 id: column.cid || getRandom(),
                 item: itemOption,
                 func: functionOption,
-                isDefault: false,
+                isDefault: index == 0,
                 displayFormat: displayFormatOption,
                 widget: {
                     label: getWidgetByEnum(column.cwt),
