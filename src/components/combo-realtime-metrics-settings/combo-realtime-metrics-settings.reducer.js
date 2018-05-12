@@ -1,6 +1,6 @@
 
 import { initiateComboRealTimeSettings, getComboDrillDownMetaData, clearComboRealTimeSettings } from './combo-realtime-metrics-settings.actions'
-import { SET_COMBO_REALTIME_STATISTIC_GROUPS, UPDATE_COMBO_SELECTED_GROUP, UPDATE_COMBO_STATISTIC_ITEMS, SET_COMBO_SELECTED_STATISTIC_ITEMS, UPDATE_COMBO_REALTIME_DISPLAYNAME, SET_COMBO_REALTIME_STATISTIC_ITEM, UPDATE_COMBO_REALTIME_FUNCTIONS, UPDATE_COMBO_REALTIME_SELECTED_FUNCTION, UPDATE_COMBO_REALTIME_DISPLAY_FORMATS, UPDATE_COMBO_REALTIME_SELECTED_DISPLAY_FORMAT, UPDATE_COMBO_REALTIME_APPLICABLE_WIDGETS, SET_COMBO_REALTIME_APPLICABLE_WIDGET, UPDATE_COMBO_DRILL_DOWN_METADATA, UPDATE_COMBO_REALTIME_TOGGLE_ADD, SET_COMBO_REALTIME_STATISTIC_COLUMNS, UPDATE_COMBO_REALTIME_RESET_ADD, DEFAULT_COMBO_REALTIME_METRICS, CLEAR_SELECTED_COMBO_REALTIME_SETTINGS, COMBO_REALTIME_SET_SELECTED_COLUMN, UPDATE_COMBO_REALTIME_TOGGLE_DRILL_DOWN, UPDATE_COMBO_REALTIME_STATISTIC_COLUMNS } from './combo-realtime-metrics-settings.constants';
+import { SET_COMBO_REALTIME_STATISTIC_GROUPS, UPDATE_COMBO_SELECTED_GROUP, UPDATE_COMBO_STATISTIC_ITEMS, SET_COMBO_SELECTED_STATISTIC_ITEMS, UPDATE_COMBO_REALTIME_DISPLAYNAME, SET_COMBO_REALTIME_STATISTIC_ITEM, UPDATE_COMBO_REALTIME_FUNCTIONS, UPDATE_COMBO_REALTIME_SELECTED_FUNCTION, UPDATE_COMBO_REALTIME_DISPLAY_FORMATS, UPDATE_COMBO_REALTIME_SELECTED_DISPLAY_FORMAT, UPDATE_COMBO_REALTIME_APPLICABLE_WIDGETS, SET_COMBO_REALTIME_APPLICABLE_WIDGET, UPDATE_COMBO_DRILL_DOWN_METADATA, UPDATE_COMBO_REALTIME_TOGGLE_ADD, SET_COMBO_REALTIME_STATISTIC_COLUMNS, UPDATE_COMBO_REALTIME_RESET_ADD, DEFAULT_COMBO_REALTIME_METRICS, CLEAR_SELECTED_COMBO_REALTIME_SETTINGS, COMBO_REALTIME_SET_SELECTED_COLUMN, UPDATE_COMBO_REALTIME_TOGGLE_DRILL_DOWN, UPDATE_COMBO_REALTIME_STATISTIC_COLUMNS, SET_EDIT_COLUMN, EDIT_TRIGGERD } from './combo-realtime-metrics-settings.constants';
 
 export const ACTION_HANDLERS = {
     [SET_COMBO_REALTIME_STATISTIC_GROUPS]: (state, action) => {
@@ -144,6 +144,25 @@ export const ACTION_HANDLERS = {
             comboSelectedStatisticColumns: action.comboSelectedStatisticColumns
         })
     },
+    [EDIT_TRIGGERD]: (state, action) => {
+        return Object.assign({}, state, {
+            editTriggered: action.editTriggered,
+            comboSelectedStatisticColumn: action.comboSelectedStatisticColumn
+        })
+    },
+    [SET_EDIT_COLUMN]: (state, action) => {
+            return Object.assign({}, state, {
+            editTriggered: action.editTriggered,
+            comboSelectedStatisticColumn: {},
+            selectedItem: action.comboSelectedStatisticColumn.item,
+            selectedFunction: action.comboSelectedStatisticColumn.func,
+            selectedDisplayFormat: action.comboSelectedStatisticColumn.displayFormat,
+            selectedWidget: action.comboSelectedStatisticColumn.widget,
+            displayName: action.comboSelectedStatisticColumn.displayName,
+            columnIsDefault: action.comboSelectedStatisticColumn.isDefault,
+            selectedColumnId: action.comboSelectedStatisticColumn.id
+        })
+    },
 }
 
 export const comboRealTimeInitialState = {
@@ -161,11 +180,13 @@ export const comboRealTimeInitialState = {
     selectedDisplayFormat: {},
     applicableWidgets: [],
     selectedWidget: {},
+    editTriggered: false,
     columnIsDefault: false,
     toggleAddEdit: false,
     comboRTDefaulted: false,
     selectedColumnId: -1,
     isDrillDownOpen: false,
+    comboSelectedStatisticColumn: {},
     initiateComboRealTimeSettings,
     getComboDrillDownMetaData,
     clearComboRealTimeSettings,

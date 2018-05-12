@@ -49,7 +49,6 @@ export default class SliderListComponent extends PureComponent {
         const pageStart = (this.props.mySlider.sliderPageNumber - 1) * this.props.mySlider.sliderPageSize + 1,
             pageEnd = this.props.mySlider.sliderPageNumber * this.props.mySlider.sliderPageSize,
             totalRows = this.props.mySlider.totalSliders
-            debugger;
         return (
             <div >
                 <div className="my-files">

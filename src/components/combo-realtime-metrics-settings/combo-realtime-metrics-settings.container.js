@@ -67,6 +67,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         updateComboSelectedStatisticColumns: (comboSelectedStatisticColumns) => {
             dispatch(Actions.updateComboSelectedStatisticColumns(comboSelectedStatisticColumns));
+        },
+        clearEditColumn: (comboSelectedStatisticColumn) => {
+            dispatch(Actions.clearEditColumn(comboSelectedStatisticColumn))
+        },
+        setEditColumnValues: () => {
+            dispatch(Actions.setEditColumnValues())
         }
     }
 }

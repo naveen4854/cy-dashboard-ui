@@ -63,7 +63,6 @@ export function GetDashboardsList() {
 export function GetSlidersList() {
   return (dispatch, getState) => {
     dispatch(getState().spinnerStore.BeginTask());
-    debugger;
     let state = getState();
     let
      
