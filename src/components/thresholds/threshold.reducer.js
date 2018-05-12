@@ -98,9 +98,9 @@ export const thresholdsInitialState = {
     functionOptions: [],
     displayFormatOptions: [],
     setDisplayFormat,
-    displayFormat: undefined,
-    item: undefined,
-    func: undefined
+    displayFormat: {},
+    item: {},
+    func: {}
 };
 export default function ThresholdReducer(state = _.cloneDeep(thresholdsInitialState), action) {
     const handler = ACTION_HANDLERS[action.type];

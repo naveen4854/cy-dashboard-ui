@@ -160,7 +160,7 @@ export function addCustomColumn() {
             id: getRandom(),
             expanded: true,
             selectedColumn: {},
-            displayFormat: {},
+            displayFormat: getState().comboCustomSettings.displayFormatOptions[1],
             displayName: '',
             isSummary: false,
             showZeroValues: false,

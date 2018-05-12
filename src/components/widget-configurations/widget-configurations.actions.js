@@ -1,4 +1,4 @@
-import { UPDATE_CONFIGURATIONS_WIDGET, TOGGLE_CONFIGURATIONS_PANEL, DEFAULT_REFRESH_INTERVAL } from "./widget-configurations.constants";
+import { UPDATE_CONFIGURATIONS_WIDGET, TOGGLE_CONFIGURATIONS_PANEL, DEFAULT_REFRESH_INTERVAL, TOP_TAB_CHANGE_EVENT } from "./widget-configurations.constants";
 import { DashboardUtilities } from "../../shared/lib";
 import { ResponseStatusEnum } from "../../shared/enums";
 import * as widgetService from './widget-configurations.service';
@@ -83,4 +83,10 @@ export function getDefaultRefreshInterval() {
             })
         });
     }
+}
+export function tabsChange(selectedTab) {
+        return{
+            type: TOP_TAB_CHANGE_EVENT,
+            selectedTab: selectedTab
+        };
 }
