@@ -1,13 +1,16 @@
 import { connect } from 'react-redux'
 import WidgetConfigurationsComponent from './widget-configurations.component';
 import localize from '../localization/localization.hoc';
-import { closeConfigurations } from './widget-configurations.actions';
+import { closeConfigurations, tabsChange } from './widget-configurations.actions';
 import { PageEnum } from '../../shared/enums';
 
 const mapDispatchToProps = (dispatch) => {
     return {
         closeConfigurations: () => {
             dispatch(closeConfigurations());
+        },
+        tabsChange: (e) => {
+            dispatch(tabsChange(e));
         }
     }
 }
