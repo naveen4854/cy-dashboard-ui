@@ -236,7 +236,8 @@ export function pullWidget(dashboardId, widgetId, refreshInterval) {
                     let updatedWidget = DashboardUtilities.WidgetDataMapper(widget, response.data)
                     updatedWidget = {
                         ...updatedWidget,
-                        previousData: response.data
+                        previousData: response.data,
+                        isPopUp: updatedWidget.widgetType == WidgetTypeEnum.Picture ? true : false
                     }
                     dispatch(getState().dashboard.updateWidget(updatedWidget));
                 }
