@@ -86,8 +86,10 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
             // P.S. track the statistic item changes and apply them again and also widgettype
             let existingCell = _.find(oldMatrix, (oldCell) => oldCell.columnId == cell.columnId && oldCell.rowId == cell.rowId)
             if (existingCell) {
-                if (existingCell.widgetType == cell.widgetType)
+                if (existingCell.widgetType == cell.widgetType) {
                     cell.applyStyles(existingCell);
+                    cell.stylesConfigured = _.clone(existingCell.stylesConfigured)
+                }
                 else {
                     // Have to figure out if its a new row cell or a new column 
                     // based on which we apply styles
