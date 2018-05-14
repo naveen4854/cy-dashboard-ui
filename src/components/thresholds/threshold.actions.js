@@ -61,9 +61,9 @@ export function initializeThresholddata() {
                     threshold.func = getSelectedFunction(currentWidget.appliedSettings.basedReal.funcId, metricsData);
                     threshold.displayFormat = getDisplayFormatSetting(currentWidget.appliedSettings.basedReal.dsId, metricsData);
                 }
-                let item = threshold.item ? threshold.item : { ...currentWidget.appliedSettings.dataMetrics.item };
-                let func = threshold.func ? threshold.func : { ...currentWidget.appliedSettings.dataMetrics.func };
-                let displayFormat = threshold.displayFormat ? threshold.displayFormat : { ...currentWidget.appliedSettings.dataMetrics.displayFormat }
+                let item = threshold.item && Object.keys(threshold.item).length > 0 ? threshold.item : { ...currentWidget.appliedSettings.dataMetrics.item };
+                let func = threshold.func && Object.keys(threshold.func).length > 0 ? threshold.func : { ...currentWidget.appliedSettings.dataMetrics.func };
+                let displayFormat = threshold.displayFormat && Object.keys(threshold.displayFormat).length > 0 ? threshold.displayFormat : { ...currentWidget.appliedSettings.dataMetrics.displayFormat }
 
                 let statisticItems = setStatisticItems(currentWidget, metricsData, comboWidget.appliedSettings.dataMetrics.group);
                 let statisticFuncs = setStatisticFunctions(currentWidget, metricsData, item);
