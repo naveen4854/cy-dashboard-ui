@@ -274,7 +274,8 @@ export function deleteWidgetAction(widgetId) {
 }
 export function resetDashboard() {
     return (dispatch, getState) => {
-        dispatch(getState().dashboard.updateDashboard(_.cloneDeep(dashboardInitialState)));
+        let dashboard=_.cloneDeep(dashboardInitialState)
+        dispatch(getState().dashboard.updateDashboard(dashboard));
     }
 }
 

@@ -45,7 +45,8 @@ export const ACTION_HANDLERS = {
             }
             return widget;
         })
-        return Object.assign({}, state, { widgets, updatedTime: new Date().getTime() });
+        let updatedTime=state.mode==(DashboardModeEnum.Edit||state.mode==DashboardModeEnum.New)?new Date().getTime():state.updatedTime;
+        return Object.assign({}, state, { widgets, updatedTime });
     },
     [UPDATE_DASHBOARD_MODE]: (state, action) => {
         return Object.assign({}, state, {

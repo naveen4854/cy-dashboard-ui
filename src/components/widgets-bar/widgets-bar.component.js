@@ -19,7 +19,7 @@ export default class WidgetsBar extends React.Component {
 
 
 	redirectToFiles() {
-		// this.props.resetDashboard();
+		 this.props.resetDashboard();
 		browserHistory.push(`/dashboard/mydashboards`)
 	}
 	handleDocks(e) {
