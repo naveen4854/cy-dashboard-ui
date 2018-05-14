@@ -2,10 +2,10 @@
 import { UPDATE_DASHBOARD_MODE, UPDATE_DASHBOARD_WIDGETS, UPDATE_DASHBOARD_WIDGET, UPDATE_DRAGGABLE, UPDATE_DASHBOARD, UPDATE_SHOW_ICONS, UPDATE_DASHBOARD_PROPERTY } from "./dashboard.constants";
 import * as dashboardService from './dashboard-service';
 import * as dataMetricsService from '../components/data-metrics/data-metrics-service'
-import { DashboardModeEnum, WidgetTypeEnum } from "../shared/enums";
+import { ResponseStatusEnum, DashboardModeEnum, WidgetTypeEnum } from "../shared/enums";
 import { DashboardUtilities } from "../shared/lib";
 import { dashboardInitialState } from "./dashboard.reducer";
-
+import { browserHistory } from 'react-router';
 
 export function PreviewActionPicture(dashboardId, widgetid) {
     return (dispatch, getState) => {
@@ -49,6 +49,12 @@ export function getDashboardById(dashboardId) {
                 let dashboard = response.data;
                 const dashboardData = DashboardUtilities.mapDashboardFromServer(dashboard, dataMetricsMetadata, true);
                 dispatch(getState().dashboard.updateDashboard(dashboardData));
+            }).catch((error) => {
+                debugger
+                if (error.response.status == 403) {
+                    dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error))
+                    browserHistory.push(`/dashboard/mydashboards`)
+                }
             })
     }
 }
@@ -232,6 +238,7 @@ export function pullWidget(dashboardId, widgetId, refreshInterval) {
 
         let setTimeoutId = setTimeout(() => {
             dashboardService.viewWidgetData(dashboardId, widgetId, {}).then(response => {
+
                 if (widget) {
                     let updatedWidget = DashboardUtilities.WidgetDataMapper(widget, response.data)
                     updatedWidget = {
