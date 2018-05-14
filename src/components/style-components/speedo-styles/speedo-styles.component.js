@@ -97,7 +97,6 @@ export default class SpeedoStyles extends PureComponent {
     render() {
         console.log('this.props bar', this.props)
         //let displayFormatId = this.props.widget.appliedSettings.dataMetrics.displayFormat ? this.props.widget.appliedSettings.dataMetrics.displayFormat.id : displayFormatEnum.Number;
-
         return (
             <div className="col-xs-12">
                 <div className="form-group">
@@ -179,7 +178,7 @@ export default class SpeedoStyles extends PureComponent {
                             />
                             <LabelledDurationInput
                                 label={this.props.l.t('MinCOLON', 'Min:')}
-                                displayFormatColorId={this.props.displayFormatId}
+                                displayFormatId={this.props.displayFormatId}
                                 value={this.props.styles.min}
                                 wKey='min'
                                 enableInput={true}
@@ -189,7 +188,7 @@ export default class SpeedoStyles extends PureComponent {
 
                             <LabelledDurationInput
                                 label={this.props.l.t('MaxCOLON', 'Max:')}
-                                displayFormatColorId={this.props.displayFormatId}
+                                displayFormatId={this.props.displayFormatId}
                                 value={this.props.styles.max}
                                 wKey='max'
                                 enableInput={true}

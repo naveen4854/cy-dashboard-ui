@@ -21,17 +21,7 @@ export function updateProperty(key, value) {
 
 export function CollapseAllSettingsMenus() {
     return (dispatch, getState) => {
-        let widgets = getState().dashboard.widgets;
-        _.forEach(widgets, (w) => {
-            dispatch({
-                type: TOGGLE_CONFIGURATIONS_PANEL,
-                widget: w,
-                widgetId: w.id,
-                widgetType: w.widgetType,
-                showPanel: false
-            });
-
-        });
+        dispatch(getState().configurations.toggleSettingsMenu());
 
     }
 }
@@ -433,10 +423,10 @@ function NavigateToRequiredPage(action, savedDashboardId, dispatch) {
             type: UPDATE_ACTION,
             fromAction: null
         });
-        dispatch({
-            type: UPDATE_DASHBOARD,
-            dashboardData: _.cloneDeep(dashboardInitialState)
-        });
+        // dispatch({
+        //     type: UPDATE_DASHBOARD,
+        //     dashboardData: _.cloneDeep(dashboardInitialState)
+        // });
         browserHistory.push(`/dashboard/mydashboards`);
     }
     else {

@@ -3,7 +3,7 @@ import React from 'react'
 export const Header = (props) => {
   return (
     <header className="main-header">
-      <nav className="navbar navbar-bg navbar-fixed-top">
+      <nav className="navbar navbar-bg navbar-fixed-top navbar-fixed-top-lunset">
         <div className="container-fluid">
           <div className="navbar-header">
             <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
@@ -13,7 +13,7 @@ export const Header = (props) => {
               <span className="icon-bar" />
               <span className="icon-bar" />
             </button>
-            <a className="navbar-brand pointer">{props.title}</a>
+           
           </div>
           <div id="navbar" className="navbar-collapse collapse" aria-expanded="false">
             <ul className={props.l.isRtl ? "nav navbar-nav navbar-left" : "nav navbar-nav navbar-right"}>

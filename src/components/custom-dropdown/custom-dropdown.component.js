@@ -8,7 +8,8 @@ export default class CustomSelect extends React.Component {
         super(props);
         this.onChange = this.onChange.bind(this)
         this.state = {
-            onChangeFromEvent: false
+            onChangeFromEvent: false,
+
         };
         if (props.value !== undefined && !_.isEqual(props.value, {})) {
             this.props.onChange(props.value);
@@ -20,17 +21,18 @@ export default class CustomSelect extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (!this.state.onChangeFromEvent && this.props.value != nextProps.value) {
-            this.props.onChange(nextProps.value)
+            let newValue = nextProps.options && nextProps.options.length == 1 ? nextProps.options[0] : nextProps.value;
+            this.props.onChange(newValue)
             this.setState({
                 onChangeFromEvent: false
             })
         }
-        if (!this.state.onChangeFromEvent && nextProps.options && nextProps.options.length == 1 && this.props.value != nextProps.value) {
-            this.props.onChange(nextProps.options[0]);
-            this.setState({
-                onChangeFromEvent: false
-            })
-        }
+        // if (!this.state.onChangeFromEvent && nextProps.options && nextProps.options.length == 1 && this.props.value != nextProps.value) {
+        //     this.props.onChange(nextProps.options[0]);
+        //     this.setState({
+        //         onChangeFromEvent: false
+        //     })
+        // }
     }
 
     onChange(e) {
@@ -42,23 +44,29 @@ export default class CustomSelect extends React.Component {
                 onChangeFromEvent: false
             })
         });
-
     }
 
     render() {
+        let options = this.props.options || [];
         let selectedValue = this.props.value;
         if (selectedValue && !selectedValue.value) {
             selectedValue = _.find(this.props.options, { 'value': this.props.value }) || {};
         }
-        // if (_.isEqual(this.props.value, {}))
-        //     selectedValue = undefined
-        // console.log(this.props.placeholder)
+        if (Object.keys(selectedValue).length == 0 && options.length != 0) {
+            selectedValue = null
+        }
+
+        if (options.length == 1)
+            selectedValue = options[0]
+
         return (
-            <Select value={this.props.options && this.props.options.length == 1 ? this.props.options[0] : selectedValue}
-                // placeholder={this.props.placeholder}
-                options={this.props.options}
-                disabled={this.props.options && this.props.options.length == 1 || this.props.disabled}
-                onChange={this.onChange} />
+            <Select
+                value={selectedValue}
+                options={options}
+                isDisabled={options.length == 0 || options.length == 1 || this.props.disabled}
+                onChange={this.onChange}
+                placeholder={this.props.placeholder}
+            />
         );
     }
 }

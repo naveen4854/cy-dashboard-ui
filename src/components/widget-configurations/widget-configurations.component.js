@@ -5,7 +5,7 @@ import Scrollbars from 'react-scrollbar';
 import DataMetricsContainer from '../data-metrics';
 import StylesContainer from '../style-components';
 import ThresholdTabContainer from '../thresholds';
-import { WidgetTypeEnum } from '../../shared/enums';
+import { WidgetTypeEnum, tabEnum } from '../../shared/enums';
 import '../../public/assets/styles/headerStyles.css'
 
 export default class WidgetConfigurationsComponent extends PureComponent {
@@ -28,21 +28,25 @@ export default class WidgetConfigurationsComponent extends PureComponent {
                                 onClick={this.closeSettingsMenu}
                             />
                         </div>
-                        <Tabs id="top">
+                        <Tabs id="top"
+                            defaultActiveKey={tabEnum.Data_metrics}
+                            activeKey={this.props.configurations.selectedTab}
+                            onSelect={(e) => this.props.tabsChange(e)}>
+
                             {
-                                this.props.configurations.showMetricsTab && <Tab eventKey="first" title={this.props.l.t('Data_Metrics', 'Data Metrics')}>
+                                this.props.configurations.showMetricsTab && <Tab eventKey={tabEnum.Data_metrics} title={this.props.l.t('Data_Metrics', 'Data Metrics')}>
                                     <div >
                                         <DataMetricsContainer />
                                     </div>
                                 </Tab>
                             }
-                            <Tab eventKey="se" title={this.props.l.t('Styles', 'Styles')}>
+                            <Tab eventKey={tabEnum.Styles} title={this.props.l.t('Styles', 'Styles')}>
                                 <div >
                                     <StylesContainer />
                                 </div>
                             </Tab>
                             {
-                                this.props.configurations.showThresholdsTab && <Tab eventKey="t" title={this.props.l.t('Thresholds', 'Thresholds')}>
+                                this.props.configurations.showThresholdsTab && <Tab eventKey={tabEnum.Thresholds} title={this.props.l.t('Thresholds', 'Thresholds')}>
                                     <div >
                                         <ThresholdTabContainer />
                                     </div>

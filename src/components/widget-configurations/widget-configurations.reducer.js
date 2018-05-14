@@ -1,10 +1,10 @@
-import { ResponseStatusEnum, WidgetTypeEnum } from "../../shared/enums";
+import { ResponseStatusEnum, WidgetTypeEnum, tabEnum } from "../../shared/enums";
 import _ from 'lodash';
 import { UPDATE_DASHBOARD_WIDGET } from "../../dashboard/dashboard.reducer";
 import { DashboardUtilities } from "../../shared/lib";
 import * as widgetService from './widget-configurations.service';
 import { updateConfigurationsWidget, closeConfigurations, previewWidget, previewWidgetInLive, getDefaultRefreshInterval } from './widget-configurations.actions'
-import { TOGGLE_CONFIGURATIONS_PANEL, UPDATE_CONFIGURATIONS_WIDGET, SET_METRICS_TAB_VISIBILITY, SET_THRESHOLDS_TAB_VISIBILITY, CLEAR_CONFIGURATIONS, DEFAULT_REFRESH_INTERVAL } from "./widget-configurations.constants";
+import { TOGGLE_CONFIGURATIONS_PANEL, UPDATE_CONFIGURATIONS_WIDGET, SET_METRICS_TAB_VISIBILITY, SET_THRESHOLDS_TAB_VISIBILITY, CLEAR_CONFIGURATIONS, DEFAULT_REFRESH_INTERVAL, TOP_TAB_CHANGE_EVENT } from "./widget-configurations.constants";
 
 export function toggleSettingsMenu(widget) {
     return (dispatch, getState) => {
@@ -16,12 +16,13 @@ export function toggleSettingsMenu(widget) {
 
         let showMetricsTab = currentWidget && !(currentWidget.isComboWidget || currentWidget.widgetType == WidgetTypeEnum.Picture
             || currentWidget.widgetType == WidgetTypeEnum.Text);
+
         let showThresholdsTab = currentWidget && !(currentWidget.widgetType == WidgetTypeEnum.Picture
             || currentWidget.widgetType == WidgetTypeEnum.Text
             || currentWidget.widgetType == WidgetTypeEnum.Pie
             || currentWidget.widgetType == WidgetTypeEnum.Bar
             || currentWidget.widgetType == WidgetTypeEnum.Combo
-            || currentWidget.widgetType == WidgetTypeEnum.Clock);
+            || currentWidget.widgetType == WidgetTypeEnum.Clock) && !(currentWidget.isRowHeader);
 
         if (showPanel) {
             dispatch({
@@ -39,6 +40,27 @@ export function toggleSettingsMenu(widget) {
                 type: SET_METRICS_TAB_VISIBILITY,
                 showMetricsTab
             });
+
+            if (currentWidget.isComboWidget || !showMetricsTab) {
+                dispatch({
+                    type: TOP_TAB_CHANGE_EVENT,
+                    selectedTab: tabEnum.Styles 
+                });
+            }
+            else {
+                if (showMetricsTab) {
+                    dispatch({
+                        type: TOP_TAB_CHANGE_EVENT,
+                        selectedTab: tabEnum.Data_metrics 
+                    });
+                }
+                else {
+                    dispatch({
+                        type: TOP_TAB_CHANGE_EVENT,
+                        selectedTab: tabEnum.Styles 
+                    });
+                }
+            }
 
             if (currentWidget.widgetType == WidgetTypeEnum.Clock) {
                 dispatch(getState().clockSettings.initializeClocksettings());
@@ -113,6 +135,9 @@ export const ACTION_HANDLERS = {
     },
     [DEFAULT_REFRESH_INTERVAL]: (state, action) => {
         return Object.assign({}, state, { defaultRefreshInterval: action.interval })
+    },
+    [TOP_TAB_CHANGE_EVENT]: (state, action) => {
+        return Object.assign({}, state, { selectedTab: action.selectedTab })
     },
 }
 

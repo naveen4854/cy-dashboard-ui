@@ -45,8 +45,7 @@ export const ACTION_HANDLERS = {
             }
             return widget;
         })
-        let updatedTime=state.mode==(DashboardModeEnum.Edit||state.mode==DashboardModeEnum.New)?new Date().getTime():state.updatedTime;
-        return Object.assign({}, state, { widgets, updatedTime });
+        return Object.assign({}, state, { widgets, updatedTime: (state.mode == DashboardModeEnum.Edit || state.mode == DashboardModeEnum.New) && !action.widget.isPopUp ? new Date().getTime() : state.updatedTime });
     },
     [UPDATE_DASHBOARD_MODE]: (state, action) => {
         return Object.assign({}, state, {

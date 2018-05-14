@@ -10,7 +10,7 @@ export default class ComboWidget extends Widget {
     //id = 102020202; // TODO: temporary till matrix build logic is written
     widgetType = WidgetTypeEnum.Combo;
     width = 450; height = 250;
-    comboSelectedStatisticItem = {};
+    comboSelectedStatisticColumn = {};
     title = "Combo widget";
     comboSelectedStatisticColumns = [];
     appliedBackgroundColor = rgba(0, 192, 239, 1);

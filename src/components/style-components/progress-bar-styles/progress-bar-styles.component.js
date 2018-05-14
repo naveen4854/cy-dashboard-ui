@@ -178,7 +178,7 @@ export default class ProgressBarStyles extends PureComponent {
                             />
                             <LabelledDurationInput
                                 label={this.props.l.t('MinCOLON', 'Min:')}
-                                displayFormatColorId={this.props.displayFormatId}
+                                displayFormatId={this.props.displayFormatId}
                                 value={this.props.styles.min}
                                 wKey='min'
                                 enableInput={true}
@@ -188,7 +188,7 @@ export default class ProgressBarStyles extends PureComponent {
 
                             <LabelledDurationInput
                                 label={this.props.l.t('MaxCOLON', 'Max:')}
-                                displayFormatColorId={this.props.displayFormatId}
+                                displayFormatId={this.props.displayFormatId}
                                 value={this.props.styles.max}
                                 wKey='max'
                                 enableInput={true}

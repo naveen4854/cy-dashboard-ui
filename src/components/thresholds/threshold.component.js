@@ -288,7 +288,7 @@ export default class ThresholdTab extends PureComponent {
                                         </div>
 
 
-                                    </div> : <fieldset><legend>Based on column</legend>
+                                    </div> : <fieldset className='threshold-fieldset'><legend className='threshold-legend'>Based on column</legend>
                                         <div className="row">
                                             <div className="col-md-4">
                                                 <div className="form-group">

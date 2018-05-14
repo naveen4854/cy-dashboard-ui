@@ -52,6 +52,10 @@ export const ACTION_HANDLERS = {
     [SET_CYREPORT_ITEM]: (state, action) => {
         return Object.assign({}, state, {
             selectedItem: action.selectedItem,
+            selectedFunction: {},
+            functionOptions: [],
+            selectedDisplayFormat: {},
+            displayFormatOptions: [],
         })
     },
     [UPDATE_CYREPORT_FUNCTIONS]: (state, action) => {
@@ -63,6 +67,7 @@ export const ACTION_HANDLERS = {
         return Object.assign({}, state, {
             selectedFunction: action.selectedFunction,
             selectedDisplayFormat: {},
+            displayFormatOptions: [],
         })
     },
     [UPDATE_CYREPORT_DISPLAY_FORMATS]: (state, action) => {

@@ -236,7 +236,8 @@ export function pullWidget(dashboardId, widgetId, refreshInterval) {
                     let updatedWidget = DashboardUtilities.WidgetDataMapper(widget, response.data)
                     updatedWidget = {
                         ...updatedWidget,
-                        previousData: response.data
+                        previousData: response.data,
+                        isPopUp: updatedWidget.widgetType == WidgetTypeEnum.Picture ? true : false
                     }
                     dispatch(getState().dashboard.updateWidget(updatedWidget));
                 }
@@ -274,8 +275,8 @@ export function deleteWidgetAction(widgetId) {
 }
 export function resetDashboard() {
     return (dispatch, getState) => {
-        let dashboard=_.cloneDeep(dashboardInitialState)
-        dispatch(getState().dashboard.updateDashboard(dashboard));
+        let initialDashboard = _.cloneDeep(dashboardInitialState);
+        dispatch(getState().dashboard.updateDashboard(initialDashboard));
     }
 }
 

@@ -147,5 +147,7 @@ export function updateComboStyles() {
         }
         
         dispatch(getState().dashboard.updateWidget(updatedComboWidget));
+        dispatch(getState().configurations.applyWidget(updatedComboWidget));
+        
     }
 }

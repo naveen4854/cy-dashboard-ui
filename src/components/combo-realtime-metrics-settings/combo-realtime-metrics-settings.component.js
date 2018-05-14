@@ -16,6 +16,7 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
         { name: 'Edit', property: 'Edit' },
         { name: 'Delete', property: 'Delete' },
     ]
+
     constructor(props) {
         super(props);
         this.onStatisticGroupChange = this.onStatisticGroupChange.bind(this);
@@ -34,6 +35,13 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
         this.onRowOrderChanged = this.onRowOrderChanged.bind(this);
         this.toggleDrillDown = this.toggleDrillDown.bind(this);
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.comboRealTimeSettings.editTriggered) {
+            this.props.setEditColumnValues();
+        }
+    }
+
     onStatisticGroupChange(statisticGroup) {
         if (!statisticGroup.id)
             return;
@@ -60,7 +68,7 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
         this.props.updateDisplayName(e.target.value);
     }
     toggleAddEdit() {
-        this.props.toggleAddEdit(!this.props.comboRealTimeSettings.toggleAddEdit);
+        this.props.toggleAddEdit(true);
     }
     addComboStatisticItem() {
         if (this.props.comboRealTimeSettings.selectedColumnId == -1)
@@ -77,19 +85,16 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
     applyComboRealTimeMetrics() {
         this.props.applyComboRealTimeMetrics();
     }
-    deleteSelectedItem(e, comboSelectedStatisticItem) {
-        // if (!this.state.isEditMode) {
-        this.props.removeComboStatisticItems(comboSelectedStatisticItem);
-        // }
+    deleteSelectedItem(e, comboSelectedStatisticColumn) {
+        if (comboSelectedStatisticColumn.isDefault)
+            return
+        this.props.removeComboStatisticItems(comboSelectedStatisticColumn);
     }
-    editSelectedItem(e, comboSelectedStatisticItem) {
-        this.props.toggleAddEdit(true);
-        this.props.editComboSelectedColumn(comboSelectedStatisticItem);
-
-        // this.props.showNotifications({
-        //     type: ResponseStatusEnum.Warning,
-        //     messages: [{ displayMessage: 'All the previously set thresholds will not work if the display format or statistic function is changed.' }]
-        // });
+    editSelectedItem(e, comboSelectedStatisticColumn) {
+        if (this.props.comboRealTimeSettings.selectedColumnId == comboSelectedStatisticColumn.id)
+            return
+        this.props.clearEditColumn(comboSelectedStatisticColumn);
+        // this.props.editComboSelectedColumn(comboSelectedStatisticColumn);
     }
     onRowOrderChanged(comboSelectedStatisticColumns) {
         this.props.updateComboSelectedStatisticColumns(comboSelectedStatisticColumns);
@@ -166,8 +171,8 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
         // if (!comboRealTimeSettings.drillDownOptions) {
         //     this.props.getComboDrillDownMetaData(comboRealTimeSettings.selectedGroup, this.props.widget.id);
         // }
-
         return (
+
             <div>
                 <div className="row">
                     <div className="metrics-label col-md-4">
@@ -195,7 +200,7 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
 
     renderAddEditBox() {
         const { comboRealTimeSettings } = this.props;
-
+        let isSaveDisabled = (comboRealTimeSettings.selectedItem && Object.keys(comboRealTimeSettings.selectedItem).length != 0) && (comboRealTimeSettings.selectedWidget && Object.keys(comboRealTimeSettings.selectedWidget).length != 0) && (comboRealTimeSettings.selectedDisplayFormat && Object.keys(comboRealTimeSettings.selectedDisplayFormat).length != 0) && (comboRealTimeSettings.selectedFunction && Object.keys(comboRealTimeSettings.selectedFunction).length != 0) && (comboRealTimeSettings.displayName && _.trim(comboRealTimeSettings.displayName) != '');
         return (
             <div >
                 <div className="row">
@@ -219,8 +224,8 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
                                                         value={comboRealTimeSettings.selectedItem}
                                                         onChange={this.onStatisticItemChange}
                                                         options={comboRealTimeSettings.statisticItems}
+                                                        disabled={comboRealTimeSettings.columnIsDefault}
                                                     />
-
                                                 </div>
                                             </div>
                                         </div>
@@ -238,7 +243,6 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
                                                         options={comboRealTimeSettings.functionOptions}
                                                         onChange={this.onFunctionChange}
                                                     />
-
                                                 </div>
                                             </div>
                                         </div>
@@ -253,8 +257,8 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
                                                         placeholder='Select...'
                                                         options={comboRealTimeSettings.displayFormatOptions}
                                                         onChange={this.onDisplayFormatChange}
+                                                        disabled={comboRealTimeSettings.columnIsDefault}
                                                     />
-
                                                 </div>
                                             </div>
                                         </div>
@@ -271,8 +275,8 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
                                                         placeholder='Select...'
                                                         options={comboRealTimeSettings.applicableWidgets}
                                                         onChange={this.setApplicableWidget}
+                                                        disabled={comboRealTimeSettings.columnIsDefault}
                                                     />
-
                                                 </div>
                                             </div>
                                         </div>
@@ -288,7 +292,6 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
                                                         placeholder='Display Name'
                                                         value={comboRealTimeSettings.displayName}
                                                         onChange={this.updateDisplayName} />
-
                                                 </div>
                                             </div>
                                         </div>
@@ -300,9 +303,10 @@ export default class ComboRealTimeMetricsSettingsComponent extends PureComponent
                                             {
                                                 // !comboRealTimeSettings.toggleAddEdit &&
                                                 <button
-                                                    // disabled={!comboRealTimeSettings.enableAddItemButton || _.isEmpty(comboRealTimeSettings.displayName)} 
+                                                    disabled={!isSaveDisabled}
                                                     type="submit" className="btn btn-primary"
                                                     onClick={this.addComboStatisticItem} >
+
                                                     {this.props.l.t('Save_Item', 'Save Item')}
                                                 </button>
                                             }

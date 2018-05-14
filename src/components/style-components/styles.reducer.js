@@ -47,7 +47,8 @@ export function initializeStyles() {
         let pictureSelected = currentWidget.pictureSelected; // for picture widget.
         let picturePath = currentWidget.picturePath; // for picture widget.
         let pictureStretch = currentWidget.pictureStretch; // for picture widget.
-
+        let applyComboStyles = false;
+        let selectedApplyTo = ApplyToOptions.Cell
 
         //titleStyles.color = '#FF0000';
         dispatch({
@@ -87,6 +88,8 @@ export function initializeStyles() {
             picturePath,
             pictureStretch,
             refreshInterval,
+            applyComboStyles,
+            selectedApplyTo
         })
     }
 }
@@ -235,7 +238,9 @@ export const ACTION_HANDLERS = {
             pictureSelected: action.pictureSelected,
             picturePath: action.picturePath,
             pictureStretch: action.pictureStretch,
-            refreshInterval: action.refreshInterval
+            refreshInterval: action.refreshInterval,
+            applyComboStyles: action.applyComboStyles,
+            selectedApplyTo: action.selectedApplyTo
         })
     },
     [UPDATE_STYLE_PROP]: (state, action) => {
