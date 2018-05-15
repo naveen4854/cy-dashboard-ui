@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import ThresholdComponent from './threshold.component';
 import localize from '../localization/localization.hoc';
 import * as ThresholdActions from './threshold.actions';
+import { PageEnum } from '../../shared/enums';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -45,4 +46,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(localize(ThresholdComponent))
+export default connect(mapStateToProps, mapDispatchToProps)(localize(ThresholdComponent, PageEnum.DATA_METRICS))

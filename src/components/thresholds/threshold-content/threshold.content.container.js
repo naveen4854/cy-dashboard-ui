@@ -3,6 +3,7 @@ import ThresholdContentComponent from './threshold.content.component';
 import * as ThresholdAction from '../threshold.actions';
 import localize from '../../localization/localization.hoc';
 import ThresholdReducer from '../threshold.reducer';
+import { PageEnum } from '../../../shared/enums';
 
 
 const mapDispatchToProps = (dispatch) => {
@@ -35,8 +36,8 @@ const mapStateToProps = (state) => {
         displayFormat: state.configurations.widget.appliedSettings.dataMetrics.displayFormat,
         isComboWidget: state.configurations.widget.isComboWidget,
         statisticCategory: state.configurations.widget.appliedSettings.dataMetrics.statisticCategory,
-        widgetId:state.configurations.widgetId
+        widgetId: state.configurations.widgetId
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(localize(ThresholdContentComponent))
+export default connect(mapStateToProps, mapDispatchToProps)(localize(ThresholdContentComponent, PageEnum.DATA_METRICS))

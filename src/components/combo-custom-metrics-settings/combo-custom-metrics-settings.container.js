@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import ComboCustomMetricsSettingsComponent from './combo-custom-metrics-settings.component';
 import localize from '../localization/localization.hoc';
 import * as Actions from './combo-custom-metrics-settings.actions'
+import { PageEnum } from '../../shared/enums';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -29,7 +30,7 @@ const mapDispatchToProps = (dispatch) => {
         saveComboCustomMetrics: () => {
             dispatch(Actions.saveComboCustomMetrics());
         },
-        updateCustomComboColumns: (columns)=>{
+        updateCustomComboColumns: (columns) => {
             dispatch(Actions.updateCustomComboColumns(columns));
         }
     }
@@ -41,4 +42,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(localize(ComboCustomMetricsSettingsComponent))
+export default connect(mapStateToProps, mapDispatchToProps)(localize(ComboCustomMetricsSettingsComponent, PageEnum.DATA_METRICS))

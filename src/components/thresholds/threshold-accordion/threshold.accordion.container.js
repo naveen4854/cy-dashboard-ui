@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import ThresholdAccordionComponent from './threshold.accordion.component';
 import localize from '../../localization/localization.hoc';
+import { PageEnum } from '../../../shared/enums';
 
 
 const mapDispatchToProps = (dispatch) => {
@@ -9,8 +10,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        threshold : state.threshold
+        threshold: state.threshold
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(localize(ThresholdAccordionComponent))
+export default connect(mapStateToProps, mapDispatchToProps)(localize(ThresholdAccordionComponent, PageEnum.DATA_METRICS))

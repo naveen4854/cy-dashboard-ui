@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import ClockMetricsSettingsComponent from './clock-metrics-settings.component';
 import localize from '../localization/localization.hoc';
 import * as ClockMetricsSettingsActions from './clock-metrics-settings.actions';
+import { PageEnum } from '../../shared/enums';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -52,4 +53,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(localize(ClockMetricsSettingsComponent))
+export default connect(mapStateToProps, mapDispatchToProps)(localize(ClockMetricsSettingsComponent, PageEnum.DATA_METRICS))

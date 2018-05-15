@@ -5,6 +5,8 @@ import * as LocalizationReducer from '../components/localization/localization.re
 import * as AppReducer from './app.reducer';
 import { UPDATE_REF_TOKEN_TIMEOUT_ID, UPDATE_PING_TOKEN_TIMEOUT_ID } from '../login/login.reducer';
 import { clearRefreshTokenTimeout, defaultRedirection, clearPingTimeout } from '../login/login.actions';
+import localize from '../components/localization/localization.hoc';
+import { PageEnum } from '../shared/enums';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -45,4 +47,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppComponent)
+export default connect(mapStateToProps, mapDispatchToProps)(localize(AppComponent, PageEnum.APPLICATION))

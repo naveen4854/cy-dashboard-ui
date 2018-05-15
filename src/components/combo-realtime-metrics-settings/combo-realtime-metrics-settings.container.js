@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import ComboRealTimeMetricsSettingsComponent from './combo-realtime-metrics-settings.component';
 import localize from '../localization/localization.hoc';
 import * as Actions from './combo-realtime-metrics-settings.actions'
+import { PageEnum } from '../../shared/enums';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -83,4 +84,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(localize(ComboRealTimeMetricsSettingsComponent))
+export default connect(mapStateToProps, mapDispatchToProps)(localize(ComboRealTimeMetricsSettingsComponent, PageEnum.THRESHOLDS))

@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import localize from '../localization/localization.hoc';
 import * as RealTimeSettingsActions from './real-time-settings.actions';
 import RealTimeSettingsComponent from './real-time-settings.component';
+import { PageEnum } from '../../shared/enums';
 
 
 const mapDispatchToProps = (dispatch) => {
@@ -54,4 +55,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(localize(RealTimeSettingsComponent))
+export default connect(mapStateToProps, mapDispatchToProps)(localize(RealTimeSettingsComponent, PageEnum.DATA_METRICS))

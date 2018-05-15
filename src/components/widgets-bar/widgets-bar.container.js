@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import WidgetsBar from './widgets-bar.component';
 import localize from '../localization/localization.hoc';
 import * as WidgetsBarActions from './widgets-bar.actions';
+import { PageEnum } from '../../shared/enums';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -60,4 +61,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(localize(WidgetsBar))
+export default connect(mapStateToProps, mapDispatchToProps)(localize(WidgetsBar, PageEnum.NEW_DASHBOARD))

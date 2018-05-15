@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import CyReportSettingsComponent from './cy-report-settings.component';
 import * as CyReportSettingsActions from './cy-report-settings.actions'
 import localize from '../localization/localization.hoc';
+import { PageEnum } from '../../shared/enums';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -33,4 +34,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(localize(CyReportSettingsComponent))
+export default connect(mapStateToProps, mapDispatchToProps)(localize(CyReportSettingsComponent, PageEnum.DATA_METRICS))

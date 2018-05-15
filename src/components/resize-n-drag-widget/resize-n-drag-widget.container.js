@@ -1,6 +1,8 @@
 import { connect } from 'react-redux'
 import RndWidgetComponent from './resize-n-drag-widget.component';
 import { updateWidgetZIndex, updateWidgetSize, updateWidgetPosition } from '../../dashboard/dashboard.actions'
+import { PageEnum } from '../../shared/enums';
+import localize from '../localization/localization.hoc';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -23,4 +25,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RndWidgetComponent)
+export default connect(mapStateToProps, mapDispatchToProps)(localize(RndWidgetComponent, PageEnum.NEW_DASHBOARD))

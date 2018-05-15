@@ -246,7 +246,8 @@ const collection = {
       'Are you sure about that!',
       'Dashboard details are saved successfully',
       'You are trying to access degraded dashboard.',
-      'Network Error'
+      'Network Error',
+      'Some error occured.'
     ]
   },
   LOGIN: {
@@ -257,6 +258,11 @@ const collection = {
       "Login"
     ]
 
+  },
+  APPLICATION: {
+    name: PageEnum.APPLICATION, strings: [
+
+    ]
   }
 }
 
