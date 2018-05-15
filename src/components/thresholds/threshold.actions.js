@@ -610,8 +610,7 @@ function getColumnIndex(matrix, widgetId) {
 function setStatisticItems(currentWidget, allData, selectedGroup) {
     return _.uniqBy(_.map(_.filter(allData,
         metric => metric.StatisticGroupId === selectedGroup.id &&
-            metric.StatisticCategory === StatisticCategoryEnum.RealTime &&
-            metric.WidgetType === currentWidget.widgetType && !metric.IsFilterId),
+            metric.StatisticCategory === StatisticCategoryEnum.RealTime && !metric.IsFilterId),
         item => {
             return {
                 id: item.StatisticItemId,
