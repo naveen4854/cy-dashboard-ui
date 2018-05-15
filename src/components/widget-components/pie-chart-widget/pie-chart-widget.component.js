@@ -78,7 +78,7 @@ export default class PieChartWidgetComponent extends PureComponent {
         let widgetBodyStyles = utils.stylesObjToCssSVG(this.props.widgetBody)
         let titleStyles = utils.stylesObjToCssSVG(this.props.titleStyles)
         let bgColor = color.ToString(this.props.widgetBody.backgroundColor)
-        
+
         return (
             <div className="widget-content">
                 <div dir="ltr" className="row" style={{ height: '100%', backgroundColor: bgColor }}>
@@ -87,7 +87,9 @@ export default class PieChartWidgetComponent extends PureComponent {
                         content={content}
                         legends={legends}
                         widgetBodyStyles={widgetBodyStyles}
-                        titleStyles={titleStyles} />
+                        titleStyles={titleStyles}
+                        width={this.props.showLegends ? (66 / 100) * this.props.width : this.props.width}
+                    />
                     {
                         this.props.showLegends ? <div className="col-xs-4 rtl-pull-left" style={{ height: '100%' }}>
                             <div id="legend">

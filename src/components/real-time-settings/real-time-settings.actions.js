@@ -149,7 +149,9 @@ export function getDrillDownMetaData(selectedItem) {
             let widget = getState().configurations.widget;
             const selectedItemData = _.find(getState().dataMetrics.dataMetricsMetadata, (metaData) => metaData.StatisticItemId === selectedItem.id);
             let defaulted = getState().realTimeSettings.drillDownDefaulted
+            dispatch(getState().spinnerStore.BeginTask());
             dataMetricsService.getDrillDownMetaData(selectedItemData.StatisticGroupId).then(function (response) {
+                dispatch(getState().spinnerStore.EndTask());
                 let _opts = _.map(_.uniqBy(response.data, 'Id'), (obj) => {
                     let option, _checked;
                     // all these calculations because of the difference in drill down options saved in db vs appended obj to DM

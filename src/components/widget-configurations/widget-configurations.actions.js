@@ -25,7 +25,9 @@ export function previewWidget(widget) {
     return (dispatch, getState) => {
         dispatch(getState().notificationStore.clearNotifications());
         const widgetData = DashboardUtilities.WidgetMapper(widget, getState().dataMetrics.dataMetricsMetadata);
+        dispatch(getState().spinnerStore.BeginTask());
         widgetService.getWidgetPreviewData(widgetData).then(function (response) {
+            dispatch(getState().spinnerStore.EndTask());
             if (response.status === 200) {
                 if (widget) {
                     let updatedWidget = DashboardUtilities.WidgetDataMapper(widget, response.data)
@@ -46,19 +48,19 @@ export function previewWidget(widget) {
 export function previewWidgetInLive(currentWidgetId, refreshInterval) {
     return (dispatch, getState) => {
         let setTimeoutId = setTimeout(() => {
-            //dispatch(getState().notificationStore.clearNotifications());
             let currentWidget = _.find(getState().dashboard.widgets, (e) => e.id == currentWidgetId);
             const widget = DashboardUtilities.WidgetMapper(_.cloneDeep(currentWidget), getState().dataMetrics.dataMetricsMetadata);
-             let dashboardId = getState().dashboard.Id;
+            let dashboardId = getState().dashboard.Id;
             widget.isLive = true;
             widgetService.getWidgetPreviewData(widget, dashboardId).then(function (response) {
                 if (response.status === 200) {
                     if (widget) {
+                        dispatch(getState().notificationStore.clearNotifications());
                         let updatedWidget = DashboardUtilities.WidgetDataMapper(currentWidget, response.data)
                         updatedWidget = {
                             ...updatedWidget,
                             previousData: response.data
-                          }
+                        }
                         dispatch(getState().dashboard.updateWidget(updatedWidget));
                     }
                     let nextRefreshInterval = currentWidget.refreshInterval; // can be changed based on throttling
@@ -85,8 +87,8 @@ export function getDefaultRefreshInterval() {
     }
 }
 export function tabsChange(selectedTab) {
-        return{
-            type: TOP_TAB_CHANGE_EVENT,
-            selectedTab: selectedTab
-        };
+    return {
+        type: TOP_TAB_CHANGE_EVENT,
+        selectedTab: selectedTab
+    };
 }

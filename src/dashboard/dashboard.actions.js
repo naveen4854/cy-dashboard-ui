@@ -232,13 +232,16 @@ export function pullWidget(dashboardId, widgetId, refreshInterval) {
     return (dispatch, getState) => {
         // let refreshInterval = refreshValue;
         let widget = _.find(getState().dashboard.widgets, (w) => w.id == widgetId);
+        if (!widget)
+            return;
         if (widget.widgetType == WidgetTypeEnum.Text)
-            return
+            return;
 
         let setTimeoutId = setTimeout(() => {
             dashboardService.viewWidgetData(dashboardId, widgetId, {}).then(response => {
 
                 if (widget) {
+                    dispatch(getState().notificationStore.clearNotifications());
                     let updatedWidget = DashboardUtilities.WidgetDataMapper(widget, response.data)
                     updatedWidget = {
                         ...updatedWidget,
