@@ -454,7 +454,6 @@ export function setStatisticItem(item) {
     }
 }
 export function setStatisticFunction(func) {
-
     return (dispatch, getState) => {
         let currentWidget = getState().configurations.widget;
         let metricsData = { ...getState().dataMetrics.dataMetricsMetadata };
@@ -467,11 +466,10 @@ export function setStatisticFunction(func) {
             type: ThresholdConstants.UPDATE_STATISTICFUNC,
             func
         })
-
     }
 }
-export function setDisplayFormat(displayFormat) {
 
+export function setDisplayFormat(displayFormat) {
     return (dispatch, getState) => {
         dispatch({
             type: ThresholdConstants.UPDATE_REALTIME_DISPLAYFORMAT,
