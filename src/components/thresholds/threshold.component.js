@@ -141,13 +141,18 @@ export default class ThresholdTab extends PureComponent {
 
         //Duration format 
         if (DisplayFormatEnum.Duration == displayFormat) {
-            let format = _.find(Constants.customCombotimeFormat, f => f.id == this.props.threshold.column.timeFormatId)
+            // let format = _.find(Constants.customCombotimeFormat, f => f.id == this.props.threshold.column.timeFormatId)
             _.forEach(levels, (level) => {
-                if (isNaN(parseInt(level.levelValue)))
+                if (isNaN(level.levelValue))
                     errors.push({ displayMessage: this.props.l.t('Level_$levelNumber_Entered_threshold_value_is_not_validPERIOD__Threshold_value_should_be_in_same_format_as_SINGLEQUOTEDisplay_FormatSINGLEQUOTE_PERIOD', 'Level ${levelNumber} Entered threshold value is not valid. (Threshold value should be in same format as \'Display Format\').', { levelNumber: level.level }) })
             })
         }
-
+        if (DisplayFormatEnum.HH_MM_SS == displayFormat || DisplayFormatEnum.MM_SS == displayFormat) {
+            _.forEach(levels, (level) => {
+                if (isNaN(level.levelValue))
+                    errors.push({ displayMessage: this.props.l.t('Level_$levelNumber_Entered_threshold_value_is_not_validPERIOD__Threshold_value_should_be_in_same_format_as_SINGLEQUOTEDisplay_FormatSINGLEQUOTE_PERIOD', 'Level ${levelNumber} Entered threshold value is not valid. (Threshold value should be in same format as \'Display Format\').', { levelNumber: level.level }) })
+            })
+        }
         // string format
         // boolean format
         return errors
@@ -195,6 +200,8 @@ export default class ThresholdTab extends PureComponent {
                 if (isNaN(Date.parse(value)))
                     return new Date();
                 return value;
+            case (DisplayFormatEnum.MM_SS):
+            case (DisplayFormatEnum.HH_MM_SS):
             case (DisplayFormatEnum.Number):
             case (DisplayFormatEnum.Duration):
                 if (isNaN(parseInt(value)))
@@ -227,8 +234,12 @@ export default class ThresholdTab extends PureComponent {
         this.props.setStatisticFunction(func);
     }
     onDisplayFormatChange(displayFormat) {
-
         this.props.setDisplayFormat(displayFormat);
+        let levels = _.map(this.props.threshold.levels, (lvl) => {
+            lvl.levelValue = this.getDefaultThresholdValue(displayFormat.id, lvl.levelValue)
+            return lvl;
+        })
+        this.props.updateLevels(levels)
     }
     render() {
         let { threshold, statisticCategory } = this.props;
@@ -279,7 +290,7 @@ export default class ThresholdTab extends PureComponent {
                                                         <CustomSelect name="field-group-options form-control"
                                                             value={threshold.displayFormat || threshold.displayFormatOptions[0]}
                                                             options={threshold.displayFormatOptions} placeholder='Select...'
-                                                            onChange={(e) => this.onDisplayFormatChange(e)} />
+                                                            onChange={this.onDisplayFormatChange} />
 
                                                     </div>
                                                 </div>

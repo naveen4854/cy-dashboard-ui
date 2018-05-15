@@ -12,7 +12,7 @@ class DurationInput extends React.Component {
 
   updateDuration(val, key, displayFormatId) {
     let seconds = utils.convertToSeconds(val, displayFormatId);
-    this.props.updatePropOnChange(seconds, key);
+    this.props.updatePropOnChange(seconds || val, key);
   }
 
   updateDTLevel(val, key) {
@@ -22,14 +22,17 @@ class DurationInput extends React.Component {
 
   generateDurationFormat(value, displayFormatId) {
     let val = 0
-    if (!isNaN(value) && value != null)
+    if (!isNaN(value) && value != null) {
       val = +value;
+    }
+    else {
+      return value;
+    }
     let formatter = _.find(Constants.customCombotimeFormat, f => f.displayFormatId == displayFormatId)
     return formatter ? formatter.convert(val) : 0;
   }
 
   render() {
-
     let { wKey, enableInput, value, displayFormatId } = this.props;
     switch (displayFormatId) {
       case (DisplayFormatEnum.Date_Time):

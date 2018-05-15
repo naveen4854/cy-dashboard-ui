@@ -30,7 +30,6 @@ export default class ThresholdTabContent extends PureComponent {
         this.addSMSTextbox = this.addSMSTextbox.bind(this); 
     }
 
-
     /**
      * To update the color
      * @param {*} color 
@@ -38,7 +37,6 @@ export default class ThresholdTabContent extends PureComponent {
     getSelectedColor(color) {
         this.props.updateLevel(this.props.id, "color", color);
     }
-
 
     /**
      * To update the levels based on key
@@ -48,8 +46,6 @@ export default class ThresholdTabContent extends PureComponent {
     updateLevel(value, key) {
         this.props.updateLevel(this.props.id, key, value);
     }
-
-
 
     /**
      *  This method is used to test threshold functionality
@@ -70,7 +66,6 @@ export default class ThresholdTabContent extends PureComponent {
             this.props.TestThreshold(level, this.props.widgetId)
         }
     }
-
 
     validateEmailIds(emailIds) {
         return _.filter(_.map(emailIds, (email, index) => {
@@ -99,6 +94,7 @@ export default class ThresholdTabContent extends PureComponent {
         emails.push({ Value: '', Key: newKey + 1 });
         this.props.updateLevel(this.props.id, 'emailTo', emails);
     }
+
     /**
     * To update the levels based on key/ text box ID
     * @param {*} key 
@@ -114,6 +110,7 @@ export default class ThresholdTabContent extends PureComponent {
         }
         this.props.updateLevel(this.props.id, 'emailTo', emailToAdresses);
     }
+
     /**
      * This method deletes the selected text box based on Key/text box ID
      * @param {*} key 
@@ -130,6 +127,7 @@ export default class ThresholdTabContent extends PureComponent {
         sms.push({ Value: '', Key: newKey + 1 });
         this.props.updateLevel(this.props.id, 'smsTo', sms);
     }
+
     /**
     * To update the levels based on key.
     * @param {*} key 
@@ -154,9 +152,11 @@ export default class ThresholdTabContent extends PureComponent {
         const textBox = _.filter(this.props.smsTo, (smsTo) => smsTo.Key !== key);
         this.props.updateLevel(this.props.id, 'smsTo', textBox);
     }
+
     setIsCopiedForLevel(id) {
         this.props.setIsCopiedForLevel(id);
     }
+
     pasteThresholdValues(id) {
         this.props.pasteThresholdValues(id);
     }
@@ -172,9 +172,11 @@ export default class ThresholdTabContent extends PureComponent {
     handleClick = () => {
         this.props.handleClick(this.props.id);
     }
+
     removeLevel(id) {
         this.props.removeLevel(id);
     }
+    
     removeLeveConfiramtion(id, e) {
         let notifyMessage = this.props.l.t('Are_you_sure_you_want_to_delete_Level__threshold?', 'Are you sure you want to delete Level ${levelNumber} threshold?', { 'levelNumber': this.props.level })
         let buttons = [
