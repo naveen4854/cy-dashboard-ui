@@ -349,8 +349,7 @@ export default class ThresholdTab extends PureComponent {
                     }
                     <ThresholdAccordionContainer displayFormatId={displayFormatId} />
                 </div>
-                }
-                </div>
+            </div>
         )
     }
 }

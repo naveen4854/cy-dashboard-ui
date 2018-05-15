@@ -50,8 +50,8 @@ export function getDashboardById(dashboardId) {
                 const dashboardData = DashboardUtilities.mapDashboardFromServer(dashboard, dataMetricsMetadata, true);
                 dispatch(getState().dashboard.updateDashboard(dashboardData));
             }).catch((error) => {
+                dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error, true))
                 if (error.response.status == 403) {
-                    dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error))
                     browserHistory.push(`/dashboard/mydashboards`)
                 }
             })
@@ -232,8 +232,10 @@ export function pullWidget(dashboardId, widgetId, refreshInterval) {
     return (dispatch, getState) => {
         // let refreshInterval = refreshValue;
         let widget = _.find(getState().dashboard.widgets, (w) => w.id == widgetId);
+        if (!widget)
+            return;
         if (widget.widgetType == WidgetTypeEnum.Text)
-            return
+            return;
 
         let setTimeoutId = setTimeout(() => {
             dashboardService.viewWidgetData(dashboardId, widgetId, {}).then(response => {
