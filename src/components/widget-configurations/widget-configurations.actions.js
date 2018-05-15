@@ -25,7 +25,9 @@ export function previewWidget(widget) {
     return (dispatch, getState) => {
         dispatch(getState().notificationStore.clearNotifications());
         const widgetData = DashboardUtilities.WidgetMapper(widget, getState().dataMetrics.dataMetricsMetadata);
+        dispatch(getState().spinnerStore.BeginTask());
         widgetService.getWidgetPreviewData(widgetData).then(function (response) {
+            dispatch(getState().spinnerStore.EndTask());
             if (response.status === 200) {
                 if (widget) {
                     let updatedWidget = DashboardUtilities.WidgetDataMapper(widget, response.data)
