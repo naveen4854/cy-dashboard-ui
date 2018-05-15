@@ -52,7 +52,7 @@ export default class CustomSelect extends React.Component {
         if (selectedValue && !selectedValue.value) {
             selectedValue = _.find(this.props.options, { 'value': this.props.value }) || {};
         }
-        if (Object.keys(selectedValue).length == 0 && options.length != 0) {
+        if (selectedValue && Object.keys(selectedValue).length == 0 && options.length != 0) {
             selectedValue = null
         }
 
