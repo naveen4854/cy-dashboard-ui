@@ -21,7 +21,12 @@ export function notify(messages, errorType, persistMessage) {
     else
       msgArr.push(messages);
     let messagesConfig = {};
-    messagesConfig.messages = _.map(msgArr, (msg) => { return { displayMessage: msg.Message || msg.displayMessage || msg, normalizedMessage: msg.normalizedMessage || msg.NormalizedMessage, params: msg.params } });
+    messagesConfig.messages = _.map(msgArr, (msg) => {
+      return {
+        displayMessage: msg.Message || msg.displayMessage || msg,
+        normalizedMessage: msg.normalizedMessage || msg.NormalizedMessage, params: msg.params,
+      }
+    });
     messagesConfig.type = errorType || ResponseStatusEnum.Success;
     messagesConfig.persistMessages = persistMessage || false;
 
@@ -30,6 +35,7 @@ export function notify(messages, errorType, persistMessage) {
       messagesConfiguration: messagesConfig,
       isRtl: getState().localizationStore.isRtl
     });
+
   }
 }
 
