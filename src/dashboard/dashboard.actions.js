@@ -239,6 +239,7 @@ export function pullWidget(dashboardId, widgetId, refreshInterval) {
             dashboardService.viewWidgetData(dashboardId, widgetId, {}).then(response => {
 
                 if (widget) {
+                    dispatch(getState().notificationStore.clearNotifications());
                     let updatedWidget = DashboardUtilities.WidgetDataMapper(widget, response.data)
                     updatedWidget = {
                         ...updatedWidget,
