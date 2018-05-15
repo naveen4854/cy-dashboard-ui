@@ -83,7 +83,9 @@ export function setStatisticsItems() {
 export function getComboDrillDownMetaData(selectedGroup) {
     return (dispatch, getState) => {
         //const selectedWidget = getState().configurations.widget;
+        dispatch(getState().spinnerStore.BeginTask());
         dataMetricsService.getDrillDownMetaData(selectedGroup.id).then(function (response) {
+            dispatch(getState().spinnerStore.EndTask());
             if (response.status === 200) {
                 let currentWidget = getState().configurations.widget;
                 // let selectedGroup = getState().comboRealTimeSettings.selectedGroup;
