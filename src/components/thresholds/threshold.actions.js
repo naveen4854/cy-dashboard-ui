@@ -191,14 +191,21 @@ export function TestThreshold(threshold, widgetId) {
         }
         ThresholdService.testThreshold(inputThreshold).then((response) => {
             dispatch(getState().spinnerStore.EndTask());
-
-            var successMessage = _.map(response.data.Messages, (r) => {
+            var successMessage = _.map(_.filter(response.data.Messages, m => m.ResponseType == ResponseStatusEnum.Success), (r) => {
                 return {
+                    displayMessage: r.Message,
+                    normalizedMessage: r.NormalizedMessage
 
+                }
+            })
+            var errorMessage = _.map(_.filter(response.data.Messages, m => m.ResponseType == ResponseStatusEnum.Error), (r) => {
+                return {
                     displayMessage: r.Message,
                     normalizedMessage: r.NormalizedMessage
                 }
             })
+            dispatch(getState().notificationStore.notify(successMessage, ResponseStatusEnum.Success, true));
+            dispatch(getState().notificationStore.notify(errorMessage, ResponseStatusEnum.Error, true));
 
             /**need implement notification functionality*/
             // var successMessage = _.map(response.data.Messages, (r) => {
@@ -230,7 +237,7 @@ export function TestThreshold(threshold, widgetId) {
             let errorResponse = {
                 type: ResponseStatusEnum.Error,
                 persistMessages: false,
-                messages: [{ displayMessage: getState().newdashboard.l.t("Some_error_occuredPERIOD", "Some error occured.") }]
+                messages: [{ normalizedMessage: "Some_error_occuredPERIOD", displayMessage: "Some error occured." }]
             };
 
             //dispatch(getState().notificationStore.ShowNotification(errorResponse));
