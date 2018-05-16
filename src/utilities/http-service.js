@@ -157,8 +157,10 @@ function handleUnAuthWithRetry(error) {
             error.config.headers = Object.assign({}, error.config.headers, {
                 Authorization: `bearer ${authToken}`
             });
+            retryPromise = undefined;
             return axios(error.config);
         }).catch((error) => {
+            retryPromise = undefined;
             dispatch(getState().notificationStore.clearNotifications());
             dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error, true));
             dispatch(getState().user.logout())
