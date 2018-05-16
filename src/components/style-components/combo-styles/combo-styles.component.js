@@ -33,7 +33,6 @@ export default class ComboStyles extends PureComponent {
     //     this.props.updateProp('refreshInterval', this.props.styles.refreshInterval);
     // }
     render() {
-        console.log('this.props bar', this.props)
         //let displayFormatId = this.props.widget.appliedSettings.dataMetrics.displayFormat ? this.props.widget.appliedSettings.dataMetrics.displayFormat.id : displayFormatEnum.Number;
 
         return (

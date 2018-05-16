@@ -93,7 +93,6 @@ export default class ProgressBarStyles extends PureComponent {
     }
 
     render() {
-        console.log('this.props bar', this.props)
         //let displayFormatId = this.props.widget.appliedSettings.dataMetrics.displayFormat ? this.props.widget.appliedSettings.dataMetrics.displayFormat.id : displayFormatEnum.Number;
 
         return (
@@ -156,7 +155,7 @@ export default class ProgressBarStyles extends PureComponent {
                                 // className="form-control"
                                 updateColor={this.updateFirstSegmentColor}
                             />
-                             <hr className='grouping-border'/>
+                            <hr className='grouping-border' />
                         </div>
                     }
 

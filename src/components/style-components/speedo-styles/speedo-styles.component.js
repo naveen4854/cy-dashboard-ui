@@ -95,7 +95,6 @@ export default class SpeedoStyles extends PureComponent {
     }
 
     render() {
-        console.log('this.props bar', this.props)
         //let displayFormatId = this.props.widget.appliedSettings.dataMetrics.displayFormat ? this.props.widget.appliedSettings.dataMetrics.displayFormat.id : displayFormatEnum.Number;
         return (
             <div className="col-xs-12">

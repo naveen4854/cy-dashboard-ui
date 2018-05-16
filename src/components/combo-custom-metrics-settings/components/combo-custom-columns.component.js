@@ -21,7 +21,6 @@ export default class ComboCustomColumnsComponent extends PureComponent {
     onSortEnd({ oldIndex, newIndex }) {
         if (oldIndex != newIndex) {
             let newColumns = arrayMove(this.props.comboCustomSettings.columns, oldIndex, newIndex)
-            console.log(newColumns)
             this.props.updateCustomComboColumns(newColumns);
         }
     };

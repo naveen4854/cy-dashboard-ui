@@ -65,7 +65,6 @@ export default class CircularProgressStyles extends PureComponent {
     }
 
     render() {
-        console.log('this.props bar', this.props)
         //let displayFormatId = this.props.widget.appliedSettings.dataMetrics.displayFormat ? this.props.widget.appliedSettings.dataMetrics.displayFormat.id : displayFormatEnum.Number;
 
         return (

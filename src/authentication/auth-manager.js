@@ -1,4 +1,4 @@
-import {Constants} from '../shared/constants';
+import { Constants } from '../shared/constants';
 
 export function setAuth(auth) {
   localStorage.setItem(Constants.auth, JSON.stringify(auth ? auth : {}));
@@ -26,7 +26,7 @@ export function isAuthTokenRefreshInitialized() {
   return isInitialized ? true : false;
 }
 export function setAuthTokenRefreshInitialized(val) {
-  console.log("Refesh flag set to: " + val);
+  // console.log("Refesh flag set to: " + val);
   localStorage.setItem('isInitialized', val);
 }
 export function isTokenExpired() {

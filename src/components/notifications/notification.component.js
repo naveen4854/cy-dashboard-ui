@@ -24,7 +24,6 @@ export default class Notification extends PureComponent {
     // }
 
     componentDidUpdate() {
-        console.log(this.props.notification)
         this.messageTypes();
     }
 

@@ -25,7 +25,7 @@ export default class BarStyles extends PureComponent {
         this.updateShowLegends = this.updateShowLegends.bind(this);
         this.updateShowLabels = this.updateShowLabels.bind(this);
 
-         
+
     }
 
 
@@ -80,12 +80,11 @@ export default class BarStyles extends PureComponent {
     updateShowLabels(e) {
         this.props.updateProp('showLabels', e);
     }
-    updateRefreshInterval(e){
+    updateRefreshInterval(e) {
         this.props.updateProp('refreshInterval', e.target.value);
     }
 
     render() {
-        console.log('this.props bar', this.props)
         //let displayFormatId = this.props.widget.appliedSettings.dataMetrics.displayFormat ? this.props.widget.appliedSettings.dataMetrics.displayFormat.id : displayFormatEnum.Number;
 
         return (
@@ -178,7 +177,7 @@ export default class BarStyles extends PureComponent {
                         enableInput={this.props.styles.enableMax}
                         updatePropOnChange={this.updateMaxValue}
                     />
-                     <hr className='grouping-border'/>
+                    <hr className='grouping-border' />
                     <LabelledColorPicker
                         label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
                         //updateKey='backgroundColor'

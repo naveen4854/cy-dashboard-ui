@@ -16,7 +16,7 @@ export default class PieStyles extends PureComponent {
         this.updateShowLabels = this.updateShowLabels.bind(this);
         this.updateWidgetBody = this.updateWidgetBody.bind(this);
 
-        
+
     }
 
 
@@ -44,10 +44,9 @@ export default class PieStyles extends PureComponent {
     }
     updateShowLabels(e) {
         this.props.updateProp('showLabels', e);
-    } 
-    
+    }
+
     render() {
-        console.log('this.props bar', this.props)
         //let displayFormatId = this.props.widget.appliedSettings.dataMetrics.displayFormat ? this.props.widget.appliedSettings.dataMetrics.displayFormat.id : displayFormatEnum.Number;
 
         return (
@@ -73,12 +72,12 @@ export default class PieStyles extends PureComponent {
 
 
 
-                  
+
                     <StylesGroup
                         l={this.props.l}
                         fontStyles={this.props.styles.widgetBody}
                         colorLabel={this.props.l.t('Label_text_colorCOLON', 'Label text color:')}
-                        fontFamilyLabel= {this.props.l.t('Label_font_sizeCOLON', 'Label font size:')}
+                        fontFamilyLabel={this.props.l.t('Label_font_sizeCOLON', 'Label font size:')}
                         fontSizeLabel={this.props.l.t('Label_font_styleCOLON', 'Label font style:')}
                         onUpdateFontStyles={this.updateWidgetBody}
                         ColorId="1"
@@ -98,7 +97,7 @@ export default class PieStyles extends PureComponent {
                         checkedNode={this.props.styles.showLabels}
                         onToggleChange={this.updateShowLabels}
                     />
-                      <LabelledColorPicker
+                    <LabelledColorPicker
                         label={this.props.l.t('Background_ColorCOLON', 'Background Color:')}
                         ColorId="111"
                         ColorKey="111"
