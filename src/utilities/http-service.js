@@ -80,6 +80,7 @@ axios.interceptors.response.use(
         handleNetworkError(error);
         if (error.response && error.response.status === 401 && !error.config.__isRetryRequest)
             return handleUnAuthWithRetry(error);
+            store.dispatch(dispatch(getState().spinnerStore.EndAllTasks()));          
         return Promise.reject(error);
     }
 );
