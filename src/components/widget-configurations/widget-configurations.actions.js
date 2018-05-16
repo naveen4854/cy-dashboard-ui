@@ -41,6 +41,7 @@ export function previewWidget(widget) {
             }
         }).catch((error) => {
             dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error));
+            dispatch(getState().spinnerStore.EndTask());
         });
     }
 }
