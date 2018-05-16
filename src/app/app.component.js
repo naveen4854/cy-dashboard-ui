@@ -30,7 +30,7 @@ export default class AppComponent extends PureComponent {
         window.addEventListener("storage", (event) => {
             if (event.key === Constants.setNewRt) {
                 this.props.setRefreshToken();
-                
+
                 if (!event.oldValue && event.newValue)
                     this.props.defaultRedirection();
 

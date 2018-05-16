@@ -189,6 +189,9 @@ export function ping(timeDiff) {
 
         let pingTimeoutId = setTimeout(() => {
             console.log("PING STARTED for user.nic ", user.nic)
+            if (!authMan.isAuthenticated()) {
+                return dispatch(getState().user.logout());
+            }
             loginService.ping(user.nic).then(res => {
 
                 let nextTimeDiff = Constants.oneMinute //1000 * 60;

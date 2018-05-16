@@ -1,13 +1,13 @@
 import _ from 'lodash';
 import * as authMan from "../authentication/auth-manager";
-import {Constants} from '../shared/constants';
+import { Constants } from '../shared/constants';
 
 const ADD_TAB_ID = "ADD_TAB_ID";
 
 const initialState = {
     currentTabId: 'tab',
     refreshTokenTab: -1,
-    triggerRefreshFromOtherTab 
+    triggerRefreshFromOtherTab
 };
 
 export function setTabId() {
@@ -48,6 +48,9 @@ export function removeFromTabsList() {
         if (tabsList) {
             let newTabs = _.filter(tabsList, (tab) => tab != currentTabId)
             localStorage.setItem('tlst', JSON.stringify(newTabs));
+        }
+        if (tabsList.length == 1) {
+            dispatch(getState().user.logout());
         }
     }
 }
