@@ -24,19 +24,13 @@ export default class ListComponent extends PureComponent {
             <div>
                 <Header {...this.props} />
                 <Tabs id="topMain">
-
                     <Tab eventKey="f" id='dashboardTab' title={this.props.l.t('Dashboards', 'Dashboards')}>
                         <MyDashboardContainer />
                     </Tab>
                     {/* <Tab eventKey="se" title={this.props.l.t('Sliders', 'Sliders')}>
                         <MySliderListContainer />
                     </Tab> */}
-
-
                 </Tabs>
-
-
-
             </div>
         )
     }

@@ -65,7 +65,8 @@ export default class RndWidgetComponent extends PureComponent {
                 z={widget.z}
                 bounds='.dashboard-layout'
                 _freeBottomBounds={true}
-            // position={{ x: widget.x, y: widget.y }}
+                position={{ x: widget.x, y: widget.y }}
+                size={{ width: widget.width, height: widget.height }}
             >
                 <WidgetContainer key={widget.id}
                     widget={widget}

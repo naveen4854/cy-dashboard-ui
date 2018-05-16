@@ -51,8 +51,9 @@ export default class WidgetComponent extends PureComponent {
     }
     render() {
         let classToBeApplied = 'widget';
+        let { widget } = this.props;
 
-        switch (this.props.widget.widgetType) {
+        switch (widget.widgetType) {
             case WidgetTypeEnum.Text:
             case WidgetTypeEnum.Picture:
                 classToBeApplied = 'widget no-text-shadow';
@@ -65,25 +66,24 @@ export default class WidgetComponent extends PureComponent {
                 break;
         }
 
-        if (this.props.widget.id == this.props.WidgetIdforHighlight) {
+        if (widget.id == this.props.WidgetIdforHighlight) {
             classToBeApplied += ' highlight ';
-            if (this.props.widget.isComboWidget) {
+            if (widget.isComboWidget) {
                 classToBeApplied += ' zoom-widget ';
             }
         }
-
         return (
-            <div className="widget-wrapper" style={{ height: this.props.widget.height, width: this.props.widget.width + 25 }} >
+            <div className="widget-wrapper" style={{ height: widget.height, width: widget.width + 25 }} >
                 {
                     (this.props.showIcons) &&
                     <WidgetHeader {...this.props} />
                 }
-                <div style={{ height: this.props.widget.height, width: this.props.widget.width }}
+                <div style={{ height: widget.height, width: widget.width }}
                     className={classToBeApplied}>
                     {
                         envconfig.dev &&
                         <div style={{ position: 'absolute', color: 'black' }}>
-                            {this.props.widget.id} / {this.props.widget.columnId} / {this.props.widget.rowId}
+                            {widget.id} / {widget.columnId} / {widget.rowId}/{widget.x}/{widget.y}
                         </div>
                     }
                     {
