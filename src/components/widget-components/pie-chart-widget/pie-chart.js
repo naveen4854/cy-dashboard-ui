@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
 import d3Pie from 'd3Pie';
 
-export default class PieChartComponent extends PureComponent {
+export default class PieChartComponent extends React.Component {
     constructor(props) {
         super(props);
         this.clearAndRenderPie = this.clearAndRenderPie.bind(this);
@@ -11,7 +11,20 @@ export default class PieChartComponent extends PureComponent {
     componentDidMount() {
         this.clearAndRenderPie();
     }
-
+    shouldComponentUpdate(newProps, newState) {
+        return (
+            this.props.title !== newProps.title
+            || this.props.width !== newProps.width
+            || this.props.height !== newProps.height
+            || !_.isEqual(this.props.data, newProps.data)
+            || !_.isEqual(this.props.content, newProps.content)
+            || !_.isEqual(this.props.titleStyles, newProps.titleStyles)
+            || !_.isEqual(this.props.widgetBody, newProps.widgetBody)
+            || !_.isEqual(this.props.showLegends, newProps.showLegends)
+            || !_.isEqual(this.props.showLabels, newProps.showLabels)
+           // || !_.isEqual(this.props.displayFormat, newProps.displayFormat)
+        );
+    }
     componentDidUpdate() {
         this.clearAndRenderPie();
     }
