@@ -7,6 +7,8 @@ import { WidgetTypeEnum, ResponseStatusEnum } from "../../shared/enums";
 import { DashboardUtilities } from "../../shared/lib";
 import * as dashboardService from '../../dashboard/dashboard-service';
 import { browserHistory, Router } from 'react-router';
+
+import { Constants } from "../../shared/constants";
 import { MODAL_POPUP, SAVE_AS_MODAL_POPUP, UPDATE_IS_EXPANDED, UPDATE_ACTION } from './widgets-bar.constants';
 
 export function updateProperty(key, value) {
@@ -22,7 +24,6 @@ export function updateProperty(key, value) {
 export function CollapseAllSettingsMenus() {
     return (dispatch, getState) => {
         dispatch(getState().configurations.toggleSettingsMenu());
-
     }
 }
 
@@ -427,10 +428,10 @@ function NavigateToRequiredPage(action, savedDashboardId, dispatch) {
         //     type: UPDATE_DASHBOARD,
         //     dashboardData: _.cloneDeep(dashboardInitialState)
         // });
-        browserHistory.push(`/dashboard/mydashboards`);
+        browserHistory.push(`${Constants.appPath}dashboard/mydashboards`);
     }
     else {
-        browserHistory.push(`/dashboard/edit/${savedDashboardId}`);
+        browserHistory.push(`${Constants.appPath}dashboard/edit/${savedDashboardId}`);
     }
 }
 

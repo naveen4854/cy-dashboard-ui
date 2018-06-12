@@ -2,7 +2,7 @@ import { browserHistory } from 'react-router';
 import { injectReducer } from '../../store/reducers';
 import authenticate from '../../authentication/authenticated.hoc';
 
-import NewDashboardContainer from './new-dashboard.container';
+import EditDashboardContainer from './edit-dashboard.container';
 import DashboardReducer from '../dashboard.reducer';
 import ConfigurationsReducer from '../../components/widget-configurations/widget-configurations.reducer';
 import StylesReducer from '../../components/style-components/styles.reducer';
@@ -18,7 +18,10 @@ import ComboCustomSettingsReducer from '../../components/combo-custom-metrics-se
 import { DashboardModeEnum } from '../../shared/enums';
 
 export default (store) => ({
-  path: 'new',
+  path: 'edit/:id',
+  //  (localStorage.getItem('mode') == DashboardModeEnum.Edit
+  //   || localStorage.getItem('mode') == DashboardModeEnum.EditToLive)
+  //   ? 'edit/:id' : 'new',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, { key: 'styles', reducer: StylesReducer })
@@ -29,10 +32,11 @@ export default (store) => ({
       injectReducer(store, { key: 'comboRealTimeSettings', reducer: ComboRealTimeSettingsReducer })
       injectReducer(store, { key: 'comboCustomSettings', reducer: ComboCustomSettingsReducer })
 
-      cb(null, authenticate(NewDashboardContainer))
+      cb(null, authenticate(EditDashboardContainer))
     }, 'newdashboard')
   },
   onEnter: (nextState, replace) => {
+    console.log(localStorage,'localStorage in new entry')
 
     injectReducer(store, { key: 'dashboard', reducer: DashboardReducer })
     let dashboardMode = nextState.params.id ? DashboardModeEnum.Edit : DashboardModeEnum.New;// mode == DashboardModeEnum.New || mode == DashboardModeEnum.Edit ? DashboardModeEnum.EditToLive : DashboardModeEnum.View;

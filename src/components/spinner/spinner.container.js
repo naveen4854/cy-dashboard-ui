@@ -12,7 +12,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(Reducer.EndTask())
     },
     StopAllPendingTasks: () => {
-      dispatch(Reducer.EndAll())
+      dispatch(Reducer.EndAllTasks())
     }
   }
 }

@@ -7,6 +7,8 @@ import * as loginService from './login.service';
 import * as authMan from "../authentication/auth-manager";
 import ResponseStatusEnum from '../shared/enums/response-status-enum';
 
+
+
 export function login(loginDetails) {
     return (dispatch, getState) => {
         dispatch(getState().spinnerStore.BeginTask());
@@ -135,7 +137,7 @@ export function logout() {
             dispatch({
                 type: USER_LOGOUT
             })
-            browserHistory.push('/login');
+            browserHistory.push(`${Constants.appPath}login`);
         });
     }
 }
@@ -153,9 +155,9 @@ export function defaultRedirection() {
                     defaultDashboardId: res.data
                 })
                 if (res.data)
-                    browserHistory.push('/dashboard/view/' + res.data);
+                    browserHistory.push(`${Constants.appPath}dashboard/view/` + res.data);
                 else
-                    browserHistory.push('/dashboard/mydashboards');
+                    browserHistory.push(`${Constants.appPath}dashboard/mydashboards`);
             })
     }
 }

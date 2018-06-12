@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import _ from 'lodash';
-
+import { Constants } from "../shared/constants";
 import LoginFormReducer, * as LoginReducer from '../login/login.reducer'
 import * as authMan from "./auth-manager";
 
@@ -27,14 +27,17 @@ export default function authenticate(Component, options) {
       const { roles } = options ? options : {};
 
       if (!props.user && (Date.parse(props.user.expiresOn) - Date.parse(new Date().toGMTString()) <= 0))
-        return browserHistory.push('/login');
+        return browserHistory.push( `${Constants.appPath}login`);
+
+      console.log('authMan.getAuth()   ', authMan.getAuth());
 
       if (!this.authorize(authMan.getAuth(), roles)) {
-        browserHistory.push('/login');
+        browserHistory.push( `${Constants.appPath}login`);
       }
     }
 
     authorize(auth, authorizedRoles) {
+
       if (!authorizedRoles)
         return true;
 
@@ -46,24 +49,20 @@ export default function authenticate(Component, options) {
         }
       });
 
+
       return authorized;
     }
 
     render() {
       return (
-        <Component/>
+        <Component />
       );
     }
   }
 
   const mapDispatchToProps = (dispatch) => {
     return {
-      // initiatePing: () => {
-      //   console.log('called this initiate ping');
-      //   dispatch(LoginReducer.InitiatePing())
-      //   dispatch(LoginReducer.setTokenRefreshTimeout(0))
-      //   dispatch(LoginReducer.ping(0))
-      // },
+
       initializeUserFromCache: (userData) => {
         dispatch(LoginReducer.initializeUserFromCache(userData))
       }

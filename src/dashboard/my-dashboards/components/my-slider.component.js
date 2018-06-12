@@ -6,6 +6,7 @@ import MyDashboardTable from './table';
 
 import { pagesList } from '../../../shared/constants/constants';
 
+import {Constants} from '../../../shared/constants'
 export default class SliderListComponent extends PureComponent {
     constructor(props) {
         super(props);
@@ -35,7 +36,7 @@ export default class SliderListComponent extends PureComponent {
     }
 
     addDashboardClick() {
-        browserHistory.push(`/dashboard/new`);
+        browserHistory.push(`${Constants.appPath}dashboard/new`);
     }
 
     onPageClick(e) {

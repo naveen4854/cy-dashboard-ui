@@ -3,7 +3,7 @@ import { dispatch } from 'react'
 import { browserHistory, Router } from 'react-router'
 import * as authMan from '../authentication/auth-manager'
 
-import LogoImg from 'public/images/Login_01.png'
+import LogoImg from '../public/images/Login_01.png'
 
 
 class LoginComponent extends PureComponent {

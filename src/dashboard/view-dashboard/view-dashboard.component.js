@@ -10,6 +10,7 @@ import WidgetConfigurationsContainer from '../../components/widget-configuration
 import { DashboardModeEnum } from '../../shared/enums';
 import { DefaultDashboardId } from '../../shared/constants/constants';
 
+import { Constants } from '../../shared/constants';
 export default class ViewDashboardComponent extends PureComponent {
 
     constructor(props) {
@@ -19,7 +20,7 @@ export default class ViewDashboardComponent extends PureComponent {
     }
     redirectToEdit(event) {
         if (event.keyCode === 27) {
-            //browserHistory.push(`/dashboard/edit/${this.props.dashboard.Id}`);
+            
             this.goBack();
         }
     }
@@ -42,18 +43,18 @@ export default class ViewDashboardComponent extends PureComponent {
         if (this.props.dashboard.mode == DashboardModeEnum.EditToLive) {
             if (!this.props.dashboard.Id || this.props.dashboard.Id == DefaultDashboardId) {
                 // this.props.updateDashboardMode(DashboardModeEnum.New);
-                browserHistory.push(`/dashboard/${DefaultDashboardId}`);
+                browserHistory.push(`${Constants.appPath}dashboard/${DefaultDashboardId}`);
             }
             else {
                 // this.props.updateDashboardMode(DashboardModeEnum.Edit);
-                browserHistory.push(`/dashboard/edit/${this.props.dashboard.Id}`);
+                browserHistory.push(`${Constants.appPath}dashboard/edit/${this.props.dashboard.Id}`);
             }
         }
         else {
             this.props.updateDashboardMode(DashboardModeEnum.None);
             // Navigate to my files page.
             this.props.resetDashboard();
-            browserHistory.push(`/dashboard/mydashboards`);
+            browserHistory.push(`${Constants.appPath}dashboard/mydashboards`);
         }
     }
     render() {

@@ -260,7 +260,7 @@ export const ACTION_HANDLERS = {
     });
   },
   'same': (state, action) => {
-    return state;
+    return Object.assign({}, state);
   },
   'newversion': (state, action) => {
     return _.cloneDeep(state);

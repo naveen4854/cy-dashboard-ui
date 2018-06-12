@@ -1,6 +1,8 @@
 import LoginPage from '../login';
 import MyDashboardPage from '../dashboard/my-dashboards';
+import MainPage from '../main-component';
 import NewDashboardPage from '../dashboard/new-dashboard';
+import MainDashboardPage from '../dashboard/main-dashboard';
 import ViewDashboardPage from '../dashboard/view-dashboard';
 import TestPage from '../components/test-resize';
 
@@ -9,9 +11,9 @@ import TestPage from '../components/test-resize';
 export const createRoutes = (store) => (
     [
         {
-            path: '/login',
-            indexRoute: LoginPage(store),
-            childRoutes: [] 
+            path: '/CyDashboard',
+            indexRoute: MainPage(store),
+            childRoutes: [LoginPage(store), MainDashboardPage(store)]
         },
         {
             path: '/dashboard',
@@ -44,11 +46,7 @@ export const createRoutes = (store) => (
             indexRoute: TestPage(store),
             childRoutes: []
         },
-        {
-            path: '/**',
-            indexRoute: LoginPage(store),
-            childRoutes: []
-        }
+       
     ])
 
 export default createRoutes

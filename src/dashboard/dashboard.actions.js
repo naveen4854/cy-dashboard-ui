@@ -7,6 +7,7 @@ import { DashboardUtilities } from "../shared/lib";
 import { dashboardInitialState } from "./dashboard.reducer";
 import { browserHistory } from 'react-router';
 
+import {Constants} from '../shared/constants'
 export function PreviewActionPicture(dashboardId, widgetid) {
     return (dispatch, getState) => {
 
@@ -52,7 +53,7 @@ export function getDashboardById(dashboardId) {
             }).catch((error) => {
                 dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error, true))
                 if (error.response.status == 403) {
-                    browserHistory.push(`/dashboard/mydashboards`)
+                    browserHistory.push(`${Constants.appPath}dashboard/mydashboards`)
                 }
             })
     }

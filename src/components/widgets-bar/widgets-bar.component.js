@@ -5,6 +5,8 @@ import CustomModalPopUp from '../custom-modal-popup';
 import { ResponseStatusEnum, DashboardModeEnum } from '../../shared/enums';
 import { DefaultDashboardId } from '../../shared/constants/constants';
 
+import { Constants } from "../../shared/constants";
+
 export default class WidgetsBar extends React.Component {
 	constructor(props) {
 		super(props);
@@ -19,8 +21,8 @@ export default class WidgetsBar extends React.Component {
 
 
 	redirectToFiles() {
-		 this.props.resetDashboard();
-		browserHistory.push(`/dashboard/mydashboards`)
+		this.props.resetDashboard();
+		browserHistory.push(`${Constants.appPath}dashboard/mydashboards`)
 	}
 	handleDocks(e) {
 		this.props.CollapseAllSettingsMenus();
@@ -132,7 +134,7 @@ export default class WidgetsBar extends React.Component {
 
 	liveClick() {
 		this.handleDocks();
-		browserHistory.push(`/dashboard/view/${this.props.dashboardId || DefaultDashboardId}`)
+		browserHistory.push(`${Constants.appPath}dashboard/view/${this.props.dashboardId || DefaultDashboardId}`)
 	}
 
 	dashboardDelete() {
@@ -141,11 +143,11 @@ export default class WidgetsBar extends React.Component {
 		switch (this.props.mode) {
 			case DashboardModeEnum.New:
 				notifyMessage = this.props.l.t('Are_you_sure_you_want_to_discard_the_changes?', 'Are you sure you want to discard the changes?');
-				okHandler = () => { this.props.resetDashboard(); browserHistory.push(`/dashboard/mydashboards`) }
+				okHandler = () => { this.props.resetDashboard(); browserHistory.push(`${Constants.appPath}dashboard/mydashboards`) }
 				break;
 			case DashboardModeEnum.Edit:
 				notifyMessage = this.props.l.t('Are_you_sure_you_want_to_delete_$dashboardName_dashboard', 'Are you sure you want to delete ${dashboardName} dashboard?', { 'dashboardName': this.props.dashboardName })
-				okHandler = () => { this.deleteDashboard(this.props.dashboardId); this.props.resetDashboard(); browserHistory.push(`/dashboard/mydashboards`) }
+				okHandler = () => { this.deleteDashboard(this.props.dashboardId); this.props.resetDashboard(); browserHistory.push(`${appPath}dashboard/mydashboards`) }
 				break;
 		}
 		let buttons = [
@@ -185,7 +187,7 @@ export default class WidgetsBar extends React.Component {
 
 
 
-							{/* <a onClick={() => { this.props.CollapseAllSettingsMenus(); browserHistory.push(`/dashboard/preview/${this.props.dashboard.Id}`) }} className="action-tool pointer" role="button">
+							{/* <a onClick={() => { this.props.CollapseAllSettingsMenus(); browserHistory.push(`/ui/dashboard/preview/${this.props.dashboard.Id}`) }} className="action-tool pointer" role="button">
 							<i className="tool-icon fa fa-eye" />
 							<span className="tool-title">{this.props.l.t('Preview', 'Preview')}</span>
 						</a> */}

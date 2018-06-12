@@ -3,18 +3,20 @@ import { browserHistory, Router } from 'react-router';
 var PropTypes = require('prop-types');
 import { ResponseStatusEnum, SortColumnEnum, SortOrderEnum } from '../../../../shared/enums';
 
+import {Constants} from '../../../../shared/constants'
 export default class MyDashboardTable extends PureComponent {
     constructor(props) {
         super(props);
+        
     }
 
     viewDashboard(id) {
         //this.props.ViewDashboard(id);
-        browserHistory.push(`/dashboard/view/${id}`);
+        browserHistory.push(`${Constants.appPath}dashboard/view/${id}`);
     }
 
     editDashboard(id) {
-        browserHistory.push(`/dashboard/edit/${id}`);
+        browserHistory.push(`${Constants.appPath}dashboard/edit/${id}`);
     }
 
     deleteDashboard(dashboardId) {

@@ -10,7 +10,7 @@ import * as loginService from '../login/login.service';
 import { Constants, ApiUrl } from '../shared/constants';
 import * as authMan from '../authentication/auth-manager';
 
-const envconfig = require('./static/envconfig');
+
 let retryPromise = undefined;
 
 /**
@@ -59,7 +59,8 @@ axios.interceptors.request.use(
                 Authorization: `bearer ${authToken}`
             });
         } else {
-            browserHistory.push('/login')
+            console.log('test' + Constants.appPath)
+            browserHistory.push(`${Constants.appPath}login`)
         }
         return config;
     },

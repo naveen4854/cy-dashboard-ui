@@ -8,5 +8,6 @@ window.envconfig = {
   //apiUrl: "http://localhost:5152/api/",
   retryCount: 1,
   dev: false,
+ 
 }
 

@@ -17,6 +17,7 @@ import { Constants } from '../shared/constants';
 export default class AppComponent extends PureComponent {
     constructor(props) {
         super(props);
+        
     }
 
     componentWillMount() {

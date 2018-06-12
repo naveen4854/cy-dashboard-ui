@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack')
 const cssnano = require('cssnano')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -5,7 +6,24 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const config = require('../config')
 const debug = require('debug')('app:webpack:config')
 
-const paths = config.utils_paths
+
+const path_base = path.resolve(__dirname, '..');
+function base() {
+  const args = [path_base].concat([].slice.call(arguments))
+  return path.resolve.apply(path, args)
+}
+
+
+const paths = {
+  DIST: path_base + '/dist',
+  JS: path.resolve(__dirname, 'src/js'),
+  SRC: path.resolve(__dirname, 'src'),
+  client: base.bind(null, path.resolve(__dirname, 'src')),
+  dist: base.bind(null, path.resolve(__dirname, 'dist')),
+  
+};
+
+
 const __DEV__ = config.globals.__DEV__
 const __PROD__ = config.globals.__PROD__
 const __TEST__ = config.globals.__TEST__
@@ -14,20 +32,25 @@ debug('Creating configuration.')
 const webpackConfig = {
   name: 'client',
   target: 'web',
-  devtool: config.compiler_devtool,
+  devtool: 'source-map', 
   resolve: {
-    root: paths.client(),
-    extensions: ['', '.js', '.jsx', '.json']
+    modules: [
+      paths.SRC,
+      'node_modules',
+    ],
+    extensions: ['*', '.js', '.jsx', '.json'],
   },
   devServer: {
     headers: { "Access-Control-Allow-Origin": "*" }
   },
-  module: {}
+  module: {
+    rules: [],
+  }
 }
 // ------------------------------------
 // Entry Points
 // ------------------------------------
-const APP_ENTRY = paths.client('main.js')
+const APP_ENTRY = path_base+'/src/main.js';
 
 webpackConfig.entry = {
   app: __DEV__
@@ -41,8 +64,8 @@ webpackConfig.entry = {
 // ------------------------------------
 webpackConfig.output = {
   filename: `[name].[${config.compiler_hash_type}].js`,
-  path: paths.dist(),
-  publicPath: config.compiler_public_path
+  path: paths.DIST,
+  publicPath: '/CyDashboard/'
 }
 
 
@@ -59,9 +82,9 @@ webpackConfig.externals = {
 webpackConfig.plugins = [
   new webpack.DefinePlugin(config.globals),
   new HtmlWebpackPlugin({
-    template: paths.client('index.html'),
+    template: path_base+'/src/index.html',
     hash: false,
-    favicon: paths.client('public/static/favicon.png'),
+    favicon: path_base+'/src/public/static/favicon.png',
     filename: 'index.html',
     inject: 'body',
     minify: {
@@ -88,6 +111,7 @@ if (__DEV__) {
         warnings: false
       }
     })
+   
   )
 }
 
@@ -100,106 +124,117 @@ if (!__TEST__) {
   )
 }
 
-// ------------------------------------
-// Loaders
-// ------------------------------------
-// JavaScript / JSON
-webpackConfig.module.loaders = [{
-  test: /\.(js|jsx)$/,
-  exclude: /node_modules/,
-  loader: 'babel',
-  query: config.compiler_babel
-}, {
-  test: /\.json$/,
-  loader: 'json'
-}]
 
-// ------------------------------------
-// Style Loaders
-// ------------------------------------
-// We use cssnano with the postcss loader, so we tell
-// css-loader not to duplicate minimization.
 const BASE_CSS_LOADER = 'css?sourceMap&-minimize'
 
-webpackConfig.module.loaders.push({
-  test: /\.scss$/,
-  exclude: null,
-  loaders: [
-    'style',
-    BASE_CSS_LOADER,
-    'postcss',
-    'sass?sourceMap'
-  ]
-})
-webpackConfig.module.loaders.push({
-  test: /\.css$/,
-  exclude: null,
-  loaders: [
-    'style',
-    BASE_CSS_LOADER,
-    'postcss'
-  ]
+// Styles
+// ------------------------------------
+const extractStyles = new ExtractTextPlugin({
+  filename: 'styles/[name].[contenthash].css',
+  allChunks: true,
+  disable: __DEV__,
 })
 
-webpackConfig.sassLoader = {
-  includePaths: paths.client('styles')
-}
+webpackConfig.module.rules.push({
+  test: /\.(js|jsx)$/,
+  exclude: /node_modules/,
+  use: [{
+    loader: 'babel-loader',
+    query: {
+      cacheDirectory: true,
+      plugins: [
+        'babel-plugin-transform-class-properties',
+        'babel-plugin-syntax-dynamic-import',
+        [
+          'babel-plugin-transform-runtime',
+          {
+            helpers: true,
+            polyfill: false, // we polyfill needed features in src/normalize.js
+            regenerator: true,
+          },
+        ],
+        [
+          'babel-plugin-transform-object-rest-spread',
+          {
+            useBuiltIns: true // we polyfill Object.assign in src/normalize.js
+          },
+        ],
+      ],
+      presets: [
+        'babel-preset-react',
+        ['babel-preset-env', {
+          modules: false,
+          targets: {
+            ie9: true,
+          },
+          uglify: true,
+        }]
+      ]
+    },
+  }],
+})
 
-webpackConfig.postcss = [
-  cssnano({
-    autoprefixer: {
-      add: true,
-      remove: true,
-      browsers: ['last 2 versions']
-    },
-    discardComments: {
-      removeAll: true
-    },
-    discardUnused: false,
-    mergeIdents: false,
-    reduceIdents: false,
-    safe: true,
-    sourcemap: true
+webpackConfig.module.rules.push({
+  test: /\.(css|sass|scss)$/,
+  loader: extractStyles.extract({
+    fallback: 'style-loader',
+    use: [
+      {
+        loader: 'css-loader',
+        options: {
+          sourceMap: config.sourcemaps,
+          minimize: {
+            autoprefixer: {
+              add: true,
+              remove: true,
+              browsers: ['last 2 versions'],
+            },
+            discardComments: {
+              removeAll: true,
+            },
+            discardUnused: false,
+            mergeIdents: false,
+            reduceIdents: false,
+            safe: true,
+            sourcemap: config.sourcemaps,
+          },
+        },
+      },
+   
+    ],
   })
-]
+})
 
-// File loaders
-/* eslint-disable */
-webpackConfig.module.loaders.push(
-  { test: /\.woff(\?.*)?$/, loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/font-woff' },
-  { test: /\.woff2(\?.*)?$/, loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/font-woff2' },
-  { test: /\.otf(\?.*)?$/, loader: 'file?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=font/opentype' },
-  { test: /\.ttf(\?.*)?$/, loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/octet-stream' },
-  { test: /\.eot(\?.*)?$/, loader: 'file?prefix=fonts/&name=[path][name].[ext]' },
-  { test: /\.svg(\?.*)?$/, loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=image/svg+xml' },
-  { test: /\.gif(\?.*)?$/, loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000' },
-  { test: /\.(png|jpg)$/, loader: 'url?limit=8192' }
-)
-/* eslint-enable */
+webpackConfig.module.rules.push({
+  test: /\.(png|jpg|gif)$/,
+  loader: 'url-loader',
+  
+})
 
-// ------------------------------------
-// Finalize Configuration
-// ------------------------------------
-// when we don't know the public path (we know it only when HMR is enabled [in development]) we
-// need to use the extractTextPlugin to fix this issue:
-// http://stackoverflow.com/questions/34133808/webpack-ots-parsing-error-loading-fonts/34133809#34133809
-if (!__DEV__) {
-  debug('Apply ExtractTextPlugin to CSS loaders.')
-  if (webpackConfig.module.loaders)
-    webpackConfig.module.loaders.filter((loader) =>
-      loader.loaders && loader.loaders.find((name) => /css/.test(name.split('?')[0]))
-    ).forEach((loader) => {
-      const first = loader.loaders[0]
-      const rest = loader.loaders.slice(1)
-      loader.loader = ExtractTextPlugin.extract(first, rest.join('!'))
-      delete loader.loaders
+ // Fonts
+  // ------------------------------------
+  ;[
+    ['woff', 'application/font-woff'],
+    ['woff2', 'application/font-woff2'],
+    ['otf', 'font/opentype'],
+    ['ttf', 'application/octet-stream'],
+    ['eot', 'application/vnd.ms-fontobject'],
+    ['svg', 'image/svg+xml'],
+  ].forEach((font) => {
+    const extension = font[0]
+    const mimetype = font[1]
+
+    webpackConfig.module.rules.push({
+      test: new RegExp(`\\.${extension}$`),
+      loader: 'url-loader',
+      options: {
+        name: 'fonts/[name].[ext]',
+        limit: 10000,
+        mimetype,
+      },
     })
+  })
 
-  webpackConfig.plugins.push(
-    new ExtractTextPlugin('[name].[contenthash].css', {
-      allChunks: true
-    })
-  )
-}
+webpackConfig.plugins.push(extractStyles)
 
 module.exports = webpackConfig

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { browserHistory, Router } from 'react-router';
 import ReactPaginate from 'react-paginate';
 import CustomSelect from '../../../components/custom-dropdown';
@@ -7,8 +7,10 @@ import Header from '../../../components/header';
 import { pagesList } from '../../../shared/constants/constants';
 import CustomDock from '../../../components/custom-dock';
 import { Tab, Tabs } from 'react-bootstrap';
+import { DashboardModeEnum } from '../../../shared/enums';
 
-export default class MyDashboard extends PureComponent {
+import {Constants} from '../../../shared/constants'
+export default class MyDashboard extends Component {
 	constructor(props) {
 		super(props);
 		this.onMyDashboardsChecked = this.onMyDashboardsChecked.bind(this);
@@ -25,6 +27,7 @@ export default class MyDashboard extends PureComponent {
 
 	componentWillMount() {
 		this.props.GetDashboardsList();
+        
 	}
 
 	onMyDashboardsChecked(e) {
@@ -36,7 +39,8 @@ export default class MyDashboard extends PureComponent {
 	}
 
 	addDashboardClick() {
-		browserHistory.push(`/dashboard/new`);
+		browserHistory.push(`${Constants.appPath}dashboard/new`);
+		
 	}
 
 	onPageClick(e) {
@@ -75,7 +79,7 @@ export default class MyDashboard extends PureComponent {
 								/>
 							</label>
 						</div>
-						<div onClick={this.addDashboardClick} className="action-tool  pointer">
+						<div onClick={() => { browserHistory.push(`${Constants.appPath}dashboard/new`); this.props.test(); localStorage.setItem('mode', DashboardModeEnum.New); }} className="action-tool  pointer">
 							<a><i className="fa fa-plus" aria-hidden="true"></i> Add dashboard</a>
 						</div>
 

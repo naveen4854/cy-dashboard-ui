@@ -9,6 +9,7 @@ import DashboardReducer from '../dashboard.reducer';
 import WidgetResultsReducer from '../widget-results/widget-results.reducer';
 
 export default (store) => ({
+  path: 'view/:id',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, { key: 'widgetResults', reducer: WidgetResultsReducer })
