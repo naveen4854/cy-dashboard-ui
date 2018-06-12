@@ -47,11 +47,11 @@ export function removeFromTabsList() {
         let currentTabId = getState().app.currentTabId;
         if (tabsList) {
             let newTabs = _.filter(tabsList, (tab) => tab != currentTabId)
-            localStorage.setItem('tlst', JSON.stringify(newTabs));
+            localStorage.setItem(Constants.tabsList, JSON.stringify(newTabs));
         }
-        if (tabsList.length == 1) {
-            dispatch(getState().user.logout());
-        }
+        // if (tabsList.length == 1) {
+        //     dispatch(getState().user.logout());
+        // }
     }
 }
 

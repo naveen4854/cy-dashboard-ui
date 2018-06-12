@@ -186,7 +186,7 @@ export function ping(timeDiff) {
     return (dispatch, getState) => {
         let user = getState().user;
 
-        if (user.pingRefTimeOutId != -1 && getState().app.currentTabId != localStorage.getItem('rt'))
+        if (user.pingRefTimeOutId != -1 && getState().app.currentTabId != localStorage.getItem(Constants.refreshTabId))
             return
 
         let pingTimeoutId = setTimeout(() => {

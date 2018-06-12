@@ -12,10 +12,7 @@ export default class NewDashboard extends Component {
     constructor(props) {
         super(props)
     }
-    componentWillMount(){
-        console.log(localStorage,'localStorage in new compo')
-        console.log(this.props,'new')
-    }
+    
     componentWillReceiveProps(nextProps) {
     }
     componentDidUpdate() {

@@ -19,9 +19,6 @@ import { DashboardModeEnum } from '../../shared/enums';
 
 export default (store) => ({
   path: 'edit/:id',
-  //  (localStorage.getItem('mode') == DashboardModeEnum.Edit
-  //   || localStorage.getItem('mode') == DashboardModeEnum.EditToLive)
-  //   ? 'edit/:id' : 'new',
   getComponent(nextState, cb) {
     require.ensure([], (require) => {
       injectReducer(store, { key: 'styles', reducer: StylesReducer })
@@ -36,8 +33,6 @@ export default (store) => ({
     }, 'newdashboard')
   },
   onEnter: (nextState, replace) => {
-    console.log(localStorage,'localStorage in new entry')
-
     injectReducer(store, { key: 'dashboard', reducer: DashboardReducer })
     let dashboardMode = nextState.params.id ? DashboardModeEnum.Edit : DashboardModeEnum.New;// mode == DashboardModeEnum.New || mode == DashboardModeEnum.Edit ? DashboardModeEnum.EditToLive : DashboardModeEnum.View;
     if (dashboardMode == DashboardModeEnum.New && store.getState().dashboard.mode != DashboardModeEnum.EditToLive) {

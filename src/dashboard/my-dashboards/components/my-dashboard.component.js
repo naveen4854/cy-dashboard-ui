@@ -79,7 +79,7 @@ export default class MyDashboard extends Component {
 								/>
 							</label>
 						</div>
-						<div onClick={() => { browserHistory.push(`${Constants.appPath}dashboard/new`); this.props.test(); localStorage.setItem('mode', DashboardModeEnum.New); }} className="action-tool  pointer">
+						<div onClick={() => { browserHistory.push(`${Constants.appPath}dashboard/new`); this.props.test(); localStorage.setItem(Constants.mode, DashboardModeEnum.New); }} className="action-tool  pointer">
 							<a><i className="fa fa-plus" aria-hidden="true"></i> Add dashboard</a>
 						</div>
 

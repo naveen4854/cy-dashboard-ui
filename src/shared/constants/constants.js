@@ -3,11 +3,13 @@ import displayFormatEnum from '../enums/display-format.enum';
 import { utils } from '../../utilities'
 import { ApplyToOptions, PictureStretchEnum, StatisticFunction } from '../enums';
 
-export const refreshTabId = 'rt';
-export const tabsList = 'tlst';
-export const setNewRt = 'srt';
-export const auth = 'auth';
-export const cleartimeout = 'cleartimeout';
+export const refreshTabId = 'cyDashboard_Rt';
+export const tabsList = 'cyDashboard_Tlst';
+export const setNewRt = 'cyDashboard_Srt';
+export const auth = 'cyDashboard_auth';
+export const cleartimeout = 'CyDashboard_cleartimeout';
+export const isInitialized="cyDashboard_IsInitialized";
+export const mode="cyDashboard_Mode";
 export const oneMinute = 60000
 export const pingFailureTimeMinute = 60000
 export const refreshFailureTimeMinute = 60000

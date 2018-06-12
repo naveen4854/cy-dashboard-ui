@@ -22,12 +22,12 @@ export function getRefreshToken() {
   return auth ? auth.refresh_token : "";
 }
 export function isAuthTokenRefreshInitialized() {
-  let isInitialized = JSON.parse(localStorage.getItem('isInitialized'));
+  let isInitialized = JSON.parse(localStorage.getItem(Constants.isInitialized));
   return isInitialized ? true : false;
 }
 export function setAuthTokenRefreshInitialized(val) {
   // console.log("Refesh flag set to: " + val);
-  localStorage.setItem('isInitialized', val);
+  localStorage.setItem(Constants.isInitialized, val);
 }
 export function isTokenExpired() {
   return tokenExpiresIn() <= 0;
