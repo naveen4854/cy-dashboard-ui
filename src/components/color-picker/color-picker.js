@@ -1,29 +1,30 @@
 "use strict";
 import React from 'react';
 import reactCSS from 'reactcss';
+import ColorPicker from 'rc-color-picker';
 import { SketchPicker } from 'react-color';
 import _ from 'lodash';
-
+import 'rc-color-picker/assets/index.css';
 import * as Color from '../../shared/lib/color-conversion';
 
-class ColorPicker extends React.Component {
+class RCColorPicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       displayColorPicker: false,
       color:
-      props.value !== undefined &&
-        Object.prototype.toString.call(props.value) === '[object Object]' ?
-        props.value :
-        _.startsWith(props.value, "#") ?
-          Color.hexToRgba(props.value) :
-          _.startsWith(props.value, "rgba") ? Color.rgbaStringToObject(props.value)
-            : {
-              r: 255,
-              g: 255,
-              b: 255,
-              a: 1
-            }
+        props.value !== undefined &&
+          Object.prototype.toString.call(props.value) === '[object Object]' ?
+          props.value :
+          _.startsWith(props.value, "#") ?
+            Color.hexToRgba(props.value) :
+            _.startsWith(props.value, "rgba") ? Color.rgbaStringToObject(props.value)
+              : {
+                r: 255,
+                g: 255,
+                b: 255,
+                a: 1
+              }
     };
 
   }
@@ -32,18 +33,18 @@ class ColorPicker extends React.Component {
       this.setState({
         displayColorPicker: false,
         color:
-        nextProps.value !== undefined &&
-          Object.prototype.toString.call(nextProps.value) === '[object Object]' ?
-          nextProps.value :
-          _.startsWith(nextProps.value, "#") ?
-            Color.hexToRgba(nextProps.value) :
-            _.startsWith(nextProps.value, "rgba") ? Color.rgbaStringToObject(nextProps.value)
-              : {
-                r: 255,
-                g: 255,
-                b: 255,
-                a: 1
-              }
+          nextProps.value !== undefined &&
+            Object.prototype.toString.call(nextProps.value) === '[object Object]' ?
+            nextProps.value :
+            _.startsWith(nextProps.value, "#") ?
+              Color.hexToRgba(nextProps.value) :
+              _.startsWith(nextProps.value, "rgba") ? Color.rgbaStringToObject(nextProps.value)
+                : {
+                  r: 255,
+                  g: 255,
+                  b: 255,
+                  a: 1
+                }
       })
     }
   }
@@ -56,57 +57,26 @@ class ColorPicker extends React.Component {
   };
 
   handleChange = (color) => {
-    this.setState({ color: color.rgb })
-    this.props.updateColor(color.rgb);
+    this.setState({ color: color.color })
+    this.props.updateColor(Color.hexToRgba(color.color));
   };
 
-
-
   render() {
-    const styles = reactCSS({
-      'default': {
-        color: {
-          width: '36px',
-          height: '14px',
-          borderRadius: '2px',
-          background:
-          `rgba(${this.state.color.r}, ${this.state.color.g}, ${this.state.color.b}, ${this.state.color.a})`
-        },
-        swatch: {
-          padding: '5px',
-          background: '#fff',
-          borderRadius: '1px',
-          boxShadow: '0 0 0 1px rgba(0,0,0,.1)',
-          display: 'inline-block',
-          cursor: 'pointer',
-        },
-        popover: {
-          position: 'absolute',
-          zIndex: '2',
-        },
-        cover: {
-          position: 'fixed',
-          top: '0px',
-          right: '0px',
-          bottom: '0px',
-          left: '0px',
-        },
-      },
-    });
-
     return (
       <div>
-        <div style={styles.swatch} onClick={this.handleClick}>
-          <div style={styles.color} />
-        </div>
-        {this.state.displayColorPicker ? <div style={styles.popover}>
-          <div style={styles.cover} onClick={this.handleClose} />
-          <SketchPicker key={this.props.id} color={this.props.value} onChange={this.handleChange} />
-        </div> : null}
-
+        <ColorPicker color={Color.ToString(this.props.value)} 
+          // alpha={50} 
+          onChange={this.handleChange} 
+          placement={this.props.placement}
+        />
       </div>
     )
   }
 }
 
-export default ColorPicker
+RCColorPicker.defaultProps = {
+  value: '#fff',
+  placement: 'bottomLeft'
+}
+
+export default RCColorPicker
