@@ -22,10 +22,10 @@ app.get("/*", function (req, res, next) {
 // ------------------------------------
 if (config.env === 'development') {
   const compiler = webpack(webpackConfig)
-
+  
   debug('Enable webpack dev and HMR middleware')
   app.use(require('webpack-dev-middleware')(compiler, {
-    publicPath: webpackConfig.output.publicPath,
+    publicPath: '/',// webpackConfig.output.publicPath,
     contentBase: paths.client(),
     hot: true,
     quiet: config.compiler_quiet,

@@ -65,7 +65,7 @@ webpackConfig.entry = {
 webpackConfig.output = {
   filename: `[name].[${config.compiler_hash_type}].js`,
   path: paths.DIST,
-  publicPath: '/CyDashboard/'
+  publicPath: __DEV__ ? '/' : '/CyDashboard/'
 }
 
 
@@ -82,7 +82,7 @@ webpackConfig.externals = {
 webpackConfig.plugins = [
   new webpack.DefinePlugin(config.globals),
   new HtmlWebpackPlugin({
-    template: path_base+'/src/index.html',
+    template: __DEV__ ? path_base+'/src/index_dev.html' :  path_base+'/src/index.html',
     hash: false,
     favicon: path_base+'/src/public/static/favicon.png',
     filename: 'index.html',

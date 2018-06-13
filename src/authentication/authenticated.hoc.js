@@ -29,8 +29,6 @@ export default function authenticate(Component, options) {
       if (!props.user && (Date.parse(props.user.expiresOn) - Date.parse(new Date().toGMTString()) <= 0))
         return browserHistory.push( `${Constants.appPath}login`);
 
-      console.log('authMan.getAuth()   ', authMan.getAuth());
-
       if (!this.authorize(authMan.getAuth(), roles)) {
         browserHistory.push( `${Constants.appPath}login`);
       }
