@@ -5,6 +5,7 @@ import { defaultComboHeaderHeight } from "../../shared/constants/constants";
 
 export function saveComboRealTimeMetrics() {
     return (dispatch, getState) => {
+
         let currentWidget = getState().configurations.widget;
         let comboId = currentWidget.id;
         let selectedGroup = getState().comboRealTimeSettings.selectedGroup;
@@ -85,6 +86,7 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
             // if exists apply all its styles/thresholds onto new widget
             // P.S. track the statistic item changes and apply them again and also widgettype
             let existingCell = _.find(oldMatrix, (oldCell) => oldCell.columnId == cell.columnId && oldCell.rowId == cell.rowId)
+
             if (existingCell) {
                 if (existingCell.widgetType == cell.widgetType) {
                     cell.applyStyles(existingCell);
@@ -100,6 +102,7 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
                     }
                     cell.applyCommonStyles(styles);
                 }
+
                 cell.applyThresholds(existingCell.appliedSettings.thresholds || []);
             }
 
@@ -109,6 +112,10 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
             } else {
                 if (previousRow && previousRow[columnIndex] && rowIndex > 1) {
                     cell.applyStyles(previousRow[columnIndex]);
+                    if (columnIndex > 1) {
+                        var thresholds = currentComboWidget.matrix[0][columnIndex].appliedSettings.thresholds || [];
+                        cell.applyThresholds(thresholds);
+                    }
                 }
             }
 
