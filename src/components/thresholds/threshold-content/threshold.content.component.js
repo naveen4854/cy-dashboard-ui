@@ -53,13 +53,12 @@ export default class ThresholdTabContent extends PureComponent {
     testThreshold(e) {
         let errors = [];
         errors = errors.concat(this.validateEmailIds(this.props.emailTo));
-        errors = errors.concat(this.validateSMS(this.props.smsTo))
+        errors = errors.concat(this.validateSMS(this.props.smsTo));
 
-        this.props.common.clearNotifications()
+        this.props.common.clearNotifications()       
         e.stopPropagation();
         if (errors.length != 0) {
-
-            this.props.common.notify(errors, ResponseStatusEnum.Error, true);
+            this.props.common.notify(errors, ResponseStatusEnum.Error);
         }
         else {
             let level = _.find(this.props.threshold.levels, (level) => level.id === this.props.id);
@@ -78,8 +77,10 @@ export default class ThresholdTabContent extends PureComponent {
 
     validateSMS(smsNumbers) {
         return _.filter(_.map(smsNumbers, (sms, index) => {
+            if (!sms.Value || sms.Value == '')
+            return { displayMessage: this.props.l.t('SMS_$smsIndex_cannot_be_empty', 'SMS ${smsIndex} cannot be empty', { smsIndex: index + 1 }) }
             if (!utils.validateSmsNumer(sms.Value))
-                return { displayMessage: this.props.l.t('SMS_$smsIndex_cannot_be_empty', 'SMS ${smsIndex} cannot be empty', { smsIndex: index + 1 }) }
+            return { displayMessage: this.props.l.t('SMS_$smsIndex_is_not_in_correct_format', 'SMS ${smsIndex} is not in correct format', { smsIndex: index + 1 }) }
         }), (err) => err);
     }
 

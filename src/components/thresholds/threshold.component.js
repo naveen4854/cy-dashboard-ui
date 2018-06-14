@@ -14,6 +14,7 @@ export default class ThresholdTab extends PureComponent {
     constructor(props) {
         super(props);
         this.validateEmailIds = this.validateEmailIds.bind(this);
+        this.validateSmsIds=this.validateSmsIds.bind(this);
         this.validateThresholds = this.validateThresholds.bind(this);
         this.addSelectedLevels = this.addSelectedLevels.bind(this);
         this.addLevels = this.addLevels.bind(this);
@@ -32,9 +33,8 @@ export default class ThresholdTab extends PureComponent {
         let _displayFormat = this.getDisplayFormat(basedColumn);
         if (!_displayFormat)
             errors.push({ displayMessage: this.props.l.t('Display_format_is_not_set_in_Data_MetricsPERIOD', 'Display format is not set in Data Metrics.') });
-
         errors = errors.concat(this.validateEmailIds());
-
+        errors=errors.concat(this.validateSmsIds());
         let thresholdErrors = this.validateThresholds(this.props.threshold.levels, _displayFormat)
         if (thresholdErrors)
             errors = errors.concat(thresholdErrors);
@@ -45,7 +45,7 @@ export default class ThresholdTab extends PureComponent {
                 type: ResponseStatusEnum.Error,
                 messages: errors
             }
-            this.props.common.notify(errors, ResponseStatusEnum.Error)
+            this.props.common.notify(errors, ResponseStatusEnum.Error);
             return
         }
 
@@ -59,8 +59,8 @@ export default class ThresholdTab extends PureComponent {
     }
 
     validateSmsIds() {
-        let invalidLevels = _.filter(this.props.threshold.levels, (level) => _.filter(level.smsTo, (email) => !utils.validateSmsNumer(sms.Value)).length > 0);
-        return _.map(invalidLevels, (lvl) => { return { displayMessage: `Level ${lvl.level}: ${this.props.l.t('SMS_number_is_not_in_correct_format', 'SMS number is not in correct format')}` } });
+        let invalidLevels = _.filter(this.props.threshold.levels, (level) => _.filter(level.smsTo, (sms) => !utils.validateSmsNumer(sms.Value)).length > 0);
+        return _.map(invalidLevels, (lvl) => { return { displayMessage: `Level ${lvl.level}: ${this.props.l.t('SMS_number_is_empty', 'SMS number is empty')}` } });
     }
 
     /**
