@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { browserHistory } from 'react-router';
 import { ModalManager as ModalManager, ModalManager as SaveAsModalManager } from 'react-dynamic-modal';
 import CustomModalPopUp from '../custom-modal-popup';
