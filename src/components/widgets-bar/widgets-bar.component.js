@@ -208,13 +208,18 @@ export default class WidgetsBar extends React.Component {
 						</div>
 						<div className="db-actions-right">
 							<div className="action-tool" style={{ "flexDirection": "row" }}>
-								<span className="tool-title margin-right-10 rtl-margin-right-10">{this.props.l.t('Name', 'Name')}</span>
-								<input
-									type="text"
-									className=""
-									placeholder="Dashboard name"
-									value={this.props.name}
-									onChange={this.updateDashboardName} />
+								{this.props.mode != DashboardModeEnum.Edit ?
+									<Fragment>
+										<span className="tool-title margin-right-10 rtl-margin-right-10">{this.props.l.t('Name', 'Name')}</span>
+										<input
+											type="text"
+											className=""
+											placeholder="Dashboard name"
+											value={this.props.name}
+											disabled={this.props.mode == DashboardModeEnum.Edit}
+											onChange={this.updateDashboardName} />
+									</Fragment> :
+									<span> {this.props.name} </span>}
 							</div>
 							<label className="action-tool">
 								<input
