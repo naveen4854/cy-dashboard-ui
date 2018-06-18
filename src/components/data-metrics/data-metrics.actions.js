@@ -112,7 +112,7 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
             } else {
                 if (previousRow && previousRow[columnIndex] && rowIndex > 1) {
                     cell.applyStyles(previousRow[columnIndex]);
-                    if (columnIndex > 1) {
+                    if (columnIndex > 1 && currentComboWidget.matrix.length > 0) {
                         var thresholds = currentComboWidget.matrix[0][columnIndex].appliedSettings.thresholds || [];
                         cell.applyThresholds(thresholds);
                     }
