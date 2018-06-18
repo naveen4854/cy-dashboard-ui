@@ -155,6 +155,7 @@ export function comboWidgetConfigurationsFromServer(widget, dataMetricsMetadata,
 
 
 function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId, selectedGroup, dataMetricsMetadata, measures) {
+    debugger;
     let i = 0,
         j = 0;
     let comboMatrixs = [];
@@ -183,8 +184,8 @@ function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId, se
                 segmentColors: oldWidget.wsgc && oldWidget.wsgc.length > 0 ? oldWidget.wsgc : [rgba(255, 0, 0, 1), rgba(255, 232, 0, 1), rgba(0, 255, 0, 1)],
                 isComboWidget: true,
                 scrollType: ScrollTypeEnum.None,
-                widgetBody: stylesMapper(oldWidget.wb),
-                valueStyles: stylesMapper(oldWidget.wvs),
+                widgetBody: stylesMapper(oldWidget.wb,'b'),
+                valueStyles: stylesMapper(oldWidget.wvs,'v'),
                 titleStyles: stylesMapper(oldWidget.wts),
                 rangeValueStyles: stylesMapper(oldWidget.wrs),
                 arcColor: oldWidget.cpac ? oldWidget.cpac : rgba(0, 192, 239, 1),
