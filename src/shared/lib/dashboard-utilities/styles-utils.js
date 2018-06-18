@@ -10,11 +10,12 @@ export function stylesMapperToServer(styles) {
     } : {};
 }
 
-export function stylesMapper(styles) {
+export function stylesMapper(styles, sTag) {
     return styles ? {
-      backgroundColor: styles.sbc,
-      color: styles.sc,
-      fontFamily: styles.sff,
-      fontSize: styles.sfs
+        backgroundColor: styles.sbc ? styles.sbc : sTag && sTag == 'b' ? { r: 255, g: 255, b: 255, a: 1 } : null,
+        color: styles.sc ? styles.sc : sTag && sTag == 'v' ? { r: 0, g: 0, b: 0, a: 1 } : null,
+        fontFamily: styles.sff,
+        fontSize: styles.sfs
     } : {};
-  }
+}
+
