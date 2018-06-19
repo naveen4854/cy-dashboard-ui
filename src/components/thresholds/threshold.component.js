@@ -14,7 +14,7 @@ export default class ThresholdTab extends PureComponent {
     constructor(props) {
         super(props);
         this.validateEmailIds = this.validateEmailIds.bind(this);
-        this.validateSmsIds=this.validateSmsIds.bind(this);
+        this.validateSmsIds = this.validateSmsIds.bind(this);
         this.validateThresholds = this.validateThresholds.bind(this);
         this.addSelectedLevels = this.addSelectedLevels.bind(this);
         this.addLevels = this.addLevels.bind(this);
@@ -34,7 +34,7 @@ export default class ThresholdTab extends PureComponent {
         if (!_displayFormat)
             errors.push({ displayMessage: this.props.l.t('Display_format_is_not_set_in_Data_MetricsPERIOD', 'Display format is not set in Data Metrics.') });
         errors = errors.concat(this.validateEmailIds());
-        errors=errors.concat(this.validateSmsIds());
+        errors = errors.concat(this.validateSmsIds());
         let thresholdErrors = this.validateThresholds(this.props.threshold.levels, _displayFormat)
         if (thresholdErrors)
             errors = errors.concat(thresholdErrors);
@@ -234,12 +234,14 @@ export default class ThresholdTab extends PureComponent {
         this.props.setStatisticFunction(func);
     }
     onDisplayFormatChange(displayFormat) {
-        this.props.setDisplayFormat(displayFormat);
-        let levels = _.map(this.props.threshold.levels, (lvl) => {
-            lvl.levelValue = this.getDefaultThresholdValue(displayFormat.id, lvl.levelValue)
-            return lvl;
-        })
-        this.props.updateLevels(levels)
+        if (displayFormat && Object.keys(displayFormat).length > 0) {
+            this.props.setDisplayFormat(displayFormat);
+            let levels = _.map(this.props.threshold.levels, (lvl) => {
+                lvl.levelValue = this.getDefaultThresholdValue(displayFormat.id, lvl.levelValue)
+                return lvl;
+            })
+            this.props.updateLevels(levels)
+        }
     }
     render() {
         let { threshold, statisticCategory } = this.props;
