@@ -208,7 +208,7 @@ export default class ThresholdTab extends PureComponent {
                     return 0;
                 return value;
             default:
-                return '';
+                return value ? value : '';
         }
     }
 
