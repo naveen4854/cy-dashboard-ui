@@ -59,7 +59,6 @@ axios.interceptors.request.use(
                 Authorization: `bearer ${authToken}`
             });
         } else {
-            console.log('test' + Constants.appPath)
             browserHistory.push(`${Constants.appPath}login`)
         }
         return config;
@@ -81,7 +80,9 @@ axios.interceptors.response.use(
         handleNetworkError(error);
         if (error.response && error.response.status === 401 && !error.config.__isRetryRequest)
             return handleUnAuthWithRetry(error);
-            store.dispatch(dispatch(getState().spinnerStore.EndAllTasks()));          
+        store.dispatch((dispatch, getState) => {
+            dispatch(getState().spinnerStore.EndAllTasks())
+        });
         return Promise.reject(error);
     }
 );
@@ -123,7 +124,6 @@ function handleUnAuthWithRetry(error) {
 
         let user = getState().user;
         if (!user.refreshToken) {
-            console.log("NO REFRESH TOKEN FOUND")
             return dispatch(getState().user.logout())
         }
         retryPromise = retryPromise || loginService.refreshToken(user.refreshToken, user.nic).then(res => {
@@ -149,8 +149,6 @@ function handleUnAuthWithRetry(error) {
         }).catch((err) => {
             dispatch(getState().user.logout())
             dispatch(getState().notificationStore.clearNotifications());
-          //  debugger
-            console.log(err, 'err ')
             dispatch(getState().notificationStore.notify(err.response.data.Messages, ResponseStatusEnum.Error, true));
         });
 
@@ -166,6 +164,7 @@ function handleUnAuthWithRetry(error) {
             dispatch(getState().notificationStore.clearNotifications());
             dispatch(getState().notificationStore.notify(error.response.data.Messages, ResponseStatusEnum.Error, true));
             dispatch(getState().user.logout())
+
         });
     })
 }
