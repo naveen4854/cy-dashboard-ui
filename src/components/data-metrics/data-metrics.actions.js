@@ -91,6 +91,7 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
                 if (existingCell.widgetType == cell.widgetType) {
                     cell.applyStyles(existingCell);
                     cell.stylesConfigured = _.clone(existingCell.stylesConfigured)
+                    cell.appliedSettings.basedReal = _.clone(existingCell.appliedSettings.basedReal);
                 }
                 else {
                     // Have to figure out if its a new row cell or a new column 
@@ -111,21 +112,23 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
                 //cell.applyStyles(existingCell);
             } else {
                 if (previousRow && previousRow[columnIndex] && rowIndex > 1) {
-                    cell.applyStyles(previousRow[columnIndex]);
-                    if (columnIndex > 1 && currentComboWidget.matrix.length > 0) {
+                    if (columnIndex > 0 && currentComboWidget.matrix.length > 0) {
+                        cell.applyStyles(previousRow[columnIndex]);
                         var thresholds = currentComboWidget.matrix[0][columnIndex].appliedSettings.thresholds || [];
                         cell.applyThresholds(thresholds);
+                        cell.appliedSettings.basedReal = currentComboWidget.matrix[0][columnIndex].appliedSettings && currentComboWidget.matrix[0][columnIndex].appliedSettings.basedReal ? _.clone(currentComboWidget.matrix[0][columnIndex].appliedSettings.basedReal) : undefined;
                     }
                 }
+
             }
 
             if (_.find(oldColumns, oldColumn => oldColumn.id == statisticColumn.id)) {
             } else {
-                if (rowIndex != 0) {
+                if (rowIndex != 0 && columnIndex > 0) {
                     cell.applyCommonStyles(currentComboWidget);
                 }
                 else {
-                    if (previousCell) {
+                    if (previousCell && columnIndex > 0) {
                         cell.applyCommonStyles(previousCell);
                     }
                 }
