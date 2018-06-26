@@ -143,9 +143,10 @@ export function updateComboStyles() {
             matrix: newMatrix,
             appliedBackgroundColor: styles.widgetBody.backgroundColor,
             widgetBody: styles.widgetBody,
-            valueStyles: styles.valueStyles
+            valueStyles: styles.valueStyles,
+            title: styles.title
         }
-        
+
         dispatch(getState().dashboard.updateWidget(updatedComboWidget));
         dispatch(getState().configurations.applyWidget(updatedComboWidget));
         
