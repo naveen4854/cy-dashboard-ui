@@ -33,7 +33,7 @@ export function setTabId() {
             localStorage.setItem(Constants.refreshTabId, JSON.stringify(currentTabId));
             localStorage.setItem(Constants.setNewRt, JSON.stringify(currentTabId));
             // dispatch(user.setTokenRefreshTimeout(0));
-            // dispatch(user.ping(Constants.oneMinute));
+             dispatch(user.ping(0));
         }
         // if(user.loggedIn){
         //     dispatch(user.defaultRedirection());
