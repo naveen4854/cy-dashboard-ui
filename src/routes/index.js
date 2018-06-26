@@ -4,6 +4,7 @@ import MainPage from '../main-component';
 import NewDashboardPage from '../dashboard/new-dashboard';
 import MainDashboardPage from '../dashboard/main-dashboard';
 import ViewDashboardPage from '../dashboard/view-dashboard';
+import NewSliderPage from '../dashboard/new-slider';
 import TestPage from '../components/test-resize';
 
 /*  Note: Instead of using JSX, we recommend using react-router
@@ -39,6 +40,11 @@ export const createRoutes = (store) => (
                     path: 'view/:id',
                     indexRoute: ViewDashboardPage(store),
                 }
+                ,
+                {
+                    path: 'newslider',
+                    indexRoute: NewSliderPage(store),
+                }
             ]
         },
         {
@@ -46,7 +52,7 @@ export const createRoutes = (store) => (
             indexRoute: TestPage(store),
             childRoutes: []
         },
-       
+
     ])
 
 export default createRoutes

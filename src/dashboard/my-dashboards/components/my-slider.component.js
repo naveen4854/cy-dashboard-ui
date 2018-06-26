@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { browserHistory, Router } from 'react-router';
 import ReactPaginate from 'react-paginate';
 import CustomSelect from '../../../components/custom-dropdown';
-
+import {Constants} from '../../../shared/constants'
 
 import { pagesList } from '../../../shared/constants/constants';
 import MySliderTable from './slider-table';
@@ -35,7 +35,7 @@ export default class SliderListComponent extends PureComponent {
     }
 
     addSliderClick() {
-        browserHistory.push(`/dashboard/new`);
+        browserHistory.push(`${Constants.appPath}dashboard/newslider`);
     }
 
     onSliderPageClick(e) {

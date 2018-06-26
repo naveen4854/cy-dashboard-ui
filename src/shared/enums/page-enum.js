@@ -8,7 +8,8 @@ export const PageEnum = {
   PREVIEW_DASHBOARD: 'PREVIEW_DASHBOARD',
   DATA_METRICS: 'DATA_METRICS',
   THRESHOLDS: 'THRESHOLDS',
-  LOGIN: 'LOGIN'
+  LOGIN: 'LOGIN',
+  SLIDER:'SLIDER'
 }
 
 export default PageEnum
