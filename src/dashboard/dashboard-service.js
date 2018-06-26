@@ -1,4 +1,4 @@
-import {service}  from "../utilities/";
+import { service } from "../utilities/";
 import { ApiUrl } from "../shared/constants";
 
 export function getSliderDashboards(userId) {
@@ -52,6 +52,13 @@ export function deleteDashboard(dashboardId) {
 
     )
 }
+export function deleteSlider(sliderId) {
+    debugger;
+    return service.axiosPost(
+        `${ApiUrl.DELETE_SLIDER}/${sliderId}`
+
+    )
+}
 
 export function pictureSave(pictureData) {
     return service.axiosPost(ApiUrl.PICTURE_SAVE, pictureData)
@@ -65,5 +72,11 @@ export function updateDashboard(dashboard) {
 export function testThreshold(threshold) {
     return service.axiosPost(
         ApiUrl.TEST_THRESHOLD, threshold
+    )
+}
+
+export function getUserSlidersList( mySliders, globals, pageNumber, pageSize, sortColumn, sortingOrder) {
+    return service.axiosGet(
+        `${ApiUrl.GET_USER_SLIDER_LIST}/${mySliders}/${globals}/${pageNumber}/${pageSize}/${sortColumn}/${sortingOrder}`
     )
 }

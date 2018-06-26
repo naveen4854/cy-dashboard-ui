@@ -2,17 +2,17 @@ import React, { PureComponent } from 'react';
 import { browserHistory, Router } from 'react-router';
 import ReactPaginate from 'react-paginate';
 import CustomSelect from '../../../components/custom-dropdown';
-import MyDashboardTable from './table';
+
 
 import { pagesList } from '../../../shared/constants/constants';
+import MySliderTable from './slider-table';
 
-import {Constants} from '../../../shared/constants'
 export default class SliderListComponent extends PureComponent {
     constructor(props) {
         super(props);
-        this.onMyDashboardsChecked = this.onMyDashboardsChecked.bind(this);
+        this.onMySliderChecked = this.onMySliderChecked.bind(this);
         this.onglobalsChecked = this.onglobalsChecked.bind(this);
-        this.onPageClick = this.onPageClick.bind(this);
+        this.onSliderPageClick = this.onSliderPageClick.bind(this);
         this.onPageSizeChange = this.onPageSizeChange.bind(this);
     }
 
@@ -23,30 +23,32 @@ export default class SliderListComponent extends PureComponent {
     }
 
     componentWillMount() {
-        this.props.GetDashboardsList();
-        //        this.props.GetSlidersList();
+        this.props.GetSlidersList();
     }
 
-    onMyDashboardsChecked(e) {
-        this.props.SetMyDashboardsAndGetDashboardsList(e.target.checked);
+    onMySliderChecked(e) {
+        this.props.SetMySlidersAndGetSlidersList(e.target.checked);
     }
 
     onglobalsChecked(e) {
-        this.props.SetGlobalsAndGetDashboardsList(e.target.checked);
+        this.props.SetGlobalsAndGetSlidersList(e.target.checked);
     }
 
-    addDashboardClick() {
-        browserHistory.push(`${Constants.appPath}dashboard/new`);
+    addSliderClick() {
+        browserHistory.push(`/dashboard/new`);
     }
 
-    onPageClick(e) {
-        this.props.SetPageNumberAndGetDashboardsList(e.selected + 1);
+    onSliderPageClick(e) {
+        debugger;
+        this.props.SetPageNumberAndGetSlidersList(e.selected + 1);
     }
     onPageSizeChange(e) {
+        debugger;
         if (e.value)
             this.props.SetPageSizeAndGetDashboardsList(e.value);
     }
     render() {
+        debugger;
         const pageStart = (this.props.mySlider.sliderPageNumber - 1) * this.props.mySlider.sliderPageSize + 1,
             pageEnd = this.props.mySlider.sliderPageNumber * this.props.mySlider.sliderPageSize,
             totalRows = this.props.mySlider.totalSliders
@@ -60,7 +62,7 @@ export default class SliderListComponent extends PureComponent {
                                 <input className="form-check-input" type="checkbox" style={{ marginTop: '4px', marginLeft: '5px' }}
                                     ref="my Dashboards"
                                     checked={this.props.mySlider.mySliders}
-                                    onChange={(e) => this.onMyDashboardsChecked(e)}
+                                    onChange={(e) => this.onMySliderChecked(e)}
                                 />
                             </label>
                         </div>
@@ -74,7 +76,7 @@ export default class SliderListComponent extends PureComponent {
                                 />
                             </label>
                         </div>
-                        <div onClick={this.addDashboardClick} className="action-tool  pointer">
+                        <div onClick={this.addSliderClick} className="action-tool  pointer">
                             <a><i className="fa fa-plus" aria-hidden="true"></i> Add Slider</a>
                         </div>
 
@@ -84,7 +86,7 @@ export default class SliderListComponent extends PureComponent {
                             <div className="container-fluid my-files-table-container">
                                 <div className="row">
                                     <div className="col-xs-12">
-                                        <MyDashboardTable {...this.props} />
+                                        <MySliderTable {...this.props} />
                                     </div>
                                 </div>
                                 <div className="row">
@@ -119,7 +121,7 @@ export default class SliderListComponent extends PureComponent {
                                                 breakClassName={"break-me"}
                                                 marginPagesDisplayed={1}
                                                 forcePage={this.props.mySlider.sliderPageNumber - 1}
-                                                onPageChange={this.onPageClick}
+                                                onPageChange={this.onSliderPageClick}
                                                 containerClassName={"pagination pull-left rtl-pull-left"}
                                                 subContainerClassName={"pages pagination"}
                                                 activeClassName={"active"}

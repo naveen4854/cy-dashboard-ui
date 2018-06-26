@@ -7,45 +7,34 @@ import { PageEnum } from '../../../shared/enums';
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        GetCategories: () => {
-            dispatch(Reducer.GetCategoriesAction());
-        },
-        GetDashboardsList: () => {
-            dispatch(Reducer.GetDashboardsList());
-        },
+      
         GetSlidersList: () => {
             dispatch(Reducer.GetSlidersList());
         },
-        DeleteDashboard: (dashboardId) => {
-            dispatch(Reducer.DeleteDashboard(dashboardId))
+        DeleteSlider: (dashboardId) => {
+            dispatch(Reducer.DeleteSlider(dashboardId))
         },
-        ViewDashboard: (dashboardId) => {
-            dispatch(Reducer.ViewDashboard(dashboardId))
+        SetMySlidersAndGetSlidersList: (getMySliders) => {
+            dispatch(Reducer.SetMySlider(getMySliders))
+            dispatch(Reducer.SetSliderPageNumber(1))
+            dispatch(Reducer.GetSlidersList())
         },
-        GetUserDashboardById: (dashboardId) => {
-            dispatch(Reducer.getUserDashboardByIdAction(dashboardId))
+        SetGlobalsAndGetSlidersList: (getGlobals) => {
+            dispatch(Reducer.SetSliderGlobals(getGlobals))
+            dispatch(Reducer.SetSliderPageNumber(1))
+            dispatch(Reducer.GetSlidersList())
         },
-        SetMyDashboardsAndGetDashboardsList: (getMyDashboards) => {
-            dispatch(Reducer.SetMyDashboards(getMyDashboards))
-            dispatch(Reducer.SetPageNumber(1))
-            dispatch(Reducer.GetDashboardsList())
-        },
-        SetGlobalsAndGetDashboardsList: (getGlobals) => {
-            dispatch(Reducer.SetGlobals(getGlobals))
-            dispatch(Reducer.SetPageNumber(1))
-            dispatch(Reducer.GetDashboardsList())
-        },
-        SetPageNumberAndGetDashboardsList: (pageNum) => {
-            dispatch(Reducer.SetPageNumber(pageNum))
-            dispatch(Reducer.GetDashboardsList())
+        SetPageNumberAndGetSlidersList: (pageNum) => {
+            dispatch(Reducer.SetSliderPageNumber(pageNum))
+            dispatch(Reducer.GetSlidersList())
         },
         SetPageSizeAndGetDashboardsList: (pageSize) => {
-            dispatch(Reducer.SetPageSize(pageSize))
-            dispatch(Reducer.GetDashboardsList())
+            dispatch(Reducer.SetSliderPageSize(pageSize))
+            dispatch(Reducer.GetSlidersList())
         },
-        GetSortedDashboardList: (sortColumn, sortOrder) => {
-            dispatch(Reducer.SetSortColumnAndOrder(sortColumn, sortOrder))
-            dispatch(Reducer.GetDashboardsList())
+        GetSortedSliderList: (sortColumn, sortOrder) => {
+            dispatch(Reducer.SetSliderSortColumnAndOrder(sortColumn, sortOrder))
+            dispatch(Reducer.GetSlidersList())
         },
         clearNotifications: () => {
             dispatch(Reducer.ClearNotificationsAction())

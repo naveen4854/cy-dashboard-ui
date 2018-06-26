@@ -350,7 +350,7 @@ padding-left: 0%;
     content: '';
     position: absolute;
     top: 0; right: 0;
-    border-top: 13px solid white;
+    border-top: 13px solid #00c0ef;
     border-left: 17px solid #005373;
     width: 0;
 }

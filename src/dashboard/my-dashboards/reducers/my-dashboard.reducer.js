@@ -1,10 +1,8 @@
-import React from 'react';
-import { push, replace } from 'react-router-redux';
-import { browserHistory, Router } from 'react-router';
+
 import _ from 'lodash';
 
-import { Constants } from '../../../shared/constants';
-import { WidgetTypeEnum, ResponseStatusEnum } from '../../../shared/enums';
+
+import {  ResponseStatusEnum } from '../../../shared/enums';
 import * as dashboardService from '../../dashboard-service';
 
 export const UPDATE_CATEGORIES = "UPDATE_CATEGORIES";
@@ -17,6 +15,12 @@ export const UPDATE_GLOBALS = "UPDATE_GLOBALS";
 export const UPDATE_PAGENUMBER = "UPDATE_PAGENUMBER";
 export const UPDATE_PAGESIZE = "UPDATE_PAGESIZE";
 export const UPDATE_SORT = "UPDATE_SORT";
+export const GET_SLIDERS_LIST = "GET_DASHBOARDS_LIST";
+export const UPDATE_SLIDER_PAGENUMBER = 'UPDATE_SLIDER_PAGENUMBER';
+export const UPDATE_MYSLIDER = 'UPDATE_MYSLIDER';
+export const UPDATE_SLIDER_GLOBALS = 'UPDATE_SLIDER_GLOBALS';
+export const UPDATE_SLIDER_PAGESIZE = 'UPDATE_SLIDER_PAGESIZE';
+export const UPDATE_SLIDER_SORT = 'UPDATE_SLIDER_SORT';
 
 export function GetDashboardsList() {
   return (dispatch, getState) => {
@@ -60,40 +64,115 @@ export function GetDashboardsList() {
     });
   }
 }
+
+export function SetMySlider(getMySliders) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: UPDATE_MYSLIDER,
+      mySliders: getMySliders
+    });
+  }
+}
+export function SetSliderGlobals(getGlobals) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: UPDATE_SLIDER_GLOBALS,
+      sliderGlobals: getGlobals
+    });
+  }
+}
+export function SetSliderPageNumber(pageNumber) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: UPDATE_SLIDER_PAGENUMBER,
+      pageNumber
+    });
+  }
+
+}
+export function SetSliderPageSize(pageSize) {
+  return (dispatch, getState) => {
+    let mySlider = getState().mydashboard,
+      reqPagesize = pageSize,
+      currentPage = mySlider.sliderPageNumber,
+      totalDashboards = mySlider.totalSliders,
+      setCurrentPage = reqPagesize * currentPage > totalDashboards ? Math.ceil(totalDashboards / reqPagesize) : currentPage;
+    dispatch({
+      type: UPDATE_SLIDER_PAGESIZE,
+      pageSize
+    });
+    dispatch(SetSliderPageNumber(setCurrentPage));
+  }
+}
+export function SetSliderSortColumnAndOrder(sortColumn, sortOrder) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: UPDATE_SLIDER_SORT,
+      sortColumn,
+      sortOrder
+    });
+  }
+}
+export function DeleteSlider(sliderId) {
+  return (dispatch, getState) => {
+    debugger;
+    let mydashboard = getState().mydashboard,
+      pageStart = (mydashboard.sliderPageNumber - 1) * mydashboard.sliderPageSize + 1,
+      pageEnd = mydashboard.totalSliders,
+      pageNum = mydashboard.sliderPageNumber;
+    dispatch(getState().spinnerStore.BeginTask());
+    dashboardService.deleteSlider(sliderId).then((response) => {
+      dispatch(getState().spinnerStore.EndTask());
+      if (response.data.Status === true) {
+        dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Success));
+
+        if (pageStart == pageEnd) {
+          dispatch({
+            type: UPDATE_PAGENUMBER,
+            pageNumber: pageNum == 1 ? pageNum : pageNum - 1
+          })
+        }
+        dispatch(GetSlidersList());
+      }
+      else {
+        dispatch(getState().notificationStore.notify(response.data.Messages, ResponseStatusEnum.Error))
+      }
+    });
+  }
+}
 export function GetSlidersList() {
   return (dispatch, getState) => {
     dispatch(getState().spinnerStore.BeginTask());
     let state = getState();
     let
-     
+
       pageNumber = state.mydashboard.sliderPageNumber,
       pageSize = state.mydashboard.sliderPageSize,
       globals = state.mydashboard.sliderGlobals,
-      myDashboards = state.mydashboard.mySliders,
+      mySliders = state.mydashboard.mySliders,
       sortColumn = state.mydashboard.sliderSortColumn,
       sortingOrder = state.mydashboard.sliderSortOrder == 0 ? 'asc' : 'desc';
-
-    dashboardService.getDashboardsByCategory(categoryId, myDashboards, globals, pageNumber, pageSize, sortColumn, sortingOrder).then((response) => {
+    dashboardService.getUserSlidersList(mySliders, globals, pageNumber, pageSize, sortColumn, sortingOrder).then((response) => {
       if (response.status === 200) {
-        let _userDashboards = _.map(response.data, (d) => {
+        let _userSliders = _.map(response.data, (d) => {
           return {
-            DashboardName: d.udn,
-            ModifiedDate: d.udim,
-            DashboardId: d.udid,
-            IsGlobal: d.udig,
-            IsOwner: d.udio,
-            IsDeleted: d.udid,
-            CategoryId: d.udcid
+            sliderName: d.sn,
+            modifiedDate: d.smt,
+            sliderId: d.sid,
+            isGlobal: d.sig,
+            isOwner: d.sio,
+            isDeleted: d.sidd,
+
           };
         });
-        let _totalDashboards = response.data[0] ? response.data[0].udtr : 0;
-        let _totalPages = Math.ceil(_totalDashboards / pageSize);
+        let _totalSliders = response.data[0] ? response.data[0].str : 0;
+        let _totalPages = Math.ceil(_totalSliders / pageSize);
         dispatch(getState().spinnerStore.EndTask());
         dispatch({
-          type: GET_DASHBOARDS_LIST,
-          userDashboards: _userDashboards,
+          type: GET_SLIDERS_LIST,
+          userSliders: _userSliders,
           totalPages: _totalPages,
-          totalDashboards: _totalDashboards
+          totalSliders: _totalSliders
         });
       }
 
@@ -216,6 +295,27 @@ export const ACTION_HANDLERS = {
       categories: action.categories
     })
   },
+  [UPDATE_SLIDER_PAGESIZE]: (state, action) => {
+    return Object.assign({}, state, {
+      sliderPageSize: action.pageSize
+    })
+  },
+  [UPDATE_SLIDER_GLOBALS]: (state, action) => {
+    return Object.assign({}, state, {
+      sliderGlobals: action.sliderGlobals
+    })
+  },
+  [UPDATE_MYSLIDER]: (state, action) => {
+    return Object.assign({}, state, {
+      mySliders: action.mySliders
+    })
+  },
+  [UPDATE_SLIDER_PAGENUMBER]: (state, action) => {
+
+    return Object.assign({}, state, {
+      sliderPageNumber: action.pageNumber
+    })
+  },
   [GET_DASHBOARDS_LIST]: (state, action) => {
     return Object.assign({}, state, {
       userDashboards: action.userDashboards,
@@ -253,6 +353,19 @@ export const ACTION_HANDLERS = {
       pageSize: action.pageSize
     });
   },
+  [GET_SLIDERS_LIST]: (state, action) => {
+    return Object.assign({}, state, {
+      userSliders: action.userSliders,
+      sliderTotalPages: action.totalPages,
+      totalSliders: action.totalSliders
+    })
+  },
+  [UPDATE_SLIDER_SORT]: (state, action) => {
+    return Object.assign({}, state, {
+      sliderSortColumn: action.sortColumn,
+      sliderSortOrder: action.sortOrder
+    });
+  },
   [UPDATE_SORT]: (state, action) => {
     return Object.assign({}, state, {
       sortColumn: action.sortColumn,
@@ -260,7 +373,7 @@ export const ACTION_HANDLERS = {
     });
   },
   'same': (state, action) => {
-    return Object.assign({}, state);
+    return state;
   },
   'newversion': (state, action) => {
     return _.cloneDeep(state);

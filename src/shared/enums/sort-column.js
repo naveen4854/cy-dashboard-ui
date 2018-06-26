@@ -1,6 +1,7 @@
 const SortColumnEnum = {
    DashboardName : "dashboardName",
-   ModifiedDate : "modifiedTime"
+   ModifiedDate : "modifiedTime",
+   SliderName:'sliderName'
 }
 
 export default SortColumnEnum;

@@ -32,6 +32,7 @@ const ApiUrl = {
   PICTURE_SAVE: baseUrl + "dashboard/pictureSave",
   GET_DASHBOARDS_BY_CATEGORY: baseUrl + "dashboard/GetUserDashboards",
   DELETE_DASHBOARD: baseUrl + "dashboard/deleteDashboardById",
+  DELETE_SLIDER: baseUrl + "slider/delete",
   GET_DASHBOARD_BY_ID: baseUrl + "dashboard",
   LOCALE_BASE: baseUrl + "localization/getlocale",
   LOCALE_JSON_URL: "locale.json",
@@ -50,7 +51,8 @@ const ApiUrl = {
   DEFAULT_DASHBOARD: baseUrl + "account/defaultDashboard",
   VALIDATE_QUERY: baseUrl + "dashboard/ValidateQuery",
   TIME_ZONES: baseUrl + "DataMetrics/TimeZones",
-  ENCRYPT: baseUrl + "Crypto/Encrypt"
+  ENCRYPT: baseUrl + "Crypto/Encrypt",
+  GET_USER_SLIDER_LIST: baseUrl+ "slider/SliderList"
 };
 
 export default ApiUrl;
