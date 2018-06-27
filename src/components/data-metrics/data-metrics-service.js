@@ -33,8 +33,8 @@ export function getStoreProcs() {
  */
 export function loadColumns(query) {
     query = btoa(query); //IE 10 and above
-    return axiosGet(
-        ApiUrl.LOAD_COLUMNS, `query=${query}`
+    return axiosPost(
+        ApiUrl.LOAD_COLUMNS, `=${query}`
     )
 }
 

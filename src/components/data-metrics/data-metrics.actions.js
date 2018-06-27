@@ -112,7 +112,9 @@ function getNewMatrix(filters, comboSelectedStatisticColumns, selectedGroup, com
                 //cell.applyStyles(existingCell);
             } else {
                 if (previousRow && previousRow[columnIndex] && rowIndex > 1) {
-                    if (columnIndex > 0 && currentComboWidget.matrix.length > 0) {
+                    if (currentComboWidget.matrix.length > 0) {
+                        //    if (columnIndex > 0 && currentComboWidget.matrix.length > 0) {
+                        cell.stylesConfigured = previousRow[columnIndex].stylesConfigured;
                         cell.applyStyles(previousRow[columnIndex]);
                         var thresholds = currentComboWidget.matrix[0][columnIndex].appliedSettings.thresholds || [];
                         cell.applyThresholds(thresholds);

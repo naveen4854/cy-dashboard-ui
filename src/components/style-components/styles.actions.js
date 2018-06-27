@@ -60,7 +60,7 @@ export function updateMatrixStyles() {
                     }
                 }
                 if (selectedApplyTo == ApplyToOptions.Row && cell.rowId == currentWidget.rowId) {
-                    if (columnIndex != 0) {
+                    if ((columnIndex != 0) || (columnIndex == 0 && rowIndex == 0)) {
                         if (applyComboStyles) {
                             return {
                                 ...cell,
@@ -143,11 +143,12 @@ export function updateComboStyles() {
             matrix: newMatrix,
             appliedBackgroundColor: styles.widgetBody.backgroundColor,
             widgetBody: styles.widgetBody,
-            valueStyles: styles.valueStyles
+            valueStyles: styles.valueStyles,
+            title: styles.title
         }
-        
+
         dispatch(getState().dashboard.updateWidget(updatedComboWidget));
         dispatch(getState().configurations.applyWidget(updatedComboWidget));
-        
+
     }
 }

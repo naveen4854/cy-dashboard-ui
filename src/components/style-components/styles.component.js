@@ -73,6 +73,11 @@ class StylesComponent extends PureComponent {
     }
     renderApplyOptions() {
         let applyToOptions = this.props.isColumnHeader ? Constants.ColumnStyleOptions : this.props.isRowHeader ? Constants.RowStyleOptions : Constants.AllStyleOptions;
+        
+        if(this.props.isColumnHeader && this.props.isRowHeader){
+            applyToOptions = Constants.ColumnStyleOptions;
+        }
+
         if (this.props.selectedStatisticCategory == StatisticCategoryEnum.Custom)
             applyToOptions = Constants.AllStyleOptions;
         return <LabelledToggle

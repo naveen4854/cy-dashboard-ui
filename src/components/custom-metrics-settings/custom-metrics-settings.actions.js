@@ -27,6 +27,7 @@ export function initiateCustomMetricsSettings() {
 
 export function getStoredProcedures() {
     return (dispatch, getState) => {
+        debugger
         let currentStoreProcsData = getState().customSettings.storeProcsData;
         if (currentStoreProcsData && currentStoreProcsData.length > 0)
             return;
@@ -67,7 +68,7 @@ export function getStoredProcedures() {
 export function setSelectedStoreProc(selectedStoreProc) {
     return (dispatch, getState) => {
         let storeProcsData = getState().customSettings.storeProcsData;
-        let storeProcParams = _.filter(_.cloneDeep(storeProcsData), x => x.ProcedureName == selectedStoreProc.label);
+        let storeProcParams = _.filter(_.cloneDeep(storeProcsData), x => x.ProcedureName == selectedStoreProc.label && x.pn != null);
         dispatch({
             type: SET_SELECTED_STORED_PROC,
             selectedStoreProc: selectedStoreProc,
