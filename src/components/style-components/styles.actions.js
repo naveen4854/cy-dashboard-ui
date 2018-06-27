@@ -60,7 +60,7 @@ export function updateMatrixStyles() {
                     }
                 }
                 if (selectedApplyTo == ApplyToOptions.Row && cell.rowId == currentWidget.rowId) {
-                    if (columnIndex != 0) {
+                    //if (columnIndex != 0) {
                         if (applyComboStyles) {
                             return {
                                 ...cell,
@@ -77,7 +77,7 @@ export function updateMatrixStyles() {
                             valueStyles: styles.valueStyles,
                             stylesConfigured: true
                         }
-                    }
+                    //}
                 }
                 return cell;
             })
