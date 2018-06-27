@@ -21,7 +21,6 @@ export default class MyDashboardTable extends PureComponent {
     }
 
     sortDashboard(sortColumn) {
-        debugger;
         let sortOrder = 0;
         if (sortColumn == this.props.mySlider.sliderSortColumn) {
             sortOrder = this.props.mySlider.sliderSortOrder == SortOrderEnum.Ascending ? SortOrderEnum.Descending : SortOrderEnum.Ascending

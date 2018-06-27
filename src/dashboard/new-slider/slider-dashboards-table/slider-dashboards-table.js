@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import {  SortColumnEnum, SortOrderEnum } from '../../../../shared/enums';
+
 
 export default class MyDashboardTable extends PureComponent {
     constructor(props) {
@@ -7,11 +7,11 @@ export default class MyDashboardTable extends PureComponent {
     }
 
     viewSlider(id) {
-       //TODO: To navigate the slider show
+        //TODO: To navigate the slider show
     }
 
     editSlider(id) {
-       //TODO: need to navigate to slider edit page
+        //TODO: need to navigate to slider edit page
     }
 
     // deleteSlider() {
@@ -74,39 +74,39 @@ export default class MyDashboardTable extends PureComponent {
                     <thead>
                         <tr>
                             <th>&nbsp;</th>
-                            <th><label className="text-primary pointer" onClick={() => this.sortDashboard(SortColumnEnum.SliderName)}> {this.props.mySlider.sliderSortColumn == SortColumnEnum.SliderName && <i className={sortIcon} aria-hidden="true"></i>} {this.props.l.t('Dashboards in Slider', 'Dashboards in Slider')}</label></th>
-                            <th><label className="text-primary pointer text-center" onClick={() => this.sortDashboard(SortColumnEnum.ModifiedDate)}> {this.props.mySlider.sliderSortColumn == SortColumnEnum.ModifiedDate && <i className={sortIcon} aria-hidden="true"></i>} {this.props.l.t('Slide duration(sec)', 'Slide duration(sec)')}</label></th>
-                            <th className="text-center"><label className="text-primary">{this.props.l.t('Live_view', 'Live view')}</label></th>
-                            <th className="text-center"><label className="text-primary">{this.props.l.t('Edit', 'Edit')}</label></th>
-                            <th className="text-center"><label className="text-primary">{this.props.l.t('Remove', 'Remove')}</label></th>
+                            <th><label className="text-primary pointer" > {<i aria-hidden="true"></i>} Dashboards in Slider</label></th>
+                            <th><label className="text-primary pointer text-center">  <i aria-hidden="true"></i> Slide duration(sec)</label></th>
+                            <th className="text-center"><label className="text-primary"> Live view</label></th>
+                            <th className="text-center"><label className="text-primary"> Edit</label></th>
+                            <th className="text-center"><label className="text-primary"> Remove</label></th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            _.map(this.props.mySlider.userSliders, (slider, i) =>
-                                <tr key={i}>
-                                    <td className={slider.IsOwner ? "" : "text-disabled"}>
-                                        <i className={slider.isOwner ? slider.isGlobal ? "fa fa-globe text-primary" : "fa fa-user text-primary" : "fa fa-globe"}></i>
-                                    </td>
-                                    <td>{slider.sliderName}</td>
-                                    <td className="text-center">{slider.modifiedDate}</td>
-                                    <td className="text-center">
-                                        <a className="pointer" onClick={() => this.viewDashboard(slider.sliderId)}>
-                                            <i className="fa fa-desktop"></i>
-                                        </a>
-                                    </td>
-                                    <td className="text-center">
-                                        <a className={slider.isOwner ? "pointer" : "text-disabled"} disabled={!slider.isOwner} onClick={() => slider.isOwner ? this.editDashboard(slider.sliderId) : null}>
-                                            <i className="fa fa-pencil"></i>
-                                        </a>
-                                    </td>
-                                    <td className="text-center">
-                                        <a className={slider.isOwner ? "pointer" : "text-disabled"} disabled={!slider.isOwner} onClick={() => slider.isOwner ? this.showConfirmation(slider) : null}>
-                                            <i className="fa fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            )
+                            // _.map(this.props.mySlider.userSliders, (slider, i) =>
+                            //     <tr key={i}>
+                            //         <td className={slider.IsOwner ? "" : "text-disabled"}>
+                            //             <i className={slider.isOwner ? slider.isGlobal ? "fa fa-globe text-primary" : "fa fa-user text-primary" : "fa fa-globe"}></i>
+                            //         </td>
+                            //         <td>{slider.sliderName}</td>
+                            //         <td className="text-center">{slider.modifiedDate}</td>
+                            //         <td className="text-center">
+                            //             <a className="pointer" onClick={() => this.viewDashboard(slider.sliderId)}>
+                            //                 <i className="fa fa-desktop"></i>
+                            //             </a>
+                            //         </td>
+                            //         <td className="text-center">
+                            //             <a className={slider.isOwner ? "pointer" : "text-disabled"} disabled={!slider.isOwner} onClick={() => slider.isOwner ? this.editDashboard(slider.sliderId) : null}>
+                            //                 <i className="fa fa-pencil"></i>
+                            //             </a>
+                            //         </td>
+                            //         <td className="text-center">
+                            //             <a className={slider.isOwner ? "pointer" : "text-disabled"} disabled={!slider.isOwner} onClick={() => slider.isOwner ? this.showConfirmation(slider) : null}>
+                            //                 <i className="fa fa-trash"></i>
+                            //             </a>
+                            //         </td>
+                            //     </tr>
+                            //)
                         }
                     </tbody>
                 </table>

@@ -264,6 +264,17 @@ const collection = {
     name: PageEnum.APPLICATION, strings: [
 
     ]
+  },
+  SLIDER:{
+    name:PageEnum.SLIDER,strings:[
+      "Name",
+      "Default",
+      "Global",
+      "Add Dashboard",
+      "Create Slider",
+      "Preview",
+      "+Add"
+    ]
   }
 }
 

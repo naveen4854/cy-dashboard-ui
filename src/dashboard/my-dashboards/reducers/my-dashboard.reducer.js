@@ -23,6 +23,7 @@ export const UPDATE_SLIDER_PAGESIZE = 'UPDATE_SLIDER_PAGESIZE';
 export const UPDATE_SLIDER_SORT = 'UPDATE_SLIDER_SORT';
 
 export function GetDashboardsList() {
+    
   return (dispatch, getState) => {
     dispatch(getState().spinnerStore.BeginTask());
     let state = getState();
@@ -115,7 +116,6 @@ export function SetSliderSortColumnAndOrder(sortColumn, sortOrder) {
 }
 export function DeleteSlider(sliderId) {
   return (dispatch, getState) => {
-    debugger;
     let mydashboard = getState().mydashboard,
       pageStart = (mydashboard.sliderPageNumber - 1) * mydashboard.sliderPageSize + 1,
       pageEnd = mydashboard.totalSliders,
@@ -402,7 +402,8 @@ export const initialState = {
   totalDashboards: 0,
   totalSliders: 0,
   DeleteDashboard,
-  userLogout
+  userLogout,
+  GetDashboardsList
 };
 
 export default function MyDashboardReducer(state = initialState, action) {

@@ -155,7 +155,6 @@ export function comboWidgetConfigurationsFromServer(widget, dataMetricsMetadata,
 
 
 function convertToMatrix(resultMatrix, columns, filters, comboId, categoryId, selectedGroup, dataMetricsMetadata, measures) {
-    debugger;
     let i = 0,
         j = 0;
     let comboMatrixs = [];

@@ -53,7 +53,6 @@ export function deleteDashboard(dashboardId) {
     )
 }
 export function deleteSlider(sliderId) {
-    debugger;
     return service.axiosPost(
         `${ApiUrl.DELETE_SLIDER}/${sliderId}`
 

@@ -12,8 +12,10 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
+   
     return {
-        dashboard: state.dashboard,
+        
+        mydashboard:state.mydashboard,
     }
 }
 
