@@ -6,6 +6,7 @@ window.envconfig = {
   "apiUrl": "http://localhost:55245/api/",
   //apiUrl: "http://localhost:3006/api/",
   //apiUrl: "http://localhost:5152/api/",
+  // apiUrl:"http://13.75.148.24:8056/CyDashboardAPI/api/",
   retryCount: 1,
   dev: false,
  

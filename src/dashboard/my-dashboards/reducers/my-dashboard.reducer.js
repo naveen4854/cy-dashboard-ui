@@ -23,7 +23,6 @@ export const UPDATE_SLIDER_PAGESIZE = 'UPDATE_SLIDER_PAGESIZE';
 export const UPDATE_SLIDER_SORT = 'UPDATE_SLIDER_SORT';
 
 export function GetDashboardsList(isFromSlider) {
-  debugger;
   return (dispatch, getState) => {
     dispatch(getState().spinnerStore.BeginTask());
     let state = getState();

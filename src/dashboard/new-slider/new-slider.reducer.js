@@ -3,7 +3,6 @@ import { fillDashboard } from './new-slider.action';
 export const ACTION_HANDLERS = {
 
   [UPDATE_DASHBOARDS_LIST]: (state, action) => {
-    debugger;
     return Object.assign({}, state, {
       dashboardsList: action.updateList
     })

@@ -18,7 +18,6 @@ export default class NewSlider extends Component {
     this.props.getDashboards();
     }
     render() {
-        debugger;
         return (
             <div className='background' >
                 <SliderBarContainer />

@@ -14,7 +14,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
-   debugger;
     return {
         
         newslider:state.newslider,
