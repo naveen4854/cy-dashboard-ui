@@ -14,7 +14,9 @@ export default class NewSlider extends Component {
         super(props)
     }
 
-
+    componentWillMount() {
+    this.props.getDashboards();
+    }
     render() {
         debugger;
         return (
@@ -44,7 +46,7 @@ export default class NewSlider extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className='row' style={{marginBottom:'10px',marginTop:'10px'}}>
+                    <div className='row' style={{ marginBottom: '10px', marginTop: '10px' }}>
                         <div className='col-xs-4'>
                             <div className='row'>
                                 <div class='col-xs-12 col-md-3 col-lg-6 text-primary'>
@@ -53,19 +55,19 @@ export default class NewSlider extends Component {
                             </div>
                             <div className='row'>
                                 <div class='col-xs-12 col-md-6 col-lg-6'>
-                                        <CustomSelect name="field-group-options"
-                                           //  value={this.props.mydashboards.userdashboards}
-                                            placeholder='Select...'
-                                            // options={this.props.mydashboards.userdashboards}
-                                            // onChange={this.onStatisticGroupChange} 
-                                            />
+                                    <CustomSelect name="field-group-options"
+                                        //   value={this.props.dashboardsList}
+                                        placeholder='Select...'
+                                     options={this.props.newslider.dashboardsList}
+                                    //  onChange={this.onStatisticGroupChange} 
+                                    />
                                 </div>
                                 <div class='col-xs-5 col-md-3 col-lg-2'>
-                                    <input className="form-check-input text-primary btn btn-default btn-lg" style={{ padding:'10px',borderRadius:'5px',fontWeight:'bold' }}  type="button" value={this.props.l.t('Preview', 'Preview')}/>
+                                    <input className="form-check-input text-primary btn btn-default btn-lg" style={{ padding: '10px', borderRadius: '5px', fontWeight: 'bold' }} type="button" value={this.props.l.t('Preview', 'Preview')} />
                                 </div>
 
                                 <div class='col-xs-6 col-md-3 col-lg-2'>
-                                    <input className="form-check-input btn btn-primary btn-lg" style={{ padding:'10px',paddingLeft:'20px',paddingRight:'20px' ,borderRadius:'5px',fontWeight:'bold' }} type="button"  value={this.props.l.t('+Add', '+Add')} />
+                                    <input className="form-check-input btn btn-primary btn-lg" style={{ padding: '10px', paddingLeft: '20px', paddingRight: '20px', borderRadius: '5px', fontWeight: 'bold' }} type="button" value={this.props.l.t('+Add', '+Add')} />
                                 </div>
 
 

@@ -3,19 +3,21 @@ import { connect } from 'react-redux'
 import NewSlider from "./new-slider.component";
 import localize from "../../components/localization/localization.hoc";
 import { PageEnum } from "../../shared/enums";
-import * as DashboardReducer from '../dashboard.reducer';
+import * as NewSliderAction from './new-slider.action';
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        AddWidget: ()=>{}
+        getDashboards:()=>{
+            dispatch(NewSliderAction.getDashboards());
+        }
     }
 }
 
 const mapStateToProps = (state) => {
-   
+   debugger;
     return {
         
-        mydashboard:state.mydashboard,
+        newslider:state.newslider,
     }
 }
 

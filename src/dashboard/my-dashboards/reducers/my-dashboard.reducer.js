@@ -2,7 +2,7 @@
 import _ from 'lodash';
 
 
-import {  ResponseStatusEnum } from '../../../shared/enums';
+import { ResponseStatusEnum } from '../../../shared/enums';
 import * as dashboardService from '../../dashboard-service';
 
 export const UPDATE_CATEGORIES = "UPDATE_CATEGORIES";
@@ -22,17 +22,17 @@ export const UPDATE_SLIDER_GLOBALS = 'UPDATE_SLIDER_GLOBALS';
 export const UPDATE_SLIDER_PAGESIZE = 'UPDATE_SLIDER_PAGESIZE';
 export const UPDATE_SLIDER_SORT = 'UPDATE_SLIDER_SORT';
 
-export function GetDashboardsList() {
-    
+export function GetDashboardsList(isFromSlider) {
+  debugger;
   return (dispatch, getState) => {
     dispatch(getState().spinnerStore.BeginTask());
     let state = getState();
     let
       categoryId = state.mydashboard.category,
-      pageNumber = state.mydashboard.pageNumber,
-      pageSize = state.mydashboard.pageSize,
-      globals = state.mydashboard.globals,
-      myDashboards = state.mydashboard.myDashboards,
+      pageNumber = isFromSlider ? -1 : state.mydashboard.pageNumber,
+      pageSize = isFromSlider ? -1 : state.mydashboard.pageSize,
+      globals = isFromSlider ? true : state.mydashboard.globals,
+      myDashboards = isFromSlider ? true : state.mydashboard.myDashboards,
       sortColumn = state.mydashboard.sortColumn,
       sortingOrder = state.mydashboard.sortOrder == 0 ? 'asc' : 'desc';
 
@@ -52,6 +52,9 @@ export function GetDashboardsList() {
         let _totalDashboards = response.data[0] ? response.data[0].udtr : 0;
         let _totalPages = Math.ceil(_totalDashboards / pageSize);
         dispatch(getState().spinnerStore.EndTask());
+        if (isFromSlider) {
+          dispatch(getState().newslider.fillDashboard(_userDashboards));
+        }
         dispatch({
           type: GET_DASHBOARDS_LIST,
           userDashboards: _userDashboards,
@@ -65,6 +68,7 @@ export function GetDashboardsList() {
     });
   }
 }
+
 
 export function SetMySlider(getMySliders) {
   return (dispatch, getState) => {
